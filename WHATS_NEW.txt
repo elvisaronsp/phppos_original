@@ -1,0 +1,16 @@
+18.0 Release!
+
+Whats new:
+* Added offline sales support (Must use https AND enable in store config)
+* Added option to select quick cash amount by double clicking cash payment button for quicker sales
+* Can now send daily closeout reports via email
+* Added comment field to damaged items report
+* Can now disable items from price rules in bulk
+* Can now sell gift cards that already exist to add value to them
+* Removed employee's last name from receipt
+* Added deleted/voided to receiving receipt
+* Added option Only count store account payments to reports --> payments --> summary
+* Added cost and selling price to damaged items report
+* Added serial number history reports (Reports --> Items --> Serial Number History)
+* Add store config preference "Items Per Search Suggestion" (Default to items per page)
+* Minor fixes and improvements
