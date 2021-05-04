@@ -530,4 +530,10 @@ $lang['sales_offline_synced_successfully'] = '離線銷售已成功同步';
 $lang['sales_edit_offline_sales'] = '編輯離線銷售';
 $lang['sales_giftcard_exists_do_you_want_to_add'] = '您所銷售的禮品卡已經存在。您要在這張卡中充值嗎？';
 $lang['sales_the_balance_of_card_is'] = '卡的餘額為';
+$lang['sales_serialnumber_duplicate'] = '序列號重複，請重新輸入';
+$lang['sales_enter_note'] = '輸入備註';
+$lang['sales_note'] = '注意';
+$lang['sales_detailed_note'] = '詳細說明';
+$lang['sales_internal_note'] = '內部說明';
+$lang['sales_delveried_to'] = '送到了（送去了';
 ?>

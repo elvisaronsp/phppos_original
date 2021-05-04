@@ -1,6 +1,7 @@
 <?php
 $lang['module_home']='Home';
 
+
 $lang['module_customers']='Customers';
 $lang['module_customers_desc']='Add, Update, Delete, and Search customers';
 
@@ -94,4 +95,7 @@ $lang['appointments_add'] = 'Add Appointments';
 $lang['appointments_delete'] = 'Delete Appointments';
 $lang['appointments_search'] = 'Search Appointments';
 $lang['appointments_edit'] = 'Edit Appointments';
+$lang['module_work_orders'] = 'Work Orders';
+$lang['module_work_orders_desc'] = 'Work Orders';
+$lang['module_manage_statuses'] = 'Manage Statuses';
 ?>

@@ -74,7 +74,7 @@ class Config extends Secure_area
 		$data['store_locations']=$locations_dropdown;
 		$data['online_price_tiers']=$tiers_dropdown;
 		
-		$data['ecommerce_platforms']=array(''=>'None','woocommerce' => 'Woocommerce');
+		$data['ecommerce_platforms']=array(''=>'None','woocommerce' => 'Woocommerce','shopify' => 'Shopify');
 		
 		$data['woo_versions'] = array('3.0.0'=>'3.0.0 or newer', '2.6.14'=>'2.6.0 to 2.6.14');
 		
@@ -165,6 +165,20 @@ class Config extends Secure_area
 		
 		$data['ecommerce_locations'] = $this->Appconfig->get_ecommerce_locations();
 		$this->load->view("config", $data);
+	}
+	
+	function save_shopify_config()
+	{
+		$batch_save_data = array(
+			'ecommerce_platform' => 'shopify',
+			'shopify_shop' => $this->input->post('shopify_shop'),	
+			'ecommerce_cron_sync_operations' => $this->input->post('ecommerce_cron_sync_operations') ? serialize($this->input->post('ecommerce_cron_sync_operations')) : serialize(array()),
+		);
+		
+		$this->Appconfig->batch_save($batch_save_data);
+		
+		echo json_encode(array('success'=>true,'message'=>lang('common_saved_successfully')));
+		
 	}
 		
 	function save()
@@ -515,7 +529,7 @@ class Config extends Secure_area
 		'indicate_taxable_on_receipt' => $this->input->post('indicate_taxable_on_receipt') ? 1 : 0,
 		'paypal_me' => $this->input->post('paypal_me'),
 		'show_barcode_company_name' => $this->input->post('show_barcode_company_name') ? 1 : 0,
-		'woo_sku_sync_field' => $this->input->post('woo_sku_sync_field'),
+		'sku_sync_field' => $this->input->post('sku_sync_field'),
 		'overwrite_existing_items_on_excel_import' => $this->input->post('overwrite_existing_items_on_excel_import') ? 1 : 0,
 		'remove_employee_from_receipt' => $this->input->post('remove_employee_from_receipt') ? 1 : 0,
 		'hide_name_on_barcodes' => $this->input->post('hide_name_on_barcodes') ? 1 : 0,
@@ -609,7 +623,14 @@ class Config extends Secure_area
 		'show_tags_on_fulfillment_sheet' => $this->input->post('show_tags_on_fulfillment_sheet') ? 1 : 0,
 		'automatically_sms_receipt' => $this->input->post('automatically_sms_receipt') ? 1 : 0,
 		'items_per_search_suggestions'=>$this->input->post('items_per_search_suggestions'),
+		'shopify_shop' => $this->input->post('shopify_shop'),
 		'offline_mode' => $this->input->post('offline_mode') ? 1: 0,
+		'auto_sync_offline_sales' => $this->input->post('auto_sync_offline_sales') ? 1 : 0,
+		'show_total_on_fulfillment' => $this->input->post('show_total_on_fulfillment') ? 1 : 0,
+		'override_signature_text' => $this->input->post('override_signature_text'),
+		'update_cost_price_on_transfer' => $this->input->post('update_cost_price_on_transfer') ? 1 : 0,
+		'tip_preset_zero' => $this->input->post('tip_preset_zero') ? 1 : 0,
+		'show_person_id_on_receipt' => $this->input->post('show_person_id_on_receipt') ? 1 : 0,
 	);
 
 	//Old way of doing taxes; we handle this case
@@ -946,7 +967,7 @@ class Config extends Secure_area
 				$name = $data['name'];
 				if ($name)
 				{
-					$sale_type_data = array('name' => $name, 'sort' => $order);
+					$sale_type_data = array('name' => $name, 'sort' => $order,'remove_quantity' => isset($data['remove_quantity']) && $data['remove_quantity'] ? 1 : 0);
 					$this->Sale_types->save($sale_type_data, $sale_type_id);
 					
 					$order++;
@@ -1145,6 +1166,12 @@ class Config extends Secure_area
 		{
 			$platform_model="woo";
 		}
+		
+		if($platform=="shopify")
+		{
+			$platform_model="shopify";
+		}
+		
 		if( $platform_model != "" )
 		{			
 			$this->load->model($platform_model);
@@ -1186,6 +1213,35 @@ class Config extends Secure_area
 		$this->load->model('Appconfig');
 		$this->Appconfig->delete_api_key($this->input->post('api_key_id'));
 		redirect($_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : site_url('config'));
+  }
+  
+  public function shopify()
+  {
+	$data = array();
+	$locations_dropdown=array();
+
+	$locations_result=$this->Location->get_all();
+	$locations=$locations_result->result_array();
+	$tiers_result=$this->Tier->get_all();
+	$tiers=$tiers_result->result_array();
+
+	foreach($locations as $location){
+	$locations_dropdown[$location['location_id']]=$location['name'];
+	}
+
+	$tiers_dropdown=array(""=>lang('common_none'));
+
+	foreach($tiers as $tier){
+	$tiers_dropdown[$tier['id']]=$tier['name'];
+	}
+
+
+	// Code to get chart of accounts ends
+
+	$data['store_locations']=$locations_dropdown;
+	$data['online_price_tiers']=$tiers_dropdown;
+
+	$this->load->view('shopify_config',$data);
   }
 	
 }

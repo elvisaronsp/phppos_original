@@ -1,7 +1,12 @@
 <?php
 class Sale_types extends MY_Model
 {
-	
+	function can_remove_quantity($sale_type_id)
+	{
+		$info = $this->get_info($sale_type_id);
+		
+		return $info->remove_quantity;
+	}
 	function get_info($sale_type_id)
 	{
 		$this->db->from('sale_types');	

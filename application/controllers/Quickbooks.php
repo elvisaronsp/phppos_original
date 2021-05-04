@@ -652,8 +652,9 @@ class Quickbooks extends MY_Controller
                         
                     }
                 }
+				
+	            $this->_log(lang('success_journal_entry'));
             }
-            $this->_log(lang('success_journal_entry'));
                 
         }
         catch (Exception $e) {

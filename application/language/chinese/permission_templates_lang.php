@@ -33,11 +33,10 @@ $lang['template_permission_desc'] = '选中下面的框以授予对模块的访�
 
 
 
-$lang['update_all_employees_with_template_assinged'] = '使用模板更新所有员工';
 
 
-$lang['update_all_employees_with_template_assinged'] = '通过分配模板更新所有员工';
 
 $lang['permission_templates_manage_deleted'] = '管理已删除的权限模板';
 $lang['permission_templates_confirm_undelete'] = '您确定要取消删除所选权限模板吗？';
+$lang['update_all_employees_with_template_assinged'] = '使用分配的模板更新所有员工';
 ?>

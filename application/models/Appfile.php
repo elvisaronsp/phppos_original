@@ -121,6 +121,17 @@ class Appfile extends MY_Model
 	{
 		return $this->db->order_by('timestamp', 'DESC')->limit($limit)->get_where('app_files', array('file_name' => $file_name))->result_array();
 	}
+	
+	function does_file_exists($file_name)
+	{
+		return count($this->db->order_by('timestamp', 'DESC')->get_where('app_files', array('file_name' => $file_name))->result_array()) > 0;
+	}
+	
+	function get_files_start_with_name($file_name,$limit = 20)
+	{
+		return $this->db->from('app_files')->order_by('timestamp', 'DESC')->limit($limit)->like('file_name', $file_name,'after')->get()->result_array();
+	}
+	
 }
 
 ?>

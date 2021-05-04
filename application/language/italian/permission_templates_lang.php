@@ -33,11 +33,10 @@ $lang['template_permission_desc'] = 'Seleziona le caselle sottostanti per consen
 
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Aggiorna tutti i dipendenti con modello valutato';
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Aggiorna tutti i dipendenti con il modello valutato';
 
 $lang['permission_templates_manage_deleted'] = 'Gestisci modelli di autorizzazione eliminati';
 $lang['permission_templates_confirm_undelete'] = 'Sei sicuro di voler annullare l\'eliminazione del modello di autorizzazione selezionato?';
+$lang['update_all_employees_with_template_assinged'] = 'Aggiorna tutti i dipendenti con modello assegnato';
 ?>

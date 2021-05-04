@@ -158,4 +158,8 @@ $lang['locations_twilio_token'] = 'Mã thông báo Twilio';
 $lang['locations_twilio_sms_from_number'] = 'Twilio SMS từ số';
 $lang['locations_auto_reports_email'] = 'Địa chỉ báo cáo e-mail tự động';
 $lang['locations_auto_reports_email_time'] = 'Thời gian báo cáo e-mail tự động';
+$lang['locations_previous_day'] = 'Ngày trước';
+$lang['locations_current_day'] = 'Ngày hiện tại';
+$lang['locations_auto_reports_day'] = 'Ngày gửi báo cáo qua email cho';
+$lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'Tắt xác nhận số tiền khi xử lý thẻ tín dụng';
 ?>

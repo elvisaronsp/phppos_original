@@ -462,8 +462,39 @@ $lang['migrate_ecommerce_item_id_index'] = '电子商务商品ID索引';
 $lang['migrate_add_always_sms_receipt_field_to_customers'] = '向客户添加始终短信接收字段';
 $lang['migrate_18_0_version'] = '18.0版本';
 $lang['migrate_items_per_search_suggestion_store_config'] = '每个搜索项目的建议存储配置';
+
 $lang['migrate_serialnumber_index'] = '序列号索引';
 $lang['migrate_create_email_field_auto_email_reports'] = '创建电子邮件字段自动电子邮件报告';
 $lang['migrate_email_report_time_to_email'] = '电子邮件报告发送时间';
+
+$lang['migrate_shopify'] = 'Shopify';
+
 $lang['migrate_damaged_reason_comment_field'] = '损坏原因注释字段';
+$lang['migrate_18_1_version'] = '18.1版本';
+$lang['migrate_custom_suspended_sale_types_remove_quantity'] = '自定义暂停销售类型删除数量';
+
+$lang['migrate_secondary_categories'] = '次要类别';
+
+
+
+$lang['migrate_non_taxable_on_sales_table'] = '在销售表上不征税';
+
+
+
+
+$lang['migrate_current_or_previous_day_option_for_auto_email'] = '自动电子邮件的当前或前一天选项';
+$lang['migrate_disable_confirmation_option_for_emv_credit_card'] = '禁用Emv信用卡的确认选项';
+
+
+$lang['migrate_weight_units'] = '重量单位';
+
+$lang['migrate_migrate_categories_for_expenses'] = '迁移费用类别';
+
+$lang['migrate_expenses_categories'] = '费用类别';
+$lang['migrate_permission_for_manage_expenses_categories'] = '权限管理费用类别';
+$lang['migrate_update_foreign_key_for_expenses_categories'] = '更新费用类别的外键';
+
+$lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = '允许电子商务订单ID更大的整数';
+$lang['migrate_index_on_filename'] = '文件名索引';
+$lang['migrate_work_orders'] = '工作订单';
 ?>

@@ -48,7 +48,7 @@ class Summary_expenses extends Report
 		foreach($report_data as $row)
 		{
 			$tabular_data[] = array(
-			array('data'=>$this->Category->get_full_path($row['category_id']), 'align'=> 'left'), 
+			array('data'=>$this->Expense_category->get_full_path($row['category_id']), 'align'=> 'left'), 
 			array('data'=>  to_currency($row['expense_tax']), 'align'=> 'left'), 
 			array('data'=>  to_currency($row['expense_amount']), 'align'=> 'left'), 
 		);
@@ -72,12 +72,12 @@ class Summary_expenses extends Report
 	{		
 		$location_ids = self::get_selected_location_ids();
 		
-		$this->db->select('categories.id as category_id,categories.name as category, SUM(expense_amount) as expense_amount,SUM(expense_tax) as expense_tax', false);
+		$this->db->select('expenses_categories.id as category_id,expenses_categories.name as category, SUM(expense_amount) as expense_amount,SUM(expense_tax) as expense_tax', false);
 		$this->db->from('expenses');
-		$this->db->join('categories', 'categories.id = expenses.category_id','left');
+		$this->db->join('expenses_categories', 'expenses_categories.id = expenses.category_id','left');
 		$this->db->where_in('expenses.location_id', $location_ids);
 		$this->db->where('expenses.deleted', 0);
-		$this->db->group_by('categories.id');
+		$this->db->group_by('expenses_categories.id');
 		if (isset($this->params['start_date']) && isset($this->params['end_date']))
 		{
  		  $this->db->where($this->db->dbprefix('expenses').'.expense_date BETWEEN '.$this->db->escape($this->params['start_date']).' and '.$this->db->escape($this->params['end_date']));
@@ -112,12 +112,12 @@ class Summary_expenses extends Report
 	function getTotalRows()
 	{
 		$location_ids = self::get_selected_location_ids();
-		$this->db->select('categories.id as category_id,categories.name as category, SUM(expense_amount) as expense_amount,SUM(expense_tax) as expense_tax', false);
+		$this->db->select('expenses_categories.id as category_id,expenses_categories.name as category, SUM(expense_amount) as expense_amount,SUM(expense_tax) as expense_tax', false);
 		$this->db->from('expenses');
-		$this->db->join('categories', 'categories.id = expenses.category_id','left');
+		$this->db->join('expenses_categories', 'expenses_categories.id = expenses.category_id','left');
 		$this->db->where_in('expenses.location_id', $location_ids);
 		$this->db->where('expenses.deleted', 0);
-		$this->db->group_by('categories.id');
+		$this->db->group_by('expenses_categories.id');
 		if (isset($this->params['start_date']) && isset($this->params['end_date']))
 		{
  		  $this->db->where($this->db->dbprefix('expenses').'.expense_date BETWEEN '.$this->db->escape($this->params['start_date']).' and '.$this->db->escape($this->params['end_date']));

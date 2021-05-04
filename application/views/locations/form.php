@@ -343,6 +343,19 @@
 								</div>
 							</div>
 							
+							
+							<div class="form-group">	
+								<?php echo form_label(lang('locations_disable_confirmation_option_for_emv_credit_card').':', 'use_integrated_ebt',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+								<div class="col-sm-9 col-md-9 col-lg-10">
+								<?php echo form_checkbox(array(
+									'name'=>'disable_confirmation_option_for_emv_credit_card',
+									'id'=>'disable_confirmation_option_for_emv_credit_card',
+									'value'=>'1',
+									'checked'=>$location_info->disable_confirmation_option_for_emv_credit_card));?>
+									<label for="disable_confirmation_option_for_emv_credit_card"><span></span></label>
+								</div>
+							</div>
+							
 							<div id="card_connect_info">
 
 								<div class="form-group">	
@@ -443,8 +456,7 @@
 								<label for="ebt_integrated"><span></span></label>
 							</div>
 						</div>
-
-
+						
 								<div class="form-group">	
 								<?php echo form_label(lang('locations_net_e_pay_server').':', 'net_e_pay_server',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
 									<div class="col-sm-9 col-md-9 col-lg-10">
@@ -666,6 +678,16 @@
 								
 							</div>
 						</div>
+						
+						<div class="form-group">	
+						<?php echo form_label(lang('locations_auto_reports_day').':', 'auto_reports_day',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label'), FALSE); ?>
+							<div class="col-sm-9 col-md-9 col-lg-10">
+								<?php echo form_dropdown('auto_reports_day', array('previous_day' => lang('locations_previous_day'),'current_day' => lang('locations_current_day')), $location_info->auto_reports_day , 'class="form-control" id="auto_reports_day"'); ?>
+							</div>
+						</div>
+						
+						
+						
 						
 
 						<div class="form-group" id="stock_alert_email_container">	

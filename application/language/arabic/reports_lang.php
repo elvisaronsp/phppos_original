@@ -768,4 +768,5 @@ $lang['reports_serial_number_history'] = 'سجل الرقم التسلسلي';
 $lang['reports_daily_report'] = 'تقرير يومي';
 $lang['reports_only_count_store_account_payments'] = 'عد فقط مدفوعات حساب المتجر';
 $lang['reports_generation_date'] = 'تاريخ التوليد';
+$lang['reports_non_taxable_customers'] = 'العملاء غير الخاضعين للضريبة';
 ?>

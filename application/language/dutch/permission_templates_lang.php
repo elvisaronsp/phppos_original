@@ -33,11 +33,10 @@ $lang['template_permission_desc'] = 'Vink de onderstaande vakjes aan om toegang 
 
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Werk alle werknemers bij met een bepaald sjabloon';
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Werk alle werknemers bij met beoordeeld sjabloon';
 
 $lang['permission_templates_manage_deleted'] = 'Beheer verwijderde machtigingssjablonen';
 $lang['permission_templates_confirm_undelete'] = 'Weet u zeker dat u het geselecteerde machtigingssjabloon ongedaan wilt maken?';
+$lang['update_all_employees_with_template_assinged'] = 'Werk alle werknemers bij met toegewezen sjabloon';
 ?>

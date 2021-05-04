@@ -1315,5 +1315,12 @@ Report::$reports = array(
 														'display' => 'tabular'
 													),
 												),
+												'summary_non_taxable_customers' =>  array(
+													'model' => 'Summary_non_taxable_customers',
+													'settings' => array(
+														'permission_action' => 'view_customers',
+														'display' => 'tabular'
+													),
+												),
 									 ); 
 ?>

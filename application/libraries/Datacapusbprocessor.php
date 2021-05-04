@@ -10,6 +10,7 @@ abstract class Datacapusbprocessor extends Creditcardprocessor
 	public $sequence_no;	
 	public $secure_device_emv;
 	public $secure_device_non_emv;
+	public $disable_confirmation_option_for_emv_credit_card;
 	
 	function __construct($controller,$secure_device_emv, $secure_device_non_emv)
 	{
@@ -21,6 +22,7 @@ abstract class Datacapusbprocessor extends Creditcardprocessor
 		$this->secure_device_emv = $this->controller->Location->get_info_for_key('secure_device_override_emv') ? $this->controller->Location->get_info_for_key('secure_device_override_emv') : $secure_device_emv;
 		$this->secure_device_non_emv = $this->controller->Location->get_info_for_key('secure_device_override_non_emv') ? $this->controller->Location->get_info_for_key('secure_device_override_non_emv') : $secure_device_non_emv;		
 		$this->net_e_pay_server =  $this->controller->Location->get_info_for_key('net_e_pay_server') ?  $this->controller->Location->get_info_for_key('net_e_pay_server') : '127.0.0.1';
+		$this->disable_confirmation_option_for_emv_credit_card = $this->controller->Location->get_info_for_key('disable_confirmation_option_for_emv_credit_card') ? 1 : 0;
 		
 		if ($this->controller->Employee->get_logged_in_employee_current_register_id())
 		{
@@ -273,6 +275,12 @@ abstract class Datacapusbprocessor extends Creditcardprocessor
 				'SequenceNo' => $this->sequence_no,
 			);
 					
+					
+			if ($this->disable_confirmation_option_for_emv_credit_card)
+			{
+				$post_data['OKAmount'] = 'DisAllow';
+			}
+			
 			if (is_sale_integrated_ebt_sale($this->controller->cart))
 			{
 				$post_data['TranType'] = $TranType;

@@ -380,8 +380,39 @@ $lang['migrate_ecommerce_item_id_index'] = 'សន្ទស្សន៍លេខ
 $lang['migrate_add_always_sms_receipt_field_to_customers'] = 'បន្ថែមវាលបង្កាន់ដៃផ្ញើសារជាអក្សរដល់អតិថិជនជានិច្ច';
 $lang['migrate_18_0_version'] = '១៨.០ កំណែ';
 $lang['migrate_items_per_search_suggestion_store_config'] = 'កំណត់រចនាសម្ព័ន្ធធាតុសម្រាប់ស្វែងរកការស្វែងរក';
+
 $lang['migrate_serialnumber_index'] = 'សន្ទស្សន៍សៀរៀល';
 $lang['migrate_create_email_field_auto_email_reports'] = 'បង្កើតរបាយការណ៍តាមអ៊ីម៉ែលតាមអ៊ីម៉ែលដោយស្វ័យប្រវត្តិ';
 $lang['migrate_email_report_time_to_email'] = 'អ៊ីមែលរបាយការណ៍ពេលវេលាផ្ញើទៅអ៊ីមែល';
+
+$lang['migrate_shopify'] = 'ទិញឥវ៉ាន់';
+
 $lang['migrate_damaged_reason_comment_field'] = 'វាលអត្ថាធិប្បាយមូលហេតុដែលខូចខាត';
+$lang['migrate_18_1_version'] = '១៨.១ កំណែ';
+$lang['migrate_custom_suspended_sale_types_remove_quantity'] = 'ប្រភេទនៃការលក់តាមតម្រូវការផ្ទាល់ខ្លួនដកចេញនូវបរិមាណ';
+
+$lang['migrate_secondary_categories'] = 'ប្រភេទអនុវិទ្យាល័យ';
+
+
+
+$lang['migrate_non_taxable_on_sales_table'] = 'មិនមានជាប់ពន្ធលើតុលក់';
+
+
+
+
+$lang['migrate_current_or_previous_day_option_for_auto_email'] = 'ជម្រើសថ្ងៃបច្ចុប្បន្នឬថ្ងៃមុនសម្រាប់អ៊ីមែលដោយស្វ័យប្រវត្តិ';
+$lang['migrate_disable_confirmation_option_for_emv_credit_card'] = 'បិទជម្រើសបញ្ជាក់សម្រាប់កាតឥណទានអេមអេ';
+
+
+$lang['migrate_weight_units'] = 'ឯកតាទំងន់';
+
+$lang['migrate_migrate_categories_for_expenses'] = 'ចំណាកស្រុកប្រភេទសម្រាប់ការចំណាយ';
+
+$lang['migrate_expenses_categories'] = 'ប្រភេទចំណាយ';
+$lang['migrate_permission_for_manage_expenses_categories'] = 'ការអនុញ្ញាតសម្រាប់ការគ្រប់គ្រងប្រភេទចំណាយ';
+$lang['migrate_update_foreign_key_for_expenses_categories'] = 'ធ្វើបច្ចុប្បន្នភាពប្រភេទគន្លឹះបរទេសសម្រាប់ប្រភេទចំណាយ';
+
+$lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'អនុញ្ញាតលេខសម្គាល់ការធ្វើពាណិជ្ជកម្មតាមអ៊ីធឺណិតឱ្យកាន់តែធំទៅ';
+$lang['migrate_index_on_filename'] = 'សន្ទស្សន៍នៅលើឈ្មោះឯកសារ';
+$lang['migrate_work_orders'] = 'ការបញ្ជាទិញការងារ';
 ?>

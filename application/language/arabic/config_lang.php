@@ -689,7 +689,7 @@ $lang['config_import_ecommerce_attributes_into_phppos'] = 'استيراد الس
 //Export Attributes to ecommerce
 $lang['config_export_phppos_attributes_to_ecommerce'] = 'سمات التصدير إلى التجارة الإلكترونية';
 //SKU field to sync with
-$lang['config_woo_sku_sync_field'] = 'حقل SKU للمزامنة';
+$lang['config_sku_sync_field'] = 'حقل SKU للمزامنة';
 //Overwrite existing items on excel import
 $lang['config_overwrite_existing_items_on_excel_import'] = 'الكتابة فوق العناصر الموجودة على استيراد Excel';
 //Do not force HTTP when needed for EMV Credit Card Processing
@@ -1019,6 +1019,38 @@ $lang['config_do_not_allow_items_to_go_out_of_stock_when_transfering'] = 'لا �
 $lang['config_show_tags_on_fulfillment_sheet'] = 'إظهار علامات العنصر في ورقة الاستيفاء';
 $lang['config_automatically_sms_receipt'] = 'استلام الرسائل القصيرة تلقائيًا';
 $lang['config_items_per_search_suggestions'] = 'عدد العناصر لاقتراحات البحث';
+
+$lang['config_shopify_settings_info'] = 'Shopify الإعدادات';
+$lang['config_shopify_shop'] = 'Shopify متجر URL';
+$lang['config_connect_to_shopify'] = 'تواصل مع Shopify';
+$lang['config_connect_to_shopify_reconnect'] = 'أعد الاتصال بـ Shopify';
+$lang['config_connected_to_shopify'] = 'أنت متصل بـ Shopify';
+$lang['config_disconnect_to_shopify'] = 'قطع الاتصال من Shopify';
+
 $lang['config_offline_mode'] = 'تمكين وضع عدم الاتصال';
 $lang['config_reset_offline_data'] = 'إعادة تعيين البيانات دون اتصال';
+
+
+
+$lang['config_remove_quantity_suspending'] = 'إزالة الكمية عند التعليق';
+$lang['config_auto_sync_offline_sales'] = 'المزامنة التلقائية للمبيعات دون اتصال بالإنترنت عند العودة عبر الإنترنت';
+
+$lang['config_shopify_billing_terms'] = 'تنشيط الفوترة - إصدار تجريبي لمدة 14 يومًا ثم 19 دولارًا أمريكيًا شهريًا';
+$lang['config_shopfiy_billing_failed'] = 'Shopify فشل الفوترة';
+$lang['config_cancel_shopify'] = 'إلغاء Shopify الفواتير';
+$lang['config_confirm_cancel_shopify'] = 'هل أنت متأكد أنك تريد إلغاء Shopify؟';
+$lang['config_step_1'] = 'الخطوة 1';
+$lang['config_step_2'] = 'الخطوة 2';
+$lang['config_step_3'] = 'الخطوه 3';
+$lang['config_step_4'] = 'الخطوة 4';
+$lang['config_install_shopify_app'] = 'تثبيت Shopify التطبيق';
+$lang['config_connect_billing'] = 'ربط الفواتير';
+$lang['config_choose_sync_options'] = 'اختر خيارات المزامنة';
+$lang['config_ecommerce_sync_running'] = 'تعمل مزامنة التجارة الإلكترونية الآن في الخلفية. يمكنك التحقق من الحالة في Store Config.';
+$lang['config_show_total_on_fulfillment'] = 'إظهار الإجمالي في ورقة الاستيفاء';
+$lang['config_connect_shopify_in_app_store'] = 'أنت غير متصل بـ Shopify. يمكنك الاتصال بـ Shopify في متجر التطبيقات';
+$lang['config_override_signature_text'] = 'تجاوز نص التوقيع';
+$lang['config_update_cost_price_on_transfer'] = 'تحديث سعر التكلفة عند التحويل';
+$lang['config_tip_preset_zero'] = 'مقدار الضبط المسبق لطرف 0٪';
+$lang['config_show_person_id_on_receipt'] = 'إظهار هوية الشخص عند الاستلام';
 ?>

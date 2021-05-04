@@ -369,4 +369,10 @@ $lang['sales_offline_synced_successfully'] = 'Offline-Vertrieb erfolgreich synch
 $lang['sales_edit_offline_sales'] = 'Offline-Verkäufe bearbeiten';
 $lang['sales_giftcard_exists_do_you_want_to_add'] = 'Die Geschenkkarte, die Sie verkaufen, ist bereits vorhanden. Möchten Sie dieser Karte Geld hinzufügen?';
 $lang['sales_the_balance_of_card_is'] = 'Der Restbetrag der Karte beträgt';
+$lang['sales_serialnumber_duplicate'] = 'Doppelte Seriennummer, bitte erneut eingeben';
+$lang['sales_enter_note'] = 'Notiz eingeben';
+$lang['sales_note'] = 'Hinweis';
+$lang['sales_detailed_note'] = 'Detaillierte Anmerkung';
+$lang['sales_internal_note'] = 'Interner Hinweis';
+$lang['sales_delveried_to'] = 'Geliefert an';
 ?>

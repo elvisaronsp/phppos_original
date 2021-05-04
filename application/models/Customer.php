@@ -1015,15 +1015,17 @@ class Customer extends Person
 	function merge($customers,$customer_to_merge)
 	{
 		$new_balance = 0;
-		
+		$points = 0;
 		foreach($customers as $customer_id)
 		{
 			$cust_info = $this->get_info($customer_id);
 			$new_balance+=$cust_info->balance;
+			$points+=$cust_info->points;
 		}
 		
 		$cust_info = $this->get_info($customer_to_merge);
 		$new_balance+=$cust_info->balance;			
+		$points+=$cust_info->points;			
 		
 		if (count($customers) > 0)
 		{
@@ -1051,6 +1053,9 @@ class Customer extends Person
 
 			$this->db->where_in('person_id',$customer_to_merge);
 			$this->db->update('customers',array('balance' =>$new_balance));
+
+			$this->db->where_in('person_id',$customer_to_merge);
+			$this->db->update('customers',array('points' =>$points));
 		
 			$this->db->trans_complete();
 		}

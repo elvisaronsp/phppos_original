@@ -9,8 +9,8 @@ use InvalidArgumentException;
  *
  * <b>== More information ==</b>
  *
- * For more detailed information on CreditCards, see {@link http://www.braintreepayments.com/gateway/credit-card-api http://www.braintreepaymentsolutions.com/gateway/credit-card-api}<br />
- * For more detailed information on CreditCard verifications, see {@link http://www.braintreepayments.com/gateway/credit-card-verification-api http://www.braintreepaymentsolutions.com/gateway/credit-card-verification-api}
+ * For more detailed information on CreditCards, see {@link https://developers.braintreepayments.com/reference/response/credit-card/php https://developers.braintreepayments.com/reference/response/credit-card/php}<br />
+ * For more detailed information on CreditCard verifications, see {@link https://developers.braintreepayments.com/reference/response/credit-card-verification/php https://developers.braintreepayments.com/reference/response/credit-card-verification/php}
  *
  * @package    Braintree
  * @category   Resources
@@ -49,40 +49,6 @@ class CreditCardGateway
         $result = $this->create($attribs);
         return Util::returnObjectOrThrowException(__CLASS__, $result);
     }
-    /**
-     * create a customer from a TransparentRedirect operation
-     *
-     * @deprecated since version 2.3.0
-     * @access public
-     * @param array $attribs
-     * @return Result\Successful|Result\Error
-     */
-    public function createFromTransparentRedirect($queryString)
-    {
-        trigger_error("DEPRECATED: Please use TransparentRedirectRequest::confirm", E_USER_NOTICE);
-        $params = TransparentRedirect::parseAndValidateQueryString(
-            $queryString
-        );
-        return $this->_doCreate(
-            '/payment_methods/all/confirm_transparent_redirect_request',
-            ['id' => $params['id']]
-        );
-    }
-
-    /**
-     *
-     * @deprecated since version 2.3.0
-     * @access public
-     * @param none
-     * @return string
-     */
-    public function createCreditCardUrl()
-    {
-        trigger_error("DEPRECATED: Please use TransparentRedirectRequest::url", E_USER_NOTICE);
-        return $this->_config->baseUrl() . $this->_config->merchantPath().
-                '/payment_methods/all/create_via_transparent_redirect_request';
-    }
-
     /**
      * returns a ResourceCollection of expired credit cards
      * @return ResourceCollection
@@ -292,39 +258,6 @@ class CreditCardGateway
         $result = $this->update($token, $attributes);
         return Util::returnObjectOrThrowException(__CLASS__, $result);
     }
-    /**
-     *
-     * @access public
-     * @param none
-     * @return string
-     */
-    public function updateCreditCardUrl()
-    {
-        trigger_error("DEPRECATED: Please use TransparentRedirectRequest::url", E_USER_NOTICE);
-        return $this->_config->baseUrl() . $this->_config->merchantPath() .
-                '/payment_methods/all/update_via_transparent_redirect_request';
-    }
-
-    /**
-     * update a customer from a TransparentRedirect operation
-     *
-     * @deprecated since version 2.3.0
-     * @access public
-     * @param array $attribs
-     * @return object
-     */
-    public function updateFromTransparentRedirect($queryString)
-    {
-        trigger_error("DEPRECATED: Please use TransparentRedirectRequest::confirm", E_USER_NOTICE);
-        $params = TransparentRedirect::parseAndValidateQueryString(
-            $queryString
-        );
-        return $this->_doUpdate(
-            'post',
-            '/payment_methods/all/confirm_transparent_redirect_request',
-            ['id' => $params['id']]
-        );
-    }
 
     public function delete($token)
     {
@@ -336,7 +269,7 @@ class CreditCardGateway
 
     private static function baseOptions()
     {
-        return ['makeDefault', 'verificationMerchantAccountId', 'verifyCard', 'verificationAmount', 'venmoSdkSession'];
+        return ['makeDefault', 'verificationMerchantAccountId', 'verifyCard', 'verificationAmount', 'verificationAccountType', 'venmoSdkSession'];
     }
 
     private static function baseSignature($options)
@@ -376,7 +309,24 @@ class CreditCardGateway
         $options[] = "failOnDuplicatePaymentMethod";
         $signature = self::baseSignature($options);
         $signature[] = 'customerId';
+        $signature[] = self::threeDSecurePassThruSignature();
         return $signature;
+    }
+
+    public static function threeDSecurePassThruSignature()
+    {
+        return [
+            'threeDSecurePassThru' => [
+                'eciFlag',
+                'cavv',
+                'xid',
+                'threeDSecureVersion',
+                'authenticationResponse',
+                'directoryResponse',
+                'cavvAlgorithm',
+                'dsTransactionId',
+            ]
+        ];
     }
 
     public static function updateSignature()
@@ -384,6 +334,7 @@ class CreditCardGateway
         $options = self::baseOptions();
         $options[] = "failOnDuplicatePaymentMethod";
         $signature = self::baseSignature($options);
+        $signature[] = self::threeDSecurePassThruSignature();
 
         $updateExistingBillingSignature = [
             [
@@ -483,4 +434,3 @@ class CreditCardGateway
         }
     }
 }
-class_alias('Braintree\CreditCardGateway', 'Braintree_CreditCardGateway');

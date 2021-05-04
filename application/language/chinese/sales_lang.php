@@ -530,4 +530,10 @@ $lang['sales_offline_synced_successfully'] = '离线销售已成功同步';
 $lang['sales_edit_offline_sales'] = '编辑离线销售';
 $lang['sales_giftcard_exists_do_you_want_to_add'] = '您所销售的礼品卡已经存在。您要在这张卡中充值吗？';
 $lang['sales_the_balance_of_card_is'] = '卡的余额是';
+$lang['sales_serialnumber_duplicate'] = '序列号重复，请重新输入';
+$lang['sales_enter_note'] = '输入备注';
+$lang['sales_note'] = '注意';
+$lang['sales_detailed_note'] = '详细说明';
+$lang['sales_internal_note'] = '内部说明';
+$lang['sales_delveried_to'] = '送到了（送去了';
 ?>

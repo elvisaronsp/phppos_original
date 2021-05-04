@@ -420,5 +420,10 @@ $lang['is_favorite'] = '最喜欢的吗？';
 $lang['items_item_quantity_unit_number_exists'] = '数量单位项目编号存在';
 $lang['items_quantity_unit'] = '数量单位变化';
 $lang['items_quantity_unit_quantity'] = '数量单位数量';
+
+$lang['items_weight_unit'] = '重量单位';
+
 $lang['items_inventory_print_list_summary'] = '库存打印清单摘要';
+
+$lang['items_search_by_barcode'] = '按条形码或物品ID搜索';
 ?>

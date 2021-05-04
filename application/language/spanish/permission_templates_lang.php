@@ -33,11 +33,10 @@ $lang['template_permission_desc'] = 'Marque las casillas a continuación para ot
 
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Actualizar a todos los empleados con plantilla asignada';
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Actualizar a todos los empleados con plantilla asignada';
 
 $lang['permission_templates_manage_deleted'] = 'Administrar plantillas de permisos eliminadas';
 $lang['permission_templates_confirm_undelete'] = '¿Está seguro de que desea recuperar la plantilla de permisos seleccionada?';
+$lang['update_all_employees_with_template_assinged'] = 'Actualizar todos los empleados con la plantilla asignada';
 ?>

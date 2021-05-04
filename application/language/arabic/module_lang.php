@@ -151,4 +151,7 @@ $lang['appointments_add'] = 'أضف مواعيد';
 $lang['appointments_delete'] = 'حذف المواعيد';
 $lang['appointments_search'] = 'مواعيد البحث';
 $lang['appointments_edit'] = 'تحرير المواعيد';
+$lang['module_work_orders'] = 'طلبات العمل';
+$lang['module_work_orders_desc'] = 'طلبات العمل';
+$lang['module_manage_statuses'] = 'إدارة الحالات';
 ?>

@@ -33,11 +33,10 @@ $lang['template_permission_desc'] = 'Check the boxes below to grant access to mo
 
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Update All Employees With Template Assinged';
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Update all employees with template assinged';
 
 $lang['permission_templates_manage_deleted'] = 'Manage Deleted Permission Templates';
 $lang['permission_templates_confirm_undelete'] = 'Are you sure you want to undelete the selected permission template?';
+$lang['update_all_employees_with_template_assinged'] = 'Update All Employees With Template Assigned';
 ?>

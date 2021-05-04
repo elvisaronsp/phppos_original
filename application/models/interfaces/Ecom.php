@@ -142,6 +142,35 @@ abstract class Ecom extends MY_Model
 			$CI->load->model('Woo');
 			return $CI->Woo;
 		}
+		
+		if($CI->Appconfig->get_key_directly_from_database("ecommerce_platform") == 'shopify')
+		{
+			$CI->load->model('Shopify');
+			return $CI->Shopify;
+		}
+		
+	}
+	
+	function get_attribute_id_from_ecommerce_attribute_name($attribute_name, $item_id = false)
+	{
+		$this->db->from('attributes');
+		
+		if($attribute_name)
+		{
+			$this->db->where('name',$attribute_name);
+		}
+		
+		if($item_id !== FALSE)
+		{
+			$this->db->where('item_id',$item_id);
+		}
+		
+		if ($row = $this->db->get()->row_array())
+		{
+			return $row['id'];
+		}
+		
+		return null;
 	}
 	
 	function get_attribute_id_from_ecommerce_attribute_id($ecommerce_attribute_id, $item_id = false, $attribute_name = false)
@@ -196,11 +225,17 @@ abstract class Ecom extends MY_Model
 		return null;
 	}
 	
-	function lookup_attribute_value_id_from_attribute_id_and_option($attribute_id, $option_value)
+	function lookup_attribute_value_id_from_attribute_id_and_option($attribute_id, $option_value,$item_id = FALSE)
 	{
 		$this->db->from('attribute_values');
 		$this->db->where('attribute_id',$attribute_id);
 		$this->db->where('name',(string)$option_value);
+		
+		if ($item_id)
+		{
+			$this->db->join('item_attribute_values','item_attribute_values.attribute_value_id = attribute_values.id');
+			$this->db->where('item_id',$item_id);
+		}
 		
 		if($row = $this->db->get()->row_array())
 		{
@@ -310,6 +345,10 @@ abstract class Ecom extends MY_Model
 		{
 			$item=$result->row_array();
 			return $item['item_id'];
+		}
+		else
+		{
+			return $this->Item->create_or_update_ecommerce_item();
 		}
 		
 		return null;
@@ -437,6 +476,20 @@ abstract class Ecom extends MY_Model
 		return $this->Item_variation_location->get_location_quantity($variation_id,$this->ecommerce_store_location);
 	}
 	
+	function get_all_item_images_for_ecommerce_with_main_image_1st($item_id)
+	{
+		$item_id = $this->db->escape($item_id);
+		return $this->db->query("SELECT `phppos_item_images`.* FROM `phppos_item_images` JOIN `phppos_items` ON `phppos_items`.`item_id` = `phppos_item_images`.`item_id` WHERE `phppos_item_images`.`item_id` = $item_id ORDER BY image_id=main_image_id DESC, `id`")->result_array();
+	}
+	
+	function get_all_item_images_for_ecommerce($item_id)
+	{
+		$this->db->from('item_images');
+		$this->db->where('item_id',$item_id);
+		$this->db->order_by('id');
+	  return $this->db->get()->result_array();
+	}	
+	
 	function get_item_images_for_ecommerce($item_id)
 	{
 		$this->db->from('item_images');
@@ -531,16 +584,24 @@ abstract class Ecom extends MY_Model
 			'ecommerce_attribute_id' => NULL,
 		));
 	}
+		
 	
-	function link_item_variation($variation_id, $ecommerce_variation_id, $ecommerce_variation_quantity, $ecommerce_last_modified)
+	function link_item_variation($variation_id, $ecommerce_variation_id, $ecommerce_variation_quantity, $ecommerce_last_modified,$ecommerce_inventory_item_id = NULL)
 	{
-		$this->db->where('id', $variation_id);
-		$this->db->update('item_variations', array(
+		$data = array(
 			'ecommerce_variation_id' => $ecommerce_variation_id, 
-			'ecommerce_variation_quantity' => $ecommerce_variation_quantity,
 			'ecommerce_last_modified' => $ecommerce_last_modified,
 			'last_modified' => $ecommerce_last_modified,
-		));
+			'ecommerce_inventory_item_id' => $ecommerce_inventory_item_id,
+		);
+		
+		if ($ecommerce_variation_quantity !== NULL)
+		{
+			$data['ecommerce_variation_quantity'] = $ecommerce_variation_quantity;
+			
+		}
+		$this->db->where('id', $variation_id);
+		$this->db->update('item_variations', $data);
 	}
 	
 	function unlink_item_variation($item_variation_id)
@@ -553,7 +614,7 @@ abstract class Ecom extends MY_Model
 		));
 	}
 	
-	function link_item($item_id, $ecommerce_product_id, $ecommerce_product_quantity, $ecommerce_last_modified)
+	function link_item($item_id, $ecommerce_product_id, $ecommerce_product_quantity, $ecommerce_last_modified,$ecommerce_inventory_item_id=NULL)
 	{
 			$this->db->where('item_id', $item_id);
 			$this->db->update('items', array(
@@ -561,6 +622,7 @@ abstract class Ecom extends MY_Model
 				'ecommerce_product_quantity' => $ecommerce_product_quantity,
 				'ecommerce_last_modified' => $ecommerce_last_modified,
 				'last_modified' => $ecommerce_last_modified,
+				'ecommerce_inventory_item_id' => $ecommerce_inventory_item_id,
 			));
 	}
 	
@@ -613,7 +675,7 @@ abstract class Ecom extends MY_Model
 		));
 	}
 	
-	function get_item_variations_for_ecommerce($item_id)
+	function get_item_variations_for_ecommerce($item_id,$dont_include_non_ecommerce_variations = false)
 	{
 		$this->load->model('Item_variations');
 		
@@ -634,8 +696,18 @@ abstract class Ecom extends MY_Model
 		$this->db->or_where('ecommerce_variation_id IS NOT NULL');
 		$this->db->group_end();
 		
+		if ($dont_include_non_ecommerce_variations)
+		{
+			$this->db->group_start();
+			$this->db->where('item_variations.deleted',0);
+			$this->db->where('item_variations.is_ecommerce', 1);
+			$this->db->group_end();
+		}
+		
 		$this->db->where('item_variations.item_id', $item_id);
-	
+		
+		//We need order by so we always get a consistent order for shopify variations
+		$this->db->order_by('item_variations.id');
 		$return = array();
 		
 		$results = $this->db->get()->result_array();
@@ -728,7 +800,6 @@ abstract class Ecom extends MY_Model
 		$this->db->group_by('items.item_id');
 		
 		$return = $this->db->get();
-				
 		return $return;
 	}
 	
@@ -761,19 +832,44 @@ abstract class Ecom extends MY_Model
 		$this->Appfile->save('ecom_log.txt',$this->log,'+72 hours');
 	}
 	
-	//Makes php pos not linked to any e-commerce items
-	function reset_ecom()
+	function reset_item($item_id)
 	{
+		$this->db->where('item_id',$item_id);
 		$this->db->update('items', array(
 			'ecommerce_product_id' => NULL, 
 			'ecommerce_product_quantity' => NULL,
 			'ecommerce_last_modified' => NULL,
+			'ecommerce_inventory_item_id' => NULL,
+		));
+		
+		$this->db->where('item_id',$item_id);
+		$this->db->update('item_variations', array(
+			'ecommerce_variation_id' => NULL,
+			'ecommerce_variation_quantity' => NULL,
+			'ecommerce_last_modified' => NULL,
+			'ecommerce_inventory_item_id' => NULL,
+		));
+		
+		$this->db->where('item_id',$item_id);
+		$this->db->update('item_images', array('ecommerce_image_id' => NULL));
+	}
+	
+	//Makes php pos not linked to any e-commerce items
+	function reset_ecom()
+	{
+				
+		$this->db->update('items', array(
+			'ecommerce_product_id' => NULL, 
+			'ecommerce_product_quantity' => NULL,
+			'ecommerce_last_modified' => NULL,
+			'ecommerce_inventory_item_id' => NULL,
 		));
 		
 		$this->db->update('item_variations', array(
 			'ecommerce_variation_id' => NULL,
 			'ecommerce_variation_quantity' => NULL,
 			'ecommerce_last_modified' => NULL,
+			'ecommerce_inventory_item_id' => NULL,
 		));
 		
 		$this->db->update('item_images', array('ecommerce_image_id' => NULL));
@@ -847,6 +943,11 @@ abstract class Ecom extends MY_Model
 	//shipping classes
 	abstract protected function import_shipping_classes_into_phppos();
 	
+	abstract protected function delete_item($item_id);
+	abstract protected function delete_items($item_ids);
 	
+	abstract protected function undelete_item($item_id);
+	abstract protected function undelete_items($item_ids);
+	abstract protected function undelete_all();	
 }
 ?>

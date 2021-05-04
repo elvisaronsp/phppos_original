@@ -33,11 +33,10 @@ $lang['template_permission_desc'] = 'حدد المربعات أدناه لمنح
 
 
 
-$lang['update_all_employees_with_template_assinged'] = 'قم بتحديث جميع الموظفين باستخدام النموذج';
 
 
-$lang['update_all_employees_with_template_assinged'] = 'تحديث جميع الموظفين مع قالب النموذج';
 
 $lang['permission_templates_manage_deleted'] = 'إدارة قوالب الأذونات المحذوفة';
 $lang['permission_templates_confirm_undelete'] = 'هل أنت متأكد أنك تريد إلغاء حذف قالب الإذن المحدد؟';
+$lang['update_all_employees_with_template_assinged'] = 'تحديث جميع الموظفين مع قالب معين';
 ?>

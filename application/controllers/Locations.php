@@ -412,6 +412,8 @@ class Locations extends Secure_area implements Idata_controller
 		'twilio_sms_from'=>$this->input->post('twilio_sms_from'),
 		'auto_reports_email' => $this->input->post('auto_reports_email'),
 		'auto_reports_email_time' => $this->input->post('auto_reports_email_time'),
+		'auto_reports_day' => $this->input->post('auto_reports_day'),
+		'disable_confirmation_option_for_emv_credit_card' => $this->input->post('disable_confirmation_option_for_emv_credit_card') ? 1 : 0,
 	);
 	
 	
@@ -446,6 +448,8 @@ class Locations extends Secure_area implements Idata_controller
 			unset($location_data['integrated_gift_cards']);
 			unset($location_data['mailchimp_api_key']);
 			unset($locations_data['platformly_api_key']);
+			unset($locations_data['disable_confirmation_option_for_emv_credit_card']);
+			
 			if ($location_id == 1)
 			{
 				unset($location_data['color']);

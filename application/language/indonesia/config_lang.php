@@ -263,7 +263,7 @@ $lang['config_woo_api_key'] = 'Woocommerce API Key';
 $lang['config_email_settings_info'] = 'Pengaturan email';
 
 $lang['config_last_sync_date'] = 'Terakhir Sync Tanggal';
-$lang['config_sync'] = 'Sync';
+$lang['config_sync'] = 'Sinkronisasi';
 $lang['config_smtp_crypto'] = 'SMTP Enkripsi';
 $lang['config_email_protocol'] = 'Mail Mengirim Protocol';
 $lang['config_smtp_host'] = 'SMTP Server Alamat';
@@ -417,7 +417,7 @@ $lang['config_show_barcode_company_name'] = 'Tunjukkan nama perusahaan pada kode
 $lang['config_import_ecommerce_attributes_into_phppos'] = 'Impor atribut ke phppos';
 $lang['config_export_phppos_attributes_to_ecommerce'] = 'Atribut Ekspor ke e-niaga';
 
-$lang['config_woo_sku_sync_field'] = 'Bidang SKU untuk disinkronkan dengan';
+$lang['config_sku_sync_field'] = 'Bidang SKU untuk disinkronkan dengan';
 
 
 
@@ -732,6 +732,38 @@ $lang['config_do_not_allow_items_to_go_out_of_stock_when_transfering'] = 'Jangan
 $lang['config_show_tags_on_fulfillment_sheet'] = 'Tampilkan Tag Item Pada Lembar Pemenuhan';
 $lang['config_automatically_sms_receipt'] = 'Tanda terima SMS otomatis';
 $lang['config_items_per_search_suggestions'] = 'Jumlah item untuk saran pencarian';
+
+$lang['config_shopify_settings_info'] = 'Pengaturan Shopify';
+$lang['config_shopify_shop'] = 'URL Toko Shopify';
+$lang['config_connect_to_shopify'] = 'Hubungkan ke Shopify';
+$lang['config_connect_to_shopify_reconnect'] = 'Hubungkan Kembali ke Shopify';
+$lang['config_connected_to_shopify'] = 'Anda terhubung ke Shopify';
+$lang['config_disconnect_to_shopify'] = 'Putuskan Hubungan Dari Shopify';
+
 $lang['config_offline_mode'] = 'Aktifkan Mode Offline';
 $lang['config_reset_offline_data'] = 'Setel Ulang Data Offline';
+
+
+
+$lang['config_remove_quantity_suspending'] = 'Hapus Kuantitas Saat Menangguhkan';
+$lang['config_auto_sync_offline_sales'] = 'Auto Sync Penjualan Offline Saat Kembali Online';
+
+$lang['config_shopify_billing_terms'] = 'Aktifkan penagihan - uji coba 14 hari, lalu 19 USD per bulan';
+$lang['config_shopfiy_billing_failed'] = 'Penagihan Shopify Gagal';
+$lang['config_cancel_shopify'] = 'Batalkan Penagihan Shopify';
+$lang['config_confirm_cancel_shopify'] = 'Anda yakin ingin membatalkan shopify?';
+$lang['config_step_1'] = 'Langkah 1';
+$lang['config_step_2'] = 'Langkah 2';
+$lang['config_step_3'] = 'LANGKAH 3';
+$lang['config_step_4'] = 'LANGKAH 4';
+$lang['config_install_shopify_app'] = 'Instal aplikasi Shopify';
+$lang['config_connect_billing'] = 'Hubungkan Penagihan';
+$lang['config_choose_sync_options'] = 'Pilih Opsi Sinkronisasi';
+$lang['config_ecommerce_sync_running'] = 'Sinkronisasi E-Commerce sekarang berjalan di latar belakang. Anda dapat memeriksa statusnya di Store Config.';
+$lang['config_show_total_on_fulfillment'] = 'Tunjukkan Total Pada Lembar Pemenuhan';
+$lang['config_connect_shopify_in_app_store'] = 'Anda tidak terhubung ke Shopify. Anda dapat terhubung ke Shopify di App Store';
+$lang['config_override_signature_text'] = 'Timpa Teks Tanda Tangan';
+$lang['config_update_cost_price_on_transfer'] = 'Perbarui Biaya Harga Saat Transfer';
+$lang['config_tip_preset_zero'] = 'Tip jumlah preset 0%';
+$lang['config_show_person_id_on_receipt'] = 'Tunjukkan ID Orang pada tanda terima';
 ?>

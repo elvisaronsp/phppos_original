@@ -33,11 +33,10 @@ $lang['template_permission_desc'] = 'Cochez les cases ci-dessous pour accorder l
 
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Mettre à jour tous les employés avec le modèle défini';
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Mettre à jour tous les employés avec un modèle attribué';
 
 $lang['permission_templates_manage_deleted'] = 'Gérer les modèles d\'autorisation supprimés';
 $lang['permission_templates_confirm_undelete'] = 'Voulez-vous vraiment annuler la suppression du modèle d\'autorisation sélectionné?';
+$lang['update_all_employees_with_template_assinged'] = 'Mettre à jour tous les employés avec un modèle attribué';
 ?>

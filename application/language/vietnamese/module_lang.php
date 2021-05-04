@@ -137,4 +137,7 @@ $lang['appointments_search'] = 'Tìm kiếm cuộc hẹn';
 $lang['appointments_edit'] = 'Chỉnh sửa cuộc hẹn';
 $lang['module_deleted_giftcards'] = 'Thẻ quà tặng đã xóa';
 $lang['module_deleted_locations'] = 'Điểm bán hàng đã Xóa';
+$lang['module_work_orders'] = 'Đơn hàng làm việc';
+$lang['module_work_orders_desc'] = 'Đơn hàng làm việc';
+$lang['module_manage_statuses'] = 'Quản lý trạng thái';
 ?>

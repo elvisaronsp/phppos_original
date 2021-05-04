@@ -414,7 +414,7 @@ $lang['config_show_barcode_company_name'] = 'Toon bedrijfsnaam op barcode';
 $lang['config_import_ecommerce_attributes_into_phppos'] = 'Invoer attributen in phppos';
 $lang['config_export_phppos_attributes_to_ecommerce'] = 'Exporteigenschappen exporteren naar e-commerce';
 
-$lang['config_woo_sku_sync_field'] = 'SKU-veld om te synchroniseren met';
+$lang['config_sku_sync_field'] = 'SKU-veld om te synchroniseren met';
 
 
 
@@ -727,6 +727,38 @@ $lang['config_do_not_allow_items_to_go_out_of_stock_when_transfering'] = 'Sta ni
 $lang['config_show_tags_on_fulfillment_sheet'] = 'Itemlabels op uitvoeringsblad weergeven';
 $lang['config_automatically_sms_receipt'] = 'Automatisch sms-ontvangst';
 $lang['config_items_per_search_suggestions'] = 'Aantal items voor zoeksuggesties';
+
+$lang['config_shopify_settings_info'] = 'Shopify-instellingen';
+$lang['config_shopify_shop'] = 'Shopify winkel-URL';
+$lang['config_connect_to_shopify'] = 'Maak verbinding met Shopify';
+$lang['config_connect_to_shopify_reconnect'] = 'Maak opnieuw verbinding met Shopify';
+$lang['config_connected_to_shopify'] = 'U bent verbonden met Shopify';
+$lang['config_disconnect_to_shopify'] = 'Verbreek de verbinding met Shopify';
+
 $lang['config_offline_mode'] = 'Schakel de offline modus in';
 $lang['config_reset_offline_data'] = 'Reset offline gegevens';
+
+
+
+$lang['config_remove_quantity_suspending'] = 'Hoeveelheid verwijderen bij opschorting';
+$lang['config_auto_sync_offline_sales'] = 'Offline verkoop automatisch synchroniseren wanneer u weer online bent';
+
+$lang['config_shopify_billing_terms'] = 'Activeer facturering - 14 dagen op proef, daarna 19 USD per maand';
+$lang['config_shopfiy_billing_failed'] = 'Shopify-facturering mislukt';
+$lang['config_cancel_shopify'] = 'Annuleer Shopify-facturering';
+$lang['config_confirm_cancel_shopify'] = 'Weet je zeker dat je Shopify wilt annuleren?';
+$lang['config_step_1'] = 'Stap 1';
+$lang['config_step_2'] = 'Stap 2';
+$lang['config_step_3'] = 'Stap 3';
+$lang['config_step_4'] = 'Stap 4';
+$lang['config_install_shopify_app'] = 'Installeer de Shopify-app';
+$lang['config_connect_billing'] = 'Verbind facturering';
+$lang['config_choose_sync_options'] = 'Kies Synchronisatie-opties';
+$lang['config_ecommerce_sync_running'] = 'De e-commerce-synchronisatie wordt nu op de achtergrond uitgevoerd. U kunt de status controleren in Store Config.';
+$lang['config_show_total_on_fulfillment'] = 'Totaal weergeven op uitvoeringsblad';
+$lang['config_connect_shopify_in_app_store'] = 'Je bent niet verbonden met Shopify. U kunt verbinding maken met Shopify in de App Store';
+$lang['config_override_signature_text'] = 'Handtekeningstekst overschrijven';
+$lang['config_update_cost_price_on_transfer'] = 'Update kostprijs bij overdracht';
+$lang['config_tip_preset_zero'] = 'Fooi vooraf ingesteld bedrag van 0%';
+$lang['config_show_person_id_on_receipt'] = 'Toon persoons-ID op ontvangstbewijs';
 ?>

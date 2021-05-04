@@ -6,8 +6,6 @@ use Box\Spout\Reader\SheetInterface;
 
 /**
  * Class Sheet
- *
- * @package Box\Spout\Reader\CSV
  */
 class Sheet implements SheetInterface
 {
@@ -15,23 +13,50 @@ class Sheet implements SheetInterface
     protected $rowIterator;
 
     /**
-     * @param resource $filePointer Pointer to the CSV file to read
-     * @param string $fieldDelimiter Character that delimits fields
-     * @param string $fieldEnclosure Character that enclose fields
-     * @param string $encoding Encoding of the CSV file to be read
-     * @param \Box\Spout\Common\Helper\GlobalFunctionsHelper $globalFunctionsHelper
+     * @param RowIterator $rowIterator Corresponding row iterator
      */
-    public function __construct($filePointer, $fieldDelimiter, $fieldEnclosure, $encoding, $endOfLineCharacter, $globalFunctionsHelper)
+    public function __construct(RowIterator $rowIterator)
     {
-        $this->rowIterator = new RowIterator($filePointer, $fieldDelimiter, $fieldEnclosure, $encoding, $endOfLineCharacter, $globalFunctionsHelper);
+        $this->rowIterator = $rowIterator;
     }
 
     /**
-     * @api
      * @return \Box\Spout\Reader\CSV\RowIterator
      */
     public function getRowIterator()
     {
         return $this->rowIterator;
+    }
+
+    /**
+     * @return int Index of the sheet
+     */
+    public function getIndex()
+    {
+        return 0;
+    }
+
+    /**
+     * @return string Name of the sheet - empty string since CSV does not support that
+     */
+    public function getName()
+    {
+        return '';
+    }
+
+    /**
+     * @return bool Always TRUE as there is only one sheet
+     */
+    public function isActive()
+    {
+        return true;
+    }
+
+    /**
+     * @return bool Always TRUE as the only sheet is always visible
+     */
+    public function isVisible()
+    {
+        return true;
     }
 }

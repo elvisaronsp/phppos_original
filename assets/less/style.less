@@ -3927,3 +3927,386 @@ nav.navbar  {
 #var_popup .qty-dialog {
 	width: 420px;
 }
+
+ 
+/* Work Order Edit Start */
+
+.work_order_edit_page_holder .workorder-badge{
+  background-color: #fff;
+  border: 1px solid transparent;
+  padding: 10px;
+  margin-top:5px;
+}
+
+.work_order_edit_page_holder .workorder-badge .workorder_info {
+  display: inline-flex;
+  align-items: center;
+}
+
+.work_order_edit_page_holder .workorder-badge .workorder_id_and_date .work_order_id{
+  font-size:18px;
+}
+
+.work_order_edit_page_holder .workorder-badge .workorder_id_and_date .work_order_date{
+  font-size:15px;
+}
+.work_order_edit_page_holder .workorder-badge .workorder_status{
+  margin-left: 18px;
+}
+.work_order_edit_page_holder .workorder-badge .change_status{
+  margin-left: 10px;
+}
+.work_order_edit_page_holder .workorder-badge .pull-right {
+  margin-top: 0px;
+}
+.work_order_edit_page_holder .workorder-badge ul .btn {
+  min-width: 105px;
+  margin-top: 6px;
+}
+
+.work_order_edit_page_holder .workorder-badge ul li{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.work_order_edit_page_holder .workorder-badge:before {
+  display: table;
+  content: " ";
+}
+
+.work_order_edit_page_holder .workorder-badge:after {
+  clear: both;
+  display: table;
+  content: " ";
+}
+
+.work_order_edit_page_holder .customer_info,
+.work_order_edit_page_holder .item_being_repaired_info{
+  min-height: 169px;
+  /* background-color: white; */
+  /* padding: 10px; */
+  margin-top: 6px;
+}
+
+.work_order_edit_page_holder .panel{
+  margin-bottom:0px !important;
+}
+
+.work_order_edit_page_holder .panel-body{
+  padding: 10px !important;
+}
+
+@media (min-width: 992px) {
+  .work_order_edit_page_holder .pr{
+    padding-right:3px !important;
+  }
+  
+  .work_order_edit_page_holder .pl{
+    padding-left:3px !important;
+  }
+}
+.work_order_edit_page_holder .customer_info .customer_title,
+.work_order_edit_page_holder .item_being_repaired_info .item_being_repaired_info_title,
+.work_order_edit_page_holder .parts_and_labor_info .parts_and_labor_info_title,
+.work_order_edit_page_holder .notes_info .notes_info_title{
+  font-size: 17px;
+}
+.work_order_edit_page_holder .customer_info .customer_title span,
+.work_order_edit_page_holder .item_being_repaired_info .item_being_repaired_info_title span,
+.work_order_edit_page_holder .parts_and_labor_info .parts_and_labor_info_title span,
+.work_order_edit_page_holder .notes_info .notes_info_title span{
+  font-weight: 400;
+  margin-left: 3px;
+}
+.work_order_edit_page_holder .customer_info .panel-body,
+.work_order_edit_page_holder .technician_info .panel-body
+{
+  font-size: 16px;
+}
+.work_order_edit_page_holder .customer_info .customer_name_address_ul{
+  float: left;
+}
+.work_order_edit_page_holder .customer_info .customer_name{
+  font-weight: bold;
+}
+.work_order_edit_page_holder .customer_info .customer_email_phonenumber_ul{
+  float: right;
+  text-align: right;
+}
+.work_order_edit_page_holder .item_being_repaired_info .item_name_and_warranty{
+ font-size: 16px;
+}
+.work_order_edit_page_holder .item_being_repaired_info .panel-body .warranty_repair{
+  margin-top: -7px;
+}
+.work_order_edit_page_holder .item_being_repaired_info .panel-body{
+  margin-left:10px;
+}
+/* .work_order_edit_page_holder .item_being_repaired_info .panel-heading{
+  padding: 1px 15px;
+} */
+.work_order_edit_page_holder .item_being_repaired_info .panel-body dl {
+  margin-bottom: 0px !important;
+}
+.work_order_edit_page_holder .item_being_repaired_info .panel-body dt {
+  text-align: left;
+  width: 170px;
+  line-height: 20px;
+  min-width: 50px !important;
+}
+.work_order_edit_page_holder .item_being_repaired_info .item_being_repaired_info_title{
+  margin-top: 9px;
+}
+.work_order_edit_page_holder .parts_and_labor_info,
+.work_order_edit_page_holder .notes_info{
+ 
+  /* background-color: white;
+  padding: 10px; */
+  margin-top: 6px;
+}
+
+.work_order_edit_page_holder .parts_and_labor_info .work_order_items{
+  padding: 10px;
+  min-height: 237px;
+  max-height: 237px;
+  overflow: auto;
+}
+
+.work_order_edit_page_holder .parts_and_labor_info .work_order_items .delete-item {
+  color: #FF7474;
+  font-size: 18px;
+  font-weight: 500;
+  margin: 5px;
+}
+
+.work_order_edit_page_holder .parts_and_labor_info .panel-heading{
+  padding: 3px 15px;
+}
+.work_order_edit_page_holder .parts_and_labor_info .parts_and_labor_info_title{
+  margin-top: 7px;
+}
+
+.work_order_edit_page_holder .notes_info .notes_info_title .new_note_icon{
+  color: #007c7c;
+  font-size: 22px;
+  margin-right: 11px;
+  cursor: pointer;
+  float: right;
+}
+.work_order_edit_page_holder .notes_info .notes{
+  padding: 10px;
+  min-height: 237px;
+  max-height: 237px;
+  overflow: auto;
+}
+
+.work_order_edit_page_holder .notes_info .notes .note{
+  margin-bottom: 10px;
+  border: 1px solid #a4a4a4;
+  padding: 5px 10px 5px 20px;
+  background-color: #f9f9f9;
+}
+
+.work_order_edit_page_holder .notes_info .notes .note.interal_note{
+  background-color: #e3a3a3;
+}
+
+.work_order_edit_page_holder .notes_info .notes .note .note_employee_name{
+  text-align: right;
+  color: #547dbf;
+  font-weight: bold;
+}
+.work_order_edit_page_holder .images_info{
+  margin-top: 6px;
+}
+.work_order_edit_page_holder .images_info .note_images{
+  margin-top:5px;
+}
+.work_order_edit_page_holder .images_info .note_images .owl_carousel_item_img{
+ cursor: pointer;
+}
+
+.work_order_edit_page_holder .additional_info{
+  margin-top: 6px;
+}
+
+.work_order_edit_page_holder .technician_info{
+  margin-top: 6px;
+}
+.work_order_edit_page_holder .technician_info .selected_technician_info{
+  padding-left:10px !important;
+}
+.work_order_edit_page_holder .technician_info .selected_technician_info .technician_name{
+  font-weight: bold;
+}
+.work_order_edit_page_holder .technician_info .change_technician{
+  padding-left:10px !important;
+  font-size:15px;
+}
+
+.work_order_edit_page_holder .estimated_repair_date_info{
+  margin-top: 6px;
+}
+.work_order_edit_page_holder .estimates_info{
+  margin-top: 6px;
+}
+
+/* Work Order Edit End */
+
+/* New Work Order Start */
+#new_work_order_form .customer_info,
+#new_work_order_form .item_being_repaired_info{
+  min-height: 175px;
+}
+
+#new_work_order_form .customer_info .panel-body,
+#new_work_order_form .technician_info .panel-body
+{
+  font-size: 16px;
+}
+#new_work_order_form .customer_info .customer_name_address_ul{
+  float: left;
+}
+
+#new_work_order_form .customer_info .customer_email_phonenumber_ul{
+  float: right;
+  text-align: right;
+}
+
+#new_work_order_form .item_being_repaired_info .item_name{
+  font-size: 16px;
+}
+
+#new_work_order_form .item_being_repaired_info .panel-body{
+  margin-left:10px;
+}
+
+#new_work_order_form .item_being_repaired_info .panel-body dl {
+  margin-bottom: 0px !important;
+}
+#new_work_order_form .item_being_repaired_info .panel-body dt {
+  text-align: left;
+  width: 170px;
+  line-height: 20px;
+  min-width: 240px !important;
+}
+
+/* New Work Order End */
+
+#payment_detail_total_payment_table tr:hover td{
+  background-color: unset !important;
+}
+
+#payment_detail_total_payment_table .payment_type{
+  padding-right:20px;
+}
+
+.purge_logs_range{
+  height: 38px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #FFFFFF;
+  background-image: none;
+  border: 1px solid #d7dce5;
+  border-radius: 1px;
+}
+
+.sales .sale_item_notes_modal  .other_notes .note{
+  margin-bottom: 10px;
+  border: 1px solid #a4a4a4;
+  padding: 5px 10px 5px 20px;
+  background-color: #f9f9f9;
+}
+
+.sales .sale_item_notes_modal  .other_notes .note.interal_note{
+  background-color: #e3a3a3;
+}
+
+.sales .sale_item_notes_modal  .other_notes .note .note_employee_name{
+  text-align: right;
+  color: #547dbf;
+  font-weight: bold;
+}
+
+.avatar-list .camera_box{
+  width: 200px;
+  height: 200px;
+  background-color: #eeeeee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.avatar-list .camera_box i{
+  font-size: 90px;
+}
+
+#item_form .camera_box{
+  height: 200px;
+  background-color: #eeeeee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+#item_form .camera_box i{
+  font-size: 90px;
+}
+
+#duplicates_modal table tr td{
+  word-break: break-all;
+  white-space: normal;
+}
+#merge_customers_modal .merge_customers_warning{
+  margin-top:30px;
+  margin-bottom:20px;
+  color:#fb4242;
+  font-size: 21px;
+  font-weight: 400;
+  text-align: center;
+}
+
+#merge_customers_modal .right_arrow_img{
+  margin-top:39px;
+  width: 100%;
+  
+}
+
+.work_order_status_box{
+  background-color:white;
+  margin: -10px -10px 20px -10px !important;
+  padding: 10px;
+}
+.work_order_status_box button{
+  min-width: 130px;
+  border-radius: 8px;
+  padding: 2px 16px !important;
+  margin: 3px 7px 3px 7px;
+  border: 0px;
+}
+
+.work_order_status_box .selected_status{
+  box-shadow: 0px 4px 6px saddlebrown;
+}
+
+.work_order_status_box button:hover,
+.work_order_status_box button:active,
+.work_order_status_box button:focus {
+  color: white;
+}
+.work_order_status_box button .status_name{
+  font-size: 17px;
+  font-weight: 400;
+}
+.work_order_status_box button .total_number{
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.list-style-none{
+  list-style: none;
+}

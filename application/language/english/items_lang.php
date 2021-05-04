@@ -337,5 +337,10 @@ $lang['is_favorite'] = 'Is Favorite?';
 $lang['items_item_quantity_unit_number_exists'] = 'The quantity unit item number exists';
 $lang['items_quantity_unit'] = 'Quantity Unit Variation';
 $lang['items_quantity_unit_quantity'] = 'Quantity Unit Quantity';
+
+$lang['items_weight_unit'] = 'Weight Unit';
+
 $lang['items_inventory_print_list_summary'] = 'Inventory Print List Summary';
+
+$lang['items_search_by_barcode'] = 'Search By Barcode Or Item ID';
 ?>

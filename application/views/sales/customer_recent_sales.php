@@ -95,6 +95,7 @@
 					<table id="recent_sales" class="table">
 						<tr>
 							<th><?php echo lang('common_date'); ?></th>
+							<th><?php echo lang('sales_delveried_to'); ?></th>
 							<th><?php echo lang('common_payments'); ?></th>
 							<th><?php echo lang('common_items_purchased'); ?></th>
 							<th><?php echo lang('common_recp'); ?></th>
@@ -105,6 +106,7 @@
 						<?php foreach ($recent_sales as $sale) { ?>
 							<tr class="table-row-hover">
 								<td><?php echo date(get_date_format() . ' @ ' . get_time_format(), strtotime($sale['sale_time'])); ?></td>
+								<td><?php echo $sale['delivered_to']; ?></td>
 								<td><?php echo $sale['payment_type']; ?></td>
 								<td><?php echo to_quantity($sale['items_purchased']); ?></td>
 								<td><?php echo anchor('sales/receipt/' . $sale['sale_id'], lang('sales_receipt'), array('target' => '_blank')); ?></td>

@@ -287,7 +287,7 @@ class Woo_products extends MY_Woo
 		}
 
 			
-		$sync_field = $this->CI->config->item('woo_sku_sync_field') ? $this->CI->config->item('woo_sku_sync_field') : 'item_number';
+		$sync_field = $this->CI->config->item('sku_sync_field') ? $this->CI->config->item('sku_sync_field') : 'item_number';
 		
 		if($item->$sync_field)
 		{
@@ -334,6 +334,33 @@ class Woo_products extends MY_Woo
 		if ($woo_cat_id)
 		{
 			$data['categories'] = array(array('id' => $woo_cat_id));
+		}
+		
+		$secondary_categories = $this->CI->Item->get_secondary_categories($item_id)->result();
+		
+		if (count($secondary_categories))
+		{
+			foreach($secondary_categories as $sec_category_id)
+			{
+				$sec_phppos_category_id = $sec_category_id->category_id;
+				
+				$woo_cat_id = $this->woo->get_woo_category_id($phppos_cats[$sec_phppos_category_id]);
+			
+				if (!$woo_cat_id)
+				{
+					$this->woo->export_phppos_categories_to_ecommerce($this->CI->Category->get_root_parent_category_id($sec_phppos_category_id));
+					$woo_cat_id = $this->woo->get_woo_category_id($this->CI->Category->get_full_path($sec_phppos_category_id, '|'));	
+				}
+				
+				if (!isset($data['categories']))
+				{
+					$data['categories'] = array();
+				}
+				
+				$data['categories'][] = array('id' => $woo_cat_id);
+				
+				
+			}
 		}
 
 		if (isset($item->tags))

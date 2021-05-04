@@ -1312,7 +1312,7 @@ function get_expenses_data_row($expense,$controller)
 	$table_data_row.='<td>'.$expense->id.'</td>';
 	$table_data_row.='<td>'.H($expense->expense_type).'</td>';
 	$table_data_row.='<td>'.H($expense->expense_description).'</td>';
-	$table_data_row.='<td>'.H($CI->Category->get_full_path($expense->category_id)).'</td>';
+	$table_data_row.='<td>'.H($CI->Expense_category->get_full_path($expense->category_id)).'</td>';
 	$table_data_row.='<td>'.date(get_date_format(), strtotime($expense->expense_date)).'</td>';
 	$table_data_row.='<td>'.to_currency($expense->expense_amount).'</td>';
 	$table_data_row.='<td>'.H($expense->expense_payment_type).'</td>';

@@ -373,4 +373,10 @@ $lang['sales_offline_synced_successfully'] = 'Penjualan Offline Berhasil Disinkr
 $lang['sales_edit_offline_sales'] = 'Edit Penjualan Offline';
 $lang['sales_giftcard_exists_do_you_want_to_add'] = 'Kartu hadiah yang Anda jual sudah ada. Apakah Anda ingin menambahkan uang ke kartu ini?';
 $lang['sales_the_balance_of_card_is'] = 'Saldo kartu tersebut';
+$lang['sales_serialnumber_duplicate'] = 'Gandakan Nomor Seri, Harap Masukkan Kembali';
+$lang['sales_enter_note'] = 'Masukkan Catatan';
+$lang['sales_note'] = 'Catatan';
+$lang['sales_detailed_note'] = 'Catatan Rinci';
+$lang['sales_internal_note'] = 'Catatan Internal';
+$lang['sales_delveried_to'] = 'Dikirim ke';
 ?>

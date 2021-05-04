@@ -83,6 +83,50 @@ class Deleted_sales extends Report
 			$summary_data_row[] = array('data'=>$row['payment_type'], 'align'=>'left');
 			$summary_data_row[] = array('data'=>$row['comment'], 'align'=>'left');
 			
+  		  for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++) 
+  			{
+  				$custom_field = $this->Sale->get_custom_field($k);
+  				if($custom_field !== FALSE)
+  				{
+  					if ($this->Sale->get_custom_field($k,'type') == 'checkbox')
+  					{
+  						$format_function = 'boolean_as_string';
+  					}
+  					elseif($this->Sale->get_custom_field($k,'type') == 'date')
+  					{
+  						$format_function = 'date_as_display_date';				
+  					}
+  					elseif($this->Sale->get_custom_field($k,'type') == 'email')
+  					{
+  						$format_function = 'strsame';					
+  					}
+  					elseif($this->Sale->get_custom_field($k,'type') == 'url')
+  					{
+  						$format_function = 'strsame';					
+  					}
+  					elseif($this->Sale->get_custom_field($k,'type') == 'phone')
+  					{
+  						$format_function = 'strsame';					
+  					}
+  					elseif($this->Sale->get_custom_field($k,'type') == 'image')
+  					{
+  						$this->load->helper('url');
+  						$format_function = 'file_id_to_image_thumb';					
+  					}
+  					elseif($this->Sale->get_custom_field($k,'type') == 'file')
+  					{
+  						$this->load->helper('url');
+  						$format_function = 'file_id_to_download_link';					
+  					}
+  					else
+  					{
+  						$format_function = 'strsame';
+  					}
+					
+  					$summary_data_row[] = array('data'=>$format_function($row["custom_field_${k}_value"]), 'align'=>'right');					
+  				}
+  			}
+			
 			$summary_data[$key] = $summary_data_row;
 			
 			if($this->params['export_excel'] == 1)
@@ -168,6 +212,16 @@ class Deleted_sales extends Report
 		$return['summary'][] = array('data'=>lang('reports_payment_type'), 'align'=> 'right');
 		$return['summary'][] = array('data'=>lang('reports_comments'), 'align'=> 'right');
 
+  	  for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++) 
+  		{
+  			$this->load->model('Sale');
+  			$custom_field = $this->Sale->get_custom_field($k);
+  			if($custom_field !== FALSE)
+  			{
+  				$return['summary'][] = array('data'=>$custom_field, 'align'=> 'right');
+  			}
+  		}
+
 		$return['details'] = $this->get_details_data_columns_sales();			
 		
 		return $return;
@@ -175,7 +229,7 @@ class Deleted_sales extends Report
 
 	public function getData()
 	{		
-		$this->db->select('customer_data.account_number as account_number, locations.name as location_name,sale_id, date(sale_time) as sale_date, sale_time,registers.name as register_name, total_quantity_purchased as items_purchased, CONCAT(sold_by_employee.first_name," ",sold_by_employee.last_name) as sold_by_employee, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name,CONCAT(deleted_by.first_name," ",deleted_by.last_name) as deleted_by, subtotal, total, tax, profit, payment_type, comment', false);
+		$this->db->select('sales.custom_field_1_value,sales.custom_field_2_value,sales.custom_field_3_value,sales.custom_field_4_value,sales.custom_field_5_value,sales.custom_field_6_value,sales.custom_field_7_value,sales.custom_field_8_value,sales.custom_field_9_value,sales.custom_field_10_value,customer_data.account_number as account_number, locations.name as location_name,sale_id, date(sale_time) as sale_date, sale_time,registers.name as register_name, total_quantity_purchased as items_purchased, CONCAT(sold_by_employee.first_name," ",sold_by_employee.last_name) as sold_by_employee, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name,CONCAT(deleted_by.first_name," ",deleted_by.last_name) as deleted_by, subtotal, total, tax, profit, payment_type, comment', false);
 		$this->db->from('sales');
 		$this->db->join('locations', 'sales.location_id = locations.location_id');
 		$this->db->join('registers', 'sales.register_id = registers.register_id', 'left');

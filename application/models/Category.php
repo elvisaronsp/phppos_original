@@ -454,9 +454,9 @@ class Category extends MY_Model
 		return $this->db->count_all_results();
 	}
 	
-	function get_category_id($name)
+	function get_category_id($name,$can_cache = TRUE)
 	{
-		$categories = $this->get_all_categories_and_sub_categories_as_indexed_by_name_key();
+		$categories = $this->get_all_categories_and_sub_categories_as_indexed_by_name_key($can_cache);
 		$name = strtoupper($name);
 		return isset($categories[$name]) ? $categories[$name] : NULL;
 	}
@@ -663,6 +663,17 @@ class Category extends MY_Model
 			return str_replace('|', $delimiter,$categories[$category_id]);
 		}
 		
+		return lang('common_none');
+	}
+	
+	function get_name($category_id)
+	{
+		$category_info = $this->get_info($category_id);
+		
+		if ($category_info->name)
+		{
+			return $category_info->name;
+		}
 		return lang('common_none');
 	}
 	

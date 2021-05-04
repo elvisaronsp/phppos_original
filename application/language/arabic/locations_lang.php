@@ -163,4 +163,8 @@ $lang['locations_twilio_token'] = 'Twilio Token';
 $lang['locations_twilio_sms_from_number'] = 'Twilio SMS من الرقم';
 $lang['locations_auto_reports_email'] = 'عنوان تقارير البريد الإلكتروني التلقائي';
 $lang['locations_auto_reports_email_time'] = 'وقت تقارير البريد الإلكتروني التلقائي';
+$lang['locations_previous_day'] = 'اليوم السابق';
+$lang['locations_current_day'] = 'اليوم الحالي';
+$lang['locations_auto_reports_day'] = 'يوم لإرسال تقرير بالبريد الإلكتروني عن';
+$lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'تعطيل تأكيد المبلغ عند معالجة بطاقة الائتمان';
 ?>

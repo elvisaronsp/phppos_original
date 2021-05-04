@@ -380,4 +380,10 @@ $lang['sales_offline_synced_successfully'] = 'Ventes hors ligne synchronisées a
 $lang['sales_edit_offline_sales'] = 'Modifier les ventes hors ligne';
 $lang['sales_giftcard_exists_do_you_want_to_add'] = 'La carte-cadeau que vous vendez existe déjà. Voulez-vous ajouter de l\'argent à cette carte?';
 $lang['sales_the_balance_of_card_is'] = 'Le solde de la carte est';
+$lang['sales_serialnumber_duplicate'] = 'Numéro de série en double, veuillez le saisir à nouveau';
+$lang['sales_enter_note'] = 'Entrez la note';
+$lang['sales_note'] = 'Remarque';
+$lang['sales_detailed_note'] = 'Note détaillée';
+$lang['sales_internal_note'] = 'Note interne';
+$lang['sales_delveried_to'] = 'Livré à';
 ?>

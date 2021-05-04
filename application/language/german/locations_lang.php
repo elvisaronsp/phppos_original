@@ -100,4 +100,8 @@ $lang['locations_twilio_token'] = 'Twilio Token';
 $lang['locations_twilio_sms_from_number'] = 'Twilio SMS von Nummer';
 $lang['locations_auto_reports_email'] = 'Adresse für automatische E-Mail-Berichte';
 $lang['locations_auto_reports_email_time'] = 'Zeit für automatische E-Mail-Berichte';
+$lang['locations_previous_day'] = 'Vorheriger tag';
+$lang['locations_current_day'] = 'Heutige Tag';
+$lang['locations_auto_reports_day'] = 'Tag zum E-Mail-Bericht für';
+$lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'Deaktivieren Sie die Betragsbestätigung bei der Verarbeitung der Kreditkarte';
 ?>

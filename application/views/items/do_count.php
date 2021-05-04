@@ -1,4 +1,5 @@
 <?php $this->load->view("partial/header"); ?>
+
 <div class="modal fade skip-labels" id="skip-labels" role="dialog" aria-labelledby="skipLabels" aria-hidden="true">
     <div class="modal-dialog customer-recent-sales">
       	<div class="modal-content">
@@ -18,6 +19,29 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 		<ul class="list-inline text-right">
+			<!-- <li>
+				<?php
+				echo form_open("$controller_name/do_count/$count_id");
+            $options = array(
+                            '' => 'Select',
+                             '2' => '2',
+                             '50' => '50',
+                             '100' => '100');
+            echo form_dropdown('sel',$options,'','class="form-control form-inps" id="type"');
+            //echo form_dropdown('type', $rule_types, $rule, 'class="form-control form-inps" id="type"');
+			echo form_submit('submit',Submit,'class="btn btn-primary btn-lg" id="type"');
+				?>
+			</li> -->
+			<li>
+				<?php echo form_open("$controller_name/do_count/$count_id",array('id'=>'search_form','method'=>'get', 'autocomplete'=> 'off')); ?>
+				<input type="text" class="form-control" name ='search' id='search1' value="<?php echo H($this->input->get('search')); ?>" placeholder="<?php echo H(lang('items_search_by_barcode'));?>"/>
+				
+			</li>
+			<li>
+				<input type="submit" value="<?php echo H(lang('common_search')); ?>" class="btn btn-primary btn-lg"/>
+				</form>	
+			</li>
+
 			<?php if ($count_info->status == 'open') { ?>		
 			<li>
 				<?php echo anchor('items/excel_import_count', lang('common_excel_import'),array('class'=>'btn btn-success btn-lg'));?>
@@ -52,7 +76,7 @@
 </div>
 
 <script type='text/javascript'>
-
+	
 	$("#generate_barcodes").click(function()
 	{
 		$("#skip-labels").modal('show');

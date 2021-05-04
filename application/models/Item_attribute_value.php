@@ -63,6 +63,22 @@ class Item_attribute_value extends MY_Model
 		return ($query->num_rows()==1);
 	}
 	
+	function get_attribute_value_id($value,$attribute_id)
+	{
+		$this->db->from('attribute_values');
+		$this->db->where('name', $value);
+		$this->db->where('attribute_id', $attribute_id);
+		
+		$query = $this->db->get();
+		
+		if ($query->num_rows()==1)
+		{
+			return $query->row()->id;
+		}
+		
+		return FALSE;
+	}
+	
 	function get_info($id)
 	{
 		$this->db->from('attribute_values');

@@ -350,4 +350,11 @@ function split_name($name)
     return array($first_name, $last_name);
 }
 
+function clean_html($dirty_html)
+{
+	require_once (APPPATH."libraries/htmlpurifier/library/HTMLPurifier.auto.php");
+	$config = HTMLPurifier_Config::createDefault();
+	$purifier = new HTMLPurifier($config);
+	return $purifier->purify($dirty_html);
+}
 ?>

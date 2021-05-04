@@ -432,7 +432,7 @@ $lang['config_show_barcode_company_name'] = 'Show company name on barcode';
 $lang['config_import_ecommerce_attributes_into_phppos'] = 'Import attributes into phppos';
 $lang['config_export_phppos_attributes_to_ecommerce'] = 'Export Attributes to ecommerce';
 
-$lang['config_woo_sku_sync_field'] = 'SKU field to sync with';
+$lang['config_sku_sync_field'] = 'SKU field to sync with';
 
 
 
@@ -751,6 +751,38 @@ $lang['config_do_not_allow_items_to_go_out_of_stock_when_transfering'] = 'Do not
 $lang['config_show_tags_on_fulfillment_sheet'] = 'Show Item Tags On Fulfillment Sheet';
 $lang['config_automatically_sms_receipt'] = 'Automatically SMS receipt';
 $lang['config_items_per_search_suggestions'] = 'Number of items for search suggestions';
+
+$lang['config_shopify_settings_info'] = 'Shopify Settings';
+$lang['config_shopify_shop'] = 'Shopify Store URL';
+$lang['config_connect_to_shopify'] = 'Connect To Shopify';
+$lang['config_connect_to_shopify_reconnect'] = 'Reconnect To Shopify';
+$lang['config_connected_to_shopify'] = 'You are connected to Shopify';
+$lang['config_disconnect_to_shopify'] = 'Disconnect From Shopify';
+
 $lang['config_offline_mode'] = 'Enable Offline Mode';
 $lang['config_reset_offline_data'] = 'Reset Offline Data';
+
+
+
+$lang['config_remove_quantity_suspending'] = 'Remove Quantity When Suspending';
+$lang['config_auto_sync_offline_sales'] = 'Auto Sync Offline Sales When Back Online';
+
+$lang['config_shopify_billing_terms'] = 'Activate billing - 14 day trial then $19 USD per month';
+$lang['config_shopfiy_billing_failed'] = 'Shopify Billing Failed';
+$lang['config_cancel_shopify'] = 'Cancel Shopify Billing';
+$lang['config_confirm_cancel_shopify'] = 'Are you sure you want to cancel shopify?';
+$lang['config_step_1'] = 'Step 1';
+$lang['config_step_2'] = 'Step 2';
+$lang['config_step_3'] = 'Step 3';
+$lang['config_step_4'] = 'Step 4';
+$lang['config_install_shopify_app'] = 'Install Shopify app';
+$lang['config_connect_billing'] = 'Connect Billing';
+$lang['config_choose_sync_options'] = 'Choose Sync Options';
+$lang['config_ecommerce_sync_running'] = 'The E-Commerce sync is now running in the background. You can check the status in Store Config.';
+$lang['config_show_total_on_fulfillment'] = 'Show Total On Fulfillment Sheet';
+$lang['config_connect_shopify_in_app_store'] = 'You are not connected to Shopify. You can connect to Shopify in App Store';
+$lang['config_override_signature_text'] = 'Override Signature Text';
+$lang['config_update_cost_price_on_transfer'] = 'Update Cost Price On Transfer';
+$lang['config_tip_preset_zero'] = 'Tip preset amount of 0%';
+$lang['config_show_person_id_on_receipt'] = 'Show Person ID on receipt';
 ?>

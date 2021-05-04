@@ -746,7 +746,7 @@ $lang['import_products_button_text'] = '进口Woocomerce产品';
 //Create PO
 $lang['common_create_po'] = '创建PO';
 //WooCommerce Sync Completed Successfully.
-$lang['common_cron_success'] = 'WooCommerce同步已成功完成。';
+$lang['common_cron_success'] = '电子商务已成功同步';
 //Access Denied.
 $lang['common_access_denied'] = '拒绝访问。';
 //Woocommerce Product
@@ -756,7 +756,7 @@ $lang['common_random_token'] = '生成随机令牌';
 //Select a Product
 $lang['common_select_product'] = '选择一个产品';
 //Are you sure you want to sync with WooCommerce?
-$lang['confirmation_woocommerce_cron'] = '您确定要与WooCommerce同步吗？';
+$lang['confirmation_woocommerce_cron'] = '您确定要与电子商务同步吗？';
 //Are you sure you want to import the products from woocommerce?
 $lang['confirmation_import_woocommerce_products'] = '您确定要从woocommerce导入产品吗？';
 //Cron Documentation
@@ -1489,4 +1489,22 @@ $lang['common_quick_cash_help'] = '快速现金对话框';
 $lang['common_sent_email'] = '发送邮件';
 
 $lang['common_serialnumber_already_added'] = '序列号已经添加';
+$lang['common_add_secondary_category'] = '添加二级类别';
+$lang['common_secondary_category'] = '次要类别';
+$lang['common_suspended_types'] = '悬浮类型';
+$lang['shopify_cron_job_entry'] = 'Shopify Cron Entry';
+$lang['item inventory changed in shopify'] = 'shopify中的商品库存已更改';
+$lang['common_recent_exports'] = '最近出口';
+$lang['common_import_order'] = '进口订单';
+$lang['shopify_not_paid'] = '您尚未激活Shopify帐单';
+$lang['common_color'] = '颜色';
+$lang['common_drag_and_drop_or_click'] = '拖放或单击';
+$lang['common_workorder'] = '工作指示';
+$lang['common_item_being_repaired'] = '维修中的物品';
+$lang['work_orders_edit'] = '编辑工单';
+$lang['work_orders_delete'] = '删除工单';
+$lang['work_orders_search'] = '搜索工单';
+$lang['work_orders_manage_statuses'] = '管理工单状态';
+$lang['common_shopify_access_token_error'] = '您的访问令牌已过期，我们无法连接到API。请再试一遍。';
+$lang['common_ecommerce_item'] = '电子商务项目';
 ?>

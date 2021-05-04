@@ -402,8 +402,39 @@ $lang['migrate_ecommerce_item_id_index'] = 'Chỉ mục Id mặt hàng thương 
 $lang['migrate_add_always_sms_receipt_field_to_customers'] = 'Thêm trường biên nhận luôn SMS cho khách hàng';
 $lang['migrate_18_0_version'] = 'Phiên bản 18.0';
 $lang['migrate_items_per_search_suggestion_store_config'] = 'Cấu hình cửa hàng đề xuất mục trên mỗi tìm kiếm';
+
 $lang['migrate_serialnumber_index'] = 'Chỉ số Serialnumber';
 $lang['migrate_create_email_field_auto_email_reports'] = 'Tạo Báo cáo Email Tự động Trường Email';
 $lang['migrate_email_report_time_to_email'] = 'Email Báo cáo Thời gian Gửi Email';
+
+$lang['migrate_shopify'] = 'Shopify';
+
 $lang['migrate_damaged_reason_comment_field'] = 'Trường nhận xét lý do bị hỏng';
+$lang['migrate_18_1_version'] = 'Phiên bản 18.1';
+$lang['migrate_custom_suspended_sale_types_remove_quantity'] = 'Loại giảm giá bị đình chỉ tùy chỉnh Loại bỏ số lượng';
+
+$lang['migrate_secondary_categories'] = 'Danh mục phụ';
+
+
+
+$lang['migrate_non_taxable_on_sales_table'] = 'Không chịu thuế trên bảng bán hàng';
+
+
+
+
+$lang['migrate_current_or_previous_day_option_for_auto_email'] = 'Tùy chọn ngày hiện tại hoặc ngày trước cho email tự động';
+$lang['migrate_disable_confirmation_option_for_emv_credit_card'] = 'Tắt tùy chọn xác nhận cho thẻ tín dụng Emv';
+
+
+$lang['migrate_weight_units'] = 'Đơn vị trọng lượng';
+
+$lang['migrate_migrate_categories_for_expenses'] = 'Di chuyển danh mục cho chi phí';
+
+$lang['migrate_expenses_categories'] = 'Hạng mục Chi phí';
+$lang['migrate_permission_for_manage_expenses_categories'] = 'Quyền Quản lý Danh mục Chi phí';
+$lang['migrate_update_foreign_key_for_expenses_categories'] = 'Cập nhật khóa nước ngoài cho danh mục chi phí';
+
+$lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'Cho phép Id đơn đặt hàng thương mại điện tử lớn hơn Int';
+$lang['migrate_index_on_filename'] = 'Chỉ mục trên tên tệp';
+$lang['migrate_work_orders'] = 'Đơn hàng làm việc';
 ?>

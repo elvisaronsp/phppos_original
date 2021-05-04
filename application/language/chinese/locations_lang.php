@@ -156,4 +156,8 @@ $lang['locations_twilio_token'] = 'Twilio令牌';
 $lang['locations_twilio_sms_from_number'] = 'Twilio SMS从号码';
 $lang['locations_auto_reports_email'] = '自动电子邮件报告地址';
 $lang['locations_auto_reports_email_time'] = '自动电子邮件报告时间';
+$lang['locations_previous_day'] = '前一天';
+$lang['locations_current_day'] = '当前日期';
+$lang['locations_auto_reports_day'] = '通过电子邮件发送报告的日期';
+$lang['locations_disable_confirmation_option_for_emv_credit_card'] = '处理信用卡时禁用金额确认';
 ?>

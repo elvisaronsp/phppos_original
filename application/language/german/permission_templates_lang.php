@@ -33,11 +33,10 @@ $lang['template_permission_desc'] = 'Aktivieren Sie die folgenden Kontrollkästc
 
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Aktualisieren Sie alle Mitarbeiter mit aktivierter Vorlage';
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Aktualisieren Sie alle Mitarbeiter mit aktivierter Vorlage';
 
 $lang['permission_templates_manage_deleted'] = 'Gelöschte Berechtigungsvorlagen verwalten';
 $lang['permission_templates_confirm_undelete'] = 'Möchten Sie die ausgewählte Berechtigungsvorlage wirklich wiederherstellen?';
+$lang['update_all_employees_with_template_assinged'] = 'Aktualisieren Sie alle Mitarbeiter mit zugeordneter Vorlage';
 ?>

@@ -724,4 +724,5 @@ $lang['reports_serial_number_history'] = 'Lịch sử số sê-ri';
 $lang['reports_daily_report'] = 'Báo cáo hàng ngày';
 $lang['reports_only_count_store_account_payments'] = 'Chỉ tính các khoản thanh toán tài khoản cửa hàng';
 $lang['reports_generation_date'] = 'Ngày tạo';
+$lang['reports_non_taxable_customers'] = 'Khách hàng không chịu thuế';
 ?>

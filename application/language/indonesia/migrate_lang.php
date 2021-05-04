@@ -399,8 +399,39 @@ $lang['migrate_ecommerce_item_id_index'] = 'Indeks Id Item E-niaga';
 $lang['migrate_add_always_sms_receipt_field_to_customers'] = 'Tambahkan Selalu Kolom Tanda Terima Sms Ke Pelanggan';
 $lang['migrate_18_0_version'] = 'Versi 18.0';
 $lang['migrate_items_per_search_suggestion_store_config'] = 'Item Per Konfigurasi Penyimpanan Saran Pencarian';
+
 $lang['migrate_serialnumber_index'] = 'Indeks Nomor Seri';
 $lang['migrate_create_email_field_auto_email_reports'] = 'Buat Laporan Email Otomatis Bidang Email';
 $lang['migrate_email_report_time_to_email'] = 'Email Laporan Waktu Ke Email';
+
+$lang['migrate_shopify'] = 'Shopify';
+
 $lang['migrate_damaged_reason_comment_field'] = 'Bidang Komentar Alasan Rusak';
+$lang['migrate_18_1_version'] = '18.1 Versi';
+$lang['migrate_custom_suspended_sale_types_remove_quantity'] = 'Jenis Penjualan yang Ditangguhkan Khusus Hapus Kuantitas';
+
+$lang['migrate_secondary_categories'] = 'Kategori Sekunder';
+
+
+
+$lang['migrate_non_taxable_on_sales_table'] = 'Tabel Penjualan Tidak Kena Pajak';
+
+
+
+
+$lang['migrate_current_or_previous_day_option_for_auto_email'] = 'Opsi Hari Ini atau Sebelumnya Untuk Email Otomatis';
+$lang['migrate_disable_confirmation_option_for_emv_credit_card'] = 'Nonaktifkan Opsi Konfirmasi Untuk Kartu Kredit Emv';
+
+
+$lang['migrate_weight_units'] = 'Satuan Berat';
+
+$lang['migrate_migrate_categories_for_expenses'] = 'Migrasikan Kategori Untuk Pengeluaran';
+
+$lang['migrate_expenses_categories'] = 'Kategori Beban';
+$lang['migrate_permission_for_manage_expenses_categories'] = 'Izin Untuk Mengelola Kategori Pengeluaran';
+$lang['migrate_update_foreign_key_for_expenses_categories'] = 'Perbarui Kunci Asing Untuk Kategori Pengeluaran';
+
+$lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'Izinkan Id Pesanan E-niaga Menjadi Lebih Besar';
+$lang['migrate_index_on_filename'] = 'Indeks Nama File';
+$lang['migrate_work_orders'] = 'Perintah Kerja';
 ?>

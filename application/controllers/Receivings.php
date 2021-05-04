@@ -34,6 +34,7 @@ class Receivings extends Secure_area
 		$this->load->model('Item_kit_taxes_finder');
 		$this->load->model('Appfile');
 		$this->load->model('Item_variation_location');
+		$this->load->helper('text');
 		$this->cart = PHPPOSCartRecv::get_instance('receiving');
 		cache_item_and_item_kit_cart_info($this->cart->get_items());
 	}
@@ -507,14 +508,17 @@ class Receivings extends Secure_area
 		{
 			$this->cart->sort_items($this->config->item('sort_receipt_column'));
 		}
-
-		$current_location = $this->Employee->get_logged_in_employee_current_location_id();
-		for ($k = 1; $k <= NUMBER_OF_PEOPLE_CUSTOM_FIELDS; $k++) { 
-			$custom_field = $this->Receiving->get_custom_field($k);
-			if ($custom_field !== FALSE) {
-				if($this->Receiving->get_custom_field($k,'required') && in_array($current_location,$this->Receiving->get_custom_field($k,'locations')) && !$this->cart->{"custom_field_${k}_value"}){
-					$this->_reload(array('error' => $custom_field.' '.lang('is_required')), false);
-					return;
+		
+		if ($this->cart->get_mode() == 'receive')
+		{
+			$current_location = $this->Employee->get_logged_in_employee_current_location_id();
+			for ($k = 1; $k <= NUMBER_OF_PEOPLE_CUSTOM_FIELDS; $k++) { 
+				$custom_field = $this->Receiving->get_custom_field($k);
+				if ($custom_field !== FALSE) {
+					if($this->Receiving->get_custom_field($k,'required') && in_array($current_location,$this->Receiving->get_custom_field($k,'locations')) && !$this->cart->{"custom_field_${k}_value"}){
+						$this->_reload(array('error' => $custom_field.' '.lang('is_required')), false);
+						return;
+					}
 				}
 			}
 		}
@@ -1690,13 +1694,14 @@ class Receivings extends Secure_area
 			}
 			
 			
+			$has_cost_price_permission = $this->Employee->has_module_action_permission('items', 'see_cost_price', $this->Employee->get_logged_in_employee_info()->person_id);
 			$items[] = array(
 				'id' => $item->item_id,
 				'has_variations' => count($this->Item_variations->get_variations($item->item_id)) > 0 ? TRUE: FALSE,
 				'name' => character_limiter($item->name, 58),				
 				'image_src' => 	$img_src,
 				'type' => 'item',		
-				'price' => $price_to_use !== FALSE ? to_currency($price_to_use) : FALSE,		
+				'price' => $has_cost_price_permission && $price_to_use !== FALSE ? to_currency($price_to_use) : FALSE,		
 
 			);	
 		}
@@ -1750,13 +1755,15 @@ class Receivings extends Secure_area
 				$price_to_use = ($cur_item_location_info && $cur_item_location_info->cost_price) ? $cur_item_location_info->cost_price : $cur_item_info->cost_price;
 			}
 
+			$has_cost_price_permission = $this->Employee->has_module_action_permission('items', 'see_cost_price', $this->Employee->get_logged_in_employee_info()->person_id);
+
 			$items[] = array(
 				'id' => $item->item_id,
 				'has_variations' => count($this->Item_variations->get_variations($item->item_id)) > 0 ? TRUE: FALSE,
 				'name' => character_limiter($item->name, 58),				
 				'image_src' => 	$img_src,
 				'type' => 'item',		
-				'price' => $price_to_use !== FALSE ? to_currency($price_to_use) : FALSE,		
+				'price' => $has_cost_price_permission && $price_to_use !== FALSE ? to_currency($price_to_use) : FALSE,		
 
 			);		
 		}
@@ -1827,13 +1834,15 @@ class Receivings extends Secure_area
 				$price_to_use = ($cur_item_location_info && $cur_item_location_info->cost_price) ? $cur_item_location_info->cost_price : $cur_item_info->cost_price;
 			}
 
+			$has_cost_price_permission = $this->Employee->has_module_action_permission('items', 'see_cost_price', $this->Employee->get_logged_in_employee_info()->person_id);
+
 			$categories_and_items_response[] = array(
 				'id' => $item->item_id,
 				'name' => character_limiter($item->name, 58).$size,				
 				'image_src' => 	$img_src,
 				'type' => 'item',		
 				'has_variations' => count($this->Item_variations->get_variations($item->item_id)) > 0 ? TRUE : FALSE,
-				'price' => $price_to_use !== FALSE ? to_currency($price_to_use) : FALSE,		
+				'price' => $has_cost_price_permission && $price_to_use !== FALSE ? to_currency($price_to_use) : FALSE,		
 			);	
 		}
 
@@ -1880,13 +1889,15 @@ class Receivings extends Secure_area
 			
 			$cur_item_variation_location_info = $this->Item_variation_location->get_info($variation_id);
 			
+			$has_cost_price_permission = $this->Employee->has_module_action_permission('items', 'see_cost_price', $this->Employee->get_logged_in_employee_info()->person_id);
+			
 			$variations[] = array(
 				'id' => $item_id.'#'.$variation_id,
 				'name' => $variation['name'] ? $variation['name'] : implode(', ', array_column($variation['attributes'],'label')),				
 				'image_src' => 	$img_src,
 				'type' => 'variation',		
 				'has_variations' => FALSE,
-				'price' => $price_to_use !== FALSE ? to_currency($price_to_use) : FALSE,		
+				'price' => $has_cost_price_permission && $price_to_use !== FALSE ? to_currency($price_to_use) : FALSE,		
 			);	
 		}
 

@@ -103,4 +103,8 @@ $lang['locations_twilio_token'] = 'Token de Twilio';
 $lang['locations_twilio_sms_from_number'] = 'Twilio SMS desde el número';
 $lang['locations_auto_reports_email'] = 'Dirección de informes de correo electrónico automático';
 $lang['locations_auto_reports_email_time'] = 'Hora de informes automáticos por correo electrónico';
+$lang['locations_previous_day'] = 'El día anterior';
+$lang['locations_current_day'] = 'Día actual';
+$lang['locations_auto_reports_day'] = 'Informe del día para enviar por correo electrónico';
+$lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'Desactivar la confirmación del monto al procesar la tarjeta de crédito';
 ?>

@@ -101,4 +101,8 @@ $lang['locations_twilio_token'] = 'Token Twilio';
 $lang['locations_twilio_sms_from_number'] = 'Twilio SMS Dari Nomor';
 $lang['locations_auto_reports_email'] = 'Alamat Laporan Email Otomatis';
 $lang['locations_auto_reports_email_time'] = 'Waktu Laporan Email Otomatis';
+$lang['locations_previous_day'] = 'Hari sebelumnya';
+$lang['locations_current_day'] = 'Hari ini';
+$lang['locations_auto_reports_day'] = 'Laporan hari ke email untuk';
+$lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'Nonaktifkan Konfirmasi Jumlah saat memproses kartu kredit';
 ?>

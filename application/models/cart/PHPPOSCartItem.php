@@ -51,9 +51,9 @@ abstract class PHPPOSCartItem extends PHPPOSCartItemBase
 							//we need to set params so load_item_defaults doesn't set it
 							$params['unit_price'] = $this->unit_price;
 						}
-						else //No price therefore muliply regular price * qty unit
+						else
 						{
-							$this->unit_price = $this->get_price_for_item() * $qui->unit_quantity;
+							$this->unit_price = $this->get_price_for_item();
 							//we need to set params so load_item_defaults doesn't set it
 							$params['unit_price'] = $this->unit_price;
 						}
@@ -197,7 +197,14 @@ abstract class PHPPOSCartItem extends PHPPOSCartItemBase
 			
 			if(!isset($params['selling_price']))
 			{
+				if ($cur_item_variation_info && (double)$cur_item_variation_info->unit_price)
+				{
+					$this->selling_price = $cur_item_variation_info->unit_price;
+				}
+				else
+				{
 					$this->selling_price = $cur_item_info->unit_price;
+				}
 			}
 			
 			if(!isset($params['location_selling_price']))

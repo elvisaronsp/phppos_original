@@ -42,6 +42,7 @@ else
 	$item_kit_custom_fields_to_display = array();
 	$customer_custom_fields_to_display = array();
 	$employee_custom_fields_to_display = array();
+	$work_order_custom_fields_to_display  = array();
 	
 	
  for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++) 
@@ -51,7 +52,8 @@ else
 	 $item_kit_custom_field = $this->Item_kit->get_custom_field($k,'show_on_receipt');
 	 $customer_custom_field = $this->Customer->get_custom_field($k,'show_on_receipt');
 	 $employee_custom_field = $this->Employee->get_custom_field($k,'show_on_receipt');
-	 
+   	 $work_order_custom_field = $this->Work_order->get_custom_field($k,'show_on_receipt');
+	 	 	 
 	 if ($item_custom_field)
 	 {
 	 	$item_custom_fields_to_display[] = $k;
@@ -76,6 +78,12 @@ else
 	 {
 	 		$employee_custom_fields_to_display[] = $k;
 	 }
+	 
+   	 if ($work_order_custom_field)
+   	 {
+   	 	$work_order_custom_fields_to_display[] = $k;
+   	 }
+	 
  }
 	
 	//Check for EMV signature for non pin verified
@@ -232,6 +240,7 @@ else
 			                <?php } ?>
 							
 							<?php if ($this->Location->count_all() > 1) { ?>
+				                <li class="company-title"><?php echo H($company); ?></li>
 								<li><?php echo H($this->Location->get_info_for_key('name', isset($override_location_id) ? $override_location_id : FALSE)); ?></li>
 							<?php }
 							else
@@ -380,6 +389,10 @@ else
 									
 								<?php } ?>
 
+								<?php if ($this->config->item('show_person_id_on_receipt') && $customer_id) { ?>
+									<li><?php echo lang('common_person_id','',array(),TRUE).": ".H($customer_id); ?></li>
+								<?php } ?>
+								
 								<?php if (!$this->config->item('remove_customer_company_from_receipt')) { ?>
 									<?php if(!empty($customer_company)) { ?><li><?php echo lang('common_company','',array(),TRUE).": ".H($customer_company); ?></li><?php } ?>
 								<?php } ?>
@@ -619,19 +632,19 @@ else
 						switch($this->config->item('id_to_show_on_sale_interface'))
 						{
 							case 'number':
-							$item_number_for_receipt = array_key_exists('item_number', $item) ? H($item->item_number) : H($item->item_kit_number);
+							$item_number_for_receipt = property_exists($item,'item_number') ? H($item->item_number) : H($item->item_kit_number);
 							break;
 						
 							case 'product_id':
-							$item_number_for_receipt = array_key_exists('product_id', $item) ? H($item->product_id) : ''; 
+							$item_number_for_receipt = property_exists($item,'product_id') ? H($item->product_id) : ''; 
 							break;
 						
 							case 'id':
-							$item_number_for_receipt = array_key_exists('item_id', $item) ? H($item->item_id) : 'KIT '.H($item->item_kit_id); 
+							$item_number_for_receipt = property_exists($item,'item_id') ? H($item->item_id) : 'KIT '.H($item->item_kit_id); 
 							break;
 						
 							default:
-							$item_number_for_receipt = array_key_exists('item_number', $item) ? H($item->item_number) : H($item->item_kit_number);
+							$item_number_for_receipt = property_exists($item,'item_number') ? H($item->item_number) : H($item->item_kit_number);
 							break;
 						}
 					}
@@ -658,6 +671,14 @@ else
 													
 													
 													<?php
+													if(count($item->modifier_items) > 0)
+													{
+													?>
+														<div class="invoice-desc">
+															<?php echo to_currency($unit_price); ?>
+														</div>																									
+													<?php
+													}
 													foreach($item->modifier_items as $modifier)
 													{
 													?>
@@ -678,7 +699,7 @@ else
 			                    	<div class="invoice-desc">
 															<?php if (!$this->config->item('hide_desc_on_receipt') && !$item->description=="" ) { ?>
 																<?php 
-																	echo H($item->description); 
+																	echo clean_html($item->description); 
               									}	?>
 															</div>
 			                 			 <div class="invoice-desc">
@@ -969,6 +990,87 @@ else
 					<?php
 					}
 					?>
+					
+				
+					
+					<?php
+					foreach($work_order_custom_fields_to_display as $custom_field_id)
+					{
+						if($this->Work_order->get_custom_field($custom_field_id) !== false && $this->Work_order->get_custom_field($custom_field_id) !== false)
+						{											
+								if ($cart->{"work_order_custom_field_${custom_field_id}_value"})
+								{
+								?>						
+								<?php
+
+								if ($this->Work_order->get_custom_field($custom_field_id,'type') == 'checkbox')
+								{
+									$format_function = 'boolean_as_string';
+								}
+								elseif($this->Work_order->get_custom_field($custom_field_id,'type') == 'date')
+								{
+									$format_function = 'date_as_display_date';				
+								}
+								elseif($this->Work_order->get_custom_field($custom_field_id,'type') == 'email')
+								{
+									$format_function = 'strsame';					
+								}
+								elseif($this->Work_order->get_custom_field($custom_field_id,'type') == 'url')
+								{
+									$format_function = 'strsame';					
+								}
+								elseif($this->Work_order->get_custom_field($custom_field_id,'type') == 'phone')
+								{
+									$format_function = 'strsame';					
+								}
+								elseif($this->Work_order->get_custom_field($custom_field_id,'type') == 'image')
+								{
+									$this->load->helper('url');
+									$format_function = 'file_id_to_image_thumb_right';					
+								}
+								elseif($this->Work_order->get_custom_field($custom_field_id,'type') == 'file')
+								{
+									$this->load->helper('url');
+									$format_function = 'file_id_to_download_link';					
+								}
+								else
+								{
+									$format_function = 'strsame';
+								}
+								?>
+								<div class="invoice-table-content">
+								<div class="row">
+									<div class="col-md-6 col-sm-6 col-xs-6">
+			       			 	<div class="invoice-content invoice-con">
+			         			 <div class="invoice-content-heading"><?php
+											 if (!$this->Work_order->get_custom_field($custom_field_id,'hide_field_label'))
+											 {
+												 echo $this->Work_order->get_custom_field($custom_field_id,'name');
+											 }
+											 else
+											 {
+											 	echo $format_function($cart->{"work_order_custom_field_${custom_field_id}_value"});
+											 }
+										 
+			         			 ?></div>
+												<div class="invoice-desc"><?php 
+													if (!$this->Work_order->get_custom_field($custom_field_id,'hide_field_label'))
+													{
+														echo $format_function($cart->{"work_order_custom_field_${custom_field_id}_value"}); 
+													}	
+													?>
+													</div>
+											</div>
+			       			 </div>
+							</div>
+						</div>
+								<?php
+							}
+						}
+					?>
+					<?php
+					}
+					?>					
 					
 			    <div class="invoice-footer gift_receipt_element">
 						<?php if ($exchange_name) { ?>
@@ -1666,7 +1768,7 @@ else
 								$this->load->helper('sale');
 								if ($is_credit_card_sale)
 								{	
-									echo lang('sales_card_statement','',array(),TRUE);
+									echo $sales_card_statement;
 								}
 								?>
 								
@@ -1783,33 +1885,19 @@ if ($this->config->item('always_print_duplicate_receipt_all') || ($this->config-
 <?php
 if ($this->config->item('redirect_to_sale_or_recv_screen_after_printing_receipt'))
 {
-	if ($this->agent->browser() == 'Chrome' || $this->agent->browser() == 'Edge' || $this->agent->browser() == 'Internet Explorer')
+?>
+	window.onafterprint = function()
 	{
-		?>
- 		window.onafterprint = function()
- 		{
- 			window.location = '<?php echo site_url('sales'); ?>';		
- 		}
-	<?php
+		window.location = '<?php echo site_url('sales'); ?>';		
 	}
+<?php
 }
 ?>
 
 function print_receipt()
- {
+{
  	window.print();
-	<?php
-	if($this->config->item('redirect_to_sale_or_recv_screen_after_printing_receipt'))
-	{
-		if ($this->agent->browser() == 'Safari' || $this->agent->browser() == 'Firefox')
-		{
-		?>
-		window.location = '<?php echo site_url('sales'); ?>';
-		<?php
-		}
-	}
-	?>
- }
+}
  
  function toggle_gift_receipt()
  {
@@ -2104,7 +2192,7 @@ foreach(array_reverse($cart_items, true) as $line=>$item)
 ?>
 <?php echo character_limiter(H($item->name), 14,'...'); ?><?php echo strlen($item->name) < 14 ? str_repeat(' ', 14 - strlen(H($item->name))) : ''; ?> <?php echo str_replace('<span style="white-space:nowrap;">-</span>', '-', to_currency($item->unit_price,10)); ?> <?php echo to_quantity($item->quantity); ?><?php if($discount_exists){echo ' '.$item->discount;}?> <?php echo str_replace('<span style="white-space:nowrap;">-</span>', '-', to_currency($item->unit_price*$item->quantity-$item->unit_price*$item->quantity*$item->discount/100,10)); ?>
 
-  <?php echo H($item->description); ?>  <?php echo isset($item->serialnumber) ? H($item->serialnumber) : ''; ?>
+  <?php echo clean_html($item->description); ?>  <?php echo isset($item->serialnumber) ? H($item->serialnumber) : ''; ?>
 	
 
 <?php
@@ -2218,7 +2306,7 @@ if (isset($auth_code) && $auth_code)
 <?php 
 if ($is_credit_card_sale)
 {
-	echo lang('sales_card_statement','',array(),TRUE);
+	echo $sales_card_statement;
 }
 ?><?php }?><?php } ?>
 <?php  if ($return_policy) { echo wordwrap(H($return_policy),40);} ?></script>

@@ -2190,6 +2190,230 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/BasicErrorModel'
+
+  /expenses_categories:
+    post:
+      tags:
+        - expenses
+      summary: Add a new category to the store
+      operationId: addExpenseCategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewExpenseCategoryWithImageUrl'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NewExpenseCategoryWithImage'
+        description: Item object that needs to be added to the store
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpenseCategory'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ExpenseCategory'
+        '405':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      
+    get:
+      tags:
+        - expenses
+      summary: Search/list categories
+      operationId: searchExpenseCategories
+      parameters:
+        - name: search
+          in: query
+          description: Search categories
+          required: false
+          schema:
+            type: string
+
+        - name: sort_col
+          in: query
+          description: Sort Column
+          required: false
+          schema:
+            type: string
+
+        - name: sort_dir
+          in: query
+          description: Sort Direction
+          required: false
+          schema:
+            type: string
+
+        - name: offset
+          in: query
+          description: Offset to list categories
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: limit
+          in: query
+          description: Number of categories to get
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            x-total-records:
+              description: Total number of results in search
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpenseCategories'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ExpenseCategories'
+        '400':
+          description: Invalid parameter(s)
+  '/expenses_categories/{category_id}':
+    post:
+      tags:
+        - expenses
+      summary: Update a category
+      operationId: updateExpenseCategory
+      parameters:
+        - name: category_id
+          in: path
+          description: category_id to update
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sucessfully updated category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpenseCategoryResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ExpenseCategoryResponse'
+        '400':
+          description: Invalid category ID supplied
+        '404':
+          description: Category not found
+        '405':
+          description: Validation exception
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewExpenseCategoryWithImageUrl'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NewExpenseCategoryWithImage'
+        description: Category that needs to be added to the store
+        required: true
+
+    get:
+      tags:
+        - expenses
+      summary: Find category by ID
+      description: Returns a single category
+      operationId: getExpenseCategoryByID
+      parameters:
+        - name: category_id
+          in: path
+          description: ID of category to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful returned category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpenseCategoryResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ExpenseCategoryResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Category not found
+    delete:
+      tags:
+        - expenses
+      summary: Deletes a category
+      operationId: deleteExpenseCategory
+      parameters:
+        - name: category_id
+          in: path
+          description: ID of category to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful deleted category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpenseCategoryResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ExpenseCategoryResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Category not found
+  '/expenses_categories/batch':
+    post:
+      tags: 
+       - expenses
+      summary: Bulk create, update, and delete categories
+      operationId: batchExpenseCategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkExpenseCategories'
+        description: Category objects that needs to be batched
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkExpenseCategoriesResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BulkExpenseCategoriesResponse'
+        '405':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicErrorModel'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BasicErrorModel'
+  
   /deliveries:
     get:
       tags:
@@ -6854,6 +7078,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PriceRuleResponse'
+    
     NewCategory:
       type: object
       properties:
@@ -6884,7 +7109,6 @@ components:
             image_url:
               type: string
               example: http://www.abc.xyz
-              
     NewCategoryWithImage:
       type: object
       xml:
@@ -6976,6 +7200,110 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CategoryResponse'
+
+    NewExpenseCategory:
+      type: object
+      properties:
+         name:
+            type: string
+            example: "Utilities"
+         parent_id:
+            type: integer
+            example: 2
+      xml:
+        name: xml        
+    NewExpenseCategoryWithImageUrl:
+      xml:
+        name: xml
+      allOf:
+        - $ref: '#/components/schemas/NewExpenseCategory'
+    NewExpenseCategoryWithImage:
+      type: object
+      xml:
+        name: xml
+      properties:
+        category:
+          $ref: '#/components/schemas/NewExpenseCategory'
+      required:
+        - category
+    ExpenseCategory:
+      type: object
+      xml:
+        name: xml
+      allOf:
+        - $ref: '#/components/schemas/ExistingExpenseCategory'
+        - $ref: '#/components/schemas/NewExpenseCategoryWithImageUrl'
+    ExpenseCategoryWithImage:
+      type: object
+      xml:
+        name: xml
+      properties:
+        category:
+          $ref: '#/components/schemas/ExpenseCategory'
+        image:
+          type: string
+          format: binary
+      required:
+        - category
+        - image
+
+    ExistingExpenseCategory:
+      type: object
+      xml:
+        name: xml
+      properties:
+        id:
+          type: integer
+          example: 1
+        
+    ExpenseCategoryResponse:
+       xml:
+         name: xml
+       allOf:
+        - $ref: '#/components/schemas/ExpenseCategory'
+       anyOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+    ExpenseCategories:
+      type: array
+      xml:
+        name: xml
+      items:
+        $ref: '#/components/schemas/ExpenseCategory'  
+    BulkExpenseCategories:
+      type: object
+      xml:
+        name: xml
+      properties:
+        create: 
+          type: array
+          items:
+            $ref: '#/components/schemas/NewExpenseCategoryWithImageUrl'
+        update:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExpenseCategory'
+        delete:
+          type: array
+          example: [1,2,3]
+          items:
+            type: integer
+    BulkExpenseCategoriesResponse:
+      type: object
+      xml:
+        name: xml
+      properties:
+        create: 
+          type: array
+          items:
+            $ref: '#/components/schemas/ExpenseCategoryResponse'
+        update:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExpenseCategoryResponse'
+        delete:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExpenseCategoryResponse'
 
     NewTag:
       type: object

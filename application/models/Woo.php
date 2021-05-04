@@ -800,14 +800,14 @@ class Woo extends Ecom
 			$variation_id = $this->Item_variations->lookup($item_row['item_id'], $attribute_value_ids);
 		}
 
-		$woo_sku_sync_field = $this->config->item('woo_sku_sync_field') ? $this->config->item('woo_sku_sync_field') : 'item_number';
+		$sku_sync_field = $this->config->item('sku_sync_field') ? $this->config->item('sku_sync_field') : 'item_number';
 
 		$item_variation = array(
 			'item_id' => $item_row['item_id'],
 			'ecommerce_variation_id' => $woo_variation['id'],
 			'ecommerce_last_modified' => $ecommerce_last_modified,
 			'last_modified' => $ecommerce_last_modified,
-			'item_number' => $woo_variation['sku'] && ($item_row[$woo_sku_sync_field] != $woo_variation['sku']) ? $woo_variation['sku'] : null,
+			'item_number' => $woo_variation['sku'] && ($item_row[$sku_sync_field] != $woo_variation['sku']) ? $woo_variation['sku'] : null,
 			'deleted' => 0,
 		);
 
@@ -948,6 +948,17 @@ class Woo extends Ecom
 			{
 				$product_category = $phppos_cats[$ecom_cats[$product_selected_category]];
 			}
+			
+			$secondary_categories = array();
+			
+			for($k=1;$k<count($product_categories);$k++)
+			{
+				$product_selected_category = $product_categories[$k]['id'];
+				if (isset($phppos_cats[$ecom_cats[$product_selected_category]]))
+				{
+					$secondary_categories[] = $phppos_cats[$ecom_cats[$product_selected_category]];
+				}
+			}
 		}
 
 		$product_tags = $woo_product['tags'];
@@ -1031,7 +1042,7 @@ class Woo extends Ecom
 		if ($item_number)
 		{
 			//make sure to save back to the right number field
-			$sync_field = $this->config->item('woo_sku_sync_field') ? $this->config->item('woo_sku_sync_field') : 'item_number';
+			$sync_field = $this->config->item('sku_sync_field') ? $this->config->item('sku_sync_field') : 'item_number';
 
 			if ($sync_field != 'item_id')
 			{
@@ -1068,6 +1079,13 @@ class Woo extends Ecom
 		$new_item = !$item_id;
 
 		$item_id = isset($item_array['item_id']) ? $item_array['item_id'] : $item_id;
+
+		foreach($secondary_categories as $category_id)
+		{
+			$sec_category_id = NULL;
+			$this->Item->save_secondory_category($item_id,$category_id,$sec_category_id);
+		}
+
 
 		//This is a brand new item we want to make sure we setup stock correctly
 		if ($new_item && $woo_product['stock_quantity'] !== NULL)
@@ -1466,8 +1484,8 @@ class Woo extends Ecom
 		}
 		else
 		{
-			//Get orders 25 hours and 25 minutes before last sync. It won't matter if we get the same order twice but 			we don't want to miss any orders. This is the largest timezone gap - 15 minutes
-			$after_date = $this->config->item('last_ecommerce_sync_date') ? gmdate('c', strtotime($this->config->item('last_ecommerce_sync_date')) - (1525 * 60)) : gmdate('c', strtotime('1970'));
+			//Get orders 192 hours (8 days).It won't matter if we get the same order twice but 			we don't want to miss any orders. This can happen if orders take awhile to become completed
+			$after_date = $this->config->item('last_ecommerce_sync_date') ? gmdate('c', strtotime($this->config->item('last_ecommerce_sync_date')) - (((24*8)*60) * 60)) : gmdate('c', strtotime('1970'));
 			$params = array('after' => $after_date);
 		}
 		$orders_since_last_sync = $Woo_orders->get_orders($params);
@@ -1534,8 +1552,16 @@ class Woo extends Ecom
 		$sales_totals = $this->get_sale_totals($order);
 		$sale_id = $this->get_sale_id_for_ecommerce_order_id($woo_id);
 		$sales_data['employee_id'] = 1;
-
-		$sales_data['sale_time'] = date('Y-m-d H:i:s',strtotime($order['date_created_gmt'].'+00:00'));
+		
+		if ($this->config->item('ecommerce_only_sync_completed_orders'))
+		{
+			$sales_data['sale_time'] = date('Y-m-d H:i:s',strtotime($order['date_completed_gmt'].'+00:00'));			
+		}
+		else
+		{
+			$sales_data['sale_time'] = date('Y-m-d H:i:s',strtotime($order['date_created_gmt'].'+00:00'));
+		}
+		
 		$sales_data['location_id'] = $this->ecommerce_store_location;
 		$sales_data['customer_id'] = $customer_id;
 		$sales_data['is_ecommerce'] = 1;
@@ -1595,7 +1621,7 @@ class Woo extends Ecom
 
 		if ((float)$order['shipping_total'])
 		{
-			$this->save_custom_line_item($order['shipping_total'],$order['shipping_total'],$order['shipping_tax'],$this->Item->create_or_update_delivery_item(),$sale_id,$counter, 1, $exchange_rate);
+			$this->save_custom_line_item($order['shipping_total'],$order['shipping_total'],$order['shipping_tax'],$this->Item->create_or_update_delivery_item(FALSE),$sale_id,$counter, 1, $exchange_rate);
 			$counter++;
 		}
 
@@ -1603,7 +1629,7 @@ class Woo extends Ecom
 		{
 			$total = $refund_line['total'];
 
-			$this->save_custom_line_item($total,0,0,$this->Item->create_or_update_refund_item(),$sale_id,$counter, 1, $exchange_rate);
+			$this->save_custom_line_item($total,0,0,$this->Item->create_or_update_refund_item(FALSE),$sale_id,$counter, 1, $exchange_rate);
 			$counter++;
 		}
 
@@ -1617,7 +1643,7 @@ class Woo extends Ecom
 
 			$total = $fee_line['total'];
 
-			$this->save_custom_line_item($total,0,$total_tax,$this->Item->create_or_update_fee_item(),$sale_id,$counter, 1, $exchange_rate);
+			$this->save_custom_line_item($total,0,$total_tax,$this->Item->create_or_update_fee_item(FALSE),$sale_id,$counter, 1, $exchange_rate);
 			$counter++;
 		}
 	}

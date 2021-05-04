@@ -692,7 +692,7 @@ $lang['config_show_barcode_company_name'] = '在条形码上显示公司名称';
 $lang['config_import_ecommerce_attributes_into_phppos'] = '将属性导入phppos';
 $lang['config_export_phppos_attributes_to_ecommerce'] = '将属性导出到电子商务';
 
-$lang['config_woo_sku_sync_field'] = 'SKU字段进行同步';
+$lang['config_sku_sync_field'] = 'SKU字段进行同步';
 
 
 
@@ -1005,6 +1005,38 @@ $lang['config_do_not_allow_items_to_go_out_of_stock_when_transfering'] = '转移
 $lang['config_show_tags_on_fulfillment_sheet'] = '在实现表上显示项目标签';
 $lang['config_automatically_sms_receipt'] = '自动短信收据';
 $lang['config_items_per_search_suggestions'] = '搜索建议项数';
+
+$lang['config_shopify_settings_info'] = 'Shopify设置';
+$lang['config_shopify_shop'] = 'Shopify商店网址';
+$lang['config_connect_to_shopify'] = '连接到Shopify';
+$lang['config_connect_to_shopify_reconnect'] = '重新连接到Shopify';
+$lang['config_connected_to_shopify'] = '您已连接到Shopify';
+$lang['config_disconnect_to_shopify'] = '与Shopify断开连接';
+
 $lang['config_offline_mode'] = '启用离线模式';
 $lang['config_reset_offline_data'] = '重置离线数据';
+
+
+
+$lang['config_remove_quantity_suspending'] = '暂停时删除数量';
+$lang['config_auto_sync_offline_sales'] = '重新联机后自动同步离线销售';
+
+$lang['config_shopify_billing_terms'] = '激活结算-14天试用期，然后每月19美元';
+$lang['config_shopfiy_billing_failed'] = 'Shopify开票失败';
+$lang['config_cancel_shopify'] = '取消Shopify帐单';
+$lang['config_confirm_cancel_shopify'] = '您确定要取消购物吗？';
+$lang['config_step_1'] = '步骤1';
+$lang['config_step_2'] = '第2步';
+$lang['config_step_3'] = '第三步';
+$lang['config_step_4'] = '第4步';
+$lang['config_install_shopify_app'] = '安装Shopify应用';
+$lang['config_connect_billing'] = '连接帐单';
+$lang['config_choose_sync_options'] = '选择同步选项';
+$lang['config_ecommerce_sync_running'] = '电子商务同步现在在后台运行。您可以在Store Config中检查状态。';
+$lang['config_show_total_on_fulfillment'] = '在履行表上显示总计';
+$lang['config_connect_shopify_in_app_store'] = '您尚未连接到Shopify。您可以在App Store中连接到Shopify';
+$lang['config_override_signature_text'] = '覆盖签名文本';
+$lang['config_update_cost_price_on_transfer'] = '转移时更新成本价';
+$lang['config_tip_preset_zero'] = '小费预设量为0％';
+$lang['config_show_person_id_on_receipt'] = '在收据上显示人员ID';
 ?>

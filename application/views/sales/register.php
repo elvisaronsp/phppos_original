@@ -186,7 +186,7 @@
 										}
 										?>
 										<td>
-											<a tabindex="-1" href="<?php echo isset($item->item_id) ? site_url('home/view_item_modal/' . $item->item_id) . "?redirect=sales" : site_url('home/view_item_kit_modal/' . $item->item_kit_id) . "?redirect=sales"; ?>" data-toggle="modal" data-target="#myModal" class="register-item-name"><?php echo H($item->name); ?><?php echo $item->size ? ' (' . H($item->size) . ')' : ''; ?></a>
+											<a tabindex="-1" href="<?php echo isset($item->item_id) ? site_url('home/view_item_modal/' . $item->item_id) . "?redirect=sales" : site_url('home/view_item_kit_modal/' . $item->item_kit_id) . "?redirect=sales"; ?>" data-toggle="modal" data-target="#myModal" class="register-item-name"><?php echo H($item->name).(property_exists($item, 'variation_name') && $item->variation_name ? '<span class="show-collpased" style="display:none">  ['.$item->variation_name.']</span>' : '') ?><?php echo $item->size ? ' (' . H($item->size) . ')' : ''; ?></a>
 										</td>
 										<td class="text-center">
 											<?php
@@ -208,7 +208,7 @@
 											<?php
 											if ($item->product_id != lang('common_integrated_gift_card') && (!$cart->suspended || $this->Employee->has_module_action_permission('sales', 'edit_suspended_sale', $this->Employee->get_logged_in_employee_info()->person_id))) {
 											?>
-												<a href="#" id="quantity_<?php echo $line; ?>" class="xeditable" data-type="text" data-validate-number="true" data-pk="1" data-name="quantity" data-url="<?php echo site_url('sales/edit_item/' . $line); ?>" data-title="<?php echo lang('common_quantity') ?>"><?php echo to_quantity($item->quantity); ?></a>
+												<a href="#" id="quantity_<?php echo $line; ?>" class="xeditable edit-quantity" data-type="text" data-validate-number="true" data-pk="1" data-name="quantity" data-url="<?php echo site_url('sales/edit_item/' . $line); ?>" data-title="<?php echo lang('common_quantity') ?>"><?php echo to_quantity($item->quantity); ?></a>
 											<?php } else {
 												echo to_quantity($item->quantity);
 											}
@@ -381,10 +381,10 @@
 												<dt><?php echo lang('common_description') ?></dt>
 												<dd>
 													<?php if (isset($item->allow_alt_description) && $item->allow_alt_description == 1) { ?>
-														<a href="#" id="description_<?php echo $line; ?>" class="xeditable" data-type="text" data-pk="1" data-name="description" data-value="<?php echo H($item->description); ?>" data-url="<?php echo site_url('sales/edit_item/' . $line); ?>" data-title="<?php echo H(lang('sales_description_abbrv')); ?>"><?php echo character_limiter(H($item->description), 50); ?></a>
+														<a href="#" id="description_<?php echo $line; ?>" class="xeditable" data-type="text" data-pk="1" data-name="description" data-value="<?php echo clean_html($item->description); ?>" data-url="<?php echo site_url('sales/edit_item/' . $line); ?>" data-title="<?php echo H(lang('sales_description_abbrv')); ?>"><?php echo clean_html(character_limiter($item->description), 50); ?></a>
 												<?php	} else {
 														if ($item->description != '') {
-															echo H($item->description);
+															echo clean_html($item->description);
 														} else {
 															echo lang('common_none');
 														}
@@ -502,9 +502,9 @@
 													switch ($this->config->item('id_to_show_on_sale_interface')) {
 														case 'number':
 
-															if (array_key_exists('item_number', $item) && $item->item_number) {
+															if (property_exists($item,'item_number') && $item->item_number) {
 																echo H($item->item_number);
-															} elseif (array_key_exists('item_kit_number', $item) && $item->item_kit_number) {
+															} elseif (property_exists($item,'item_kit_number') && $item->item_kit_number) {
 																echo H($item->item_kit_number);
 															} else {
 																echo lang('common_none');
@@ -513,17 +513,17 @@
 															break;
 
 														case 'product_id':
-															echo array_key_exists('product_id', $item) ? H($item->product_id) : lang('common_none');
+															echo property_exists($item,'product_id') ? H($item->product_id) : lang('common_none');
 															break;
 
 														case 'id':
-															echo array_key_exists('item_id', $item) ? H($item->item_id) : 'KIT ' . H($item->item_kit_id);
+															echo property_exists($item,'item_id') ? H($item->item_id) : 'KIT ' . H($item->item_kit_id);
 															break;
 
 														default:
-															if (array_key_exists('item_number', $item) && $item->item_number) {
+															if (property_exists($item,'item_number') && $item->item_number) {
 																echo H($item->item_number);
-															} elseif (array_key_exists('item_kit_number', $item) && $item->item_kit_number) {
+															} elseif (property_exists($item,'item_kit_number') && $item->item_kit_number) {
 																echo H($item->item_kit_number);
 															} else {
 																echo lang('common_none');
@@ -1692,6 +1692,7 @@
 					</div>
 	</div>
 	
+	
 	<div id="sync_offline_sales" class="pull-right" style="display: none;">
 		<br />
 	
@@ -1701,8 +1702,6 @@
 		</button>
 		<br /><br />
 		<a href="<?php echo site_url('home/offline');?>"><?php echo lang('sales_edit_offline_sales'); ?></a>
-	
-	
 	
 	</div>
 	
@@ -1986,6 +1985,18 @@ if (isset($number_to_add) && isset($item_to_add)) {
 			},'json');		
 	}
 	
+	
+	<?php
+	if ($this->config->item('auto_sync_offline_sales'))
+	{
+	?>
+	if (has_offline_sales())
+	{
+		sync_offline_sales();
+	}	
+	<?php
+	}
+	?>
 	function has_offline_sales()
 	{
 		var allSales = JSON.parse(localStorage.getItem("sales")) || [];
@@ -3038,11 +3049,25 @@ if (isset($number_to_add) && isset($item_to_add)) {
 				$("#amount_tendered").attr('placeholder', <?php echo json_encode(lang('common_enter') . ' ' . lang('common_points') . ' ' . lang('common_amount')); ?>);
 				break;
 			case <?php echo json_encode(lang('common_ebt')); ?>:
-				$("#amount_tendered").val(<?php echo json_encode(to_currency_no_money($ebt_total)); ?>);
+				<?php 
+				if (count($payments) == 0)
+				{
+				?>
+					$("#amount_tendered").val(<?php echo json_encode(to_currency_no_money($ebt_total)); ?>);
+				<?php
+				}
+				?>
 				$("#amount_tendered").attr('placeholder', <?php echo json_encode(lang('common_enter') . ' ' . lang('common_ebt') . ' ' . lang('common_amount')); ?>);
 				break;
 			case <?php echo json_encode(lang('common_wic')); ?>:
-				$("#amount_tendered").val(<?php echo json_encode(to_currency_no_money($ebt_total)); ?>);
+				<?php 
+				if (count($payments) == 0)
+				{
+				?>
+					$("#amount_tendered").val(<?php echo json_encode(to_currency_no_money($ebt_total)); ?>);
+				<?php
+				}
+				?>
 				$("#amount_tendered").attr('placeholder', <?php echo json_encode(lang('common_enter') . ' ' . lang('common_wic') . ' ' . lang('common_amount')); ?>);
 				break;
 			case <?php echo json_encode(lang('common_ebt_cash')); ?>:
@@ -3304,17 +3329,22 @@ if (isset($number_to_add) && isset($item_to_add)) {
 				value: '1'
 			});
 			$("#sale_details_expand_collapse").text('+');
+			$(".show-collpased").show();
+			
 		} else {
 			$.post('<?php echo site_url("sales/set_details_collapsed"); ?>', {
 				value: '0'
 			});
 			$("#sale_details_expand_collapse").text('-');
+			$(".show-collpased").hide();
+			
 		}
 	});
 
 	<?php if ($details_collapsed) { ?>
 		$("#sale_details_expand_collapse").text('+');
 		$('.register-item-bottom').addClass('collapse');
+		$(".show-collpased").show();
 	<?php } ?>
 
 	$(".page_pagination a").click(function(e) {

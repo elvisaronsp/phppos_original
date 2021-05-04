@@ -1,9 +1,8 @@
 <?php
-use Box\Spout\Reader\ReaderFactory;
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use Box\Spout\Common\Type;
 
-use Box\Spout\Writer\WriterFactory;
-use Box\Spout\Writer\Style\StyleBuilder;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
 class PHPPOSSpreadsheetSpout extends PHPPOSSpreadsheet
 {
@@ -18,17 +17,24 @@ class PHPPOSSpreadsheetSpout extends PHPPOSSpreadsheet
 			
 			if (strtolower($type) == 'xlsx')
 			{
-				$this->reader = ReaderFactory::create(Type::XLSX);
+				$this->reader = ReaderEntityFactory::createXLSXReader();
 			}
 			else
 			{
-				$this->reader = ReaderFactory::create(Type::CSV);
+				$this->reader = ReaderEntityFactory::createCSVReader();
 			}
 	
 			$this->reader->open($inputFileName);
+			
+			$this->data = array();
 			foreach ($this->reader->getSheetIterator() as $sheet) 
 			{
-				$this->data = iterator_to_array($sheet->getRowIterator());
+				foreach($sheet->getRowIterator() as $row)
+				{
+					$this->data[] = $row->toArray();
+				}
+				
+				//only read first sheet
 				break;
 			}
 		}
@@ -39,19 +45,24 @@ class PHPPOSSpreadsheetSpout extends PHPPOSSpreadsheet
 		$CI =& get_instance();
 		if (strtolower($type) == 'xlsx')
 		{
-			$reader = ReaderFactory::create(Type::XLSX);
+			$reader = ReaderEntityFactory::createXLSXReader();
 		}
 		else
 		{
-			$reader = ReaderFactory::create(Type::CSV);
+			$reader = ReaderEntityFactory::createCSVReader();
 		}
 
 		$reader->open($inputFileName);
 		foreach ($reader->getSheetIterator() as $sheet) 
 		{
-			$it = $sheet->getRowIterator();
-			$it->rewind();
-			return $it->current();
+			foreach($sheet->getRowIterator() as $row)
+			{
+				//only need 1st row
+				return $row->toArray();
+			}
+			
+			//Empty spreadsheet
+			return array();
 		}
 	}
 	
@@ -60,9 +71,10 @@ class PHPPOSSpreadsheetSpout extends PHPPOSSpreadsheet
 	{
 		if ($this->data)
 		{
-			if (isset($this->data[$row][$column]))
+			if (isset($this->data[$row-1][$column]))
 			{
-					return $this->data[$row][$column];	
+				//Do minus 0 as our rows start at 0
+				return $this->data[$row-1][$column];	
 			}
 		}
 		
@@ -79,8 +91,8 @@ class PHPPOSSpreadsheetSpout extends PHPPOSSpreadsheet
 		return null;
 	}
 	
-	//$data is a matrix to export to excel
-	public function arrayToSpreadsheet($arr,$filename, $is_report = false)
+	//$data is a matrix to export to excel where each row is gzcompressed to json_encoded
+	function arrayToSpreadsheetGzJsonEncoded($arr,$filename, $is_report = false,$email = NULL)
 	{
 		$CI =& get_instance();
 
@@ -96,19 +108,113 @@ class PHPPOSSpreadsheetSpout extends PHPPOSSpreadsheet
 		}
 		if ($CI->config->item('spreadsheet_format') == 'XLSX')
 		{
-			$writer = WriterFactory::create(Type::XLSX); // for XLSX files				
+			$writer = WriterEntityFactory::createXLSXWriter(); // for XLSX files				
 		}
 		else
 		{
-			$writer = WriterFactory::create(Type::CSV); // for CSV files
+			$writer = WriterEntityFactory::createCSVWriter(); // for CSV files
 		}
 		
 		if (method_exists($writer,'setTempFolder'))
 		{
 			$writer->setTempFolder(ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir());
 		}
-		$writer->openToBrowser($filename); // stream data directly to the browser
+		
+		if ($email)
+		{
+			$tmpFilename = tempnam(ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir(), 'iexcel');
+			$writer->openToFile($tmpFilename);
+		}
+		else
+		{
+			$writer->openToBrowser($filename); // stream data directly to the browser
+		}
+		foreach($arr as $row)
+		{			
+			$row = json_decode(gzdecode($row));
+			
+			if ($is_report)
+			{
+				for($k=0;$k<count($row);$k++)
+				{
+					$row[$k] = $this->stripCurrency($row[$k]);
+				
+					$hasleading_zero = substr($row[$k],0,1) == '0';
 
+					if (is_numeric($row[$k]) && !$hasleading_zero)
+					{
+						$row[$k] = (double)$row[$k];
+					}
+				
+				}
+			}
+			
+			$writer->addRow(WriterEntityFactory::createRowFromArray($row));		
+		}
+		
+		
+		$writer->close();
+		
+		if ($email)
+		{
+			$CI->load->library('email');
+			$config['mailtype'] = 'html';				
+			$CI->email->initialize($config);
+			$CI->email->from($CI->Location->get_info_for_key('email') ? $CI->Location->get_info_for_key('email') : 'no-reply@mg.phppointofsale.com', $CI->config->item('company'));
+			$CI->email->to($email); 				
+			$CI->email->subject(lang('reports_report'));
+			$CI->email->attach($tmpFilename, 'attachment', 'report.'.($CI->config->item('spreadsheet_format') == 'XLSX' ? 'xlsx' : 'csv'));
+			$CI->email->message(lang('reports_report'));
+			$CI->email->send();
+			
+			header('Content-Description: File Transfer');
+			header('Content-Disposition: attachment; filename="'.'report.'.($CI->config->item('spreadsheet_format') == 'XLSX' ? 'xlsx' : 'csv').'"');
+			header('Connection: Keep-Alive');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('Pragma: public');
+			readfile($tmpFilename);
+		}
+	}
+	
+	//$data is a matrix to export to excel
+	public function arrayToSpreadsheet($arr,$filename, $is_report = false,$temp_export_filename = NULL)
+	{
+		$CI =& get_instance();
+
+		
+		if ($is_report)
+		{
+			define('SPOUT_EXCEL_WRITER_CELL_FORMAT',0);
+		}
+		else
+		{
+			//If we are NOT a report make sure we set text format to 49 (Text format for excel imports)
+			define('SPOUT_EXCEL_WRITER_CELL_FORMAT',49);
+		}
+		if ($CI->config->item('spreadsheet_format') == 'XLSX')
+		{
+			$writer = WriterEntityFactory::createXLSXWriter(); // for XLSX files				
+		}
+		else
+		{
+			$writer = WriterEntityFactory::createCSVWriter(); // for CSV files
+		}
+		
+		if (method_exists($writer,'setTempFolder'))
+		{
+			$writer->setTempFolder(ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir());
+		}
+		
+		if ($temp_export_filename)
+		{
+			$tmpFilename = tempnam(ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir(), 'iexcel');
+			$writer->openToFile($tmpFilename);
+		}
+		else
+		{
+			$writer->openToBrowser($filename); // stream data directly to the browser
+		}
 		if ($is_report)
 		{
 			
@@ -126,9 +232,30 @@ class PHPPOSSpreadsheetSpout extends PHPPOSSpreadsheet
 					}
 				}
 			}
+		}
+		
+		foreach($arr as $row)
+		{
+			$writer->addRow(WriterEntityFactory::createRowFromArray($row));		
 		}		
-		$writer->addRows($arr);		
-		$writer->close();			
+	
+		$writer->close();
+		
+		if ($temp_export_filename)
+		{
+			if (!$CI->Appfile->does_file_exists($temp_export_filename))
+			{
+	    		$CI->Appfile->save($temp_export_filename, file_get_contents($tmpFilename),'+ 7 days');
+			}
+			header('Content-Description: File Transfer');
+			header('Content-Disposition: attachment; filename="'.$filename.'"');
+			header('Connection: Keep-Alive');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('Pragma: public');
+			readfile($tmpFilename);
+			exit();
+		}		
 	}
 }	
 ?>

@@ -33,11 +33,10 @@ $lang['template_permission_desc'] = 'Centang kotak di bawah ini untuk memberikan
 
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Perbarui Semua Karyawan Dengan Template Berasumsi';
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Perbarui semua karyawan dengan asumsi templat';
 
 $lang['permission_templates_manage_deleted'] = 'Kelola Template Izin yang Dihapus';
 $lang['permission_templates_confirm_undelete'] = 'Anda yakin ingin membatalkan penghapusan template izin yang dipilih?';
+$lang['update_all_employees_with_template_assinged'] = 'Perbarui Semua Karyawan Dengan Template yang Ditugaskan';
 ?>

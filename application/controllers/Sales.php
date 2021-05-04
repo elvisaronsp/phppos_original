@@ -46,6 +46,8 @@ class Sales extends Secure_area
 		$this->load->helper('giftcards');
 		$this->load->model('Item_attribute_value');
 		$this->load->model('Item_modifier');
+		$this->load->model('Work_order');
+		$this->load->helper('text');
 		
 		$this->cart = PHPPOSCartSale::get_instance('sale');
 		cache_item_and_item_kit_cart_info($this->cart->get_items());
@@ -461,8 +463,32 @@ class Sales extends Secure_area
 			$this->Customer->save_customer($person_data, $customer_data);
 			$_POST['customer'] =  $person_data['person_id'];
 		}		
-		
+				
 		$data = $this->cart->select_customer($this->input->post("customer"));
+		
+		$items = $this->cart->get_items();
+		$run_tier_change = FALSE;
+		
+		//Remove any rules
+		foreach($items as $line=>$item)
+		{
+			if (!empty($item->rule))
+			{
+				if ($this->Price_rule->is_rule_excluded_by_tier($item->rule))
+				{
+					$this->cart->get_item($line)->rule = array();
+					$this->cart->get_item($line)->unit_price = $this->cart->get_item($line)->regular_price;
+					$this->cart->get_item($line)->discount = 0;
+					$run_tier_change = TRUE;
+				}
+			}
+		}
+		
+		if ($run_tier_change)
+		{
+			$this->cart->determine_new_prices_for_tier_change();
+		}
+		
 		$this->_reload($data);
 	}
 
@@ -616,6 +642,21 @@ class Sales extends Secure_area
 		$this->cart->selected_tier_id = $this->input->post('tier_id');
 
 		$items = $this->cart->get_items();
+		
+		//Remove any rules
+		foreach($items as $line=>$item)
+		{
+			if (!empty($item->rule))
+			{
+				if ($this->Price_rule->is_rule_excluded_by_tier($item->rule))
+				{
+					$this->cart->get_item($line)->rule = array();
+					$this->cart->get_item($line)->unit_price = $this->cart->get_item($line)->regular_price;
+					$this->cart->get_item($line)->discount = 0;
+				}
+			}
+		}
+		
 		$this->cart->determine_new_prices_for_tier_change();
 		
 	  foreach($items as $line=>$item)
@@ -635,8 +676,9 @@ class Sales extends Secure_area
 				  {
 					  $data['warning'] = lang('sales_selling_item_below_cost');
 				  }
-  			}
+  			}			
 	  }
+	  
 	  $this->cart->save();
 		$this->_reload($data);
 	}
@@ -1024,10 +1066,15 @@ class Sales extends Secure_area
 	
 	function edit_line_total($line)
 	{
+		
+		
 		$this->cart->was_last_edit_quantity = false;
 		
 		$data = array();
 		$item = $this->cart->get_item($line);
+		//Have a copy of item before we change so we can revert
+		$item_before_edit = clone $item;
+		
 		$total =$this->input->post('value');
 		
 		if ($total < 0 && !$this->Employee->has_module_action_permission('sales', 'process_returns', $this->Employee->get_logged_in_employee_info()->person_id))
@@ -1057,8 +1104,34 @@ class Sales extends Secure_area
 			$data['warning'] = lang('sales_could_not_set_item_price_above_max')." ".to_currency($max);
 		}
 		
-		$params = array('line' => $line);
-		$this->cart->do_price_rules($params);
+		$can_edit = TRUE;
+		
+		if ($item->below_cost_price())
+		{
+			if ($this->config->item('do_not_allow_below_cost'))
+			{
+				$can_edit = FALSE;
+				$data['error'] = lang('sales_selling_item_below_cost');
+			}
+			else
+			{
+				$data['warning'] = lang('sales_selling_item_below_cost');
+			}
+		}
+		
+		//Revert back to previous item
+		if (!$can_edit)
+		{
+			$item->unit_price = $item_before_edit->unit_price;
+			
+		}
+		else
+		{
+			$params = array('line' => $line);
+			$this->cart->do_price_rules($params);
+		}
+		
+		
 		
 		$this->cart->save();
 		$this->_reload($data);
@@ -1730,10 +1803,12 @@ class Sales extends Secure_area
 		$data['is_sale'] = FALSE;
 		$data['total']=$this->cart->get_total();
 		$data['receipt_title']= $this->config->item('override_receipt_title') ? $this->config->item('override_receipt_title') : lang('sales_receipt');
+		$data['sales_card_statement']= $this->config->item('override_signature_text') ? $this->config->item('override_signature_text') : lang('sales_card_statement','',array(),TRUE);
+		
 		$data['transaction_time'] = date(get_date_format().' '.get_time_format());
 		$data['payments']=$this->cart->get_payments();
 		$data['register_name'] = $this->Register->get_register_name($this->Employee->get_logged_in_employee_current_register_id());
-		$data['employee']=$emp_info->first_name.($sold_by_employee_id && $sold_by_employee_id != $employee_id ? '/'. $sale_emp_info->first_name: '');
+		$data['employee']=$emp_info->first_name.' '.$emp_info->last_name.($sold_by_employee_id && $sold_by_employee_id != $employee_id ? '/'. $sale_emp_info->first_name.' '.$sale_emp_info->last_name: '');
 		
 		if($customer_id)
 		{
@@ -1856,6 +1931,7 @@ class Sales extends Secure_area
 		$data['register_name'] = $this->Register->get_register_name($this->Employee->get_logged_in_employee_current_register_id());
 		$data['is_sale'] = TRUE;
 		$data['receipt_title']= $this->config->item('override_receipt_title') ? $this->config->item('override_receipt_title') : ( !$this->cart->suspended ? lang('sales_receipt') : '');
+		$data['sales_card_statement']= $this->config->item('override_signature_text') ? $this->config->item('override_signature_text') : lang('sales_card_statement','',array(),TRUE);
 		$employee_id=$this->Employee->get_logged_in_employee_info()->person_id;
 		$customer_id=$this->cart->customer_id;
 		$sold_by_employee_id=$this->cart->sold_by_employee_id;
@@ -1875,7 +1951,7 @@ class Sales extends Secure_area
 				$data['balance']+= $this->cart->get_payment_amount($store_account_lang)*pow($exchange_rate,-1);
 		}
 
-		$data['employee']=$emp_info->first_name.($sold_by_employee_id && $sold_by_employee_id != $employee_id ? '/'. $sale_emp_info->first_name: '');
+		$data['employee']=$emp_info->first_name.' '.$emp_info->last_name.($sold_by_employee_id && $sold_by_employee_id != $employee_id ? '/'. $sale_emp_info->first_name.' '.$sale_emp_info->last_name: '');
 		$data['ref_no'] = '';
 		$data['auth_code'] = '';
 		$data['discount_exists'] = $this->_does_discount_exists($data['cart_items']);
@@ -2215,6 +2291,8 @@ class Sales extends Secure_area
 		$data['tier'] = $tier_info->name;
 		$data['register_name'] = $this->Register->get_register_name($sale_info['register_id']);
 		$data['receipt_title']= $this->config->item('override_receipt_title') ? $this->config->item('override_receipt_title') : lang('sales_receipt');
+		$data['sales_card_statement']= $this->config->item('override_signature_text') ? $this->config->item('override_signature_text') : lang('sales_card_statement','',array(),TRUE);
+		
 		$data['transaction_time']= date(get_date_format().' '.get_time_format(), strtotime($sale_info['sale_time']));
 		$data['override_location_id'] = $sale_info['location_id'];
 		$data['discount_exists'] = $this->_does_discount_exists($data['cart_items']);
@@ -2225,7 +2303,7 @@ class Sales extends Secure_area
 		
 		$data['payment_type']=$sale_info['payment_type'];
 		$data['amount_change']=$receipt_cart->get_amount_due_round($sale_id) * -1;
-		$data['employee']=$emp_info->first_name.($sold_by_employee_id && $sold_by_employee_id != $sale_info['employee_id'] ? '/'. $sale_emp_info->first_name : '');
+		$data['employee']=$emp_info->first_name.' '.$emp_info->last_name.($sold_by_employee_id && $sold_by_employee_id != $sale_info['employee_id'] ? '/'. $sale_emp_info->first_name.' '.$sale_emp_info->last_name: '');
 		
 		$data['ref_no'] = $sale_info['cc_ref_no'];
 		$data['auth_code'] = $sale_info['auth_code'];
@@ -2307,6 +2385,8 @@ class Sales extends Secure_area
 		$data['tier'] = $tier_info->name;
 		$data['register_name'] = $this->Register->get_register_name($sale_info['register_id']);
 		$data['receipt_title']= $this->config->item('override_receipt_title') ? $this->config->item('override_receipt_title') : lang('sales_receipt');
+		$data['sales_card_statement']= $this->config->item('override_signature_text') ? $this->config->item('override_signature_text') : lang('sales_card_statement','',array(),TRUE);
+		
 		$data['transaction_time']= date(get_date_format().' '.get_time_format(), strtotime($sale_info['sale_time']));
 		$data['override_location_id'] = $sale_info['location_id'];
 		$data['discount_exists'] = $this->_does_discount_exists($data['cart_items']);
@@ -2317,7 +2397,7 @@ class Sales extends Secure_area
 		
 		$data['payment_type']=$sale_info['payment_type'];
 		$data['amount_change']=$receipt_cart->get_amount_due_round($sale_id) * -1;
-		$data['employee']=$emp_info->first_name.($sold_by_employee_id && $sold_by_employee_id != $sale_info['employee_id'] ? '/'. $sale_emp_info->first_name : '');
+		$data['employee']=$emp_info->first_name.' '.$emp_info->last_name.($sold_by_employee_id && $sold_by_employee_id != $sale_info['employee_id'] ? '/'. $sale_emp_info->first_name.' '.$sale_emp_info->last_name: '');
 		
 		$data['ref_no'] = $sale_info['cc_ref_no'];
 		$data['auth_code'] = $sale_info['auth_code'];
@@ -2453,6 +2533,8 @@ class Sales extends Secure_area
 		$data['deleted'] = $sale_info['deleted'];
 
 		$data['receipt_title']= $this->config->item('override_receipt_title') ? $this->config->item('override_receipt_title') : ( !$receipt_cart->suspended ? lang('sales_receipt') : '');
+		$data['sales_card_statement']= $this->config->item('override_signature_text') ? $this->config->item('override_signature_text') : lang('sales_card_statement','',array(),TRUE);
+		
 		$data['transaction_time']= date(get_date_format().' '.get_time_format(), strtotime($sale_info['sale_time']));
 		$customer_id=$this->cart->customer_id;
 		
@@ -2461,7 +2543,7 @@ class Sales extends Secure_area
 		$sale_emp_info=$this->Employee->get_info($sold_by_employee_id);
 		$data['payment_type']=$sale_info['payment_type'];
 		$data['amount_change']=$receipt_cart->get_amount_due() * -1;
-		$data['employee']=$emp_info->first_name.($sold_by_employee_id && $sold_by_employee_id != $sale_info['employee_id'] ? '/'. $sale_emp_info->first_name : '');
+		$data['employee']=$emp_info->first_name.' '.$emp_info->last_name.($sold_by_employee_id && $sold_by_employee_id != $sale_info['employee_id'] ? '/'. $sale_emp_info->first_name.' '.$sale_emp_info->last_name: '');
 		$data['ref_no'] = $sale_info['cc_ref_no'];
 		$data['auth_code'] = $sale_info['auth_code'];
 		$data['discount_exists'] = $this->_does_discount_exists($data['cart_items']);
@@ -2521,12 +2603,13 @@ class Sales extends Secure_area
 	function fulfillment($sale_id)
 	{
 		$sale_info = $this->Sale->get_info($sale_id)->row_array();
+		$data['total'] = $sale_info['total'];
 		$data['override_location_id'] = $sale_info['location_id'];
 		$data['transaction_time']= date(get_date_format().' '.get_time_format(), strtotime($sale_info['sale_time']));
 		$customer_id=$sale_info['customer_id'];
 		
 		$emp_info=$this->Employee->get_info($sale_info['employee_id']);
-		$data['employee']=$emp_info->first_name;
+		$data['employee']=$emp_info->first_name.' '.$emp_info->last_name;
 		
 		if($customer_id)
 		{
@@ -3123,10 +3206,17 @@ class Sales extends Secure_area
 		{			
 			foreach($payment_options as $payment_type)
 			{
-				$fee_percent = $markup_markdown_config[$payment_type];
-				$fee_amount = $this->cart->get_total()*($fee_percent/100);
+				if (isset($markup_markdown_config[$payment_type]))
+				{
+					$fee_percent = $markup_markdown_config[$payment_type];
+					$fee_amount = $this->cart->get_total()*($fee_percent/100);
 			
-				$data['markup_predictions'][$payment_type] = array('amount' => $fee_amount,'id' => md5($payment_type));
+					$data['markup_predictions'][$payment_type] = array('amount' => $fee_amount,'id' => md5($payment_type));
+				}
+				else
+				{
+					$data['markup_predictions'][$payment_type] = array('amount' => 0,'id' => md5($payment_type));
+				}
 			}
 		}						
 
@@ -3303,6 +3393,8 @@ class Sales extends Secure_area
 		$data = $this->_get_shared_data();
 		$data['receipt_title']= $this->config->item('override_receipt_title') ? $this->config->item('override_receipt_title') : '';
 		$data['transaction_time']= date(get_date_format().' '.get_time_format());
+		$data['sales_card_statement']= $this->config->item('override_signature_text') ? $this->config->item('override_signature_text') : lang('sales_card_statement','',array(),TRUE);
+		
 		$exchange_rate = $this->cart->get_exchange_rate() ? $this->cart->get_exchange_rate() : 1;		
 		$store_account_in_all_languages = get_all_language_values_for_key('common_store_account','common');
 		
@@ -3529,18 +3621,22 @@ class Sales extends Secure_area
 		$this->load->view("sales/giftcard_form",$data);
 	}
 	
+	function set_search_suspended_sale_types()
+	{
+		$this->session->set_userdata('search_suspended_sale_types',$this->input->post('suspended_types'));
+	}
+	
 	function suspended()
 	{
 		$data = array();
 		$data['controller_name'] = strtolower(get_class());
-		$table_data = $this->Sale->get_all_suspended();
+		$table_data = $this->Sale->get_all_suspended($this->session->userdata('search_suspended_sale_types'));
 		$data['manage_table'] = get_suspended_sales_manage_table($table_data, $this);
-		
+		$data['suspended_sale_types'] = $this->Sale_types->get_all()->result_array();
 		$data['default_columns'] = $this->Sale->get_suspended_sales_default_columns();
 		$data['selected_columns'] = $this->Employee->get_suspended_sales_columns_to_display();
 		
 		$data['all_columns'] = array_merge($data['selected_columns'], $this->Sale->get_suspended_sales_displayable_columns());		
-		//$data['suspended_sales'] = $this->Sale->get_all_suspended();
 		$this->load->view('sales/suspended', $data);
 	}
 	
@@ -3564,7 +3660,7 @@ class Sales extends Secure_area
 	
 	function reload_table(){
 		$data['controller_name'] = strtolower(get_class());
-		$table_data = $this->Sale->get_all_suspended();
+		$table_data = $this->Sale->get_all_suspended($this->session->userdata('search_suspended_sale_types'));
 		echo get_suspended_sales_manage_table($table_data, $this);
 	}
 	
@@ -4128,7 +4224,7 @@ class Sales extends Secure_area
 		$shipping_zones = array();
 		$shipping_zones['0'] =lang('common_none');
 		
-		$shipping_zone_id = isset($delivery_info['shipping_zone_id']) ? $delivery_info['shipping_zone_id'] : $zip_lookup['shipping_zone_id'];
+		$shipping_zone_id = isset($delivery_info['shipping_zone_id']) ? $delivery_info['shipping_zone_id'] : (isset($zip_lookup['shipping_zone_id']) ? $zip_lookup['shipping_zone_id'] : '');
 		
 		foreach($this->Shipping_zone->get_all()->result_array() as $shipping_zone)
 		{
@@ -4959,6 +5055,8 @@ class Sales extends Secure_area
 				$data['deleted'] = $sale_info['deleted'];
 
 				$data['receipt_title']= $this->config->item('override_receipt_title') ? $this->config->item('override_receipt_title') : ( !$receipt_cart->suspended ? lang('sales_receipt') : '');
+				$data['sales_card_statement']= $this->config->item('override_signature_text') ? $this->config->item('override_signature_text') : lang('sales_card_statement','',array(),TRUE);
+				
 				$data['transaction_time']= date(get_date_format().' '.get_time_format(), strtotime($sale_info['sale_time']));
 				$customer_id=$this->cart->customer_id;
 		
@@ -4967,7 +5065,7 @@ class Sales extends Secure_area
 				$sale_emp_info=$this->Employee->get_info($sold_by_employee_id);
 				$data['payment_type']=$sale_info['payment_type'];
 				$data['amount_change']=$receipt_cart->get_amount_due() * -1;
-				$data['employee']=$emp_info->first_name.($sold_by_employee_id && $sold_by_employee_id != $sale_info['employee_id'] ? '/'. $sale_emp_info->first_name : '');
+				$data['employee']=$emp_info->first_name.' '.$emp_info->last_name.($sold_by_employee_id && $sold_by_employee_id != $sale_info['employee_id'] ? '/'. $sale_emp_info->first_name.' '.$sale_emp_info->last_name: '');
 				$data['ref_no'] = $sale_info['cc_ref_no'];
 				$data['auth_code'] = $sale_info['auth_code'];
 				$data['discount_exists'] = $this->_does_discount_exists($data['cart_items']);

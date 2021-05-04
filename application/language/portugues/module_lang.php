@@ -92,4 +92,7 @@ $lang['appointments_add'] = 'Adicionar compromissos';
 $lang['appointments_delete'] = 'Excluir compromissos';
 $lang['appointments_search'] = 'Compromissos de pesquisa';
 $lang['appointments_edit'] = 'Editar compromissos';
+$lang['module_work_orders'] = 'Ordens de trabalho';
+$lang['module_work_orders_desc'] = 'Ordens de trabalho';
+$lang['module_manage_statuses'] = 'Gerenciar status';
 ?>

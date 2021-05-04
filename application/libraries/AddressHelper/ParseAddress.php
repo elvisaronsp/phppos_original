@@ -287,7 +287,7 @@ class ParseAddress extends ObjectBase
 		foreach ($properties as $property => $value)
 		{
 			//initializing variables
-			@$displace = strrpos($addr, chr($value));
+			@$displace = strrpos($addr, chr((int)$value));
 			$length = strlen($value);
 			
 			$addr = substr_replace($addr, "", $displace, $length);

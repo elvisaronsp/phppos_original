@@ -10,6 +10,7 @@ class Cardconnectprocessor extends Creditcardprocessor
 	
 	public $base_bolt_url;
 	public $bolt_api_key;
+	public $disable_confirmation_option_for_emv_credit_card;
 	
 	//TODO ability to set text on bottom of display
 	function __construct($controller)
@@ -22,6 +23,7 @@ class Cardconnectprocessor extends Creditcardprocessor
 		$this->merchant_id = $this->controller->Location->get_info_for_key('card_connect_mid');	
 		$this->base_bolt_url = (!defined("ENVIRONMENT") or ENVIRONMENT == 'development') ? 'https://bolt-uat.cardpointe.com/api/': 'https://bolt.cardpointe.com/api/';
 		$this->bolt_api_key = (!defined("ENVIRONMENT") or ENVIRONMENT == 'development') ? 'ZCb8pPkXcZDVO0CIngLSFrBJgA/BYyUZIHT8zaj3MPg=' : 'pLHjO/lvLwYBD5g3jfj2YnkuWDCPC/NT5eEwwCNtyvs=';	
+		$this->disable_confirmation_option_for_emv_credit_card = $this->controller->Location->get_info_for_key('disable_confirmation_option_for_emv_credit_card') ? 1 : 0;
 		
 		$this->card_pointe_api_url = (!defined("ENVIRONMENT") or ENVIRONMENT == 'development') ? 'https://boltgw-uat.cardconnect.com/cardconnect/rest/': 'https://boltgw.cardconnect.com/cardconnect/rest/';
 		$this->rest_username =  $this->controller->Location->get_info_for_key('card_connect_rest_username');
@@ -177,12 +179,21 @@ class Cardconnectprocessor extends Creditcardprocessor
 				
 				if ($this->controller->config->item('enable_tips'))
 				{
+					
+					if ($this->controller->config->item('tip_preset_zero'))
+					{
+						$tip_presets = array(0,15,20);						
+					}
+					else
+					{
+						$tip_presets = array(15,20,25);
+					}
 					$post_data = array(
 						"merchantId" => $this->merchant_id,
 						"hsn" => $this->hsn,
 						"prompt" => lang('sales_tip_prompt'),
 						"amount" => (int)(round($cc_amount*100)),
-						'tipPercentPresets' => array(15,20,25)
+						'tipPercentPresets' => $tip_presets,
 					);
 					$response = $this->make_bolt_api_request('v3/tip', $post_data,$session_key);
 					
@@ -199,7 +210,7 @@ class Cardconnectprocessor extends Creditcardprocessor
 					"gzipSignature" => false,
 					"signatureFormat" => 'png',
 					"includeAmountDisplay" => true,
-					"confirmAmount" => true,
+					"confirmAmount" => $this->disable_confirmation_option_for_emv_credit_card ? FALSE : TRUE,
 					"beep" => false, 
 					"aid" => "credit",
 					"capture" => TRUE,
@@ -232,7 +243,9 @@ class Cardconnectprocessor extends Creditcardprocessor
 		    'expiry'    => $customer_info->cc_expire,
 		    'amount'    => $cc_amount,
 		    'tokenize'  => "Y",
-				'capture'		=> "Y",
+			'capture'	=> "Y",
+			'cof' 		=> 	"C",
+			'cofscheduled' 	=> 	"N",
   		);
 			$response = $this->make_card_pointe_api_request('POST','auth',$post_data);			
 			
@@ -255,7 +268,7 @@ class Cardconnectprocessor extends Creditcardprocessor
 		  }
 			else
 			{
-				$EntryMethod = $prompt ? lang('sales_manual_entry') : lang('sales_card_on_file');
+				$EntryMethod = $prompt ? lang('sales_manual_entry') : lang('common_credit');
 				$ApplicationLabel = $customer_info->card_issuer ? $customer_info->card_issuer : $EntryMethod;
 				$CardType = $customer_info->card_issuer ? $customer_info->card_issuer : $EntryMethod;
 			}

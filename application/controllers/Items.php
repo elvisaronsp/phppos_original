@@ -2575,6 +2575,7 @@ class Items extends Secure_area implements Idata_controller
 			'verify_age'=> $this->input->post('verify_age') ? 1 : 0,
 			'required_age'=> $this->input->post('verify_age') ? $this->input->post('required_age') : NULL,
 			'weight'=>$this->input->post('weight')=='' ? null:$this->input->post('weight'),
+			'weight_unit'=>$this->input->post('weight')=='' ? null:$this->input->post('weight_unit'),
 			'length'=>$this->input->post('length')=='' ? null:$this->input->post('length'),
 			'width'=>$this->input->post('width')=='' ? null:$this->input->post('width'),
 			'height'=>$this->input->post('height')=='' ? null:$this->input->post('height'),
@@ -2596,8 +2597,7 @@ class Items extends Secure_area implements Idata_controller
 		{
 			$item_data['default_quantity'] = NULL;
 		}
-		
-		
+				
 		for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++)
 		{
 			if ($this->Item->get_custom_field($k) !== FALSE)
@@ -2722,6 +2722,22 @@ class Items extends Secure_area implements Idata_controller
 			{
 				$this->Item_serial_number->delete($item_id);
 			}
+				
+			if ($this->input->post('secondary_categories'))
+			{
+				foreach($this->input->post('secondary_categories') as $sec_category_id=>$category_id)
+				{
+					$this->Item->save_secondory_category(isset($item_data['item_id']) ? $item_data['item_id'] : $item_id,$category_id,$sec_category_id);
+				}
+			}
+			
+			if ($this->input->post('secondary_categories_to_delete'))
+			{
+				foreach($this->input->post('secondary_categories_to_delete') as $sec_category_id_to_delete)
+				{
+					$this->Item->delete_secondory_category($sec_category_id_to_delete);
+				}
+			}
 						
 			//Ecommerce
 			if (isset($this->ecom_model))
@@ -2830,11 +2846,34 @@ class Items extends Secure_area implements Idata_controller
 				$total_locations_ecom_sync = count($this->Appconfig->get_ecommerce_locations());
 				
 				if ($cur_item_info->is_ecommerce && $location_id  == $this->ecom_model->ecommerce_store_location && $total_locations_ecom_sync == 1)
-				{				
-					$ecom_item_data = array('manage_stock' => false);
-					$this->ecom_model->update_item_from_phppos_to_ecommerce($item_id, $ecom_item_data);
-					$this->ecom_model->save_item_variations($item_id);
-					
+				{		
+					if (strtolower(get_class($this->ecom_model)) == 'shopify')		
+					{
+						foreach(array_keys($item_variations) as $item_variation_id)
+						{
+							$cur_item_variation_location_info = $this->Item_variation_location->get_info($item_variation_id);
+							$cur_item_variation_info = $this->Item_variations->get_info($item_variation_id);
+							$stock_quantity  = $cur_item_variation_location_info->quantity;
+							
+							if ($cur_item_variation_info->is_ecommerce)
+							{
+								$ecommerce_inventory_item_id = $cur_item_variation_info->ecommerce_inventory_item_id;
+								$ecom_item_data = array(
+									'stock_quantity' => $stock_quantity,
+									'ecommerce_inventory_item_id' => $ecommerce_inventory_item_id,
+									'manage_stock' => true,
+								);
+						
+								$this->ecom_model->update_item_from_phppos_to_ecommerce($item_id, $ecom_item_data);
+							}
+						}
+					}
+					else
+					{
+						$ecom_item_data = array('manage_stock' => false);
+						$this->ecom_model->update_item_from_phppos_to_ecommerce($item_id, $ecom_item_data);
+						$this->ecom_model->save_item_variations($item_id);
+					}
 				}
 			}			
 		} 
@@ -3224,6 +3263,7 @@ class Items extends Secure_area implements Idata_controller
 		$header_row[] = lang('common_long_description');
 		$header_row[] = lang('common_info_popup');
 		$header_row[] = lang('items_weight');
+		$header_row[] = lang('items_weight_unit');
 		$header_row[] = lang('items_length');
 		$header_row[] = lang('items_width');
 		$header_row[] = lang('items_height');
@@ -3593,6 +3633,7 @@ class Items extends Secure_area implements Idata_controller
 			$to_export[lang('common_long_description')][]= $r->long_description;
 			$to_export[lang('common_info_popup')][]= $r->info_popup;
 			$to_export[lang('items_weight')][]= to_quantity($r->weight, FALSE);
+			$to_export[lang('items_weight_unit')][]= $r->weight_unit;
 			$to_export[lang('items_length')][]= to_quantity($r->length, FALSE);
 			$to_export[lang('items_width')][]= to_quantity($r->width, FALSE);
 			$to_export[lang('items_height')][]= to_quantity($r->height, FALSE);
@@ -3850,7 +3891,8 @@ class Items extends Secure_area implements Idata_controller
 		}
 		
 		$this->load->helper('spreadsheet');
-		array_to_spreadsheet($rows,'items_export.'.($this->config->item('spreadsheet_format') == 'XLSX' ? 'xlsx' : 'csv'));
+		$extension = ($this->config->item('spreadsheet_format') == 'XLSX' ? 'xlsx' : 'csv');
+		array_to_spreadsheet($rows,'items_export.'.$extension, FALSE, 'items_excel_export_'.date('Y-m-d-h-i').'.'.$extension);
 	}
 
 	function excel_import()
@@ -3860,7 +3902,7 @@ class Items extends Secure_area implements Idata_controller
 		
 		$data = array();
 		$data['redirect'] = $this->input->get("redirect");
-		
+		$data['recent_exports'] = $this->Appfile->get_files_start_with_name('items_excel_export_');
 		$this->load->view("items/excel_import", $data);
 	}
 	
@@ -3877,7 +3919,7 @@ class Items extends Secure_area implements Idata_controller
 		
 		$file_info = pathinfo($_FILES["file"]["name"]);		
 		$file = $this->Appfile->get($this->session->userdata('excel_import_file_id'));
-		$tmpFilename = tempnam(ini_get('upload_tmp_dir'), 'iexcel');
+		$tmpFilename = tempnam(ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir(), 'iexcel');
 		file_put_contents($tmpFilename,$file->file_data);
 		$this->load->helper('spreadsheet');
 		
@@ -3923,7 +3965,7 @@ class Items extends Secure_area implements Idata_controller
 		
 		$file = $this->Appfile->get($this->session->userdata('excel_import_file_id'));
 
-		$tmpFilename = tempnam(ini_get('upload_tmp_dir'), 'iexcel');
+		$tmpFilename = tempnam(ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir(), 'iexcel');
 		file_put_contents($tmpFilename,$file->file_data);
 		$this->load->helper('spreadsheet');
 		$file_info = pathinfo($file->file_name);
@@ -4022,6 +4064,7 @@ class Items extends Secure_area implements Idata_controller
 		$fields[] = array('Name' => lang('common_long_description'), 'key' => 'long_description');
 		$fields[] = array('Name' => lang('common_info_popup'), 'key' => 'info_popup');
 		$fields[] = array('Name' => lang('items_weight'), 'key' => 'weight');
+		$fields[] = array('Name' => lang('items_weight_unit'), 'key' => 'weight_unit');
 		$fields[] = array('Name' => lang('items_length'), 'key' => 'length');
 		$fields[] = array('Name' => lang('items_width'), 'key' => 'width');
 		$fields[] = array('Name' => lang('items_height'), 'key' => 'height');
@@ -4464,6 +4507,18 @@ class Items extends Secure_area implements Idata_controller
 				$item_data['override_default_tax'] = 1;
 			}			
 			
+			//We have a variation id and we don't have a variation we want to skip this row
+			if (!$variation && strpos($columns_with_data[$key]['data'][$i],'#') !== FALSE)
+			{
+				continue;
+			}
+			
+			//We have a variation id and we don't have a variation we want to skip this row
+			if (!$variation && strpos($columns_with_data[$key]['data'][$i],'@') !== FALSE)
+			{
+				continue;
+			}
+			
 			if(!$variation && !$this->Item->save($item_data, $item_id))
 			{
 				if($item_id === NULL)
@@ -4581,7 +4636,7 @@ class Items extends Secure_area implements Idata_controller
 							//Link item to attribute
 							if ($attribute_id)
 							{
-								$this->Item_attribute->save_item_attributes(array($attribute_id),$item_id_to_use_for_variation);							
+								$this->Item_attribute->save_item_attributes(array($attribute_id),$item_id_to_use_for_variation, FALSE);							
 							}
 							
 							$item_attribute_value_info = $this->Item_attribute_value->lookup($value,$attribute_id);
@@ -5443,6 +5498,17 @@ class Items extends Secure_area implements Idata_controller
 			return null;
 		}
 		
+		if ($key == 'weight_unit'){
+			
+			if($value !='')
+			{
+				return $value;
+			}
+			
+			return null;
+		}
+		
+		
 		if ($key == 'length'){
 			
 			if($value !='')
@@ -5585,7 +5651,7 @@ class Items extends Secure_area implements Idata_controller
 		$custom_attribute_data = array('item_id'=> $item_id, 'name' => $name);
 		$attr_id = $this->Item_attribute->save($custom_attribute_data);
 		
-		if($this->Item_attribute->save_item_attributes(array($attr_id),$item_id))
+		if($this->Item_attribute->save_item_attributes(array($attr_id),$item_id, FALSE))
 		{
 			echo json_encode(array('success'=>true,'message'=>lang('items_custom_attribute_successful_added').' '.H($name), 'attribute_id' => $attr_id));
 		}
@@ -5617,7 +5683,7 @@ class Items extends Secure_area implements Idata_controller
 
 		$attr_id = $this->input->post('attr_id');
 
-		if($this->Item_attribute->save_item_attributes(array($attr_id),$item_id))
+		if($this->Item_attribute->save_item_attributes(array($attr_id),$item_id,FALSE))
 		{
 			echo json_encode(array('success'=>true,'message'=>lang('items_add_attribute_to_item_successful')));
 		}	else {
@@ -5638,7 +5704,7 @@ class Items extends Secure_area implements Idata_controller
 		$attr_id = $this->input->post('attr_id');
 		$value_added = $this->input->post('value_added');
 		
-		$this->Item_attribute->save_item_attributes(array($attr_id),$item_id);
+		$this->Item_attribute->save_item_attributes(array($attr_id),$item_id, FALSE);
 		$attr_value_id = $this->Item_attribute_value->save($value_added,$attr_id);
 		$this->Item_attribute_value->save_item_attribute_values($item_id, array($attr_value_id));
 		
@@ -5739,9 +5805,8 @@ class Items extends Secure_area implements Idata_controller
 	  redirect('items/do_count/'.$count_id);
 	}
 	
-	function count_not_counted($in_stock = 0,$count_id,$offset = 0)
+	function count_not_counted($in_stock = 0,$count_id=null,$offset = 0)
 	{
-		
 		$this->check_action_permission('count_inventory');
 		
 		$count_info = $this->Inventory->get_count_info($count_id);
@@ -5798,7 +5863,7 @@ class Items extends Secure_area implements Idata_controller
 		}
 		
 		$tab_data = array();
-		
+		$index = 0;
 		foreach($items_not_counted as $item)
 		{
 			$tab_data_row = array();
@@ -5810,27 +5875,76 @@ class Items extends Secure_area implements Idata_controller
 			{
 				$name = $item['name'];
 			}
+			$items_not_counted[$index]['item_name'] = H($name);
+			$items_not_counted[$index]['cost_price'] = to_currency($item['cost_price']);
+			$items_not_counted[$index]['unit_price'] = to_currency($item['unit_price']);
+			$items_not_counted[$index]['promo_price'] = to_currency($item['promo_price']);
+			$items_not_counted[$index]['location_cost_price'] = to_currency($item['location_cost_price']);
+			$items_not_counted[$index]['location_unit_price'] = to_currency($item['location_unit_price']);
+			$items_not_counted[$index]['commission_fixed'] = to_currency($item['commission_fixed']);
+			$items_not_counted[$index]['is_favorite'] = boolean_as_string($item['is_favorite']);
+			$items_not_counted[$index]['is_barcoded'] = boolean_as_string($item['is_barcoded']);
+			$items_not_counted[$index]['series_quantity'] = to_quantity($item['series_quantity']);
+			$items_not_counted[$index]['loyalty_multiplier'] = to_quantity($item['loyalty_multiplier']);
+			$items_not_counted[$index]['start_date'] = date_as_display_date($item['start_date']);
+			$items_not_counted[$index]['override_default_tax'] = boolean_as_string($item['override_default_tax']);
+			$items_not_counted[$index]['disable_from_price_rules'] = boolean_as_string($item['disable_from_price_rules']);
+			$items_not_counted[$index]['tax_included'] = boolean_as_string($item['tax_included']);
+			$items_not_counted[$index]['allow_alt_description'] = boolean_as_string($item['allow_alt_description']);
+			$items_not_counted[$index]['is_ecommerce'] = boolean_as_string($item['is_ecommerce']);
+			$items_not_counted[$index]['only_integer'] = boolean_as_string($item['only_integer']);
+			$items_not_counted[$index]['is_series_package'] = boolean_as_string($item['is_series_package']);
+			$items_not_counted[$index]['allow_price_override_regardless_of_permissions'] = boolean_as_string($item['allow_price_override_regardless_of_permissions']);
+			$items_not_counted[$index]['change_cost_price'] = boolean_as_string($item['change_cost_price']);
+			$items_not_counted[$index]['has_variations'] = boolean_as_string($item['has_variations']);
+			$items_not_counted[$index]['disable_loyalty'] = boolean_as_string($item['disable_loyalty']);
+			$items_not_counted[$index]['is_service'] = boolean_as_string($item['is_service']);
+			$items_not_counted[$index]['is_ebt_item'] = boolean_as_string($item['is_ebt_item']);
+			$items_not_counted[$index]['is_serialized'] = boolean_as_string($item['is_serialized']);
+			$items_not_counted[$index]['item_inactive'] = boolean_as_string($item['item_inactive']);
+			$items_not_counted[$index]['commission_percent'] = to_quantity($item['commission_percent']);
+			$items_not_counted[$index]['variation_count'] = to_quantity($item['variation_count']);
+			$items_not_counted[$index]['default_quantity'] = to_quantity($item['default_quantity']);
+			$items_not_counted[$index]['commission_amount'] = to_currency($item['tax_included']);
+			$dataArr = ['length'=>$item['length'],'width'=>$item['width'],'height'=>$item['height']];
+			$items_not_counted[$index]['dimensions'] = dimensions_format('',$dataArr);
+			$items_not_counted[$index]['weight'] = to_quantity($item['weight']);
+
+			$items_not_counted[$index]['category_id'] = $this->Category->get_full_path($item['category_id']);
+
 			$tab_data_row[] = array('data' => H($name),'align' => 'center');
 			$tab_data_row[] = array('data' => $this->Category->get_full_path($item['category_id']),'align' => 'center');
 			$tab_data_row[] = array('data' => H($item['item_number']),'align' => 'center');
 			$tab_data_row[] = array('data' => H($item['product_id']),'align' => 'center');
 			$tab_data_row[] = array('data' => to_currency($item['cost_price']),'align' => 'center');
 			$tab_data_row[] = array('data' => to_currency($item['unit_price']),'align' => 'center');
+
 			if ($this->Employee->has_module_action_permission('items', 'see_count_when_count_inventory', $this->Employee->get_logged_in_employee_info()->person_id)) 
 			{
 				$tab_data_row[] = array('data' => to_quantity($item['item_variation_id'] ? $this->Item_variation_location->get_location_quantity($item['item_variation_id'],$count_info->location_id) : $this->Item_location->get_location_quantity($item['item_id'],$count_info->location_id)),'align' => 'center');
+				$items_not_counted[$index]['actual_quantity'] = to_quantity($item['item_variation_id'] ? $this->Item_variation_location->get_location_quantity($item['item_variation_id'],$count_info->location_id) : $this->Item_location->get_location_quantity($item['item_id'],$count_info->location_id));
 			}
 			$tab_data_row[] = array('data' => anchor("items/prompt_count_save/$count_id", lang('common_count'), 
 					"onclick='return do_prompt_count(".json_encode(lang('common_count')).",".json_encode($item['item_id']).",".json_encode($item['item_variation_id']).", this)'"),'align' => 'center');
-			
+			$items_not_counted[$index]['count'] = anchor("items/prompt_count_save/$count_id", lang('common_count'), 
+					"onclick='return do_prompt_count(".json_encode(lang('common_count')).",".json_encode($item['item_id']).",".json_encode($item['item_variation_id']).", this)'");
 			
 			$tab_data[] = $tab_data_row;
+			$index++;
 		}
 		$data['headers'] = $headers;
+		$data['items_not_counted'] = $items_not_counted;
 		$data['data'] = $tab_data;
 		$data['count_id'] = $count_id;
-		$this->load->view('items/not_counted',$data);
+		//Configuration changes
+		$data['controller_name']=strtolower(get_class());
+		$this->load->model('Employee');
+		$data['default_columns'] = $this->Inventory->get_item_not_count_default_columns();
+		$data['selected_columns'] = $this->Employee->get_item_not_count_columns_to_display();
+		$data['all_columns'] = array_merge($data['selected_columns'],$this->Inventory->get_item_not_count_displayable_columns());
+		//END
 		
+		$this->load->view('items/not_counted',$data);
 	}
 	
 	function prompt_count_save($count_id)
@@ -5869,21 +5983,45 @@ class Items extends Secure_area implements Idata_controller
 		$config['per_page'] = $this->config->item('number_of_items_per_page') ? (int)$this->config->item('number_of_items_per_page') : 20;
 		$config['total_rows'] = $this->Inventory->get_number_of_items_counted($count_id);
 		$config['uri_segment'] = 4;
+		$data['controller_name']=strtolower(get_class());
 		$data['per_page'] = $config['per_page'];
 	
-
+		$search = $this->input->get('search') ? $this->input->get('search') : "";
+		
 		$data['total_rows'] = $config['total_rows'];
 		$this->load->library('pagination');$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();
 		$data['count_info'] = $this->Inventory->get_count_info($count_id);
-		
-		$data['items_counted'] = $this->Inventory->get_items_counted($count_id,$config['per_page'], $offset);
+		if(isset($search))
+		{
+			$data['items_counted'] = $this->Inventory->get_items_counted($count_id,$config['per_page'], $offset,$search);
+		}
+		else
+		{
+			$data['items_counted'] = $this->Inventory->get_items_counted($count_id,$config['per_page'], $offset,$search);
+		}
+
+		$index = 0;
+
+		foreach($data['items_counted'] as $item)
+		{
+			$data['items_counted'][$index]['category_id'] = $this->Category->get_full_path($item['category_id']);
+			$data['items_counted'][$index]['cost_price'] = to_currency($item['cost_price']);
+			$data['items_counted'][$index]['unit_price'] = to_currency($item['unit_price']);
+			$index++;
+		}
+
 		$data['mode'] = $this->session->userdata('count_mode') ? $this->session->userdata('count_mode') : 'scan_and_set';
 		$data['modes'] = array('scan_and_set' => lang('items_scan_and_set'), 'scan_and_add' => lang('items_scan_and_add') ); 
-			
+		
+		$this->load->model('Employee_appconfig');
+		$data['default_columns'] = $this->Inventory->get_default_columns();
+		$data['selected_columns'] = $this->Employee->get_inventory_count_columns_to_display();
+		$data['all_columns'] = array_merge($data['selected_columns'],$this->Inventory->get_displayable_columns());	
+		
 		$this->load->view('items/do_count', $data);
 	}
-	
+
 	private function can_add_item_to_inventory_count($item_id, $item_variation_id)
 	{
 		$count_id = $this->session->userdata('current_count_id');		
@@ -5935,41 +6073,50 @@ class Items extends Secure_area implements Idata_controller
 		$data = array();
 		
 		$result = parse_item_scan_data($item_identifer);
-		$item_id = $result['item_id'];
-		$item_variation_id = $result['variation_id'];
-		if ($this->can_add_item_to_inventory_count($item_id, $item_variation_id))
-		{
-				$current_count = $this->Inventory->get_count_item_current_quantity($count_id, $item_id, $item_variation_id);
-				$actual_quantity = $this->Inventory->get_count_item_actual_quantity($count_id, $item_id, $item_variation_id);
-			
-				if ($actual_quantity !== NULL)
-				{
-					$current_inventory_value = $actual_quantity;
-				}
-				else
-				{
-					$count_info = $this->Inventory->get_count_info($count_id);
-					
-					if($item_variation_id)
-					{
-						$current_inventory_value = $this->Item_variation_location->get_location_quantity($item_variation_id,$count_info->location_id);
-					} else {
-						$current_inventory_value = $this->Item_location->get_location_quantity($item_id,$count_info->location_id);
-					}
-				}
-				if ($mode == 'scan_and_add')
-				{	
-					$this->Inventory->set_count_item($count_id, $item_id, $item_variation_id, $current_count + 1, $current_inventory_value);
-				}
-				else
-				{
-					$this->Inventory->set_count_item($count_id, $item_id, $item_variation_id, $current_count, $current_inventory_value);
-				}
-		} 
-		else 
+		if(!$result)
 		{
 			$data['error'] = true;
-		} 
+		}
+		else
+		{
+			$item_id = $result['item_id'];
+			$item_variation_id = $result['variation_id'];
+			if ($this->can_add_item_to_inventory_count($item_id, $item_variation_id))
+			{
+					$current_count = $this->Inventory->get_count_item_current_quantity($count_id, $item_id, $item_variation_id);
+					$actual_quantity = $this->Inventory->get_count_item_actual_quantity($count_id, $item_id, $item_variation_id);
+				
+					if ($actual_quantity !== NULL)
+					{
+						$current_inventory_value = $actual_quantity;
+					}
+					else
+					{
+						$count_info = $this->Inventory->get_count_info($count_id);
+						
+						if($item_variation_id)
+						{
+							$current_inventory_value = $this->Item_variation_location->get_location_quantity($item_variation_id,$count_info->location_id);
+						} else {
+							$current_inventory_value = $this->Item_location->get_location_quantity($item_id,$count_info->location_id);
+						}
+					}
+					if ($mode == 'scan_and_add')
+					{	
+						$this->Inventory->set_count_item($count_id, $item_id, $item_variation_id, $current_count + 1, $current_inventory_value);
+					}
+					else
+					{
+						$this->Inventory->set_count_item($count_id, $item_id, $item_variation_id, $current_count, $current_inventory_value);
+					}
+			} 
+			else 
+			{
+				$data['error'] = true;
+			} 
+
+		}
+
 		
 		$this->_reload_inventory_counts($data);
 	}
@@ -6202,6 +6349,7 @@ class Items extends Secure_area implements Idata_controller
 		$count_id = $this->session->userdata('current_count_id');
 		$config = array();
 		
+		$data['controller_name']=strtolower(get_class());
 		$config['base_url'] = site_url("items/do_count/$count_id");
 		$config['per_page'] = $this->config->item('number_of_items_per_page') ? (int)$this->config->item('number_of_items_per_page') : 20; 
 		$config['total_rows'] = $this->Inventory->get_number_of_items_counted($count_id);
@@ -6218,6 +6366,10 @@ class Items extends Secure_area implements Idata_controller
 		$data['mode'] = $this->session->userdata('count_mode') ? $this->session->userdata('count_mode') : 'scan_and_set';
 		$data['modes'] = array('scan_and_set' => lang('items_scan_and_set'), 'scan_and_add' => lang('items_scan_and_add') ); 
 		
+		$this->load->model('Employee_appconfig');
+		$data['default_columns'] = $this->Inventory->get_default_columns();
+		$data['selected_columns'] = $this->Employee->get_inventory_count_columns_to_display();
+		$data['all_columns'] = array_merge($data['selected_columns'],$this->Inventory->get_displayable_columns());
 		if(isset($data['error']))
 		{
 			$this->output->set_status_header(400);
@@ -6317,6 +6469,34 @@ class Items extends Secure_area implements Idata_controller
 		$this->load->helper('file');
 		$this->load->helper('download');
 		force_download($file->file_name,$file->file_data);
+	}
+
+	function save_inventory_column_prefs()
+	{
+		$this->load->model('Employee_appconfig');
+		
+		if ($this->input->post('columns'))
+		{
+			$this->Employee_appconfig->save('item_count_column_prefs',serialize($this->input->post('columns')));
+		}
+		else
+		{
+			$this->Employee_appconfig->delete('item_count_column_prefs');			
+		}
+	}
+
+	function save_item_not_count_column_prefs()
+	{
+		$this->load->model('Employee_appconfig');
+		
+		if ($this->input->post('columns'))
+		{
+			$this->Employee_appconfig->save('item_not_count_column_prefs',serialize($this->input->post('columns')));
+		}
+		else
+		{
+			$this->Employee_appconfig->delete('item_not_count_column_prefs');			
+		}
 	}
 }
 ?>

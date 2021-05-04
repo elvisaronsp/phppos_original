@@ -16,6 +16,7 @@ class Item extends MY_Model
 
 	function get_displayable_columns()
 	{
+		$this->load->helper('text');
 		$return  = array(
 			'item_id' => 												array('sort_column' => 'item_id', 'label' => lang('common_item_id')),
 			'item_number' => 										array('sort_column' => 'item_number','label' => lang('common_item_number_expanded'), 'data_function' => 'item_number_data_function', 'format_function' => 'item_number_formatter'),
@@ -32,8 +33,8 @@ class Item extends MY_Model
 			'tax_group' => 											array('sort_column' => 'tax_group','label' => lang('common_tax_class')),
 			'quantity' =>												array('sort_column' => 'quantity','label' => lang('items_quantity'),'data_function' => 'item_quantity_data_function','format_function' => 'item_quantity_format', 'html' => TRUE),
 			'tags' => 													array('sort_column' => 'tags','label' => lang('common_tags')),
-			'description' => 										array('sort_column' => 'description','label' => lang('common_description')),
-			'long_description' => 							array('sort_column' => 'long_description','label' => lang('common_long_description')),
+			'description' => 										array('sort_column' => 'description','label' => lang('common_description'),'format_function' => 'clean_html', 'html' => TRUE),
+			'long_description' => 							array('sort_column' => 'long_description','label' => lang('common_long_description'),'format_function' => 'clean_html', 'html' => TRUE),
 			'info_popup' => 										array('sort_column' => 'info_popup','label' => lang('common_info_popup')),
 			'size' => 													array('sort_column' => 'size','label' => lang('common_size')),
 			'tax_included' => 									array('sort_column' => 'tax_included','label' => lang('common_prices_include_tax'),'format_function' => 'boolean_as_string'),
@@ -64,6 +65,7 @@ class Item extends MY_Model
 			'last_modified' => 									array('sort_column' => 'last_modified','label' => lang('common_last_modified'),'format_function' => 'date_as_display_datetime', 'html' => TRUE),
 			'last_edited' => 										array('sort_column' => 'last_edited','label' => lang('common_last_edited'),'format_function' => 'date_as_display_datetime', 'html' => TRUE),
 			'weight'  => 											  array('sort_column' => 'weight','label' => lang('items_weight'),'format_function' => 'to_quantity'),
+			'weight_unit'  => 											  array('sort_column' => 'weight_unit','label' => lang('items_weight_unit'),'format_function' => 'strsame'),
 			'dimensions' => 								    array('sort_column' => 'length','label' => lang('items_dimensions'),'format_function' => 'dimensions_format', 'data_function' => 'dimensions_data','html' => TRUE),
 			'allow_price_override_regardless_of_permissions'  => 	array('sort_column' => 'allow_price_override_regardless_of_permissions','label' => character_limiter(lang('common_allow_price_override_regardless_of_permissions'),38),'format_function' => 'boolean_as_string'),		
 			'only_integer'  => 									array('sort_column' => 'only_integer','label' => character_limiter(lang('common_only_integer'),38),'format_function' => 'boolean_as_string'),		
@@ -167,7 +169,6 @@ class Item extends MY_Model
 	*/
 	function get_all($deleted=0,$limit=10000, $offset=0,$col='item_id',$order='desc')
 	{
-
 		if (!$deleted)
 		{
 			$deleted = 0;
@@ -302,18 +303,18 @@ class Item extends MY_Model
 		$item_kits_table = $this->db->dbprefix('item_kits');
 		$item_images_table = $this->db->dbprefix('item_images');
 		if (!$hide_out_of_stock_grid)
-		{
+		{				
 			$result = $this->db->query("(SELECT item_id, unit_price, name, size, COALESCE(phppos_items.main_image_id,phppos_item_images.image_id) as image_id FROM $items_table LEFT JOIN $item_images_table USING (item_id)
-				WHERE item_inactive = 0 and deleted = 0 and system_item = 0 and category_id = $category_id and item_id NOT IN (SELECT item_id FROM phppos_grid_hidden_items WHERE location_id=$location_id) GROUP BY item_id ORDER BY name) UNION ALL (SELECT CONCAT('KIT ',item_kit_id), unit_price, name, '', main_image_id as image_id FROM $item_kits_table 
-			WHERE item_kit_inactive = 0 and deleted = 0 and category_id = $category_id and item_kit_id NOT IN (SELECT item_kit_id FROM phppos_grid_hidden_item_kits WHERE location_id=$location_id) ORDER BY name) ORDER BY name LIMIT $offset, $limit");
+				WHERE item_inactive = 0 and deleted = 0 and system_item = 0 and (category_id = $category_id or item_id IN (SELECT item_id FROM phppos_items_secondary_categories WHERE item_id = phppos_items.item_id and category_id=$category_id)) and item_id NOT IN (SELECT item_id FROM phppos_grid_hidden_items WHERE location_id=$location_id) GROUP BY item_id ORDER BY name) UNION ALL (SELECT CONCAT('KIT ',item_kit_id), unit_price, name, '', main_image_id as image_id FROM $item_kits_table 
+			WHERE item_kit_inactive = 0 and deleted = 0 and (category_id = $category_id or item_kit_id IN (SELECT item_kit_id FROM phppos_item_kits_secondary_categories WHERE item_kit_id = phppos_item_kits.item_kit_id and category_id=$category_id)) and item_kit_id NOT IN (SELECT item_kit_id FROM phppos_grid_hidden_item_kits WHERE location_id=$location_id) ORDER BY name) ORDER BY name LIMIT $offset, $limit");
 		}
 		else
 		{
 			$location_items_table = $this->db->dbprefix('location_items ');
 			$current_location=$this->Employee->get_logged_in_employee_current_location_id();
 			$result = $this->db->query("(SELECT i.item_id, i.unit_price, name,size, COALESCE(i.main_image_id,phppos_item_images.image_id) as image_id FROM $items_table as i LEFT JOIN $item_images_table USING(item_id) LEFT JOIN $location_items_table as li ON i.item_id = li.item_id and li.location_id = $current_location
-			WHERE item_inactive = 0 and (quantity > 0 or quantity IS NULL or is_service = 1) and deleted = 0 and system_item = 0 and category_id = $category_id and i.item_id NOT IN (SELECT item_id FROM phppos_grid_hidden_items WHERE location_id=$location_id) GROUP BY item_id ORDER BY name) UNION ALL (SELECT CONCAT('KIT ',item_kit_id), unit_price, name, '', main_image_id as image_id FROM $item_kits_table 
-			WHERE item_kit_inactive = 0 and deleted = 0 and category_id = $category_id and item_kit_id NOT IN (SELECT item_kit_id FROM phppos_grid_hidden_item_kits WHERE location_id=$location_id) ORDER BY name) ORDER BY name LIMIT $offset, $limit");
+			WHERE item_inactive = 0 and (quantity > 0 or quantity IS NULL or is_service = 1) and deleted = 0 and system_item = 0 and (category_id = $category_id or i.item_id IN (SELECT item_id FROM phppos_items_secondary_categories WHERE item_id = i.item_id and category_id=$category_id)) and i.item_id NOT IN (SELECT item_id FROM phppos_grid_hidden_items WHERE location_id=$location_id) GROUP BY item_id ORDER BY name) UNION ALL (SELECT CONCAT('KIT ',item_kit_id), unit_price, name, '', main_image_id as image_id FROM $item_kits_table 
+			WHERE item_kit_inactive = 0 and deleted = 0 and (category_id = $category_id or phppos_item_kits.item_kit_id IN (SELECT item_kit_id FROM phppos_item_kits_secondary_categories WHERE item_kit_id = phppos_item_kits.item_kit_id and category_id=$category_id)) and item_kit_id NOT IN (SELECT item_kit_id FROM phppos_grid_hidden_item_kits WHERE location_id=$location_id) ORDER BY name) ORDER BY name LIMIT $offset, $limit");
 		}
 		return $result;
 	}
@@ -646,7 +647,7 @@ class Item extends MY_Model
 			$item_obj=new stdClass();
 
 			//Get all the fields from items table
-			$fields = array('barcode_name','info_popup','name','category_id','supplier_id','manufacturer_id','item_number','product_id','ecommerce_product_id','ecommerce_product_quantity','description','size','tax_included','cost_price','unit_price','promo_price','start_date','end_date','reorder_level','expire_days','item_id','allow_alt_description','is_serialized','override_default_tax','is_ecommerce','is_service','is_ebt_item','commission_percent','commission_percent_type','commission_fixed','change_cost_price','disable_loyalty','deleted','last_modified','ecommerce_last_modified','tax_class_id','replenish_level','system_item','max_discount_percent','max_edit_price','min_edit_price','custom_field_1_value','custom_field_2_value','custom_field_3_value','custom_field_4_value','custom_field_5_value','custom_field_6_value','custom_field_7_value','custom_field_8_value','custom_field_9_value','custom_field_10_value','required_age','verify_age','weight','length','width','height','ecommerce_shipping_class_id','long_description','allow_price_override_regardless_of_permissions','main_image_id','only_integer','is_series_package','series_quantity','series_days_to_use_within','is_barcoded','item_inactive','default_quantity','disable_from_price_rules','is_favorite','loyalty_multiplier');
+			$fields = array('weight_unit','ecommerce_inventory_item_id','barcode_name','info_popup','name','category_id','supplier_id','manufacturer_id','item_number','product_id','ecommerce_product_id','ecommerce_product_quantity','description','size','tax_included','cost_price','unit_price','promo_price','start_date','end_date','reorder_level','expire_days','item_id','allow_alt_description','is_serialized','override_default_tax','is_ecommerce','is_service','is_ebt_item','commission_percent','commission_percent_type','commission_fixed','change_cost_price','disable_loyalty','deleted','last_modified','ecommerce_last_modified','tax_class_id','replenish_level','system_item','max_discount_percent','max_edit_price','min_edit_price','custom_field_1_value','custom_field_2_value','custom_field_3_value','custom_field_4_value','custom_field_5_value','custom_field_6_value','custom_field_7_value','custom_field_8_value','custom_field_9_value','custom_field_10_value','required_age','verify_age','weight','length','width','height','ecommerce_shipping_class_id','long_description','allow_price_override_regardless_of_permissions','main_image_id','only_integer','is_series_package','series_quantity','series_days_to_use_within','is_barcoded','item_inactive','default_quantity','disable_from_price_rules','is_favorite','loyalty_multiplier');
 
 			foreach ($fields as $field)
 			{
@@ -675,7 +676,7 @@ class Item extends MY_Model
 			$item_obj=new stdClass();
 
 			//Get all the fields from items table
-			$fields = array('barcode_name','info_popup','name','category_id','supplier_id','manufacturer_id','item_number','product_id','ecommerce_product_id','ecommerce_product_quantity','description','size','tax_included','cost_price','unit_price','promo_price','start_date','end_date','reorder_level','expire_days','item_id','allow_alt_description','is_serialized','override_default_tax','is_ecommerce','is_service','is_ebt_item','commission_percent','commission_percent_type','commission_fixed','change_cost_price','disable_loyalty','deleted','last_modified','ecommerce_last_modified','tax_class_id','replenish_level','system_item','max_discount_percent','max_edit_price','min_edit_price','custom_field_1_value','custom_field_2_value','custom_field_3_value','custom_field_4_value','custom_field_5_value','custom_field_6_value','custom_field_7_value','custom_field_8_value','custom_field_9_value','custom_field_10_value','required_age','verify_age','weight','length','width','height','ecommerce_shipping_class_id','long_description','allow_price_override_regardless_of_permissions','main_image_id','only_integer','is_series_package','series_quantity','series_days_to_use_within','is_barcoded','item_inactive','default_quantity','is_favorite','loyalty_multiplier');
+			$fields = array('weight_unit','ecommerce_inventory_item_id','barcode_name','info_popup','name','category_id','supplier_id','manufacturer_id','item_number','product_id','ecommerce_product_id','ecommerce_product_quantity','description','size','tax_included','cost_price','unit_price','promo_price','start_date','end_date','reorder_level','expire_days','item_id','allow_alt_description','is_serialized','override_default_tax','is_ecommerce','is_service','is_ebt_item','commission_percent','commission_percent_type','commission_fixed','change_cost_price','disable_loyalty','deleted','last_modified','ecommerce_last_modified','tax_class_id','replenish_level','system_item','max_discount_percent','max_edit_price','min_edit_price','custom_field_1_value','custom_field_2_value','custom_field_3_value','custom_field_4_value','custom_field_5_value','custom_field_6_value','custom_field_7_value','custom_field_8_value','custom_field_9_value','custom_field_10_value','required_age','verify_age','weight','length','width','height','ecommerce_shipping_class_id','long_description','allow_price_override_regardless_of_permissions','main_image_id','only_integer','is_series_package','series_quantity','series_days_to_use_within','is_barcoded','item_inactive','default_quantity','is_favorite','loyalty_multiplier');
 
 			foreach ($fields as $field)
 			{
@@ -3397,12 +3398,19 @@ SQL;
 		$this->db->update('item_images', array('ecommerce_image_id' => $ecommerce_image_id));	
 	}
 	
+	function set_variation_for_ecommerce_image($ecommerce_image_id,$item_variation_id)
+	{
+		$this->db->where('ecommerce_image_id', $ecommerce_image_id);
+		$this->db->update('item_images', array('item_variation_id' => $item_variation_id));	
+	}
+	
+	
 	function unlink_image_from_ecommerce($ecommerce_image_id)
 	{
 		$this->db->where('ecommerce_image_id', $ecommerce_image_id);
 		$this->db->update('item_images', array('ecommerce_image_id' => NULL));
 	}
-	function create_or_update_fee_item()
+	function create_or_update_fee_item($can_cache = TRUE)
 	{
 		$item_id = FALSE;
 		
@@ -3421,7 +3429,7 @@ SQL;
 			'product_id'	=>	lang('common_fee'),
 			'description'	=>	'',
 			'item_number'	=> NULL,
-			'category_id'=> $this->Category->save(lang('common_fee'), TRUE, NULL, $this->Category->get_category_id(lang('common_fee')),FALSE,NULL,1),
+			'category_id'=> $this->Category->save(lang('common_fee'), TRUE, NULL, $this->Category->get_category_id(lang('common_fee'),$can_cache),FALSE,NULL,1),
 			'size'			=> '',
 			'cost_price'	=>	0,
 			'unit_price'	=>	0,
@@ -3496,7 +3504,7 @@ SQL;
 	}
 	
 	
-	function create_or_update_refund_item()
+	function create_or_update_refund_item($can_cache = TRUE)
 	{
 		$item_id = FALSE;
 		
@@ -3515,7 +3523,7 @@ SQL;
 			'product_id'	=>	lang('common_refund'),
 			'description'	=>	'',
 			'item_number'	=> NULL,
-			'category_id'=> $this->Category->save(lang('common_refund'), TRUE, NULL, $this->Category->get_category_id(lang('common_refund')),FALSE,NULL,1),
+			'category_id'=> $this->Category->save(lang('common_refund'), TRUE, NULL, $this->Category->get_category_id(lang('common_refund'),$can_cache),FALSE,NULL,1),
 			'size'			=> '',
 			'cost_price'	=>	0,
 			'unit_price'	=>	0,
@@ -3543,7 +3551,7 @@ SQL;
 	}
 	
 	
-	function create_or_update_delivery_item()
+	function create_or_update_delivery_item($can_cache = TRUE)
 	{
 		$this->lang->load('sales');
 		$item_id = FALSE;
@@ -3563,7 +3571,7 @@ SQL;
 			'product_id'	=>	lang('common_delivery_fee'),
 			'description'	=>	'',
 			'item_number'	=> NULL,
-			'category_id'=> $this->Category->save(lang('common_delivery_fee'), TRUE, NULL, $this->Category->get_category_id(lang('common_delivery_fee')),FALSE,NULL,1),
+			'category_id'=> $this->Category->save(lang('common_delivery_fee'), TRUE, NULL, $this->Category->get_category_id(lang('common_delivery_fee'),$can_cache),FALSE,NULL,1),
 			'size'			=> '',
 			'cost_price'	=>	0,
 			'unit_price'	=>	0,
@@ -3637,6 +3645,54 @@ SQL;
 			return $item_data['item_id'];
 		}
 	}
+	
+	function create_or_update_ecommerce_item()
+	{
+		$this->lang->load('sales');
+		$item_id = FALSE;
+		
+		$this->db->from('items');
+		$this->db->where('product_id', lang('common_ecommerce_item'));
+
+		$result=$this->db->get();				
+		if ($result->num_rows() > 0)
+		{
+			$query_result = $result->result();
+			$item_id = $query_result[0]->item_id;
+		}
+		
+		$item_data = array(
+			'name'			=>	lang('common_ecommerce_item'),
+			'product_id'	=>	lang('common_ecommerce_item'),
+			'description'	=>	'',
+			'item_number'	=> NULL,			
+			'category_id'=> NULL,
+			'size'			=> '',
+			'cost_price'	=>	0,
+			'unit_price'	=>	0,
+			'tax_included' => 0,
+			'reorder_level'	=>	NULL,
+			'allow_alt_description'=> 0,
+			'is_serialized'=> 0,
+			'is_service'=> 1,
+			'override_default_tax' => 1,
+			'deleted' => 0,
+			'system_item' => 1,
+			'is_ecommerce' => 0,
+		);
+		
+		$this->save($item_data, $item_id);
+			
+		if ($item_id)
+		{
+			return $item_id;
+		}
+		else
+		{
+			return $item_data['item_id'];
+		}
+	}
+	
 	
 	function create_or_update_purchase_points_item()
 	{
@@ -3860,10 +3916,12 @@ SQL;
 	}
 	
 	/*
-	Gets sale price for item given an array of parameters. Current keys are item_id and tier_id
+	Gets sale price for item given an array of parameters. Current keys are item_id,quantity_unit_id,quantity_unit_quantity and tier_id
 	*/
 	function get_sale_price(array $params)
 	{
+		$quantity_unit_id = isset($params['quantity_unit_id']) ? $params['quantity_unit_id'] : NULL;
+		
 		$quantity_unit_quantity = isset($params['quantity_unit_quantity']) && $params['quantity_unit_quantity'] ? $params['quantity_unit_quantity'] : 1;
 		$item_id = $params['item_id'];
 		$tier_id = isset($params['tier_id']) ? $params['tier_id'] : FALSE;
@@ -3883,8 +3941,22 @@ SQL;
 		
 		
 		$tier_info = $this->Tier->get_info($tier_id);
-				
-		if (!empty($item_location_tier_row) && $item_location_tier_row->unit_price)
+		
+		
+		if ($quantity_unit_id)
+		{
+			$qui = $this->Item->get_quantity_unit_info($quantity_unit_id);
+					
+			if ($qui->unit_price !== NULL)
+			{
+				return to_currency_no_money($item_unit_price = $qui->unit_price);
+			}
+			else
+			{	
+				return to_currency_no_money($this->get_sale_price(array('item_id' => $item_id,'tier_id' => $tier_id,'variation_id' => $variation_id,'quantity_unit_quantity' => $qui->unit_quantity)));
+			}		
+		}	
+		elseif (!empty($item_location_tier_row) && $item_location_tier_row->unit_price)
 		{
 			return to_currency_no_money($item_location_tier_row->unit_price*$quantity_unit_quantity, $this->config->item('round_tier_prices_to_2_decimals') ? 2 : 10);
 		}
@@ -4042,7 +4114,8 @@ SQL;
 			}
 			else
 			{
-				$item_unit_price = (double)$item_location_info->unit_price ? $item_location_info->unit_price : $item_info->unit_price;
+				$item_unit_price = (double)$item_location_info->unit_price ? (double)$item_location_info->unit_price : (double)$item_info->unit_price;
+				
 				return @to_currency_no_money($item_unit_price*$quantity_unit_quantity, 10);
 			}
 		}
@@ -4263,6 +4336,32 @@ SQL;
 		$this->db->where('item_id',$item_id);
 		$this->db->where('item_variation_id',$item_variation_id);
 		$this->db->delete('damaged_items_log');		
+	}
+	
+	function get_secondary_categories($item_id)
+	{
+		$this->db->from('items_secondary_categories');
+		$this->db->where('item_id',$item_id);
+		return $this->db->get();
+	}
+	
+	function save_secondory_category($item_id,$category_id,$sec_category_id = NULL)
+	{
+		if ($sec_category_id > 0)
+		{
+			$this->db->where('id',$sec_category_id);
+			$this->db->update('items_secondary_categories',array('item_id' => $item_id,'category_id' => $category_id));
+		}
+		else
+		{
+			$this->db->replace('items_secondary_categories',array('item_id' => $item_id,'category_id' => $category_id));
+		}
+	}
+	
+	function delete_secondory_category($sec_category_id)
+	{
+		$this->db->where('id',$sec_category_id);
+		$this->db->delete('items_secondary_categories');
 	}
 }
 ?>

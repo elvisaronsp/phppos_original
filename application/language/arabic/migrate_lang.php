@@ -445,8 +445,40 @@ $lang['migrate_ecommerce_item_id_index'] = 'فهرس معرف عنصر التج�
 $lang['migrate_add_always_sms_receipt_field_to_customers'] = 'أضف دائمًا حقل استلام الرسائل القصيرة للعملاء';
 $lang['migrate_18_0_version'] = '18.0 الإصدار';
 $lang['migrate_items_per_search_suggestion_store_config'] = 'العناصر لكل تكوين متجر اقتراحات البحث';
+
 $lang['migrate_serialnumber_index'] = 'مؤشر الرقم التسلسلي';
 $lang['migrate_create_email_field_auto_email_reports'] = 'إنشاء تقارير البريد الإلكتروني التلقائي حقل البريد الإلكتروني';
 $lang['migrate_email_report_time_to_email'] = 'إرسال تقرير بالبريد الإلكتروني وقت إرسال بريد إلكتروني';
+
+$lang['migrate_shopify'] = 'Shopify';
+
 $lang['migrate_damaged_reason_comment_field'] = 'حقل تعليق سبب تالف';
+$lang['migrate_18_1_version'] = '18.1 الإصدار';
+$lang['migrate_custom_suspended_sale_types_remove_quantity'] = 'أنواع البيع المعلقة المخصصة إزالة الكمية';
+
+$lang['migrate_secondary_categories'] = 'الفئات الثانوية';
+
+
+
+$lang['migrate_non_taxable_on_sales_table'] = 'غير خاضع للضريبة على جدول المبيعات';
+
+
+
+
+$lang['migrate_current_or_previous_day_option_for_auto_email'] = 'خيار اليوم الحالي أو السابق للبريد الإلكتروني التلقائي';
+$lang['migrate_disable_confirmation_option_for_emv_credit_card'] = 'تعطيل خيار التأكيد لبطاقة ائتمان Emv';
+
+
+$lang['migrate_weight_units'] = 'وحدات الوزن';
+
+$lang['migrate_migrate_categories_for_expenses'] = 'ترحيل الفئات للمصروفات';
+
+$lang['migrate_expenses_categories'] = 'فئات المصروفات';
+$lang['migrate_permission_for_manage_expenses_categories'] = 'إذن إدارة فئات المصاريف';
+$lang['migrate_update_foregin_key_for_expenses_categories'] = 'تحديث مفتاح Foregin لفئات المصروفات';
+$lang['migrate_update_foreign_key_for_expenses_categories'] = 'تحديث المفتاح الخارجي لفئات المصروفات';
+
+$lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'السماح بأن يكون رقم تعريف طلب التجارة الإلكترونية أكبر';
+$lang['migrate_index_on_filename'] = 'فهرس على اسم الملف';
+$lang['migrate_work_orders'] = 'طلبات العمل';
 ?>

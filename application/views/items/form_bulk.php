@@ -582,6 +582,32 @@
 						</div>
 						
 						
+				        <div class="form-group">
+						<?php echo form_label(lang('common_description').':', 'description',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label wide')); ?>
+							<div class="col-sm-9 col-md-9 col-lg-10">
+							<?php echo form_textarea(array(
+								'name'=>'description',
+								'class'=>'form-control text-area',
+								'rows'=>'4',
+								'cols'=>'30',
+								'value'=>''));?>
+							</div>
+						</div>
+						
+						
+				        <div class="form-group">
+						<?php echo form_label(lang('common_long_description').':', 'long_description',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label wide')); ?>
+							<div class="col-sm-9 col-md-9 col-lg-10">
+							<?php echo form_textarea(array(
+								'name'=>'long_description',
+								'class'=>'form-control text-area',
+								'rows'=>'4',
+								'cols'=>'30',
+								'value'=>''));?>
+							</div>
+						</div>
+						
+						
 						<?php if ($this->config->item("ecommerce_platform")) { ?>
 						<div class="form-group">
 							<?php echo form_label(lang('items_ecommerce_shipping_class').':', 'ecommerce_shipping_class_id',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label wide ')); ?>

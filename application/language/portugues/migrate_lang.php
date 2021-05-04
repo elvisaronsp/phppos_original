@@ -397,8 +397,39 @@ $lang['migrate_ecommerce_item_id_index'] = 'Índice de ID de item de comércio e
 $lang['migrate_add_always_sms_receipt_field_to_customers'] = 'Adicionar campo de recebimento de SMS sempre para clientes';
 $lang['migrate_18_0_version'] = 'Versão 18.0';
 $lang['migrate_items_per_search_suggestion_store_config'] = 'Itens por configuração de loja de sugestões de pesquisa';
+
 $lang['migrate_serialnumber_index'] = 'Índice de número de série';
 $lang['migrate_create_email_field_auto_email_reports'] = 'Criar relatórios de email automático de campo de email';
 $lang['migrate_email_report_time_to_email'] = 'Tempo do relatório por e-mail para enviar por e-mail';
+
+$lang['migrate_shopify'] = 'Shopify';
+
 $lang['migrate_damaged_reason_comment_field'] = 'Campo de comentário de motivo danificado';
+$lang['migrate_18_1_version'] = '18.1 Versão';
+$lang['migrate_custom_suspended_sale_types_remove_quantity'] = 'Tipos de venda suspensa personalizados remover quantidade';
+
+$lang['migrate_secondary_categories'] = 'Categorias Secundárias';
+
+
+
+$lang['migrate_non_taxable_on_sales_table'] = 'Não tributável na tabela de vendas';
+
+
+
+
+$lang['migrate_current_or_previous_day_option_for_auto_email'] = 'Opção de dia atual ou anterior para e-mail automático';
+$lang['migrate_disable_confirmation_option_for_emv_credit_card'] = 'Desativar opção de confirmação para cartão de crédito Emv';
+
+
+$lang['migrate_weight_units'] = 'Unidades de peso';
+
+$lang['migrate_migrate_categories_for_expenses'] = 'Migrar categorias para despesas';
+
+$lang['migrate_expenses_categories'] = 'Categorias de despesas';
+$lang['migrate_permission_for_manage_expenses_categories'] = 'Permissão para gerenciar categorias de despesas';
+$lang['migrate_update_foreign_key_for_expenses_categories'] = 'Atualizar a chave estrangeira para categorias de despesas';
+
+$lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'Permitir que o ID do pedido de comércio eletrônico seja maior';
+$lang['migrate_index_on_filename'] = 'Índice no nome do arquivo';
+$lang['migrate_work_orders'] = 'Ordens de trabalho';
 ?>

@@ -504,4 +504,5 @@ $lang['reports_serial_number_history'] = 'Seriennummer-Verlauf';
 $lang['reports_daily_report'] = 'Tagesbericht';
 $lang['reports_only_count_store_account_payments'] = 'Zählen Sie nur die Zahlungen des Geschäftskontos';
 $lang['reports_generation_date'] = 'Generierungsdatum';
+$lang['reports_non_taxable_customers'] = 'Nicht steuerpflichtige Kunden';
 ?>

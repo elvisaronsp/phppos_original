@@ -748,7 +748,7 @@ $lang['import_products_button_text'] = 'Nhập sản phẩm Woocomerce';
 //Create PO
 $lang['common_create_po'] = 'tạo PO';
 //WooCommerce Sync Completed Successfully.
-$lang['common_cron_success'] = 'Đồng bộ WooCommerce đã hoàn tất.';
+$lang['common_cron_success'] = 'Thương mại điện tử đã đồng bộ hóa thành công';
 //Access Denied.
 $lang['common_access_denied'] = 'Access Denied.';
 //Woocommerce Product
@@ -758,7 +758,7 @@ $lang['common_random_token'] = 'Tạo Random Mã';
 //Select a Product
 $lang['common_select_product'] = 'Chọn một sản phẩm';
 //Are you sure you want to sync with WooCommerce?
-$lang['confirmation_woocommerce_cron'] = 'Bạn có chắc chắn muốn đồng bộ hóa với WooCommerce?';
+$lang['confirmation_woocommerce_cron'] = 'Bạn có chắc chắn muốn đồng bộ hóa với Thương mại điện tử không?';
 //Are you sure you want to import the products from woocommerce?
 $lang['confirmation_import_woocommerce_products'] = 'Bạn có chắc chắn muốn nhập khẩu các sản phẩm từ woocommerce?';
 //Cron Documentation
@@ -1378,4 +1378,22 @@ $lang['common_quick_cash_help'] = 'Hộp thoại Chuyển tiền Nhanh';
 $lang['common_sent_email'] = 'Đã gửi e-mail';
 
 $lang['common_serialnumber_already_added'] = 'Số sê-ri đã được thêm vào';
+$lang['common_add_secondary_category'] = 'Thêm danh mục phụ';
+$lang['common_secondary_category'] = 'Danh mục phụ';
+$lang['common_suspended_types'] = 'Các loại bị treo';
+$lang['shopify_cron_job_entry'] = 'Shopify Cron Entry';
+$lang['item inventory changed in shopify'] = 'Đã thay đổi hàng tồn kho trong shopify';
+$lang['common_recent_exports'] = 'Xuất khẩu gần đây';
+$lang['common_import_order'] = 'Nhập đơn hàng';
+$lang['shopify_not_paid'] = 'Bạn chưa kích hoạt Shopify Billing của mình';
+$lang['common_color'] = 'Màu sắc';
+$lang['common_drag_and_drop_or_click'] = 'Kéo và thả hoặc nhấp';
+$lang['common_workorder'] = 'Trình tự công việc';
+$lang['common_item_being_repaired'] = 'Mục đang được sửa chữa';
+$lang['work_orders_edit'] = 'Chỉnh sửa Thứ tự Công việc';
+$lang['work_orders_delete'] = 'Xóa lệnh làm việc';
+$lang['work_orders_search'] = 'Tìm kiếm đơn hàng công việc';
+$lang['work_orders_manage_statuses'] = 'Quản lý trạng thái đơn đặt hàng công việc';
+$lang['common_shopify_access_token_error'] = 'Mã thông báo truy cập của bạn đã hết hạn và chúng tôi không thể kết nối với API. Vui lòng thử lại.';
+$lang['common_ecommerce_item'] = 'Mục thương mại điện tử';
 ?>

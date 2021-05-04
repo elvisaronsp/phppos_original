@@ -1,6 +1,4 @@
-
 <?php
-//INDEX.PHP
 if (function_exists('newrelic_set_appname'))
 {
 	if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'])

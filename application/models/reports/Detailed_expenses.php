@@ -72,7 +72,7 @@ class Detailed_expenses extends Report
 			array('data'=>$row['id'], 'align'=> 'left'), 
 			array('data'=>$row['expense_type'], 'align'=> 'left'), 
 			array('data'=>$row['expense_description'], 'align'=> 'left'), 
-			array('data'=>$this->Category->get_full_path($row['category_id']), 'align'=> 'left'), 
+			array('data'=>$this->Expense_category->get_full_path($row['category_id']), 'align'=> 'left'), 
 			array('data'=>$row['expense_reason'], 'align'=> 'left'), 
 			array('data'=>date(get_date_format(), strtotime($row['expense_date'])), 'align'=> 'left'), 
 			array('data'=>  to_currency($row['expense_amount']), 'align'=> 'left'), 
@@ -109,11 +109,11 @@ class Detailed_expenses extends Report
 	public function getData()
 	{
 		$location_ids = self::get_selected_location_ids();
-		$this->db->select('locations.name as location_name, categories.id as category_id,categories.name as category, expenses.*, CONCAT(recv.last_name, ", ", recv.first_name) as employee_recv, CONCAT(appr.last_name, ", ", appr.first_name) as employee_appr', false);
+		$this->db->select('locations.name as location_name, expenses_categories.id as category_id,expenses_categories.name as category, expenses.*, CONCAT(recv.last_name, ", ", recv.first_name) as employee_recv, CONCAT(appr.last_name, ", ", appr.first_name) as employee_appr', false);
 		$this->db->from('expenses');
 		$this->db->join('people as recv', 'recv.person_id = expenses.employee_id','left');
 		$this->db->join('people as appr', 'appr.person_id = expenses.approved_employee_id','left');
-		$this->db->join('categories', 'categories.id = expenses.category_id','left');
+		$this->db->join('expenses_categories', 'expenses_categories.id = expenses.category_id','left');
 		$this->db->join('locations', 'locations.location_id = expenses.location_id');
 		$this->db->where_in('expenses.location_id', $location_ids);
 		$this->db->where('expenses.deleted', 0);

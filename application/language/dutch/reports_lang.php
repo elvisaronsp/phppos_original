@@ -513,4 +513,5 @@ $lang['reports_serial_number_history'] = 'Serienummer geschiedenis';
 $lang['reports_daily_report'] = 'Dagelijks rapport';
 $lang['reports_only_count_store_account_payments'] = 'Tel alleen betalingen via winkelaccounts';
 $lang['reports_generation_date'] = 'Generatiedatum';
+$lang['reports_non_taxable_customers'] = 'Niet-belastbare klanten';
 ?>

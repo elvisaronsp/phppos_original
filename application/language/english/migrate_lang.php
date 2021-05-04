@@ -401,8 +401,39 @@ $lang['migrate_ecommerce_item_id_index'] = 'Ecommerce Item Id Index';
 $lang['migrate_add_always_sms_receipt_field_to_customers'] = 'Add Always Sms Receipt Field To Customers';
 $lang['migrate_18_0_version'] = '18.0 Version';
 $lang['migrate_items_per_search_suggestion_store_config'] = 'Items Per Search Suggestion Store Config';
+
 $lang['migrate_serialnumber_index'] = 'Serialnumber Index';
 $lang['migrate_create_email_field_auto_email_reports'] = 'Create Email Field Auto Email Reports';
 $lang['migrate_email_report_time_to_email'] = 'Email Report Time To Email';
+
+$lang['migrate_shopify'] = 'Shopify';
+
 $lang['migrate_damaged_reason_comment_field'] = 'Damaged Reason Comment Field';
+$lang['migrate_18_1_version'] = '18.1 Version';
+$lang['migrate_custom_suspended_sale_types_remove_quantity'] = 'Custom Suspended Sale Types Remove Quantity';
+
+$lang['migrate_secondary_categories'] = 'Secondary Categories';
+
+
+
+$lang['migrate_non_taxable_on_sales_table'] = 'Non Taxable On Sales Table';
+
+
+
+
+$lang['migrate_current_or_previous_day_option_for_auto_email'] = 'Current Or Previous Day Option For Auto Email';
+$lang['migrate_disable_confirmation_option_for_emv_credit_card'] = 'Disable Confirmation Option For Emv Credit Card';
+
+
+$lang['migrate_weight_units'] = 'Weight Units';
+
+$lang['migrate_migrate_categories_for_expenses'] = 'Migrate Categories For Expenses';
+
+$lang['migrate_expenses_categories'] = 'Expenses Categories';
+$lang['migrate_permission_for_manage_expenses_categories'] = 'Permission For Manage Expenses Categories';
+$lang['migrate_update_foreign_key_for_expenses_categories'] = 'Update Foreign Key For Expenses Categories';
+
+$lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'Allow Ecommerce Order Id To Be Larger Int';
+$lang['migrate_index_on_filename'] = 'Index On Filename';
+$lang['migrate_work_orders'] = 'Work Orders';
 ?>

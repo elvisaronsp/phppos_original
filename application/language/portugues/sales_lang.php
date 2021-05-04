@@ -379,4 +379,10 @@ $lang['sales_offline_synced_successfully'] = 'Vendas offline sincronizadas com s
 $lang['sales_edit_offline_sales'] = 'Editar vendas offline';
 $lang['sales_giftcard_exists_do_you_want_to_add'] = 'O cartão-presente que você está vendendo já existe. Quer adicionar dinheiro a este cartão?';
 $lang['sales_the_balance_of_card_is'] = 'O saldo do cartão é';
+$lang['sales_serialnumber_duplicate'] = 'Número de série duplicado, digite novamente';
+$lang['sales_enter_note'] = 'Digite a nota';
+$lang['sales_note'] = 'Nota';
+$lang['sales_detailed_note'] = 'Nota Detalhada';
+$lang['sales_internal_note'] = 'Nota Interna';
+$lang['sales_delveried_to'] = 'Entregue a';
 ?>

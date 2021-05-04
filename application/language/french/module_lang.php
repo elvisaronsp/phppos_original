@@ -92,4 +92,7 @@ $lang['appointments_add'] = 'Ajouter des rendez-vous';
 $lang['appointments_delete'] = 'Supprimer des rendez-vous';
 $lang['appointments_search'] = 'Rechercher des rendez-vous';
 $lang['appointments_edit'] = 'Modifier les rendez-vous';
+$lang['module_work_orders'] = 'Bons de travail';
+$lang['module_work_orders_desc'] = 'Bons de travail';
+$lang['module_manage_statuses'] = 'Gérer les statuts';
 ?>

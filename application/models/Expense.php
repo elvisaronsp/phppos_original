@@ -25,11 +25,11 @@ class Expense extends MY_Model {
 			}
 			
 		$location_id = $location_id_override ? $location_id_override : $this->Employee->get_logged_in_employee_current_location_id();
-		$this->db->select('expenses.*, CONCAT(recv.last_name, ", ", recv.first_name) as employee_recv, CONCAT(appr.last_name, ", ", appr.first_name) as employee_appr, categories.id as category_id,categories.name as category', false);
+		$this->db->select('expenses.*, CONCAT(recv.last_name, ", ", recv.first_name) as employee_recv, CONCAT(appr.last_name, ", ", appr.first_name) as employee_appr, expenses_categories.id as category_id,expenses_categories.name as category', false);
 		$this->db->from('expenses');
 		$this->db->join('people as recv', 'recv.person_id = expenses.employee_id','left');
 		$this->db->join('people as appr', 'appr.person_id = expenses.approved_employee_id','left');
-		$this->db->join('categories', 'categories.id = expenses.category_id','left');
+		$this->db->join('expenses_categories', 'expenses_categories.id = expenses.category_id','left');
 		$this->db->where('expenses.deleted', $deleted);
 		$this->db->where('location_id', $location_id);
 		$this->db->order_by($col, $order);
@@ -87,14 +87,14 @@ class Expense extends MY_Model {
   		$this->db->from('expenses');
   		$this->db->join('people as recv', 'recv.person_id = expenses.employee_id','left');
   		$this->db->join('people as appr', 'appr.person_id = expenses.approved_employee_id','left');
-		$this->db->join('categories', 'categories.id = expenses.category_id','left');
+		$this->db->join('expenses_categories', 'expenses_categories.id = expenses.category_id','left');
 					 
  		if ($search)
  		{
 				$this->db->where("(expense_type LIKE '".$this->db->escape_like_str($search)."%' or 
 				expense_description LIKE '".$this->db->escape_like_str($search)."%' or 
 				expense_reason LIKE '".$this->db->escape_like_str($search)."%' or
-				".$this->db->dbprefix('categories').".name LIKE '".$this->db->escape_like_str($search)."%' or
+				".$this->db->dbprefix('expenses_categories').".name LIKE '".$this->db->escape_like_str($search)."%' or
 				expense_note LIKE '".$this->db->escape_like_str($search)."%'  or expense_amount = ".$this->db->escape($search).") and ".$this->db->dbprefix('expenses').".deleted=$deleted");			
 		}
 		else
@@ -123,18 +123,18 @@ class Expense extends MY_Model {
 			}
 			
 			
-   		$this->db->select('expenses.*, CONCAT(recv.last_name, ", ", recv.first_name) as employee_recv, CONCAT(appr.last_name, ", ", appr.first_name) as employee_appr,categories.id as category_id,categories.name as category', false);
+   		$this->db->select('expenses.*, CONCAT(recv.last_name, ", ", recv.first_name) as employee_recv, CONCAT(appr.last_name, ", ", appr.first_name) as employee_appr,expenses_categories.id as category_id,expenses_categories.name as category', false);
    		$this->db->from('expenses');
    		$this->db->join('people as recv', 'recv.person_id = expenses.employee_id','left');
    		$this->db->join('people as appr', 'appr.person_id = expenses.approved_employee_id','left');
-			$this->db->join('categories', 'categories.id = expenses.category_id','left');
+			$this->db->join('expenses_categories', 'expenses_categories.id = expenses.category_id','left');
 			
 	 		if ($search)
 	 		{
 					$this->db->where("(expense_type LIKE '".$this->db->escape_like_str($search)."%' or 
 					expense_description LIKE '".$this->db->escape_like_str($search)."%' or 
 					expense_reason LIKE '".$this->db->escape_like_str($search)."%' or
-					".$this->db->dbprefix('categories').".name LIKE '".$this->db->escape_like_str($search)."%' or
+					".$this->db->dbprefix('expenses_categories').".name LIKE '".$this->db->escape_like_str($search)."%' or
 					expense_note LIKE '".$this->db->escape_like_str($search)."%'  or expense_amount = ".$this->db->escape($search).") and ".$this->db->dbprefix('expenses').".deleted=$deleted");			
 			}
 			else
@@ -267,7 +267,7 @@ class Expense extends MY_Model {
 	        }
 	 
 	  		$this->db->select('name');
-	  		$this->db->from('categories');
+	  		$this->db->from('expenses_categories');
 	      $this->db->like('name', $search,'after');
 		
 	

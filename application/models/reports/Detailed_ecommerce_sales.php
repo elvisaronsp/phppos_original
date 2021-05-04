@@ -72,7 +72,7 @@ class Detailed_ecommerce_sales extends Report
 			{
 				$summary_data_row[] = array('data'=>$row['location_name'], 'align' => 'left');
 			}
-			$summary_data_row[] = array('data'=>lang('reports_'.$row['ecommerce_status']), 'align'=>'left');
+			$summary_data_row[] = array('data'=>($row['ecommerce_status'] ? lang('reports_'.$row['ecommerce_status']) : ''), 'align'=>'left');
 			$summary_data_row[] = array('data'=>date(get_date_format().'-'.get_time_format(), strtotime($row['sale_time'])), 'align'=>'left');
 			$summary_data_row[] = array('data'=>$row['register_name'], 'align'=>'left');
 			$summary_data_row[] = array('data'=>to_quantity($row['items_purchased']), 'align'=>'left');

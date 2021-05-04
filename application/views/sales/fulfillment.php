@@ -254,7 +254,7 @@
 							?>
 
 									<?php if (!$this->config->item('hide_desc_on_receipt') && isset($item['description']) && !$item['description']=="" ) {?>
-		                    	<div class="invoice-desc"><?php echo H($item['description']); ?></div>
+		                    	<div class="invoice-desc"><?php echo clean_html($item['description']); ?></div>
 		                    <?php } ?>
 												
 												<?php
@@ -335,7 +335,7 @@
 					    <div class="invoice-content invoice-con">
 					        <div class="invoice-content-heading"><?php echo H($item['name']); ?></div>
 		                    <?php if(isset($item['description']) && $item['description'] !=""){ ?>
-		                    	<div class="invoice-desc"><?php echo H($item['description']); ?></div>
+		                    	<div class="invoice-desc"><?php echo clean_html($item['description']); ?></div>
 		                    <?php } ?>
 							
 		                    <?php if(isset($item['serialnumber']) && $item['serialnumber'] !=""){ ?>
@@ -380,7 +380,26 @@
 
 
 			    <div class="invoice-footer">
-			        
+					
+					<?php
+					if ($this->config->item('show_total_on_fulfillment'))
+					{
+					?>
+			        <div class="row">
+			            <div class="col-md-offset-4 col-sm-offset-4 col-md-6 col-sm-6 col-xs-8">
+			                <div class="invoice-footer-heading"><?php echo lang('common_total'); ?></div>
+			            </div>
+			            <div class="col-md-2 col-sm-2 col-xs-4">
+			                <div class="invoice-footer-value invoice-total"  style="font-size: 150%;font-weight: bold;;">
+																							
+											
+							<?php echo  to_currency($total); ?>				
+											
+						</div>
+			            </div>
+			        </div>
+					<?php } ?> 
+					
 
 					<div class="row">
 			            <div class="col-md-offset-8 col-sm-offset-8 col-xs-offset-6 col-md-2 col-sm-2 col-xs-6">

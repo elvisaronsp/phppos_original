@@ -368,4 +368,10 @@ $lang['sales_offline_synced_successfully'] = 'Ventas sin conexión sincronizadas
 $lang['sales_edit_offline_sales'] = 'Editar ventas sin conexión';
 $lang['sales_giftcard_exists_do_you_want_to_add'] = 'La tarjeta de regalo que está vendiendo ya existe. ¿Quieres agregar dinero a esta tarjeta?';
 $lang['sales_the_balance_of_card_is'] = 'El saldo de la tarjeta es';
+$lang['sales_serialnumber_duplicate'] = 'Número de serie duplicado, vuelva a ingresar';
+$lang['sales_enter_note'] = 'Ingrese nota';
+$lang['sales_note'] = 'Nota';
+$lang['sales_detailed_note'] = 'Nota detallada';
+$lang['sales_internal_note'] = 'Nota interna';
+$lang['sales_delveried_to'] = 'Entregado a';
 ?>

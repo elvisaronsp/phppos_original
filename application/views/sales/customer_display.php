@@ -139,7 +139,7 @@ $font_size = $this->agent->is_mobile() && !$this->agent->is_tablet() ? '50%' : '
 									  <?php 
 												if ($item->description!='')
 												{
-													echo H($item->description);
+													echo clean_html($item->description);
 												}
 												else
 												{

@@ -78,4 +78,7 @@ $lang['appointments_add'] = 'បន្ថែមការណាត់ជួប';
 $lang['appointments_delete'] = 'លុបការណាត់ជួប';
 $lang['appointments_search'] = 'ស្វែងរកការណាត់ជួប';
 $lang['appointments_edit'] = 'កែសម្រួលការណាត់ជួប';
+$lang['module_work_orders'] = 'ការបញ្ជាទិញការងារ';
+$lang['module_work_orders_desc'] = 'ការបញ្ជាទិញការងារ';
+$lang['module_manage_statuses'] = 'គ្រប់គ្រងលក្ខន្តិកៈ';
 ?>

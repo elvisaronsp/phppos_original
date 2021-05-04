@@ -406,19 +406,19 @@ foreach (array_reverse($cart_items, true) as $line => $item) {
     if ($this->config->item('show_item_id_on_receipt')) {
         switch ($this->config->item('id_to_show_on_sale_interface')) {
             case 'number':
-                $item_number_for_receipt = array_key_exists('item_number', $item) ? H($item->item_number) : H($item->item_kit_number);
+                $item_number_for_receipt = property_exists($item,'item_number') ? H($item->item_number) : H($item->item_kit_number);
                 break;
 
             case 'product_id':
-                $item_number_for_receipt = array_key_exists('product_id', $item) ? H($item->product_id) : '';
+                $item_number_for_receipt = property_exists($item,'product_id') ? H($item->product_id) : '';
                 break;
 
             case 'id':
-                $item_number_for_receipt = array_key_exists('item_id', $item) ? H($item->item_id) : 'KIT ' . H($item->item_kit_id);
+                $item_number_for_receipt = property_exists($item,'item_id') ? H($item->item_id) : 'KIT ' . H($item->item_kit_id);
                 break;
 
             default:
-                $item_number_for_receipt = array_key_exists('item_number', $item) ? H($item->item_number) : H($item->item_kit_number);
+                $item_number_for_receipt = property_exists($item,'item_number') ? H($item->item_number) : H($item->item_kit_number);
                 break;
         }
     }
@@ -448,7 +448,7 @@ foreach (array_reverse($cart_items, true) as $line => $item) {
                     
                     <?php if (!$this->config->item('hide_desc_on_receipt') && !$item->description == "") { ?>
                       <div class="invoice-desc">
-                          <?php  echo H($item->description); ?>
+                          <?php  echo clean_html($item->description); ?>
                       </div>
                     <?php } ?>
                    

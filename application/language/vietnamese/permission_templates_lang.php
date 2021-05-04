@@ -33,11 +33,10 @@ $lang['template_permission_desc'] = 'Kiểm tra các hộp bên dưới để c�
 
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Cập nhật tất cả nhân viên với mẫu Assed';
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Cập nhật tất cả nhân viên với mẫu thử';
 
 $lang['permission_templates_manage_deleted'] = 'Quản lý các mẫu quyền đã xóa';
 $lang['permission_templates_confirm_undelete'] = 'Bạn có chắc chắn muốn phục hồi mẫu quyền đã chọn không?';
+$lang['update_all_employees_with_template_assinged'] = 'Cập nhật tất cả nhân viên với mẫu được chỉ định';
 ?>

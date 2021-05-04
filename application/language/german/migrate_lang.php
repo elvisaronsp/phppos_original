@@ -399,8 +399,39 @@ $lang['migrate_ecommerce_item_id_index'] = 'E-Commerce-Artikel-ID-Index';
 $lang['migrate_add_always_sms_receipt_field_to_customers'] = 'Fügen Sie Kunden immer ein SMS-Empfangsfeld hinzu';
 $lang['migrate_18_0_version'] = '18.0 Version';
 $lang['migrate_items_per_search_suggestion_store_config'] = 'Artikel pro Suchvorschlag Store Config';
+
 $lang['migrate_serialnumber_index'] = 'Seriennummernindex';
 $lang['migrate_create_email_field_auto_email_reports'] = 'E-Mail-Feld erstellen Automatische E-Mail-Berichte';
 $lang['migrate_email_report_time_to_email'] = 'E-Mail-Bericht Zeit zum E-Mailen';
+
+$lang['migrate_shopify'] = 'Shopify';
+
 $lang['migrate_damaged_reason_comment_field'] = 'Kommentarfeld für beschädigte Gründe';
+$lang['migrate_18_1_version'] = '18.1 Version';
+$lang['migrate_custom_suspended_sale_types_remove_quantity'] = 'Benutzerdefinierte suspendierte Verkaufstypen Menge entfernen';
+
+$lang['migrate_secondary_categories'] = 'Sekundäre Kategorien';
+
+
+
+$lang['migrate_non_taxable_on_sales_table'] = 'Nicht steuerpflichtig auf Verkaufstabelle';
+
+
+
+
+$lang['migrate_current_or_previous_day_option_for_auto_email'] = 'Option für aktuellen oder vorherigen Tag für automatische E-Mail';
+$lang['migrate_disable_confirmation_option_for_emv_credit_card'] = 'Deaktivieren Sie die Bestätigungsoption für die Emv-Kreditkarte';
+
+
+$lang['migrate_weight_units'] = 'Gewichtseinheiten';
+
+$lang['migrate_migrate_categories_for_expenses'] = 'Kategorien für Ausgaben migrieren';
+
+$lang['migrate_expenses_categories'] = 'Ausgabenkategorien';
+$lang['migrate_permission_for_manage_expenses_categories'] = 'Berechtigung zum Verwalten von Ausgabenkategorien';
+$lang['migrate_update_foreign_key_for_expenses_categories'] = 'Aktualisieren Sie den Fremdschlüssel für Ausgabenkategorien';
+
+$lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'Zulassen, dass die E-Commerce-Bestellnummer größer ist Int';
+$lang['migrate_index_on_filename'] = 'Index auf Dateiname';
+$lang['migrate_work_orders'] = 'Arbeitsanweisungen';
 ?>

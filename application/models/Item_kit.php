@@ -1297,5 +1297,31 @@ class Item_kit extends MY_Model
 		$this->db->where('image_id', $image_id);
 		$this->db->update('item_kit_images', array('title' => $title,'alt_text' => $alt_text));
 	}
+	
+	function get_secondary_categories($item_kit_id)
+	{
+		$this->db->from('item_kits_secondary_categories');
+		$this->db->where('item_kit_id',$item_kit_id);
+		return $this->db->get();
+	}
+	
+	function save_secondory_category($item_kit_id,$category_id,$sec_category_id = NULL)
+	{
+		if ($sec_category_id > 0)
+		{
+			$this->db->where('id',$sec_category_id);
+			$this->db->update('item_kits_secondary_categories',array('item_kit_id' => $item_kit_id,'category_id' => $category_id));
+		}
+		else
+		{
+			$this->db->replace('item_kits_secondary_categories',array('item_kit_id' => $item_kit_id,'category_id' => $category_id));
+		}
+	}
+	
+	function delete_secondory_category($sec_category_id)
+	{
+		$this->db->where('id',$sec_category_id);
+		$this->db->delete('item_kits_secondary_categories');
+	}
 }
 ?>

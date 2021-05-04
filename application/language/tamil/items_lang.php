@@ -455,5 +455,10 @@ $lang['items_item_quantity_unit_number_exists'] = 'அளவு அலகு உ
 $lang['items_quantity_unit'] = 'அளவு அலகு மாறுபாடு';
 //Quantity Unit Quantity
 $lang['items_quantity_unit_quantity'] = 'அளவு அலகு அளவு';
+
+$lang['items_weight_unit'] = 'எடை அலகு';
+
 $lang['items_inventory_print_list_summary'] = 'சரக்கு அச்சு பட்டியல் சுருக்கம்';
+
+$lang['items_search_by_barcode'] = 'பார்கோடு அல்லது பொருள் ஐடி மூலம் தேடுங்கள்';
 ?>

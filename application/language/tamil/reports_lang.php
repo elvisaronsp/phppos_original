@@ -795,4 +795,5 @@ $lang['reports_serial_number_history'] = 'வரிசை எண் வரலா
 $lang['reports_daily_report'] = 'தினசரி அறிக்கை';
 $lang['reports_only_count_store_account_payments'] = 'ஸ்டோர் கணக்கு கொடுப்பனவுகளை மட்டுமே எண்ணுங்கள்';
 $lang['reports_generation_date'] = 'தலைமுறை தேதி';
+$lang['reports_non_taxable_customers'] = 'வரி விதிக்கப்படாத வாடிக்கையாளர்கள்';
 ?>

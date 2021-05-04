@@ -1116,10 +1116,6 @@ $this->load->helper('update');
 					</div>
 					
 					
-					
-					
-					
-					
 					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">	
 						<?php echo form_label(lang('config_enable_tips').':', 'enable_tips',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
 						<div class="col-sm-9 col-md-9 col-lg-10">
@@ -1133,6 +1129,21 @@ $this->load->helper('update');
 						</div>
 						
 					</div>
+					
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">	
+						<?php echo form_label(lang('config_tip_preset_zero').':', 'tip_preset_zero',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'tip_preset_zero',
+							'id'=>'tip_preset_zero',
+							'value'=>'tip_preset_zero',
+							'checked'=>$this->config->item('tip_preset_zero')));?>
+							<label for="tip_preset_zero"><span></span></label>
+						</div>
+						
+					</div>
+					
+					
 					
 					
 					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">	
@@ -1310,6 +1321,22 @@ $this->load->helper('update');
 								<?php echo form_dropdown('averaging_method', array('moving_average' => lang('config_moving_average'), 'historical_average' => lang('config_historical_average'), 'dont_average' => lang('config_dont_average_use_current_recv_price')), $this->config->item('averaging_method'),'class="form-control" id="averaging_method"'); ?>
 							</div>
 						</div>
+					</div>
+					
+					<div id="update_cost_price_on_transfer_container">
+						
+						<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">	
+							<?php echo form_label(lang('config_update_cost_price_on_transfer').':', 'update_cost_price_on_transfer',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+							<div class="col-sm-9 col-md-9 col-lg-10">
+							<?php echo form_checkbox(array(
+								'name'=>'update_cost_price_on_transfer',
+								'id'=>'update_cost_price_on_transfer',
+								'value'=>'1',
+								'checked'=>$this->config->item('update_cost_price_on_transfer')));?>
+								<label for="update_cost_price_on_transfer"><span></span></label>
+							</div>
+						</div>
+						
 					</div>
 					
 					
@@ -1793,7 +1820,7 @@ $this->load->helper('update');
 						</div>
 					</div>
 
-					
+
 				</div>
 			</div>
 		</div>
@@ -1817,6 +1844,7 @@ $this->load->helper('update');
 										<th><?php echo lang('config_sort'); ?></th>
 										<th><?php echo lang('common_id'); ?></th>
 										<th><?php echo lang('common_suspended_sale_type'); ?></th>
+										<th><?php echo lang('config_remove_quantity_suspending'); ?></th>
 										<th><?php echo lang('common_delete'); ?></th>
 										</tr>
 									</thead>
@@ -1827,6 +1855,17 @@ $this->load->helper('update');
 											<td><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></td>
 											<td><?php echo $sale_type->id; ?></td>
 											<td><input type="text" data-index="<?php echo $sale_type->id; ?>" class="sale_types_to_edit form-control" name="sale_types_to_edit[<?php echo $sale_type->id; ?>][name]" value="<?php echo H($sale_type->name); ?>" /></td>
+											
+											<td class="text-center">
+											<?php echo form_checkbox(array(
+												'name'=>'sale_types_to_edit['.$sale_type->id.'][remove_quantity]',
+												'id'=>'remove_quantity_'.$sale_type->id,
+												'value'=>'1',
+												'data-index' => $sale_type->id,
+ 												'checked'=>$sale_type->remove_quantity));?>
+												<label for="remove_quantity_<?php echo $sale_type->id;?>"><span></span></label>
+											</td>
+											
 											<td><a class="delete_sale_type" href="javascript:void(0);" data-sale-type-id='<?php echo $sale_type->id; ?>'><?php echo lang('common_delete'); ?></a></td>
 									</tr>
 									<?php } ?>
@@ -1921,7 +1960,8 @@ $this->load->helper('update');
 							'checked'=>$this->config->item('show_receipt_after_suspending_sale')));?>
 							<label for="show_receipt_after_suspending_sale"><span></span></label>
 						</div>
-					</div>
+					</div>					
+					
 				</div>
 			</div>
 		</div>
@@ -1969,6 +2009,19 @@ $this->load->helper('update');
 							<label for="show_item_id_on_receipt"><span></span></label>
 						</div>
 					</div>
+					
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">	
+						<?php echo form_label(lang('config_show_person_id_on_receipt').':', 'show_person_id_on_receipt',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'show_person_id_on_receipt',
+							'id'=>'show_person_id_on_receipt',
+							'value'=>'1',
+							'checked'=>$this->config->item('show_person_id_on_receipt')));?>
+							<label for="show_person_id_on_receipt"><span></span></label>
+						</div>
+					</div>
+					
 
 					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">	
 						<?php echo form_label(lang('config_show_tags_on_fulfillment_sheet').':', 'show_tags_on_fulfillment_sheet',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
@@ -1981,6 +2034,21 @@ $this->load->helper('update');
 							<label for="show_tags_on_fulfillment_sheet"><span></span></label>
 						</div>
 					</div>
+					
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">	
+						<?php echo form_label(lang('config_show_total_on_fulfillment').':', 'show_total_on_fulfillment',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'show_total_on_fulfillment',
+							'id'=>'show_total_on_fulfillment',
+							'value'=>'show_total_on_fulfillment',
+							'checked'=>$this->config->item('show_total_on_fulfillment')));?>
+							<label for="show_total_on_fulfillment"><span></span></label>
+						</div>
+					</div>
+					
+					
+					
 					
 					
 
@@ -2558,6 +2626,20 @@ $this->load->helper('update');
 							<label for="show_signature_on_receiving_receipt"><span></span></label>
 						</div>
 					</div>
+
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">	
+					<?php echo form_label(lang('config_override_signature_text').':', 'override_signature_text',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_textarea(array(
+							'name'=>'override_signature_text',
+							'id'=>'override_signature_text',
+							'class'=>'form-control text-area',
+							'rows'=>'4',
+							'cols'=>'30',
+							'value'=>$this->config->item('override_signature_text')));?>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
@@ -3716,6 +3798,20 @@ $this->load->helper('update');
 						
 						
 						<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_application_settings')) ?>">	
+						<?php echo form_label(lang('config_auto_sync_offline_sales').':', 'auto_sync_offline_sales',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+							<div class="col-sm-9 col-md-9 col-lg-10">
+							<?php echo form_checkbox(array(
+								'name'=>'auto_sync_offline_sales',
+								'id'=>'auto_sync_offline_sales',
+								'value'=>'auto_sync_offline_sales',
+								'checked'=>$this->config->item('auto_sync_offline_sales')));?>
+								<label for="auto_sync_offline_sales"><span></span></label>
+							</div>
+						</div>
+						
+						
+						
+						<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_application_settings')) ?>">	
 						<?php echo form_label(lang('config_reset_offline_data').':', 'offline_mode',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
 							<div class="col-sm-9 col-md-9 col-lg-10">
             				<button onclick='delete_all_client_side_dbs();bootbox.alert(<?php echo json_encode(lang('common_success')); ?>);' id="reset_offline_mode" type="button" class="btn btn-lg btn-primary"><?php echo lang('config_reset_offline_data');?></button>
@@ -4361,6 +4457,20 @@ $this->load->helper('update');
 								</div>
 						</div>
                   
+				  
+				<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">	
+					<?php echo form_label(lang('config_sku_sync_field').':', 'sku_sync_field',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+					<div class="col-sm-9 col-md-9 col-lg-10">
+					<?php echo form_dropdown('sku_sync_field', array(
+						'item_number'  => lang('common_item_number_expanded'),
+						'product_id'    => lang('common_product_id'),
+						'item_id'   => lang('common_item_id')
+						),
+						$this->config->item('sku_sync_field') ? $this->config->item('sku_sync_field') : 'item_number', 'class="form-control" id="sku_sync_field"')
+						?>
+					</div>
+				</div>
+				  
 								
 								
 						<div class="form-group" data-keyword="<?php echo H(lang('config_ecommerce_settings_info')) ?>">	
@@ -4450,17 +4560,17 @@ $this->load->helper('update');
 								<div class="col-sm-9 col-md-9 col-lg-10 ecommerce_cron_sync_operations">
 								  	<ul id="check-list-box" data-name="ecommerce_cron_sync_operations[]" class="list-group checked-list-box">
 											 <li class="list-group-item" data-value="sync_inventory_changes" data-color="success"><?php echo lang('config_sync_inventory_changes'); ?></li>
-		                   <li class="list-group-item" data-value="import_ecommerce_tags_into_phppos" data-color="success"><?php echo lang('config_import_ecommerce_tags_into_phppos'); ?></li>
-		                   <li class="list-group-item" data-value="import_ecommerce_categories_into_phppos" data-color="success"><?php echo lang('config_import_ecommerce_categories_into_phppos'); ?></li>
-		                   <li class="list-group-item" data-value="import_ecommerce_attributes_into_phppos" data-color="success"><?php echo lang('config_import_ecommerce_attributes_into_phppos'); ?></li>
-		                   <li class="list-group-item" data-value="import_tax_classes_into_phppos" data-color="success"><?php echo lang('config_import_tax_classes_into_phppos'); ?></li>
-		                   <li class="list-group-item" data-value="import_shipping_classes_into_phppos" data-color="success"><?php echo lang('config_import_shipping_classes_into_phppos'); ?></li>
+		                   <li class="list-group-item woo-only" data-value="import_ecommerce_tags_into_phppos" data-color="success"><?php echo lang('config_import_ecommerce_tags_into_phppos'); ?></li>
+		                   <li class="list-group-item woo-only" data-value="import_ecommerce_categories_into_phppos" data-color="success"><?php echo lang('config_import_ecommerce_categories_into_phppos'); ?></li>
+		                   <li class="list-group-item woo-only" data-value="import_ecommerce_attributes_into_phppos" data-color="success"><?php echo lang('config_import_ecommerce_attributes_into_phppos'); ?></li>
+		                   <li class="list-group-item woo-only" data-value="import_tax_classes_into_phppos" data-color="success"><?php echo lang('config_import_tax_classes_into_phppos'); ?></li>
+		                   <li class="list-group-item woo-only" data-value="import_shipping_classes_into_phppos" data-color="success"><?php echo lang('config_import_shipping_classes_into_phppos'); ?></li>
 											 <li class="list-group-item" data-value="import_ecommerce_items_into_phppos" data-color="success"><?php echo lang('config_import_ecommerce_items_into_phppos'); ?></li>
 											 <li class="list-group-item" data-value="import_ecommerce_orders_into_phppos" data-color="success"><?php echo lang('config_import_ecommerce_orders_into_phppos'); ?></li>
-											 <li class="list-group-item" data-value="export_phppos_tags_to_ecommerce" data-color="success"><?php echo lang('config_export_phppos_tags_to_ecommerce'); ?></li>
+											 <li class="list-group-item woo-only" data-value="export_phppos_tags_to_ecommerce" data-color="success"><?php echo lang('config_export_phppos_tags_to_ecommerce'); ?></li>
 		                   <li class="list-group-item" data-value="export_phppos_categories_to_ecommerce" data-color="success"><?php echo lang('config_export_phppos_categories_to_ecommerce'); ?></li>
-		                   <li class="list-group-item" data-value="export_phppos_attributes_to_ecommerce" data-color="success"><?php echo lang('config_export_phppos_attributes_to_ecommerce'); ?></li>
-		                   <li class="list-group-item" data-value="export_tax_classes_into_phppos" data-color="success"><?php echo lang('config_export_tax_classes_into_phppos'); ?></li>
+		                   <li class="list-group-item woo-only" data-value="export_phppos_attributes_to_ecommerce" data-color="success"><?php echo lang('config_export_phppos_attributes_to_ecommerce'); ?></li>
+		                   <li class="list-group-item woo-only" data-value="export_tax_classes_into_phppos" data-color="success"><?php echo lang('config_export_tax_classes_into_phppos'); ?></li>
 											 <li class="list-group-item" data-value="export_phppos_items_to_ecommerce" data-color="success"><?php echo lang('config_export_phppos_items_to_ecommerce'); ?></li>
 								    </ul>
 								</div>
@@ -4528,13 +4638,105 @@ $this->load->helper('update');
     <?php
 		
 		if($this->config->item('ecommerce_platform') == "woocommerce" )
-			$hidden_class ="";
+			$woo_hidden_class ="";
 		else
-			$hidden_class="hidden";
-		
+			$woo_hidden_class="hidden";
+
+		if($this->config->item('ecommerce_platform') == "shopify" )
+			$shopify_hidden_class ="";
+		else
+			$shopify_hidden_class="hidden";
 		
 		?>
-      <div class="col-md-12 woo_settings ecom_settings <?php echo $hidden_class; ?>">
+		
+        <div class="col-md-12 shopify_settings ecom_settings <?php echo $shopify_hidden_class; ?>">
+			<div class="panel panel-piluku">
+				<div class="panel-heading">
+					<?php echo create_section(lang('config_shopify_settings_info'))  ?>
+				</div>
+			
+				<div class="panel-body">
+			<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_woocommerce')) ?>">	
+				
+				<?php
+				echo form_hidden('shopify_shop',$this->config->item('shopify_shop'));
+				
+				if ($this->config->item('shopify_shop'))
+				{
+				?>
+					<div class='text-center'>
+						<p><?php echo lang('config_connected_to_shopify')?> [<strong><?php echo $this->config->item('shopify_shop').'.myshopify.com' ?></strong>]</p>
+						<br />
+						<br />
+						<?php
+						if ($this->config->item('shopify_charge_id'))
+						{
+						?>
+	                    	<a href="<?php echo site_url('ecommerce/cancel_shopify_billing');?>" class="btn btn-danger" id="shopify_cancel_billing"><?php echo lang('config_cancel_shopify'); ?></a>
+							<script>
+							$("#shopify_cancel_billing").click(function(e)
+							{
+								e.preventDefault();
+								
+								bootbox.confirm(<?php echo json_encode(lang('config_confirm_cancel_shopify')); ?>, function(response)
+								{
+									if (response)
+									{
+										window.location = $("#shopify_cancel_billing").attr('href');
+									}
+								});
+								
+							})
+							</script>
+						<?php	
+						}
+						else
+						{
+						?>
+                    	<a href="<?php echo site_url('ecommerce/activate_shopify_billing');?>" class="btn btn-success" id="shopify_activate_billing"><?php echo lang('config_shopify_billing_terms'); ?></a>
+						<br /><br />
+						<a href="<?php echo site_url('ecommerce/oauth_shopify_disconnect');?>" class="btn btn-danger" id="shopify_oauth_disconnect"><?php echo lang('config_disconnect_to_shopify'); ?></a>
+						
+						<?php
+						}
+						?>
+						
+						</div>
+						
+					<?php
+					}
+					else
+					{
+					?>
+					<div class='text-center'>
+						<p><a href="https://apps.shopify.com/php-point-of-sale" target="_blank"><?php echo lang('config_connect_shopify_in_app_store')?></a></p>
+						<br />
+						<br />
+					</div>
+						
+					<?php
+					}
+					?>	
+					</div>
+					
+					<script>
+						$("#shopify_oauth").click(function(e)
+						{
+							e.preventDefault();
+							var url = $(this).attr('href');
+							$("#config_form").ajaxSubmit(function()
+							{
+								window.location = url;
+							});
+						});
+						
+					</script>
+					
+			</div>	
+			</div>
+		</div>			
+			
+      <div class="col-md-12 woo_settings ecom_settings <?php echo $woo_hidden_class; ?>">
 			<div class="panel panel-piluku">
 				<div class="panel-heading">
 					<?php echo create_section(lang('config_woocommerce_settings_info'))  ?>
@@ -4583,21 +4785,7 @@ $this->load->helper('update');
 									'value'=>$this->config->item('woo_api_secret')));?>
 								</div>
 						</div>
-						
-						
-						<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">	
-							<?php echo form_label(lang('config_woo_sku_sync_field').':', 'woo_sku_sync_field',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
-							<div class="col-sm-9 col-md-9 col-lg-10">
-							<?php echo form_dropdown('woo_sku_sync_field', array(
-								'item_number'  => lang('common_item_number_expanded'),
-								'product_id'    => lang('common_product_id'),
-								'item_id'   => lang('common_item_id')
-								),
-								$this->config->item('woo_sku_sync_field') ? $this->config->item('woo_sku_sync_field') : 'item_number', 'class="form-control" id="woo_sku_sync_field"')
-								?>
-							</div>
-						</div>
-						
+												
 						
 						<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">	
 						<?php echo form_label(lang('config_import_all_past_orders_for_woo_commerce').':', 'import_all_past_orders_for_woo_commerce',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
@@ -4958,14 +5146,39 @@ $(document).ready(function()
 		} 
 	});
 	
-	$(".ecommerce_platform").change(function() {
-		if ($(".ecommerce_platform").val() == "woocommerce"){
+	$(".ecommerce_platform").change(function() 
+	{
+		if ($(".ecommerce_platform").val() == "woocommerce")
+		{
 			$(".woo_settings").removeClass('hidden');
+			$(".shopify_settings").addClass('hidden');
+			$('.woo-only').show();
 		}
-		else{
+		else
+		{
 			$(".woo_settings").addClass('hidden');
 		}
+		
+		if ($(".ecommerce_platform").val() == "shopify")
+		{
+			$(".shopify_settings").removeClass('hidden');
+			$(".woo_settings").addClass('hidden');
+			$('.woo-only').hide();
+		}
+		else{
+			$(".shopify_settings").addClass('hidden');
+		}
+		
 	});
+	
+	if ($(".ecommerce_platform").val() == "woocommerce")
+	{
+		$('.woo-only').show();
+	}
+	else if ($(".ecommerce_platform").val() == "shopify")
+	{
+		$('.woo-only').hide();
+	}
 	
 	$(document).on('keyup', ".default_percent_off",function(e){
 		
@@ -5045,8 +5258,8 @@ $(document).ready(function()
 	var add_sale_type = -1;
 	
 	$("#add_sale_type").click(function()
-	{
-		$("#sale_types tbody").append('<tr><td><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></td><td></td><td><input type="text" class="sale_types_to_edit form-control" data-index="'+add_sale_type+'" name="sale_types_to_edit['+add_sale_type+'][name]" value="" /></td></td><td>&nbsp;</td></tr>');
+	{	
+		$("#sale_types tbody").append('<tr><td><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></td><td></td><td><input type="text" class="sale_types_to_edit form-control" data-index="'+add_sale_type+'" name="sale_types_to_edit['+add_sale_type+'][name]" value="" /></td><td class="text-center"><input type="checkbox" name="sale_types_to_edit['+add_sale_type+'][remove_quantity]" value="1" id="remove_quantity_'+add_sale_type+'" data-index="'+add_sale_type+'"><label for="remove_quantity_'+add_sale_type+'"><span></span></label></td><td>&nbsp;</td></tr>');
 		add_sale_type--;
 	});
 	
@@ -5263,10 +5476,13 @@ function check_calculate_average_cost_price_from_receivings()
 	if($("#calculate_average_cost_price_from_receivings").prop('checked'))
 	{
 		$("#average_cost_price_from_receivings_methods").show();
+		$("#update_cost_price_on_transfer_container").show();
 	}
 	else
 	{
 		$("#average_cost_price_from_receivings_methods").hide();
+		$("#update_cost_price_on_transfer_container").hide();
+		
 	}
 }
 

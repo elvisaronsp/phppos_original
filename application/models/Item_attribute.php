@@ -176,6 +176,22 @@ class Item_attribute extends MY_Model
 		return ($query->num_rows()==1);
 	}
 	
+	function get_attribute_id($attr_name,$item_id = NULL)
+	{
+		$this->db->select('id');
+		$this->db->from('attributes');
+		$this->db->where('name',(string)$attr_name);
+		$this->db->where('item_id',$item_id);
+		$query = $this->db->get();
+
+		if ($query->num_rows()==1)
+		{
+			return $query->row()->id;
+		}
+		
+		return NULL;
+	}
+	
 	function get_attributes_for_ecommerce($attribute_ids = array())
 	{
 		$this->db->from('attributes');
@@ -314,15 +330,28 @@ class Item_attribute extends MY_Model
 		return false;		
 	}
 	
-	function save_item_attributes($attribute_ids, $item_id)
+	function save_item_attributes($attribute_ids, $item_id,$delete = TRUE)
 	{
-		$this->db->delete('item_attributes', array('item_id' => $item_id));
+		if ($delete)
+		{
+			$this->db->delete('item_attributes', array('item_id' => $item_id));
+		}
 		
 		foreach($attribute_ids as $attribute_id)
 		{
-			if(!$this->db->insert('item_attributes',array('attribute_id' => $attribute_id,'item_id' => $item_id)))
+			if ($delete)
 			{
-				return false;
+				if(!$this->db->insert('item_attributes',array('attribute_id' => $attribute_id,'item_id' => $item_id)))
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if(!$this->db->replace('item_attributes',array('attribute_id' => $attribute_id,'item_id' => $item_id)))
+				{
+					return false;
+				}
 			}
 		}
 		

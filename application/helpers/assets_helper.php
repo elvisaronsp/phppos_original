@@ -38,6 +38,10 @@ function get_css_files()
 		array('path' =>'assets/css/jsgrid-theme.css'),
 		array('path' =>'assets/css/bootstrap-tokenfield.css'),
 		array('path' =>'assets/css/pingrid.css'),
+		array('path' =>'assets/css/dropzone.min.css'),
+		array('path' =>'assets/css/owl.carousel.min.css'),
+		array('path' =>'assets/css/owl.theme.default.min.css'),
+		
 
 	);
 	
@@ -122,6 +126,10 @@ function get_js_files()
 			array('path' => 'assets/js/handlebars.js'),
 			array('path' => 'assets/js/pouchdb.min.js'),
 			array('path' => 'assets/js/pouchdb.find.js'),
+			array('path' => 'assets/js/dropzone.min.js'),
+			array('path' => 'assets/js/owl.carousel.min.js'),
+			
+			
 		);
 	}
 

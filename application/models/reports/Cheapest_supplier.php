@@ -16,7 +16,7 @@ class Cheapest_supplier extends Report
 		//$columns[] = array('data' => lang('common_item_variations'), 'align' => 'left');
 		$columns[] = array('data' => lang('common_item_variations'), 'align' => 'left');
 		$columns[] = array('data' => lang('common_supplier'), 'align' => 'left');
-		$columns[] = array('data' => lang('common_unit_price'), 'align' => 'left');
+		$columns[] = array('data' => lang('common_cost_price'), 'align' => 'left');
 
 		return $columns;
 	}

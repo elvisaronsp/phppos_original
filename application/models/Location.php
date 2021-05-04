@@ -105,7 +105,7 @@ class Location extends MY_Model
 			$location_obj=new stdClass();
 
 			//Get all the fields from locations table
-			$fields = array('auto_reports_email_time','auto_reports_email','disable_markup_markdown','tax_id','location_id','name','company','website','company_logo','address','phone','fax','email','cc_email','bcc_email','color','return_policy','receive_stock_alert','stock_alert_email','timezone','mailchimp_api_key','enable_credit_card_processing','credit_card_processor','hosted_checkout_merchant_id','hosted_checkout_merchant_password','emv_merchant_id','net_e_pay_server','listener_port','com_port','stripe_public','stripe_private','stripe_currency_code','braintree_merchant_id','braintree_public_key','braintree_private_key','default_tax_1_rate','default_tax_1_name','default_tax_2_rate','default_tax_2_name','default_tax_2_cumulative','default_tax_3_rate','default_tax_3_name','default_tax_4_rate','default_tax_4_name','default_tax_5_rate','default_tax_5_name','deleted','secure_device_override_emv','secure_device_override_non_emv','tax_class_id','ebt_integrated','integrated_gift_cards','square_currency_code','square_location_id','square_currency_multiplier','email_sales_email','email_receivings_email','stock_alerts_just_order_level','platformly_api_key','platformly_project_id','twilio_sid','twilio_token','twilio_sms_from');
+			$fields = array('auto_reports_day','auto_reports_email_time','auto_reports_email','disable_markup_markdown','tax_id','location_id','name','company','website','company_logo','address','phone','fax','email','cc_email','bcc_email','color','return_policy','receive_stock_alert','stock_alert_email','timezone','mailchimp_api_key','enable_credit_card_processing','credit_card_processor','hosted_checkout_merchant_id','hosted_checkout_merchant_password','emv_merchant_id','net_e_pay_server','listener_port','com_port','stripe_public','stripe_private','stripe_currency_code','braintree_merchant_id','braintree_public_key','braintree_private_key','default_tax_1_rate','default_tax_1_name','default_tax_2_rate','default_tax_2_name','default_tax_2_cumulative','default_tax_3_rate','default_tax_3_name','default_tax_4_rate','default_tax_4_name','default_tax_5_rate','default_tax_5_name','deleted','secure_device_override_emv','secure_device_override_non_emv','tax_class_id','ebt_integrated','integrated_gift_cards','square_currency_code','square_location_id','square_currency_multiplier','email_sales_email','email_receivings_email','stock_alerts_just_order_level','platformly_api_key','platformly_project_id','twilio_sid','twilio_token','twilio_sms_from');
 
 			foreach ($fields as $field)
 			{
@@ -614,6 +614,10 @@ class Location extends MY_Model
 		if ($this->get_info_for_key('emv_merchant_id', $override_location_id))
 		{
 			return $this->get_info_for_key('emv_merchant_id', $override_location_id);				
+		}
+		elseif($this->get_info_for_key('card_connect_mid', $override_location_id))
+		{
+			return $this->get_info_for_key('card_connect_mid', $override_location_id);				
 		}
 		else //Default hosted checkout
 		{

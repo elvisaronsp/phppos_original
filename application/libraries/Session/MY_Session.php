@@ -198,4 +198,40 @@ class MY_Session extends CI_Session
 		return $return;
 	}
 	
+	
+	/**
+	 * Handle temporary variables
+	 *
+	 * Clears old "flash" data, marks the new one for deletion and handles
+	 * "temp" data deletion.
+	 *
+	 * @return	void
+	 */
+	protected function _ci_init_vars()
+	{
+		if ( ! empty($_SESSION['__ci_vars']))
+		{
+			$current_time = time();
+
+			foreach ($_SESSION['__ci_vars'] as $key => &$value)
+			{
+				if ($value === 'new')
+				{
+					$_SESSION['__ci_vars'][$key] = 'old';
+				}
+				//This is what we had to change for php 8. The hacky method in parent class didn't work
+				elseif ($value === 'old')
+				{
+					unset($_SESSION[$key], $_SESSION['__ci_vars'][$key]);
+				}
+			}
+
+			if (empty($_SESSION['__ci_vars']))
+			{
+				unset($_SESSION['__ci_vars']);
+			}
+		}
+
+		$this->userdata =& $_SESSION;
+	}
 }

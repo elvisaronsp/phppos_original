@@ -118,7 +118,22 @@ class PHPPOSCartRecv extends PHPPOSCart
 			
 			$item_props['quantity'] = $row->quantity_purchased;
 			$item_props['unit_price'] = $row->item_unit_price;
-			$item_props['selling_price'] = $cur_item_info->unit_price;
+			
+			if(!isset($params['selling_price']))
+			{
+				$cur_item_variation_info = $CI->Item_variations->get_info($row->item_variation_id);
+				
+				if ($cur_item_variation_info && (double)$cur_item_variation_info->unit_price)
+				{
+					$item_props['selling_price'] = $cur_item_variation_info->unit_price;
+				}
+				else
+				{
+					$item_props['selling_price'] = $cur_item_info->unit_price;
+				}				
+			}
+						
+			
 			
 			$quantity_units = $CI->Item->get_quantity_units($row->item_id);
 			$item_props['quantity_units'] = array();
@@ -491,7 +506,7 @@ class PHPPOSCartRecv extends PHPPOSCart
 				*/
 			}
 			
-			if ($item_to_add->default_quantity !== NULL)
+			if ($item_to_add->default_quantity !== NULL && $item_to_add->default_quantity !== "")
 			{
 				@$item_to_add->quantity = ($mode=="receive" || $mode=="purchase_order" ? 1:-1)*$item_to_add->default_quantity*$qty_multiplier;
 			}

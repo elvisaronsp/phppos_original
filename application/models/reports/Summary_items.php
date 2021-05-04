@@ -22,7 +22,10 @@ class Summary_items extends Report
 		$columns[] = array('data'=>lang('common_product_id'), 'align'=> 'left');
 		$columns[] = array('data'=>lang('common_supplier'), 'align'=> 'left');
 		$columns[] = array('data'=>lang('reports_category'), 'align'=> 'left');
-		$columns[] = array('data'=>lang('reports_current_cost_price'), 'align'=> 'left');
+		if ($this->has_cost_price_permission)
+		{
+			$columns[] = array('data'=>lang('reports_current_cost_price'), 'align'=> 'left');
+		}
 		$columns[] = array('data'=>lang('reports_current_selling_price'), 'align'=> 'left');
 		$columns[] = array('data'=>lang('reports_quantity'), 'align'=> 'left');
 		
@@ -259,7 +262,11 @@ class Summary_items extends Report
 				$data_row[] = array('data'=>$row['product_id'], 'align' => 'left');
 				$data_row[] = array('data'=>$row['supplier'], 'align' => 'left');				
 				$data_row[] = array('data'=>$this->Category->get_full_path($row['category_id']), 'align' => 'left');
-				$data_row[] = array('data'=>to_currency($row['current_cost_price']), 'align' => 'right');
+				
+				if ($this->has_cost_price_permission)
+				{
+					$data_row[] = array('data'=>to_currency($row['current_cost_price']), 'align' => 'right');
+				}
 				$data_row[] = array('data'=>to_currency($row['current_selling_price']), 'align' => 'right');
 				$data_row[] = array('data'=>to_quantity($row['quantity']), 'align' => 'left');
 				

@@ -7,6 +7,7 @@ abstract class Datacaptranscloudprocessor extends Creditcardprocessor
 	public $merchant_id;
 	public $emv_terminal_id;
 	public $settings;
+	public $disable_confirmation_option_for_emv_credit_card;
 	
 	function __construct($controller,$settings)
 	{
@@ -23,6 +24,7 @@ abstract class Datacaptranscloudprocessor extends Creditcardprocessor
 		$this->settings = $settings;
 		
 		$this->merchant_id = $this->controller->Location->get_info_for_key('emv_merchant_id');
+		$this->disable_confirmation_option_for_emv_credit_card = $this->controller->Location->get_info_for_key('disable_confirmation_option_for_emv_credit_card') ? 1 : 0;
 		
 		//If we don't have a merchant id set to ip tran device id
 		if (!$this->merchant_id)
@@ -440,6 +442,11 @@ abstract class Datacaptranscloudprocessor extends Creditcardprocessor
 					)
 				),
 			);
+			
+			if ($this->disable_confirmation_option_for_emv_credit_card)
+			{
+				$post_data['TStream']['Transaction']['OKAmount'] = 'DisAllow';
+			}
 			
 			if (is_sale_integrated_ebt_sale($this->controller->cart))
 			{

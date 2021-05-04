@@ -746,7 +746,7 @@ $lang['import_products_button_text'] = 'استيراد منتجات Woocomerce';
 //Create PO
 $lang['common_create_po'] = 'خلق ص';
 //WooCommerce Sync Completed Successfully.
-$lang['common_cron_success'] = 'اكتمل مزامنة WooCommerce  بنجاح';
+$lang['common_cron_success'] = 'تمت مزامنة التجارة الإلكترونية بنجاح';
 //Access Denied.
 $lang['common_access_denied'] = 'غير مسموح بالدخول';
 //Woocommerce Product
@@ -756,7 +756,7 @@ $lang['common_random_token'] = 'توليد رمز عشوائي';
 //Select a Product
 $lang['common_select_product'] = 'اختر المنتج';
 //Are you sure you want to sync with WooCommerce?
-$lang['confirmation_woocommerce_cron'] = 'هل أنت متأكد من أنك تريد المزامنة مع WooCommerce؟';
+$lang['confirmation_woocommerce_cron'] = 'هل أنت متأكد أنك تريد المزامنة مع التجارة الإلكترونية؟';
 //Are you sure you want to import the products from woocommerce?
 $lang['confirmation_import_woocommerce_products'] = 'هل أنت متأكد من أنك تريد استيراد المنتجات من woocommerce؟';
 //Cron Documentation
@@ -1535,7 +1535,7 @@ $lang['common_favorite'] = 'المفضلة';
 $lang['common_show'] = 'تبين';
 $lang['common_entries'] = 'إدخالات';
 $lang['common_next'] = 'التالى';
-$lang['common_previous'] = 'السابق';
+$lang['common_previous'] = 'سابق';
 $lang['common_showing'] = 'عرض';
 $lang['to'] = 'إلى';
 $lang['common_loading'] = 'جار التحميل...';
@@ -1611,4 +1611,22 @@ $lang['common_quick_cash_help'] = 'حوار نقدي سريع';
 $lang['common_sent_email'] = 'البريد الالكتروني المرسل';
 
 $lang['common_serialnumber_already_added'] = 'تمت إضافة الرقم التسلسلي بالفعل';
+$lang['common_add_secondary_category'] = 'أضف فئة ثانوية';
+$lang['common_secondary_category'] = 'الفئة الثانوية';
+$lang['common_suspended_types'] = 'الأنواع المعلقة';
+$lang['shopify_cron_job_entry'] = 'Shopify دخول كرون';
+$lang['item inventory changed in shopify'] = 'تم تغيير مخزون العنصر في Shopify';
+$lang['common_recent_exports'] = 'الصادرات الحديثة';
+$lang['common_import_order'] = 'أمر استيراد';
+$lang['shopify_not_paid'] = 'لم تقم بتنشيط Shopify Billing';
+$lang['common_color'] = 'اللون';
+$lang['common_drag_and_drop_or_click'] = 'السحب والإفلات أو النقر';
+$lang['common_workorder'] = 'أمر العمل';
+$lang['common_item_being_repaired'] = 'البند الجاري إصلاحه';
+$lang['work_orders_edit'] = 'تحرير أمر العمل';
+$lang['work_orders_delete'] = 'حذف أمر العمل';
+$lang['work_orders_search'] = 'البحث في أوامر العمل';
+$lang['work_orders_manage_statuses'] = 'إدارة أوضاع أوامر العمل';
+$lang['common_shopify_access_token_error'] = 'انتهت صلاحية رمز الوصول الخاص بك ولا يمكننا الاتصال بواجهة برمجة التطبيقات. حاول مرة اخرى.';
+$lang['common_ecommerce_item'] = 'عنصر التجارة الإلكترونية';
 ?>

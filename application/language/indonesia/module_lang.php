@@ -93,4 +93,7 @@ $lang['appointments_add'] = 'Tambahkan Janji';
 $lang['appointments_delete'] = 'Hapus Janji';
 $lang['appointments_search'] = 'Janji Pencarian';
 $lang['appointments_edit'] = 'Edit Janji';
+$lang['module_work_orders'] = 'Perintah Kerja';
+$lang['module_work_orders_desc'] = 'Perintah Kerja';
+$lang['module_manage_statuses'] = 'Kelola Status';
 ?>

@@ -589,5 +589,14 @@ class Register extends MY_Model
 		return $return;
 		
 	}
+	
+  	public function get_first_register_id_by_location_id($location_id)
+	{
+		$this->db->from('registers');
+		$this->db->where('deleted',0);
+		$this->db->where('location_id',$location_id);
+		$this->db->limit(1);
+		return $this->db->get()->row()->register_id;
+	}
 }
 ?>

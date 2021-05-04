@@ -399,8 +399,39 @@ $lang['migrate_ecommerce_item_id_index'] = 'Indice ID articolo e-commerce';
 $lang['migrate_add_always_sms_receipt_field_to_customers'] = 'Aggiungi sempre campo Ricevuta SMS ai clienti';
 $lang['migrate_18_0_version'] = 'Versione 18.0';
 $lang['migrate_items_per_search_suggestion_store_config'] = 'Elementi per suggerimento di ricerca Config. Archivio';
+
 $lang['migrate_serialnumber_index'] = 'Indice numero di serie';
 $lang['migrate_create_email_field_auto_email_reports'] = 'Crea rapporti e-mail automatici per campi e-mail';
 $lang['migrate_email_report_time_to_email'] = 'Tempo di rapporto e-mail per e-mail';
+
+$lang['migrate_shopify'] = 'Shopify';
+
 $lang['migrate_damaged_reason_comment_field'] = 'Campo commento motivo danneggiato';
+$lang['migrate_18_1_version'] = '18.1 Versione';
+$lang['migrate_custom_suspended_sale_types_remove_quantity'] = 'Tipi di vendita sospesi personalizzati Rimuovi quantità';
+
+$lang['migrate_secondary_categories'] = 'Categorie secondarie';
+
+
+
+$lang['migrate_non_taxable_on_sales_table'] = 'Non imponibile sul tavolo di vendita';
+
+
+
+
+$lang['migrate_current_or_previous_day_option_for_auto_email'] = 'Opzione giorno corrente o precedente per e-mail automatica';
+$lang['migrate_disable_confirmation_option_for_emv_credit_card'] = 'Disabilita l\'opzione di conferma per la carta di credito Emv';
+
+
+$lang['migrate_weight_units'] = 'Unità di peso';
+
+$lang['migrate_migrate_categories_for_expenses'] = 'Migrazione di categorie per spese';
+
+$lang['migrate_expenses_categories'] = 'Categorie di spesa';
+$lang['migrate_permission_for_manage_expenses_categories'] = 'Autorizzazione per la gestione delle categorie di spese';
+$lang['migrate_update_foreign_key_for_expenses_categories'] = 'Aggiorna chiave esterna per categorie di spesa';
+
+$lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'Consenti ID ordine e-commerce di essere più grande Int';
+$lang['migrate_index_on_filename'] = 'Indice su nome file';
+$lang['migrate_work_orders'] = 'Ordini di lavoro';
 ?>

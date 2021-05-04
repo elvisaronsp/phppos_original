@@ -603,7 +603,7 @@ class Price_rule extends MY_Model
 	}
 	
 		
-	function get_rule_for_item_kit($item_kit_id=-1, $quantity=-1, $coupon_rule_ids)
+	function get_rule_for_item_kit($item_kit_id=-1, $quantity=-1, $coupon_rule_ids=array())
 	{
 		$rule=array();
 		
@@ -720,7 +720,7 @@ class Price_rule extends MY_Model
 	}
 	
 	
-	function get_rule_for_itemkit_category($item_kit_id=-1, $quantity=-1, $coupon_rule_ids)
+	function get_rule_for_itemkit_category($item_kit_id=-1, $quantity=-1, $coupon_rule_ids=array())
 	{		
 		$rule=array();
 		$this->db->select('price_rules_categories.rule_id, price_rules_categories.category_id, categories.name, price_rules_price_breaks.item_qty_to_buy, price_rules_price_breaks.discount_per_unit_fixed, price_rules_price_breaks.discount_per_unit_percent, price_rules.*');
@@ -790,7 +790,7 @@ class Price_rule extends MY_Model
 	}
 	
 	
-	function get_rule_for_itemkit_manufacturers($item_kit_id=-1, $quantity=-1, $coupon_rule_ids)
+	function get_rule_for_itemkit_manufacturers($item_kit_id=-1, $quantity=-1, $coupon_rule_ids=array())
 	{		
 		$rule=array();
 		$this->db->select('price_rules_manufacturers.rule_id, price_rules_manufacturers.manufacturer_id, manufacturers.name, price_rules_price_breaks.item_qty_to_buy, price_rules_price_breaks.discount_per_unit_fixed, price_rules_price_breaks.discount_per_unit_percent, price_rules.*');
@@ -861,7 +861,7 @@ class Price_rule extends MY_Model
 	
 	
 
-	function get_rule_for_itemkit_tags($item_kit_id=-1, $quantity=-1, $coupon_rule_ids)
+	function get_rule_for_itemkit_tags($item_kit_id=-1, $quantity=-1, $coupon_rule_ids=array())
 	{
 		
 		$rule=array();
@@ -937,7 +937,7 @@ class Price_rule extends MY_Model
 		
 	}
 	
-	function get_rule_for_item($item_id=-1,$quantity=-1, $coupon_rule_ids)
+	function get_rule_for_item($item_id=-1,$quantity=-1, $coupon_rule_ids=array())
 	{		
 		$rule=array();
 		
@@ -1005,7 +1005,7 @@ class Price_rule extends MY_Model
 		return $rule;
 	}
 
-	function get_rule_for_category($item_id=-1, $quantity=-1, $coupon_rule_ids)
+	function get_rule_for_category($item_id=-1, $quantity=-1, $coupon_rule_ids=array())
 	{	//done needs testing
 		$rule=array();
 		$this->db->select('price_rules_categories.rule_id, price_rules_categories.category_id, categories.name, price_rules_price_breaks.item_qty_to_buy, price_rules_price_breaks.discount_per_unit_fixed, price_rules_price_breaks.discount_per_unit_percent, price_rules.*');
@@ -1075,7 +1075,7 @@ class Price_rule extends MY_Model
 		return $rule;
 	}
 	
-	function get_rule_for_manufacturer($item_id=-1, $quantity=-1, $coupon_rule_ids)
+	function get_rule_for_manufacturer($item_id=-1, $quantity=-1, $coupon_rule_ids=array())
 	{	//done needs testing
 		$rule=array();
 		$this->db->select('price_rules_manufacturers.rule_id, price_rules_manufacturers.manufacturer_id, manufacturers.name, price_rules_price_breaks.item_qty_to_buy, price_rules_price_breaks.discount_per_unit_fixed, price_rules_price_breaks.discount_per_unit_percent, price_rules.*');
@@ -1146,7 +1146,7 @@ class Price_rule extends MY_Model
 	}
 	
 
-	function get_rule_for_tags($item_id=-1, $quantity=-1, $coupon_rule_ids)
+	function get_rule_for_tags($item_id=-1, $quantity=-1, $coupon_rule_ids=array())
 	{
 		$rule=array();
 				
@@ -1242,7 +1242,7 @@ class Price_rule extends MY_Model
 	}
 	
 
-	function save_price_rule($rule_id=-1, &$rule_data, $items= array(), $item_kits = array(), $categories = array(), $tags = array(), $manus = array(),$price_breaks = array(),$locations = array(),$excluded_tiers = array())
+	function save_price_rule($rule_id=-1, &$rule_data=array(), $items= array(), $item_kits = array(), $categories = array(), $tags = array(), $manus = array(),$price_breaks = array(),$locations = array(),$excluded_tiers = array())
 	{	
 		
 		if(isset($rule_data['type']) && $rule_data['type'] == 'simple_discount')

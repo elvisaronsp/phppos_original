@@ -688,7 +688,7 @@ $lang['config_import_ecommerce_attributes_into_phppos'] = 'பண்புகள
 //Export Attributes to ecommerce
 $lang['config_export_phppos_attributes_to_ecommerce'] = 'மின்வணிகத்திற்கான ஏற்றுமதி பண்புகள்';
 //SKU field to sync with
-$lang['config_woo_sku_sync_field'] = 'ஒத்திசைக்க SKU புலம்';
+$lang['config_sku_sync_field'] = 'ஒத்திசைக்க SKU புலம்';
 //Overwrite existing items on excel import
 $lang['config_overwrite_existing_items_on_excel_import'] = 'எக்செல் இறக்குமதியில் ஏற்கனவே உள்ள உருப்படிகளை மேலெழுதவும்';
 //Do not force HTTP when needed for EMV Credit Card Processing
@@ -1041,6 +1041,38 @@ $lang['config_do_not_allow_items_to_go_out_of_stock_when_transfering'] = 'இட
 $lang['config_show_tags_on_fulfillment_sheet'] = 'பூர்த்தி தாளில் உருப்படி குறிச்சொற்களைக் காட்டு';
 $lang['config_automatically_sms_receipt'] = 'தானாக எஸ்எம்எஸ் ரசீது';
 $lang['config_items_per_search_suggestions'] = 'தேடல் பரிந்துரைகளுக்கான உருப்படிகளின் எண்ணிக்கை';
+
+$lang['config_shopify_settings_info'] = 'Shopify அமைப்புகள்';
+$lang['config_shopify_shop'] = 'Shopify ஸ்டோர் URL';
+$lang['config_connect_to_shopify'] = 'ஷாப்பிஃபிக்கு இணைக்கவும்';
+$lang['config_connect_to_shopify_reconnect'] = 'ஷாப்பிஃபிக்கு மீண்டும் இணைக்கவும்';
+$lang['config_connected_to_shopify'] = 'நீங்கள் Shopify உடன் இணைக்கப்பட்டுள்ளீர்கள்';
+$lang['config_disconnect_to_shopify'] = 'Shopify இலிருந்து துண்டிக்கவும்';
+
 $lang['config_offline_mode'] = 'ஆஃப்லைன் பயன்முறையை இயக்கு';
 $lang['config_reset_offline_data'] = 'ஆஃப்லைன் தரவை மீட்டமைக்கவும்';
+
+
+
+$lang['config_remove_quantity_suspending'] = 'இடைநீக்கம் செய்யும் போது அளவை அகற்று';
+$lang['config_auto_sync_offline_sales'] = 'ஆன்லைனில் திரும்பும்போது ஆட்டோ ஒத்திசைவு ஆஃப்லைன் விற்பனை';
+
+$lang['config_shopify_billing_terms'] = 'பில்லிங் செயல்படுத்தவும் - 14 நாள் சோதனை பின்னர் மாதத்திற்கு 19 அமெரிக்க டாலர்';
+$lang['config_shopfiy_billing_failed'] = 'Shopify பில்லிங் தோல்வியுற்றது';
+$lang['config_cancel_shopify'] = 'Shopify பில்லிங்கை ரத்துசெய்';
+$lang['config_confirm_cancel_shopify'] = 'ஷாப்பிஃபை ரத்து செய்ய விரும்புகிறீர்களா?';
+$lang['config_step_1'] = 'படி 1';
+$lang['config_step_2'] = 'படி 2';
+$lang['config_step_3'] = 'படி 3';
+$lang['config_step_4'] = 'படி 4';
+$lang['config_install_shopify_app'] = 'Shopify பயன்பாட்டை நிறுவவும்';
+$lang['config_connect_billing'] = 'பில்லிங்கை இணைக்கவும்';
+$lang['config_choose_sync_options'] = 'ஒத்திசைவு விருப்பங்களைத் தேர்வுசெய்க';
+$lang['config_ecommerce_sync_running'] = 'ஈ-காமர்ஸ் ஒத்திசைவு இப்போது பின்னணியில் இயங்குகிறது. ஸ்டோர் கட்டமைப்பில் நிலையை நீங்கள் சரிபார்க்கலாம்.';
+$lang['config_show_total_on_fulfillment'] = 'நிறைவேற்றும் தாளில் மொத்தத்தைக் காட்டு';
+$lang['config_connect_shopify_in_app_store'] = 'நீங்கள் Shopify உடன் இணைக்கப்படவில்லை. ஆப் ஸ்டோரில் Shopify உடன் இணைக்கலாம்';
+$lang['config_override_signature_text'] = 'கையொப்ப உரையை மீறவும்';
+$lang['config_update_cost_price_on_transfer'] = 'பரிமாற்றத்தில் செலவு விலையைப் புதுப்பிக்கவும்';
+$lang['config_tip_preset_zero'] = 'உதவிக்குறிப்பு முன்னமைக்கப்பட்ட அளவு 0%';
+$lang['config_show_person_id_on_receipt'] = 'ரசீதில் நபர் ஐடியைக் காட்டு';
 ?>

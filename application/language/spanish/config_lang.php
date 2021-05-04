@@ -418,7 +418,7 @@ $lang['config_show_barcode_company_name'] = 'Mostrar el nombre de la empresa en 
 $lang['config_import_ecommerce_attributes_into_phppos'] = 'Importar atributos en phppos';
 $lang['config_export_phppos_attributes_to_ecommerce'] = 'Exportar atributos al comercio electrónico';
 
-$lang['config_woo_sku_sync_field'] = 'Campo SKU para sincronizar con';
+$lang['config_sku_sync_field'] = 'Campo SKU para sincronizar con';
 
 
 
@@ -733,6 +733,38 @@ $lang['config_do_not_allow_items_to_go_out_of_stock_when_transfering'] = 'No per
 $lang['config_show_tags_on_fulfillment_sheet'] = 'Mostrar etiquetas de artículo en la hoja de cumplimiento';
 $lang['config_automatically_sms_receipt'] = 'Recepción automática de SMS';
 $lang['config_items_per_search_suggestions'] = 'Número de elementos para sugerencias de búsqueda';
+
+$lang['config_shopify_settings_info'] = 'Configuración de Shopify';
+$lang['config_shopify_shop'] = 'URL de la tienda Shopify';
+$lang['config_connect_to_shopify'] = 'Conectarse a Shopify';
+$lang['config_connect_to_shopify_reconnect'] = 'Vuelve a conectarte a Shopify';
+$lang['config_connected_to_shopify'] = 'Estás conectado a Shopify';
+$lang['config_disconnect_to_shopify'] = 'Desconectarse de Shopify';
+
 $lang['config_offline_mode'] = 'Habilitar el modo sin conexión';
 $lang['config_reset_offline_data'] = 'Restablecer datos sin conexión';
+
+
+
+$lang['config_remove_quantity_suspending'] = 'Eliminar cantidad al suspender';
+$lang['config_auto_sync_offline_sales'] = 'Sincronización automática de ventas sin conexión cuando vuelva a estar en línea';
+
+$lang['config_shopify_billing_terms'] = 'Activar la facturación: prueba de 14 días y luego 19 USD por mes';
+$lang['config_shopfiy_billing_failed'] = 'Error de facturación de Shopify';
+$lang['config_cancel_shopify'] = 'Cancelar facturación de Shopify';
+$lang['config_confirm_cancel_shopify'] = '¿Estás seguro de que deseas cancelar Shopify?';
+$lang['config_step_1'] = 'Paso 1';
+$lang['config_step_2'] = 'Paso 2';
+$lang['config_step_3'] = 'Paso 3';
+$lang['config_step_4'] = 'Etapa 4';
+$lang['config_install_shopify_app'] = 'Instalar la aplicación Shopify';
+$lang['config_connect_billing'] = 'Conectar facturación';
+$lang['config_choose_sync_options'] = 'Elija Opciones de sincronización';
+$lang['config_ecommerce_sync_running'] = 'La sincronización de comercio electrónico ahora se está ejecutando en segundo plano. Puede comprobar el estado en Store Config.';
+$lang['config_show_total_on_fulfillment'] = 'Mostrar total en la hoja de cumplimiento';
+$lang['config_connect_shopify_in_app_store'] = 'No estás conectado a Shopify. Puedes conectarte a Shopify en App Store';
+$lang['config_override_signature_text'] = 'Anular el texto de la firma';
+$lang['config_update_cost_price_on_transfer'] = 'Actualizar precio de costo en transferencia';
+$lang['config_tip_preset_zero'] = 'Cantidad preestablecida de propina del 0%';
+$lang['config_show_person_id_on_receipt'] = 'Mostrar identificación de persona al recibirlo';
 ?>

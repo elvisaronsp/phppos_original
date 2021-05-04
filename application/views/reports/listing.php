@@ -294,6 +294,9 @@
 					<a class="list-group-item" href="<?php echo site_url('reports/generate/new_customers');?>" ><i class="icon ti-receipt"></i> <?php echo lang('reports_new_customers'); ?></a>
 					<a class="list-group-item" href="<?php echo site_url('reports/generate/summary_customers_zip');?>" ><i class="icon ti-receipt"></i> <?php echo lang('reports_zip_code_report'); ?></a>
 					<a class="list-group-item" href="<?php echo site_url('reports/generate/graphical_customers_zip');?>" ><i class="icon ti-receipt"></i> <?php echo lang('reports_graphical_zip_code_report'); ?></a>
+					<a class="list-group-item" href="<?php echo site_url('reports/generate/summary_non_taxable_customers');?>" ><i class="icon ti-receipt"></i> <?php echo lang('reports_non_taxable_customers'); ?></a>
+					
+					
 				</div>
 
 				<div class="list-group commissions hidden">

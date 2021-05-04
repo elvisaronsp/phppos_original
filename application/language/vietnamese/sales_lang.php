@@ -511,4 +511,10 @@ $lang['sales_offline_synced_successfully'] = 'Bán hàng ngoại tuyến đượ
 $lang['sales_edit_offline_sales'] = 'Chỉnh sửa bán hàng ngoại tuyến';
 $lang['sales_giftcard_exists_do_you_want_to_add'] = 'Thẻ quà tặng bạn đang bán đã tồn tại. Bạn có muốn nạp thêm tiền vào thẻ này không?';
 $lang['sales_the_balance_of_card_is'] = 'Số dư của thẻ là';
+$lang['sales_serialnumber_duplicate'] = 'Số sê-ri trùng lặp, vui lòng nhập lại';
+$lang['sales_enter_note'] = 'Nhập ghi chú';
+$lang['sales_note'] = 'Ghi chú';
+$lang['sales_detailed_note'] = 'Ghi chú chi tiết';
+$lang['sales_internal_note'] = 'Ghi chú nội bộ';
+$lang['sales_delveried_to'] = 'Đã gửi đến';
 ?>

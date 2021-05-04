@@ -9,6 +9,11 @@ html {
     color: #fff!important
 }
 
+.work_order_status_box,.workorder-badge
+{
+    background-color: #18191a !important;	
+}
+
 #item_kit_items th,
 .close,
 .dashboard-stats .left h4,

@@ -99,7 +99,7 @@ for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++)
 				<div class="pull-right-btn">
 					<ul class="list-inline print-buttons">
 						<li>
-							<button class="btn btn-primary btn-lg hidden-print" id="print_button" onClick="do_print()" > <?php echo lang('common_print','',array(),TRUE); ?> </button>							
+							<button class="btn btn-primary btn-lg hidden-print" id="print_button" onClick="print_receipt()" > <?php echo lang('common_print','',array(),TRUE); ?> </button>							
 						</li>
 						<li>
 							<button class="btn btn-primary btn-lg hidden-print" id="new_receiving_button_1" onclick="window.location='<?php echo site_url('receivings'); ?>'" > <?php echo lang('receivings_new_receiving','',array(),TRUE); ?> </button>
@@ -309,19 +309,19 @@ for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++)
 						switch($this->config->item('id_to_show_on_sale_interface'))
 						{
 							case 'number':
-							$item_number_for_receipt = array_key_exists('item_number', $item) ? H($item->item_number) : '';
+							$item_number_for_receipt = property_exists($item,'item_number') ? H($item->item_number) : '';
 							break;
 						
 							case 'product_id':
-							$item_number_for_receipt = array_key_exists('product_id', $item) ? H($item->product_id) : ''; 
+							$item_number_for_receipt = property_exists($item,'product_id') ? H($item->product_id) : ''; 
 							break;
 						
 							case 'id':
-							$item_number_for_receipt = array_key_exists('item_id', $item) ? H($item->item_id) : ''; 
+							$item_number_for_receipt = property_exists($item,'item_id') ? H($item->item_id) : ''; 
 							break;
 						
 							default:
-							$item_number_for_receipt = array_key_exists('item_number', $item) ? H($item->item_number) : '';
+							$item_number_for_receipt = property_exists($item,'item_number') ? H($item->item_number) : '';
 							break;
 						}
 					}
@@ -360,7 +360,7 @@ for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++)
 													<?php } ?>
 														
 									<?php if (!$this->config->item('hide_desc_on_receipt') && !$item->description=="" ) {?>
-				                    	<div class="invoice-desc"><?php echo H($item->description); ?></div>
+				                    	<div class="invoice-desc"><?php echo clean_html($item->description); ?></div>
 				                    <?php } ?>
 									<?php if (isset($item->serialnumber) && $item->serialnumber !="") { ?>
 				                    	<div class="invoice-desc"><?php echo H($item->serialnumber); ?></div>
@@ -824,13 +824,13 @@ $(window).load(function()
 	if ($this->agent->browser() == 'Chrome')
 	{
 	?>
-		setTimeout(function(){ do_print(); }, 1500);
+		setTimeout(function(){ print_receipt(); }, 1500);
 	<?php	
 	}
 	else
 	{
 	?>
-		do_print();	
+		print_receipt();	
 	<?php
 	}
 	?>
@@ -842,32 +842,18 @@ $(window).load(function()
 <?php
 if ($this->config->item('redirect_to_sale_or_recv_screen_after_printing_receipt'))
 {
-	if ($this->agent->browser() == 'Chrome' || $this->agent->browser() == 'Edge' || $this->agent->browser() == 'Internet Explorer')
+?>
+	window.onafterprint = function()
 	{
-	?>
-		window.onafterprint = function()
-		{
-	 		window.location = '<?php echo site_url('receivings'); ?>';	
-		}		
-		<?php
+		window.location = '<?php echo site_url('receivings'); ?>';		
 	}
+<?php
 }
 ?>
 
-function do_print()
-{	
-	window.print();
-	<?php
-	if($this->config->item('redirect_to_sale_or_recv_screen_after_printing_receipt'))
-	{
-		if ($this->agent->browser() == 'Safari' || $this->agent->browser() == 'Firefox')
-		{
-		?>
-		window.location = '<?php echo site_url('receivings'); ?>';
-		<?php
-		}
-	}
-	?>
+function print_receipt()
+{
+ 	window.print();
 }
 </script>
 

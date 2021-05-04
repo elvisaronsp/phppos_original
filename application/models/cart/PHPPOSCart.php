@@ -38,6 +38,18 @@ abstract class PHPPOSCart
 	public $custom_field_8_value;
 	public $custom_field_9_value;
 	public $custom_field_10_value;
+
+
+	public $work_order_custom_field_1_value;
+	public $work_order_custom_field_2_value;
+	public $work_order_custom_field_3_value;
+	public $work_order_custom_field_4_value;
+	public $work_order_custom_field_5_value;
+	public $work_order_custom_field_6_value;
+	public $work_order_custom_field_7_value;
+	public $work_order_custom_field_8_value;
+	public $work_order_custom_field_9_value;
+	public $work_order_custom_field_10_value;
 	
 	public $override_tax_names;
 	public $override_tax_percents;
@@ -101,6 +113,17 @@ abstract class PHPPOSCart
 		$this->custom_field_8_value = NULL;
 		$this->custom_field_9_value = NULL;
 		$this->custom_field_10_value = NULL;
+
+		$this->work_order_custom_field_1_value = NULL;
+		$this->work_order_custom_field_2_value = NULL;
+		$this->work_order_custom_field_3_value = NULL;
+		$this->work_order_custom_field_4_value = NULL;
+		$this->work_order_custom_field_5_value = NULL;
+		$this->work_order_custom_field_6_value = NULL;
+		$this->work_order_custom_field_7_value = NULL;
+		$this->work_order_custom_field_8_value = NULL;
+		$this->work_order_custom_field_9_value = NULL;
+		$this->work_order_custom_field_10_value = NULL;
 		
 		$this->override_tax_names = NULL;
 		$this->override_tax_percents = NULL;

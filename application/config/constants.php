@@ -92,9 +92,9 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 |
 */
 define('NUMBER_OF_PEOPLE_CUSTOM_FIELDS',10);
-define('APPLICATION_VERSION', '18.0');
-define('ASSET_TIMESTAMP', '1611088182');
-define('BUILD_TIMESTAMP', '1612991678');
+define('APPLICATION_VERSION', '18.1');
+define('ASSET_TIMESTAMP', '1617804740');
+define('BUILD_TIMESTAMP', '1620058041');
 
 /*
 |--------------------------------------------------------------------------
@@ -110,6 +110,9 @@ define('US_CODE', 'US');
 
 $clientID = (!defined("ENVIRONMENT") or ENVIRONMENT == 'development') ? 'L005CLJaxaNGHbOXWfeTxxlnpLyYEtZnRE2Ap6Mg7PbDvJrJmg' : 'L0jFuF24v3zQMkY19hxFNT1G9j48iI16u5vHUHymUY7kbNqWtX';
 $clientSecret = (!defined("ENVIRONMENT") or ENVIRONMENT == 'development') ? 'j3Glwe7bProoA4apidQV2KuC2UIabDWqRkY2o9v3' : 'TxiZlDwcByyE9J4Rxp0pxU7rVafbrQdPPgYAIIwU';
+
+define('SHOPIFY_API_KEY','67a4dd2a54da54f728f572666018f026');
+define('SHOPIFY_API_SECRET_KEY','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');
 
 // Inventory Synch Needed value 1 be used to set the flag for syncing the current quantity of item in db in inventory table with QB.
 define('QUICKBOOKS_CLIENT_ID', $clientID);

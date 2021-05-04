@@ -34,7 +34,7 @@
 						
 						<table class="table table-bordered table-hover table-striped">
 							<tr><td width="40%"><?php echo lang('common_category'); ?></td> <td><?php echo H($category); ?></td></tr>
-							<?php if($item_info->description) { ?><tr><td width="40%"><?php echo lang('common_description'); ?></td> <td> <?php echo H($item_info->description); ?></td></tr><?php } ?>
+							<?php if($item_info->description) { ?><tr><td width="40%"><?php echo lang('common_description'); ?></td> <td> <?php echo clean_html($item_info->description); ?></td></tr><?php } ?>
 							<tr><td width="40%"><?php echo lang('common_item_id'); ?></td> <td><?php echo H($item_info->item_id); ?></td></tr>
 							<?php if($item_info->product_id) { ?><tr><td><?php echo lang('common_product_id'); ?></td> <td><?php echo H($item_info->product_id); ?></td></tr><?php } ?>
 							<?php if($item_info->item_number) { ?><tr><td><?php echo lang('common_item_number_expanded'); ?></td> <td><?php echo H($item_info->item_number); ?></td></tr><?php } ?>

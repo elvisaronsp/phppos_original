@@ -633,6 +633,8 @@ class Customers extends Person_controller
 		$data = array();
 		
 		$data['redirect'] = $this->input->get("redirect");
+		$data['recent_exports'] = $this->Appfile->get_files_start_with_name('customers_excel_export_');
+		
 		$this->load->view("customers/excel_import", $data);
 	}
 	
@@ -752,7 +754,9 @@ class Customers extends Person_controller
 		}
 		
 		$this->load->helper('spreadsheet');
-		array_to_spreadsheet($rows,'customers_export.'.($this->config->item('spreadsheet_format') == 'XLSX' ? 'xlsx' : 'csv'));
+		
+		$extension = ($this->config->item('spreadsheet_format') == 'XLSX' ? 'xlsx' : 'csv');
+		array_to_spreadsheet($rows,'customers_export.'.$extension, FALSE, 'customers_excel_export_'.date('Y-m-d-h-i').'.'.$extension);
 	}
 	
 	function do_excel_upload()
@@ -772,7 +776,7 @@ class Customers extends Person_controller
 		
 		$file_info = pathinfo($_FILES["file"]["name"]);		
 		$file = $this->Appfile->get($this->session->userdata('excel_import_file_id'));
-		$tmpFilename = tempnam(ini_get('upload_tmp_dir'), 'cexcel');
+		$tmpFilename = tempnam(ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir(), 'cexcel');
 
 		file_put_contents($tmpFilename,$file->file_data);
 		$this->load->helper('spreadsheet');
@@ -819,7 +823,7 @@ class Customers extends Person_controller
 		
 		$file = $this->Appfile->get($this->session->userdata('excel_import_file_id'));
 
-		$tmpFilename = tempnam(ini_get('upload_tmp_dir'), 'cexcel');
+		$tmpFilename = tempnam(ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir(), 'cexcel');
 
 		file_put_contents($tmpFilename,$file->file_data);
 		$this->load->helper('spreadsheet');

@@ -27,13 +27,13 @@ function lang($line, $for = '', $attributes = array(),$second_language = false)
 			if (!file_exists($langpath))
 			{
 				$log_message = "Couldn't load language file $langfile CURRENT_URL: ".current_url().' REQUEST '.var_export($_REQUEST, TRUE);
-				log_message('error', $log_message);
+				log_message('debug', $log_message);
 			}
 			else
 			{
 				$CI->lang->load($langfile);
 				$log_message = "Lazy Loaded language $langfile for $orig_line CURRENT_URL: ".current_url().' REQUEST '.var_export($_REQUEST, TRUE);
-				log_message('error', $log_message);
+				log_message('debug', $log_message);
 				$line = get_instance()->lang->line($orig_line);
 			}
 		}
@@ -41,7 +41,7 @@ function lang($line, $for = '', $attributes = array(),$second_language = false)
 		if (!$line)
 		{
 			$log_message = "Couldn't load language key $orig_line CURRENT_URL: ".current_url().' REQUEST '.var_export($_REQUEST, TRUE);
-			log_message('error', $log_message);
+			log_message('debug', $log_message);
 			if (ENVIRONMENT =='development')
 			{
 				die("Couldn't load language key $orig_line");

@@ -630,7 +630,7 @@ $lang['config_do_not_show_closing'] = 'Không hiển thị số tiền đóng d�
 $lang['config_show_barcode_company_name'] = 'Hiển thị tên công ty trên mã vạch';
 $lang['config_import_ecommerce_attributes_into_phppos'] = 'Nhập các thuộc tính vào hệ thống';
 $lang['config_export_phppos_attributes_to_ecommerce'] = 'Xuất thuộc tính vào e-commerce';
-$lang['config_woo_sku_sync_field'] = 'Trường SKU để đồng bộ với';
+$lang['config_sku_sync_field'] = 'Trường SKU để đồng bộ với';
 $lang['config_overwrite_existing_items_on_excel_import'] = 'Ghi đè các sản phẩm hiện có vào nhập excel';
 $lang['config_add_suspended_sale_type'] = 'Thêm loại bán bị treo';
 $lang['config_additional_suspend_types'] = 'Các loại Bán bị tạm ngưng Khác';
@@ -848,6 +848,38 @@ $lang['config_do_not_allow_items_to_go_out_of_stock_when_transfering'] = 'Không
 $lang['config_show_tags_on_fulfillment_sheet'] = 'Hiển thị các thẻ mục trên trang hoàn thành';
 $lang['config_automatically_sms_receipt'] = 'Tự động nhận SMS';
 $lang['config_items_per_search_suggestions'] = 'Số lượng mục cho đề xuất tìm kiếm';
+
+$lang['config_shopify_settings_info'] = 'Cài đặt Shopify';
+$lang['config_shopify_shop'] = 'URL cửa hàng Shopify';
+$lang['config_connect_to_shopify'] = 'Kết nối với Shopify';
+$lang['config_connect_to_shopify_reconnect'] = 'Kết nối lại để hiển thị';
+$lang['config_connected_to_shopify'] = 'Bạn đã kết nối với Shopify';
+$lang['config_disconnect_to_shopify'] = 'Ngắt kết nối khỏi Shopify';
+
 $lang['config_offline_mode'] = 'Bật chế độ ngoại tuyến';
 $lang['config_reset_offline_data'] = 'Đặt lại dữ liệu ngoại tuyến';
+
+
+
+$lang['config_remove_quantity_suspending'] = 'Xóa số lượng khi tạm ngưng';
+$lang['config_auto_sync_offline_sales'] = 'Tự động đồng bộ hóa bán hàng ngoại tuyến khi trực tuyến trở lại';
+
+$lang['config_shopify_billing_terms'] = 'Kích hoạt thanh toán - dùng thử 14 ngày, sau đó 19 USD mỗi tháng';
+$lang['config_shopfiy_billing_failed'] = 'Shopify Billing không thành công';
+$lang['config_cancel_shopify'] = 'Huỷ Shopify Billing';
+$lang['config_confirm_cancel_shopify'] = 'Bạn có chắc chắn muốn hủy mua sắm không?';
+$lang['config_step_1'] = 'Bước 1';
+$lang['config_step_2'] = 'Bước 2';
+$lang['config_step_3'] = 'Bước 3';
+$lang['config_step_4'] = 'Bước 4';
+$lang['config_install_shopify_app'] = 'Cài đặt ứng dụng Shopify';
+$lang['config_connect_billing'] = 'Kết nối thanh toán';
+$lang['config_choose_sync_options'] = 'Chọn tùy chọn đồng bộ hóa';
+$lang['config_ecommerce_sync_running'] = 'Đồng bộ hóa Thương mại Điện tử hiện đang chạy trong nền. Bạn có thể kiểm tra trạng thái trong Cấu hình cửa hàng.';
+$lang['config_show_total_on_fulfillment'] = 'Hiển thị Tổng số Trên Bảng Hoàn thành';
+$lang['config_connect_shopify_in_app_store'] = 'Bạn chưa kết nối với Shopify. Bạn có thể kết nối với Shopify trong App Store';
+$lang['config_override_signature_text'] = 'Ghi đè Văn bản Chữ ký';
+$lang['config_update_cost_price_on_transfer'] = 'Cập nhật giá chi phí khi chuyển nhượng';
+$lang['config_tip_preset_zero'] = 'Số tiền tip đặt trước là 0%';
+$lang['config_show_person_id_on_receipt'] = 'Hiển thị ID cá nhân khi nhận';
 ?>

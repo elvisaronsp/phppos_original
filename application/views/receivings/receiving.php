@@ -138,7 +138,7 @@ $has_cost_price_permission = $this->Employee->has_module_action_permission('item
 									<tr class="register-item-details">
 										<td class="text-center"> <?php echo anchor("receivings/delete_item/$line", '<i class="icon ion-android-cancel"></i>', array('class' => 'delete-item')); ?> </td>
 										<td>
-											<a tabindex="-1" href="<?php echo isset($item->item_id) ? site_url('home/view_item_modal/' . $item->item_id) . "?redirect=receivings" : site_url('home/view_item_kit_modal/' . $item->item_kit_id) . "?redirect=receivings"; ?>" data-toggle="modal" data-target="#myModal" class="register-item-name"><?php echo H($item->name); ?><?php echo $item->size ? ' (' . H($item->size) . ')' : ''; ?></a>
+											<a tabindex="-1" href="<?php echo isset($item->item_id) ? site_url('home/view_item_modal/' . $item->item_id) . "?redirect=receivings" : site_url('home/view_item_kit_modal/' . $item->item_kit_id) . "?redirect=receivings"; ?>" data-toggle="modal" data-target="#myModal" class="register-item-name"><?php echo H($item->name).($item->variation_name ? '<span class="show-collpased" style="display:none">  ['.$item->variation_name.']</span>' : ''); ?><?php echo $item->size ? ' (' . H($item->size) . ')' : ''; ?></a>
 										</td>
 
 
@@ -155,7 +155,7 @@ $has_cost_price_permission = $this->Employee->has_module_action_permission('item
 										</td>
 
 										<td class="text-center">
-											<a href="#" id="quantity_<?php echo $line; ?>" class="xeditable" data-type="text" data-validate-number="true" data-value="<?php echo H(to_quantity($mode == "transfer" ? abs($item->quantity) : $item->quantity)); ?>" data-pk="1" data-name="quantity" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo lang('common_quantity') ?>"><?php echo to_quantity($mode == "transfer" ? abs($item->quantity) : $item->quantity); ?></a>
+											<a href="#" id="quantity_<?php echo $line; ?>" class="xeditable edit-quantity" data-type="text" data-validate-number="true" data-value="<?php echo H(to_quantity($mode == "transfer" ? abs($item->quantity) : $item->quantity)); ?>" data-pk="1" data-name="quantity" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo lang('common_quantity') ?>"><?php echo to_quantity($mode == "transfer" ? abs($item->quantity) : $item->quantity); ?></a>
 										</td>
 
 										<td class="text-center">
@@ -301,10 +301,10 @@ $has_cost_price_permission = $this->Employee->has_module_action_permission('item
 													<dt><?php echo lang('common_description'); ?></dt>
 													<dd>
 														<?php if (isset($item->allow_alt_description) && $item->allow_alt_description == 1) { ?>
-															<a href="#" id="description_<?php echo $line; ?>" class="xeditable" data-type="text" data-pk="1" data-name="description" data-value="<?php echo H($item->description); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('sales_description_abbrv')); ?>"><?php echo character_limiter(H($item->description), 50); ?></a>
+															<a href="#" id="description_<?php echo $line; ?>" class="xeditable" data-type="text" data-pk="1" data-name="description" data-value="<?php echo clean_html($item->description); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('sales_description_abbrv')); ?>"><?php echo clean_html(character_limiter($item->description), 50); ?></a>
 														<?php	} else {
 															if ($item->description != '') {
-																echo H($item->description);
+																echo clean_html($item->description);
 															} else {
 																echo lang('common_none');
 															}
@@ -342,19 +342,19 @@ $has_cost_price_permission = $this->Employee->has_module_action_permission('item
 													<?php
 													switch ($this->config->item('id_to_show_on_sale_interface')) {
 														case 'number':
-															echo array_key_exists('item_number', $item) ? H($item->item_number) : lang('common_none');
+															echo property_exists($item,'item_number') ? H($item->item_number) : lang('common_none');
 															break;
 
 														case 'product_id':
-															echo array_key_exists('product_id', $item) ? H($item->product_id) : lang('common_none');
+															echo property_exists($item,'product_id') ? H($item->product_id) : lang('common_none');
 															break;
 
 														case 'id':
-															echo array_key_exists('item_id', $item) ? H($item->item_id) : lang('common_none');
+															echo property_exists($item,'item_id') ? H($item->item_id) : lang('common_none');
 															break;
 
 														default:
-															echo array_key_exists('item_number', $item) ? H($item->item_number) : lang('common_none');
+															echo property_exists($item,'item_number') ? H($item->item_number) : lang('common_none');
 															break;
 													}
 													?>
@@ -2253,17 +2253,22 @@ $has_cost_price_permission = $this->Employee->has_module_action_permission('item
 				value: '1'
 			});
 			$("#sale_details_expand_collapse").text('+');
+			$(".show-collpased").show();
+			
 		} else {
 			$.post('<?php echo site_url("receivings/set_details_collapsed"); ?>', {
 				value: '0'
 			});
 			$("#sale_details_expand_collapse").text('-');
+			$(".show-collpased").hide();
+			
 		}
 	});
 
 	<?php if ($details_collapsed) { ?>
 		$("#sale_details_expand_collapse").text('+');
 		$('.register-item-bottom').addClass('collapse');
+		$(".show-collpased").show();
 	<?php } ?>
 
 	$(".page_pagination a").click(function(e) {

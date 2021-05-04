@@ -51,6 +51,19 @@
 											<a href="<?php echo site_url('customers/excel') ?>" class="btn btn-primary"><?php echo lang('customers_new_customers_import'); ?></a>				
 			            </div>
 			        </div>
+					
+		            <div class="col-md-12 well">
+	                	<h4 class="text-center"><?php echo lang('common_recent_exports'); ?></h4>
+						<ul>
+						<?php
+						foreach($recent_exports as $file)
+						{
+							echo '<li>'.file_id_to_download_link($file['file_id']).'</li>';
+						}
+						?>
+						</ul>
+					</div>
+					
 				        <div class="col-xs-12">
 				            <div class="col-md-12 well">
 											<div class="spinner" id="grid-loader" style="display:none">

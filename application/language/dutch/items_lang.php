@@ -336,5 +336,10 @@ $lang['is_favorite'] = 'Is favoriet?';
 $lang['items_item_quantity_unit_number_exists'] = 'Het itemnummer van de hoeveelheideenheid bestaat';
 $lang['items_quantity_unit'] = 'Hoeveelheid Eenheidsvariatie';
 $lang['items_quantity_unit_quantity'] = 'Hoeveelheid Eenheid Hoeveelheid';
+
+$lang['items_weight_unit'] = 'Gewichtseenheid';
+
 $lang['items_inventory_print_list_summary'] = 'Inventaris Afdruklijstoverzicht';
+
+$lang['items_search_by_barcode'] = 'Zoek op streepjescode of artikel-ID';
 ?>

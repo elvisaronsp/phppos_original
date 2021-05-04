@@ -336,5 +336,10 @@ $lang['is_favorite'] = 'Ist Favorit?';
 $lang['items_item_quantity_unit_number_exists'] = 'Die Artikelnummer der Mengeneinheit ist vorhanden';
 $lang['items_quantity_unit'] = 'Variation der Mengeneinheit';
 $lang['items_quantity_unit_quantity'] = 'Menge Einheit Menge';
+
+$lang['items_weight_unit'] = 'Gewichtseinheit';
+
 $lang['items_inventory_print_list_summary'] = 'Zusammenfassung der Inventardruckliste';
+
+$lang['items_search_by_barcode'] = 'Suche nach Barcode oder Artikel-ID';
 ?>

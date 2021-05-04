@@ -90,4 +90,7 @@ $lang['appointments_add'] = 'Aggiungi appuntamenti';
 $lang['appointments_delete'] = 'Elimina appuntamenti';
 $lang['appointments_search'] = 'Cerca appuntamenti';
 $lang['appointments_edit'] = 'Modifica appuntamenti';
+$lang['module_work_orders'] = 'Ordini di lavoro';
+$lang['module_work_orders_desc'] = 'Ordini di lavoro';
+$lang['module_manage_statuses'] = 'Gestisci stati';
 ?>

@@ -114,13 +114,16 @@ class Sales_generator extends Report
 					{
 						$category_ids = array($category);
 					}
-	
-					$all_cats = $all_cats + $category_ids;
+					
+					foreach($category_ids as $cat_id)
+					{
+						$all_cats[]=$cat_id;
+					}
 				}
 			}
 		}
 		
-		return $all_cats;
+		return array_unique($all_cats);
 	}
 	
 	public function getData()
@@ -672,15 +675,31 @@ class Sales_generator extends Report
 				elseif($d['f'] == 4)
 				{					
 					$this->db->$matchTypeGroup();
-					
-					if ($only_search === NULL || $only_search == 'items')
-					{						
-						$this->db->or_where_in('items.category_id',$this->all_cats);
-					}
-				
-					if ($only_search === NULL || $only_search == 'item_kits')
+					if ($ops == " != 'xx'" || $ops == " NOT IN ('xx')")
 					{
-						$this->db->or_where_in('item_kits.category_id',$this->all_cats);
+						if ($only_search === NULL || $only_search == 'items')
+						{	
+							$this->db->or_where_not_in('items.category_id',$this->all_cats);
+						}
+				
+						if ($only_search === NULL || $only_search == 'item_kits')
+						{
+							$this->db->or_where_not_in('item_kits.category_id',$this->all_cats);
+						}
+						
+					}
+					else
+					{
+						if ($only_search === NULL || $only_search == 'items')
+						{				
+							$this->db->or_where_in('items.category_id',$this->all_cats);
+						}
+				
+						if ($only_search === NULL || $only_search == 'item_kits')
+						{
+							$this->db->or_where_in('item_kits.category_id',$this->all_cats);
+						}
+					
 					}
 						$this->db->group_end();
 				}

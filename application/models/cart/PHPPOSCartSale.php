@@ -85,6 +85,7 @@ class PHPPOSCartSale extends PHPPOSCart
 		for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++) 
 		{
 			$this->{"custom_field_${k}_value"} =$previous_cart->{"custom_field_${k}_value"};
+			$this->{"work_order_custom_field_${k}_value"} =$previous_cart->{"work_order_custom_field_${k}_value"};
 		}
 		
 		$this->set_excluded_taxes($previous_cart->get_excluded_taxes());
@@ -137,12 +138,17 @@ class PHPPOSCartSale extends PHPPOSCart
 		$CI->load->model('Item_modifier');
 		$cart = new PHPPOSCartSale(array('sale_id' => $sale_id,'cart_id' => $cart_id,'mode' => 'sale','is_editing_previous' => $is_editing_previous));
 		$sale_info = $CI->Sale->get_info($sale_id)->row_array();
+		$work_order_info = $CI->Work_order->get_info_by_sale_id($sale_id)->row_array();
 		$cart->return_sale_id = $sale_info['return_sale_id'];
 		$paid_store_accounts = $CI->Sale->get_store_accounts_paid_sales($sale_id);
 		
 		for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++) 
 		{
 			$cart->{"custom_field_${k}_value"} = $sale_info["custom_field_${k}_value"];
+			if ($work_order_info)
+			{
+				$cart->{"work_order_custom_field_${k}_value"} = $work_order_info["custom_field_${k}_value"];
+			}
 		}
 		
 		foreach($paid_store_accounts as $paid_store_account)
@@ -1600,41 +1606,56 @@ class PHPPOSCartSale extends PHPPOSCart
 		{
 			$item_or_kit_rule_applied = FALSE;
 			$spend_item_applied = FALSE;
-			switch($rule['type'])
+			
+			if ($rule)
 			{
-				case 'simple_discount':
-				 $item_or_kit_rule_applied = $this->apply_buy_x_get_y($rule, $params);
-				break;
+				switch($rule['type'])
+				{
+					case 'simple_discount':
+					 $item_or_kit_rule_applied = $this->apply_buy_x_get_y($rule, $params);
+					break;
 			
-				case 'buy_x_get_y_free':
-					$item_or_kit_rule_applied = $this->apply_buy_x_get_y($rule,$params);
-				break;
+					case 'buy_x_get_y_free':
+						$item_or_kit_rule_applied = $this->apply_buy_x_get_y($rule,$params);
+					break;
 
-				case 'buy_x_get_discount': 
-					$item_or_kit_rule_applied = $this->apply_buy_x_get_y($rule,$params);
-				break;
+					case 'buy_x_get_discount': 
+						$item_or_kit_rule_applied = $this->apply_buy_x_get_y($rule,$params);
+					break;
 
-				case 'advanced_discount': 
-					$item_or_kit_rule_applied = $this->apply_advanced_discount($rule,$params);
-				break;
+					case 'advanced_discount': 
+						$item_or_kit_rule_applied = $this->apply_advanced_discount($rule,$params);
+					break;
 			
-				default:
-					$this->cleanup_price_rule_items($params);
-				break;
+					default:
+						$this->cleanup_price_rule_items($params);
+					break;
+				}
+			}
+			else
+			{
+				$this->cleanup_price_rule_items($params);				
 			}
 				
 			$spending_rule = $this->do_spending_price_rule($params);
-			switch($spending_rule['type'])
-			{
-				case 'spend_x_get_discount':
-					$spend_item_applied = $this->apply_spend_x_get_discount($spending_rule);
-				break;
 			
-				default:
-					$this->cleanup_price_rule_discounts();
-				break;
-			}			
-		
+			if ($spending_rule)
+			{
+				switch($spending_rule['type'])
+				{
+					case 'spend_x_get_discount':
+						$spend_item_applied = $this->apply_spend_x_get_discount($spending_rule);
+					break;
+			
+					default:
+						$this->cleanup_price_rule_discounts();
+					break;
+				}			
+			}
+			else
+			{
+				$this->cleanup_price_rule_discounts();				
+			}
 		
 		
 			if (is_array($item_or_kit_rule_applied))
@@ -2762,8 +2783,10 @@ class PHPPOSCartSale extends PHPPOSCart
 				}
 				else
 				{
+					$quantity_unit_id = $item->quantity_unit_id;
+					
 					$CI->load->model('Item');
-					$price_to_use = $CI->Item->get_sale_price(array('tier_id' => $this->selected_tier_id,'item_id' => $item->item_id, 'variation_id' => $item->variation_id));	
+					$price_to_use = $CI->Item->get_sale_price(array('quantity_unit_id' => $quantity_unit_id,'tier_id' => $this->selected_tier_id,'item_id' => $item->item_id, 'variation_id' => $item->variation_id));	
 				}
 				
 				$item->unit_price = $price_to_use - $discount_flat;
@@ -2826,7 +2849,9 @@ class PHPPOSCartSale extends PHPPOSCart
 		else
 		{
 			$CI->load->model('Item');
-			$price_to_use = $CI->Item->get_sale_price(array('tier_id' => $this->selected_tier_id,'item_id' => $id, 'variation_id' => $variation_id));	
+			$quantity_unit_id = $params['item']->quantity_unit_id;
+			
+			$price_to_use = $CI->Item->get_sale_price(array('quantity_unit_id' => $quantity_unit_id,'tier_id' => $this->selected_tier_id,'item_id' => $id, 'variation_id' => $variation_id));	
 		}
 		
 		if($discount_flat)
@@ -2996,7 +3021,7 @@ class PHPPOSCartSale extends PHPPOSCart
 			}
 			$item_to_add = new PHPPOSCartItemSale(array('cart' => $this,'scan' => $barcode_scan_data,'serialnumber' => $serialnumber,'quantity' => $quantity,'unit_price' => isset($serial_number_price) && $serial_number_price ? $serial_number_price : null,'cost_price' => isset($serial_number_cost_price) && $serial_number_cost_price ? $serial_number_cost_price : null));
 			
-			if ($item_to_add->default_quantity !== NULL)
+			if ($item_to_add->default_quantity !== NULL && $item_to_add->default_quantity !== "")
 			{
 				@$item_to_add->quantity = ($mode=="sale" || $mode == 'estimate' ? 1:-1)*$item_to_add->default_quantity*$qty_multiplier;
 			}

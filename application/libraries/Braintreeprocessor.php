@@ -6,10 +6,14 @@ class Braintreeprocessor extends Creditcardprocessor
 	{
 		parent::__construct($controller);
 		require_once 'braintree/lib/Braintree.php';
-		Braintree\Configuration::environment((!defined("ENVIRONMENT") or ENVIRONMENT == 'development') ? 'sandbox' : 'production');
-		Braintree\Configuration::merchantId($this->controller->Location->get_info_for_key('braintree_merchant_id'));
-		Braintree\Configuration::publicKey($this->controller->Location->get_info_for_key('braintree_public_key'));
-		Braintree\Configuration::privateKey($this->controller->Location->get_info_for_key('braintree_private_key'));
+		
+		$this->gateway = new Braintree\Gateway([
+		    'environment' => (!defined("ENVIRONMENT") or ENVIRONMENT == 'development') ? 'sandbox' : 'production',
+		    'merchantId' => $this->controller->Location->get_info_for_key('braintree_merchant_id'),
+		    'publicKey' => $this->controller->Location->get_info_for_key('braintree_public_key'),
+		    'privateKey' => $this->controller->Location->get_info_for_key('braintree_private_key'),
+		]);
+		
 		
 	}	
 	
@@ -31,7 +35,7 @@ class Braintreeprocessor extends Creditcardprocessor
 			
 			try
 			{
-				$data['braintree_clent_token'] = Braintree_ClientToken::generate();
+				$data['braintree_clent_token'] = $this->gateway->clientToken()->generate();
 				$this->controller->load->view('sales/braintree_checkout', $data);			
 			}
 			catch(Exception $e)
@@ -55,7 +59,7 @@ class Braintreeprocessor extends Creditcardprocessor
 			
 				$charge_parameters['options']['submitForSettlement'] = TRUE;				
 			
-				$charge = Braintree_Transaction::sale($charge_parameters);
+				$charge = $this->gateway->transaction()->sale($charge_parameters);
 			
 				if (!$charge->success)
 				{
@@ -164,7 +168,7 @@ class Braintreeprocessor extends Creditcardprocessor
 
 			$charge_parameters['options']['submitForSettlement'] = TRUE;				
 			
-			$charge = Braintree_Transaction::sale($charge_parameters);
+			$charge = $this->gateway->transaction()->sale($charge_parameters);
 			
 			if (!$charge->success)
 			{
@@ -263,12 +267,12 @@ class Braintreeprocessor extends Creditcardprocessor
 			
 				try
 				{
-					$void_attempt = Braintree_Transaction::void($charge_id);
+					$void_attempt = $this->gateway->transaction()->void($charge_id);
 					
 					//Try to refund
 					if (!$void_attempt->success)
 					{
-						$refund_attempt = Braintree_Transaction::refund($charge_id);
+						$refund_attempt = $this->gateway->transaction()->refund($charge_id);
 						
 						if (!$refund_attempt->success)
 						{
@@ -300,12 +304,12 @@ class Braintreeprocessor extends Creditcardprocessor
 				try
 				{
 					$charge_id = $payment['ref_no'];
-					$void_attempt = Braintree_Transaction::void($charge_id);
+					$void_attempt = $this->gateway->transaction()->void($charge_id);
 					
 					//Try to refund
 					if (!$void_attempt->success)
 					{
-						$refund_attempt = Braintree_Transaction::refund($charge_id);
+						$refund_attempt = $this->gateway->transaction()->refund($charge_id);
 						
 						if (!$refund_attempt->success)
 						{

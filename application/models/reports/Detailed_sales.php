@@ -74,6 +74,7 @@ class Detailed_sales extends Report
 				$exchange_data,
 				$register_input_data_entry,
 				array('view' => 'checkbox','checkbox_label' => lang('reports_show_summary_only'), 'checkbox_name' => 'show_summary_only'),
+				array('view' => 'text', 'name' => 'email', 'label' => lang('common_email'), 'default' => ''),
 				array('view' => 'excel_export'),
 				array('view' => 'locations'),
 				array('view' => 'submit'),
@@ -126,6 +127,8 @@ class Detailed_sales extends Report
 			$summary_data_row[] = array('data'=>to_quantity($row['items_purchased']), 'align'=>'left');
 			$summary_data_row[] = array('data'=>$row['employee_name'].($row['sold_by_employee'] && $row['sold_by_employee'] != $row['employee_name'] ? '/'. $row['sold_by_employee']: ''), 'align'=>'left');
 			$summary_data_row[] = array('data'=>'<a href="'.$link.'" target="_blank">'.$row['customer_name'].(isset($row['account_number']) && $row['account_number'] ? ' ('.$row['account_number'].')' : '').'</a>', 'align'=>'left');
+			$summary_data_row[] = array('data'=>$row['customer_email'], 'align'=>'left');
+			$summary_data_row[] = array('data'=>$row['customer_phone'], 'align'=>'left');
 			$summary_data_row[] = array('data'=>$row['person_id'], 'align'=>'left');
 			$summary_data_row[] = array('data'=>to_currency($row['subtotal']), 'align'=>'right');
 			$summary_data_row[] = array('data'=>to_currency($row['total']), 'align'=>'right');
@@ -134,6 +137,7 @@ class Detailed_sales extends Report
 				$summary_data_row[] = array('data'=>to_currency($row['tip']), 'align'=>'right');
 			}
 			$summary_data_row[] = array('data'=>to_currency($row['tax']), 'align'=>'right');
+			$summary_data_row[] = array('data'=>to_currency($row['non_taxable']), 'align'=>'right');
 			
 			if($this->has_profit_permission)
 			{
@@ -193,8 +197,15 @@ class Detailed_sales extends Report
 					$summary_data_row[] = array('data'=>$format_function($row["custom_field_${k}_value"]), 'align'=>'right');					
 				}
 			}
-			$summary_data[$key] = $summary_data_row;
 			
+			if($this->params['export_excel'] == 1)
+			{
+				$summary_data[$key] = gzencode(json_encode($summary_data_row));
+			}
+			else
+			{
+				$summary_data[$key] = $summary_data_row;
+			}
 			if($this->params['export_excel'] == 1)
 			{
 				foreach($report_data['details'][$key] as $drow)
@@ -225,7 +236,52 @@ class Detailed_sales extends Report
 					}
 					
 					$details_data_row[] = array('data'=>$drow['discount_percent'].'%', 'align'=>'left');
-					$details_data[$key][] = $details_data_row;
+					
+	    			  for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++) 
+	    				{
+	    					$custom_field = $this->Item->get_custom_field($k);
+	    					if($custom_field !== FALSE)
+	    					{
+	    						if ($this->Item->get_custom_field($k,'type') == 'checkbox')
+	    						{
+	    							$format_function = 'boolean_as_string';
+	    						}
+	    						elseif($this->Item->get_custom_field($k,'type') == 'date')
+	    						{
+	    							$format_function = 'date_as_display_date';				
+	    						}
+	    						elseif($this->Item->get_custom_field($k,'type') == 'email')
+	    						{
+	    							$format_function = 'strsame';					
+	    						}
+	    						elseif($this->Item->get_custom_field($k,'type') == 'url')
+	    						{
+	    							$format_function = 'strsame';					
+	    						}
+	    						elseif($this->Item->get_custom_field($k,'type') == 'phone')
+	    						{
+	    							$format_function = 'strsame';					
+	    						}
+	    						elseif($this->Item->get_custom_field($k,'type') == 'image')
+	    						{
+	    							$this->load->helper('url');
+	    							$format_function = 'file_id_to_image_thumb';					
+	    						}
+	    						elseif($this->Item->get_custom_field($k,'type') == 'file')
+	    						{
+	    							$this->load->helper('url');
+	    							$format_function = 'file_id_to_download_link';					
+	    						}
+	    						else
+	    						{
+	    							$format_function = 'strsame';
+	    						}
+				
+	    						$details_data_row[] = array('data'=>$format_function($drow["custom_field_${k}_value"]), 'align'=>'right');					
+	    					}
+	    				}				
+					
+					$details_data[$key][] = gzencode(json_encode($details_data_row));
 				}
 			
 			}
@@ -245,6 +301,35 @@ class Detailed_sales extends Report
 				"pagination" => $this->pagination->create_links()
 			);
 			
+			if ($this->params['export_excel'] == 1)
+			{
+				$rows = array();
+				$row = array();
+				foreach ($headers as $header) 
+				{
+					$row[] = strip_tags($header['data']);
+				}
+	
+				//headers are not gzencoded so we must do this
+				$rows[] = gzencode(json_encode($row));
+	
+				foreach($summary_data as $gz_datarow)
+				{
+					$datarow = json_decode(gzdecode($gz_datarow), TRUE);
+					
+					$row = array();
+					foreach($datarow as $cell)
+					{
+						$row[] = str_replace('<span style="white-space:nowrap;">-</span>', '-', strip_tags($cell['data']));
+					}
+					$rows[] = gzencode(json_encode($row));
+				}
+				$this->load->helper('spreadsheet');
+				array_to_spreadsheet_gz_json_encoded($rows, strip_tags($data['title']) . '.'.($this->config->item('spreadsheet_format') == 'XLSX' ? 'xlsx' : 'csv'), true, isset($this->params['email']) ? $this->params['email'] : NULL);
+				exit();
+			}
+			
+			
 		}
 		else
 		{
@@ -261,7 +346,122 @@ class Detailed_sales extends Report
 			);
 		}
 		isset($details_data) && !empty($details_data) ? $data["details_data"]=$details_data: '' ;
+			
+		if ($this->params['export_excel'] == 1)
+		{
+			
+			if (!$this->config->item('legacy_detailed_report_export'))
+			{
+				$rows = array();
+	
+				$row = array();
+		
+				if (!empty($details_data))
+				{
+					foreach ($headers['details'] as $header) 
+					{
+						$row[] = strip_tags($header['data']);
+					}
+				}
+				foreach ($headers['summary'] as $header) 
+				{
+					$row[] = strip_tags($header['data']);
+				}
 				
+				//headers are not gzencoded so we must do this
+				$rows[] = gzencode(json_encode($row));
+	
+				foreach ($summary_data as $key=>$gz_encoded_row) 
+				{		
+					$datarow = json_decode(gzdecode($gz_encoded_row), TRUE);
+					
+					if(isset($details_data[$key])) 
+					{
+						foreach($details_data[$key] as $gz_datarow2)
+						{
+							$datarow2 = json_decode(gzdecode($gz_datarow2), TRUE);
+							$row = array();
+							foreach($datarow2 as $cell)
+							{
+								$row[] = str_replace('<span style="white-space:nowrap;">-</span>', '-', strip_tags($cell['data']));				
+							}
+			
+							foreach($datarow as $cell)
+							{
+								$row[] = str_replace('<span style="white-space:nowrap;">-</span>', '-', strip_tags($cell['data']));
+							}
+							$rows[] = gzencode(json_encode($row));
+						}
+					}
+					else
+					{
+						$row = array();
+						if (!empty($details_data))
+						{
+							foreach ($headers['details'] as $empty_row) 
+							{
+								$row[]=lang('common_na');
+							}	
+						}
+						foreach($datarow as $cell)
+						{
+							$row[] = str_replace('<span style="white-space:nowrap;">-</span>', '-', strip_tags($cell['data']));
+						}
+						$rows[] = gzencode(json_encode($row));
+					}		
+				}
+			}
+			else
+			{
+				$rows = array();
+				$row = array();
+				foreach ($headers['summary'] as $header) 
+				{
+					$row[] = strip_tags($header['data']);
+				}
+				//headers are not gzencoded so we must do this
+				$rows[] = gzencode(json_encode($row));
+	
+				foreach ($summary_data as $key=>$gz_encoded_row) 
+				{
+					$datarow = json_decode(gzdecode($gz_encoded_row), TRUE);
+					
+					$row = array();
+					foreach($datarow as $cell)
+					{
+						$row[] = str_replace('<span style="white-space:nowrap;">-</span>', '-', strip_tags($cell['data']));			
+					}
+		
+					$rows[] = gzencode(json_encode($row));
+
+					$row = array();
+					foreach ($headers['details'] as $header) 
+					{
+						$row[] = strip_tags($header['data']);
+					}
+		
+					$rows[] = gzencode(json_encode($row));
+		
+					if(isset($details_data[$key]))
+					{
+						foreach($details_data[$key] as $gz_datarow2)
+						{
+							$datarow2 = json_decode(gzdecode($gz_datarow2), TRUE);
+							$row = array();
+							foreach($datarow2 as $cell)
+							{
+								$row[] = str_replace('<span style="white-space:nowrap;">-</span>', '-', strip_tags($cell['data']));				
+							}
+							$rows[] = gzencode(json_encode($row));
+						}
+					}
+				}
+				
+			}
+			$this->load->helper('spreadsheet');
+			array_to_spreadsheet_gz_json_encoded($rows, strip_tags($data['title']) . '.'.($this->config->item('spreadsheet_format') == 'XLSX' ? 'xlsx' : 'csv'), true, isset($this->params['email']) ? $this->params['email'] : NULL);
+			exit();
+		}	
 		return $data;
 	}
 	
@@ -283,6 +483,8 @@ class Detailed_sales extends Report
 		$return['summary'][] = array('data'=>lang('common_items_purchased'), 'align'=> 'left');
 		$return['summary'][] = array('data'=>lang('reports_sold_by'), 'align'=> 'left');
 		$return['summary'][] = array('data'=>lang('reports_sold_to'), 'align'=> 'left');		
+		$return['summary'][] = array('data'=>lang('common_email'), 'align'=> 'left');		
+		$return['summary'][] = array('data'=>lang('common_phone_number'), 'align'=> 'left');		
 		$return['summary'][] = array('data'=>lang('common_person_id'), 'align'=> 'left');		
 		$return['summary'][] = array('data'=>lang('reports_subtotal'), 'align'=> 'right');
 		$return['summary'][] = array('data'=>lang('reports_total'), 'align'=> 'right');
@@ -292,6 +494,7 @@ class Detailed_sales extends Report
 			$return['summary'][] = array('data'=>lang('common_tip'), 'align'=> 'right');
 		}
 		$return['summary'][] = array('data'=>lang('common_tax'), 'align'=> 'right');
+		$return['summary'][] = array('data'=>lang('reports_non_taxable'), 'align'=> 'right');
 				
 		if($this->has_profit_permission)
 		{
@@ -330,7 +533,7 @@ class Detailed_sales extends Report
 	
 	public function getData()
 	{		
-		$this->db->select('sales.customer_id as person_id, sales.tip as tip,sales.custom_field_1_value,sales.custom_field_2_value,sales.custom_field_3_value,sales.custom_field_4_value,sales.custom_field_5_value,sales.custom_field_6_value,sales.custom_field_7_value,sales.custom_field_8_value,sales.custom_field_9_value,sales.custom_field_10_value,price_tiers.name as tier_name,locations.name as location_name, sale_id, sale_time, date(sale_time) as sale_date, registers.name as register_name, total_quantity_purchased as items_purchased, CONCAT(sold_by_employee.first_name," ",sold_by_employee.last_name) as sold_by_employee, CONCAT(sold_by_employee.first_name," ",sold_by_employee.last_name) as sold_by_employee, CONCAT(employee.first_name," ",employee.last_name) as employee_name, customer.person_id as customer_id, CONCAT(customer.first_name," ",customer.last_name) as customer_name, customer_data.account_number as account_number,subtotal as subtotal, total as total, tax as tax, profit as profit, payment_type, comment, discount_reason', false);
+		$this->db->select('sales.customer_id as person_id,customer.email as customer_email,customer.phone_number as customer_phone,sales.tip as tip,sales.custom_field_1_value,sales.custom_field_2_value,sales.custom_field_3_value,sales.custom_field_4_value,sales.custom_field_5_value,sales.custom_field_6_value,sales.custom_field_7_value,sales.custom_field_8_value,sales.custom_field_9_value,sales.custom_field_10_value,price_tiers.name as tier_name,locations.name as location_name, sale_id, sale_time, date(sale_time) as sale_date, registers.name as register_name, total_quantity_purchased as items_purchased, CONCAT(sold_by_employee.first_name," ",sold_by_employee.last_name) as sold_by_employee, CONCAT(sold_by_employee.first_name," ",sold_by_employee.last_name) as sold_by_employee, CONCAT(employee.first_name," ",employee.last_name) as employee_name, customer.person_id as customer_id, CONCAT(customer.first_name," ",customer.last_name) as customer_name, customer_data.account_number as account_number,subtotal as subtotal, total as total, tax as tax, non_taxable as non_taxable,profit as profit, payment_type, comment, discount_reason', false);
 		$this->db->from('sales');
 		$this->db->join('locations', 'sales.location_id = locations.location_id');
 		$this->db->join('registers', 'sales.register_id = registers.register_id', 'left');
@@ -484,7 +687,7 @@ class Detailed_sales extends Report
 	}
 	public function getSummaryData()
 	{
-		$this->db->select('sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax, sum(profit) as profit', false);
+		$this->db->select('sum(non_taxable) as non_taxable,sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax, sum(profit) as profit', false);
 		$this->db->from('sales');
 		
 		if (isset($this->params['register_id']) && $this->params['register_id'])
@@ -543,6 +746,7 @@ class Detailed_sales extends Report
 			'subtotal' => 0,
 			'total' => 0,
 			'tax' => 0,
+			'non_taxable' => 0,
 			'profit' => 0,
 			'cogs' => 0,
 		);
@@ -552,6 +756,7 @@ class Detailed_sales extends Report
 			$return['subtotal'] += to_currency_no_money($row['subtotal'],2);
 			$return['total'] += to_currency_no_money($row['total'],2);
 			$return['tax'] += to_currency_no_money($row['tax'],2);
+			$return['non_taxable'] += to_currency_no_money($row['non_taxable'],2);
 			$return['profit'] += to_currency_no_money($row['profit'],2);
 			$return['cogs'] += to_currency_no_money($row['subtotal']-$row['profit'],2);
 		}
@@ -603,12 +808,23 @@ class Detailed_sales extends Report
 		}
 		
 		$details[] = array('data'=>lang('common_discount'), 'align'=> 'right');
+		
+		for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++) 
+		{
+			$this->load->model('Item');
+			$custom_field = $this->Item->get_custom_field($k);
+			if($custom_field !== FALSE)
+			{
+				$details[] = array('data'=>$custom_field, 'align'=> 'right');
+			}
+		}
+		
 		return $details;
 	}
 	
 	function get_report_details($ids, $export_excel=0)
 	{
-		$this->db->select('manufacturers.name as manufacturer,sales_items.item_unit_price as unit_price,sales_items.item_variation_id, items.item_id, sales_items.sale_id, items.category_id, items.item_id as item_id,items.item_number, items.product_id as item_product_id, items.name as item_name, categories.name as category, quantity_purchased, CONCAT(phppos_items_quantity_units.unit_name," - ",ROUND(phppos_sales_items.unit_quantity,2)) as unit_quantity, serialnumber, sales_items.description, subtotal, total, tax, profit, commission, discount_percent, items.size as size, items.unit_price as current_selling_price, suppliers.company_name as supplier_name, suppliers.person_id as supplier_id', false);
+		$this->db->select('items.custom_field_1_value,items.custom_field_2_value,items.custom_field_3_value,items.custom_field_4_value,items.custom_field_5_value,items.custom_field_6_value,items.custom_field_7_value,items.custom_field_8_value,items.custom_field_9_value,items.custom_field_10_value,manufacturers.name as manufacturer,sales_items.item_unit_price as unit_price,sales_items.item_variation_id, items.item_id, sales_items.sale_id, items.category_id, items.item_id as item_id,items.item_number, items.product_id as item_product_id, items.name as item_name, categories.name as category, quantity_purchased, CONCAT(phppos_items_quantity_units.unit_name," - ",ROUND(phppos_sales_items.unit_quantity,2)) as unit_quantity, serialnumber, sales_items.description, subtotal, total, tax, profit, commission, discount_percent, items.size as size, items.unit_price as current_selling_price, suppliers.company_name as supplier_name, suppliers.person_id as supplier_id', false);
 		$this->db->from('sales_items');
 		$this->db->join('items', 'sales_items.item_id = items.item_id', 'left');
 		$this->db->join('items_quantity_units', 'items_quantity_units.id = sales_items.items_quantity_units_id', 'left');
@@ -631,7 +847,7 @@ class Detailed_sales extends Report
 		}		
 		$qry1=$this->db->get_compiled_select();
 		
-		$this->db->select('manufacturers.name as manufacturer, sales_item_kits.item_kit_unit_price as unit_price, 0 as item_variation_id, item_kits.item_kit_id, sales_item_kits.sale_id,item_kits.category_id, item_kits.item_kit_id as item_id,item_kits.item_kit_number as item_number, item_kits.product_id as item_product_id, item_kits.name as item_name, categories.name as category, quantity_purchased, NULL as unit_quantity,NULL as serialnumber, sales_item_kits.description, subtotal, total, tax, profit, commission, discount_percent, NULL as size, item_kits.unit_price as current_selling_price, NULL as supplier_name, NULL as supplier_id', false);
+		$this->db->select('item_kits.custom_field_1_value,item_kits.custom_field_2_value,item_kits.custom_field_3_value,item_kits.custom_field_4_value,item_kits.custom_field_5_value,item_kits.custom_field_6_value,item_kits.custom_field_7_value,item_kits.custom_field_8_value,item_kits.custom_field_9_value,item_kits.custom_field_10_value,manufacturers.name as manufacturer, sales_item_kits.item_kit_unit_price as unit_price, 0 as item_variation_id, item_kits.item_kit_id, sales_item_kits.sale_id,item_kits.category_id, item_kits.item_kit_id as item_id,item_kits.item_kit_number as item_number, item_kits.product_id as item_product_id, item_kits.name as item_name, categories.name as category, quantity_purchased, NULL as unit_quantity,NULL as serialnumber, sales_item_kits.description, subtotal, total, tax, profit, commission, discount_percent, NULL as size, item_kits.unit_price as current_selling_price, NULL as supplier_name, NULL as supplier_id', false);
 		$this->db->from('sales_item_kits');
 		$this->db->join('item_kits', 'sales_item_kits.item_kit_id = item_kits.item_kit_id', 'left');
 		$this->db->join('manufacturers','manufacturers.id=item_kits.manufacturer_id','left');
@@ -720,6 +936,51 @@ class Detailed_sales extends Report
 					$details_data_row[] = array('data'=>to_currency($drow['commission']), 'align'=>'right');					
 				}
 				$details_data_row[] = array('data'=>$drow['discount_percent'].'%', 'align'=> 'left');
+				
+				
+  			  for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++) 
+  				{
+  					$custom_field = $this->Item->get_custom_field($k);
+  					if($custom_field !== FALSE)
+  					{
+  						if ($this->Item->get_custom_field($k,'type') == 'checkbox')
+  						{
+  							$format_function = 'boolean_as_string';
+  						}
+  						elseif($this->Item->get_custom_field($k,'type') == 'date')
+  						{
+  							$format_function = 'date_as_display_date';				
+  						}
+  						elseif($this->Item->get_custom_field($k,'type') == 'email')
+  						{
+  							$format_function = 'strsame';					
+  						}
+  						elseif($this->Item->get_custom_field($k,'type') == 'url')
+  						{
+  							$format_function = 'strsame';					
+  						}
+  						elseif($this->Item->get_custom_field($k,'type') == 'phone')
+  						{
+  							$format_function = 'strsame';					
+  						}
+  						elseif($this->Item->get_custom_field($k,'type') == 'image')
+  						{
+  							$this->load->helper('url');
+  							$format_function = 'file_id_to_image_thumb';					
+  						}
+  						elseif($this->Item->get_custom_field($k,'type') == 'file')
+  						{
+  							$this->load->helper('url');
+  							$format_function = 'file_id_to_download_link';					
+  						}
+  						else
+  						{
+  							$format_function = 'strsame';
+  						}
+				
+  						$details_data_row[] = array('data'=>$format_function($drow["custom_field_${k}_value"]), 'align'=>'right');					
+  					}
+  				}				
 				
 				$details_data[$key][$drow['sale_id']] = $details_data_row;
 			}

@@ -33,11 +33,10 @@ $lang['template_permission_desc'] = 'Marque as caixas abaixo para conceder acess
 
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Atualizar todos os funcionários com o modelo atribuído';
 
 
-$lang['update_all_employees_with_template_assinged'] = 'Atualizar todos os funcionários com o modelo asseded';
 
 $lang['permission_templates_manage_deleted'] = 'Gerenciar modelos de permissão excluídos';
 $lang['permission_templates_confirm_undelete'] = 'Tem certeza de que deseja cancelar a exclusão do modelo de permissão selecionado?';
+$lang['update_all_employees_with_template_assinged'] = 'Atualizar todos os funcionários com o modelo atribuído';
 ?>

@@ -98,6 +98,13 @@ $(document).ready(function()
 						<i class="visible-xs ion-android-more-vertical"></i>
 						</button>
 						<ul class="dropdown-menu" role="menu">
+							
+							<li class="visible-sm visible-xs">
+									<?php echo anchor("$controller_name/view/-1", '<span class="ion-plus"> '.lang($controller_name."_new").'</span>',
+										array('class'=>'new_location','title'=> lang($controller_name."_new"))); ?>
+							</li>
+							
+								
 						<?php if ($this->Employee->has_module_action_permission($controller_name, 'delete', $this->Employee->get_logged_in_employee_info()->person_id)) {?>
 							<li>
 									<?php echo anchor("$controller_name/toggle_show_deleted/1", '<span class="ion-trash-a"> '.lang($controller_name."_manage_deleted").'</span>',

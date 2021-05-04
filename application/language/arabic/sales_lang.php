@@ -534,4 +534,10 @@ $lang['sales_offline_synced_successfully'] = 'تمت مزامنة المبيعا
 $lang['sales_edit_offline_sales'] = 'تحرير المبيعات دون اتصال';
 $lang['sales_giftcard_exists_do_you_want_to_add'] = 'بطاقة الهدايا التي تبيعها موجودة بالفعل. هل تريد إضافة أموال إلى هذه البطاقة؟';
 $lang['sales_the_balance_of_card_is'] = 'رصيد البطاقة هو';
+$lang['sales_serialnumber_duplicate'] = 'الرقم التسلسلي مكرر ، الرجاء إعادة الإدخال';
+$lang['sales_enter_note'] = 'أدخل ملاحظة';
+$lang['sales_note'] = 'ملحوظة';
+$lang['sales_detailed_note'] = 'ملاحظة مفصلة';
+$lang['sales_internal_note'] = 'مذكرة داخلية';
+$lang['sales_delveried_to'] = 'سلمت ل';
 ?>

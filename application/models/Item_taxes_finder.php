@@ -1,6 +1,19 @@
 <?php
 class Item_taxes_finder extends MY_Model
 {
+	
+	function is_taxable($item_id, $transaction_type = 'sale',$the_current_item = NULL)
+	{
+		$taxes = $this->get_info($item_id,$transaction_type,$the_current_item);
+		$total_percent = 0;
+		foreach($taxes as $tax)
+		{
+			$total_percent+=$tax['percent'];
+		}
+		
+		return $total_percent > 0;
+	}
+	
 	/*
 	Gets tax info for a particular item
 	*/

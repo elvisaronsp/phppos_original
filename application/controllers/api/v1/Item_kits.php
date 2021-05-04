@@ -948,7 +948,7 @@ class Item_kits extends REST_Controller {
 				for($k=0;$k<count($_FILES["images"]['tmp_name']);$k++)
 				{
 					@$image_contents = file_get_contents($_FILES["images"]["tmp_name"][$k]);
-					$tmpFilename = tempnam(ini_get('upload_tmp_dir'), 'api');
+					$tmpFilename = tempnam(ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir(), 'api');
 					file_put_contents($tmpFilename,$image_contents);
 
 
@@ -978,7 +978,7 @@ class Item_kits extends REST_Controller {
     	  {
 					$this->load->model('Appfile');					
 					@$image_contents = file_get_contents($item_kit_image['image_url']);
-					$tmpFilename = tempnam(ini_get('upload_tmp_dir'), 'api');
+					$tmpFilename = tempnam(ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir(), 'api');
 					file_put_contents($tmpFilename,$image_contents);
 
 

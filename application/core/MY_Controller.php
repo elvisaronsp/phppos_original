@@ -135,14 +135,14 @@ else
 			{
 				$this->load->model($models[$name]);
 				$log_message = "Lazy Loaded model $name CURRENT_URL: ".current_url().' REQUEST '.var_export($_REQUEST, TRUE);
-				log_message('error', $log_message);
+				log_message('debug', $log_message);
 				return $this->$name;
 			}
 			else //Try a library if we cannot load a model
 			{
 				$this->load->library($name);
 				$log_message = "Lazy Loaded library $name CURRENT_URL: ".current_url().' REQUEST '.var_export($_REQUEST, TRUE);
-				log_message('error', $log_message);
+				log_message('debug', $log_message);
 				return $this->$name;
 			}
 		

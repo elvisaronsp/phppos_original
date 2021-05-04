@@ -12,8 +12,15 @@
 					<?php echo form_label(lang('price_rules_type').':', 'type',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label  required wide')); ?>
 					<div class="col-sm-9 col-md-9 col-lg-10">
 						<?php 
-						$rule=$rule_info['type']; 
 						
+						if (isset($rule_info['type']))
+						{
+							$rule=$rule_info['type']; 
+						}
+						else
+						{
+							$rule = NULL;
+						}
 						$rule_types['']=lang('price_rules_select_type');
 						$rule_types['simple_discount']=lang('simple_discount');
 						$rule_types['advanced_discount']=lang('advanced_discount');
@@ -36,7 +43,7 @@
 							'id'=>'name',
 							'required'=>'required',
 							'class'=>'form-control form-inps',
-							'value'=>$rule_info['name'])
+							'value'=>isset($rule_info['name']) ? $rule_info['name'] :'')
 						);?>
 					</div>
 				</div>
@@ -50,7 +57,7 @@
 						'class'=>'form-control text-area',
 						'rows'=>'4',
 						'cols'=>'30',
-						'value'=>$rule_info['description']));?>
+						'value'=>isset($rule_info['description']) ? $rule_info['description'] : ''));?>
 					</div>
 				</div>
 				
@@ -58,13 +65,13 @@
 				<div class="form-group">
 					<?php echo form_label(lang('price_rules_start_date').':', 'start_date',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label text-info wide')); ?>
 					<div class="col-sm-9 col-md-9 col-lg-10">
-					    <div class="input-group date" data-date="<?php echo $rule_info['start_date'] ? date(get_date_format(), strtotime($rule_info['start_date'])) : ''; ?>">
+					    <div class="input-group date" data-date="<?php echo isset($rule_info['start_date']) && $rule_info['start_date'] ? date(get_date_format(), strtotime($rule_info['start_date'])) : ''; ?>">
 							<span class="input-group-addon bg"><i class="ion ion-ios-calendar-outline"></i></span>
 							<?php echo form_input(array(
 						        'name'=>'start_date',
 						        'id'=>'start_date',
 								'class'=>'form-control datepicker',
-						        'value'=>$rule_info['start_date'] ? date(get_date_format(), strtotime($rule_info['start_date'])) : ''
+						        'value'=>isset($rule_info['start_date']) && $rule_info['start_date'] ? date(get_date_format(), strtotime($rule_info['start_date'])) : ''
 						    ));?> 
 					    </div>
 				    </div>
@@ -73,13 +80,13 @@
 				<div class="form-group">
 					<?php echo form_label(lang('price_rules_end_date').':', 'end_date',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label text-info wide')); ?>
 					<div class="col-sm-9 col-md-9 col-lg-10">
-					    <div class="input-group date" data-date="<?php echo $rule_info['end_date'] ? date(get_date_format(), strtotime($rule_info['end_date'])) : ''; ?>">
+					    <div class="input-group date" data-date="<?php echo isset($rule_info['end_date']) && $rule_info['end_date'] ? date(get_date_format(), strtotime($rule_info['end_date'])) : ''; ?>">
 							<span class="input-group-addon bg"><i class="ion ion-ios-calendar-outline"></i></span>
 							<?php echo form_input(array(
 						        'name'=>'end_date',
 						        'id'=>'end_date',
 								'class'=>'form-control form-inps datepicker',
-								'value'=>$rule_info['end_date'] ? date(get_date_format(), strtotime($rule_info['end_date'])) : '')
+								'value'=>isset($rule_info['end_date']) && $rule_info['end_date'] ? date(get_date_format(), strtotime($rule_info['end_date'])) : '')
 						    );?> 
 						</div>
 				    </div>
@@ -231,7 +238,7 @@
 							'name'=>'active',
 							'id'=>'active',
 							'value'=>'1',
-							'checked'=>$rule_info['active'] === NULL ?  true : $rule_info['active'])
+							'checked'=>empty($rule_info['active']) || $rule_info['active'] === NULL ?  true : $rule_info['active'])
 						);?>	
 						<label for="active"><span></span></label>
 					</div>	
@@ -308,11 +315,19 @@
 						'type'=>'text',
 						'id'=>'items_to_buy',
 						'class'=>'form-control form-inps items_to_buy',
-						'value'=>to_quantity($rule_info['items_to_buy'], false))
+						'value'=>isset($rule_info['items_to_buy']) ? to_quantity($rule_info['items_to_buy'], false) : '')
 					);?>
 					</div>
 				</div>
 				
+				<?php
+				$items_to_get = 0;
+				
+				if (isset($rule_info['items_to_get']))
+				{
+					$items_to_get = $rule_info['items_to_get'];
+				}
+				?>
 				<div id="items_to_get_field" class="form-group hidden">
 				<?php echo form_label(lang('price_rules_items_to_get').':', 'items_to_get',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label required wide')); ?>
 					<div class="col-sm-9 col-md-9 col-lg-10">
@@ -321,7 +336,7 @@
 						'id'=>'items_to_get',
 						'class'=>'form-control form-inps items_to_get',
 						'type'=>'text',
-						'value'=> (int) $rule_info['items_to_get'] == 0 ? '' : to_quantity($rule_info['items_to_get'], false)
+						'value'=> (int) $items_to_get == 0 ? '' : to_quantity($items_to_get, false)
 						)
 					);?>
 					</div>
@@ -335,7 +350,7 @@
 						'type'=>'text',
 						'id'=>'spend_amount',
 						'class'=>'form-control form-inps',
-						'value'=>to_currency_no_money($rule_info['spend_amount'])
+						'value'=>isset($rule_info['spend_amount']) ? to_currency_no_money($rule_info['spend_amount']) : ''
 						)
 					);?>
 					</div>
@@ -351,7 +366,7 @@
 						'class'=>'form-control form-inps',
 						'type'=>'text',
 						'step'=>'any',
-						'value'=>$rule_info['percent_off'] !== NULL ? to_quantity($rule_info['percent_off'], false) : '',
+						'value'=>isset($rule_info['percent_off']) && $rule_info['percent_off'] !== NULL ? to_quantity($rule_info['percent_off'], false) : '',
 						)
 					);?>
 					</div>
@@ -370,7 +385,7 @@
 						'class'=>'form-control form-inps',
 						'type'=>'text',
 						'step'=>'any',
-						'value'=>$rule_info['fixed_off'] !== NULL  ? to_currency_no_money($rule_info['fixed_off']) : '',
+						'value'=>isset($rule_info['fixed_off']) && $rule_info['fixed_off'] !== NULL  ? to_currency_no_money($rule_info['fixed_off']) : '',
 						)
 					);?>
 					</div>
@@ -385,7 +400,7 @@
 						'type'=>'number',
 						'id'=>'num_times_to_apply',
 						'class'=>'form-control form-inps items_to_buy',
-						'value'=>to_quantity($rule_info['num_times_to_apply'], false))
+						'value'=>isset($rule_info['num_times_to_apply']) ? to_quantity($rule_info['num_times_to_apply'], false) : '')
 					);?>
 					</div>
 				</div>
@@ -399,7 +414,7 @@
 							'name'=>'mix_and_match',
 							'id'=>'mix_and_match',
 							'value'=>'1',
-							'checked'=>$rule_info['mix_and_match'] ?  true : false));
+							'checked'=>isset($rule_info['mix_and_match']) && $rule_info['mix_and_match'] ?  true : false));
 						?>
 						
 						<label for="mix_and_match"><span></span></label>
@@ -416,7 +431,7 @@
 							'name'=>'unlimited',
 							'id'=>'unlimited',
 							'value'=>'1',
-							'checked'=>$rule_info['num_times_to_apply'] === 0 ?  true : false));
+							'checked'=>!isset($rule_info['num_times_to_apply']) || $rule_info['num_times_to_apply'] === 0 ?  true : false));
 						?>
 						
 						<label for="unlimited"><span></span></label>

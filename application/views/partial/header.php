@@ -82,6 +82,13 @@
 			$("#canny_feedback_container").hide();
 		});
 		
+		
+		//https://github.com/OwlCarousel2/OwlCarousel2/issues/1374
+		// Disabling bs transitions makes the modals show again:
+		// $.support.transition = false
+		// https://getbootstrap.com/docs/3.3/javascript/#transitions
+		
+		$.support.transition = false;
 		</script>
 	
 	<style>

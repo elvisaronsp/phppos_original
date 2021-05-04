@@ -406,5 +406,10 @@ $lang['is_favorite'] = 'Được yêu thích?';
 $lang['items_item_quantity_unit_number_exists'] = 'Số lượng đơn vị số lượng tồn tại';
 $lang['items_quantity_unit'] = 'Số lượng biến thể đơn vị';
 $lang['items_quantity_unit_quantity'] = 'Số lượng Đơn vị Số lượng';
+
+$lang['items_weight_unit'] = 'Đơn vị trọng lượng';
+
 $lang['items_inventory_print_list_summary'] = 'Tóm tắt danh sách in khoảng không quảng cáo';
+
+$lang['items_search_by_barcode'] = 'Tìm kiếm theo mã vạch hoặc ID mặt hàng';
 ?>

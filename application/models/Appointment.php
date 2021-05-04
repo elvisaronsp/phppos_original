@@ -220,7 +220,7 @@ class Appointment extends MY_Model
 			return $suggestions;
 	}	
 	
-	function get_all_for_range($deleted=0,$start_date,$end_date,$col='start_time')
+	function get_all_for_range($deleted=0,$start_date=NULL,$end_date=NULL,$col='start_time')
 	{	
 		if (!$deleted)
 		{

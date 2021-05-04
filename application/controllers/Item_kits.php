@@ -1062,6 +1062,24 @@ class Item_kits extends Secure_area implements Idata_controller
 		if($this->Item_kit->save($item_kit_data,$item_kit_id))
 		{
 			
+			
+			if ($this->input->post('secondary_categories'))
+			{
+				foreach($this->input->post('secondary_categories') as $sec_category_id=>$category_id)
+				{
+					$this->Item_kit->save_secondory_category(isset($item_kit_data['item_kit_id']) ? $item_kit_data['item_kit_id'] : $item_kit_id,$category_id,$sec_category_id);
+				}
+			}
+			
+			if ($this->input->post('secondary_categories_to_delete'))
+			{
+				foreach($this->input->post('secondary_categories_to_delete') as $sec_category_id_to_delete)
+				{
+					$this->Item_kit->delete_secondory_category($sec_category_id_to_delete);
+				}
+			}
+			
+			
 			$this->Tag->save_tags_for_item_kit(isset($item_kit_data['item_kit_id']) ? $item_kit_data['item_kit_id'] : $item_kit_id, $this->input->post('tags'));
 			
 			$modifier_ids = $this->input->post('modifiers') ? $this->input->post('modifiers') : array();

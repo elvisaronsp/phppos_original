@@ -1,5 +1,5 @@
 <?php $this->load->view("partial/header"); ?>
-
+<?php $this->load->view('partial/categories/expense_category_modal', array('categories' => $categories));?>
 <div class="row" id="form">
 	
 	<div class="spinner" id="grid-loader" style="display:none">
@@ -113,9 +113,9 @@
 					<?php echo form_label(lang('common_category').':', 'category_id',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label  required wide')); ?>
 					<div class="col-sm-9 col-md-9 col-lg-10">
 						<?php echo form_dropdown('category_id', $categories,$expense_info->category_id, 'class="form-control form-inps" id ="category_id"');?>
-							<?php if ($this->Employee->has_module_action_permission('items', 'manage_categories', $this->Employee->get_logged_in_employee_info()->person_id)) {?>
+							<?php if ($this->Employee->has_module_action_permission('expenses', 'manage_categories', $this->Employee->get_logged_in_employee_info()->person_id)) {?>
 							<div>
-								<?php echo anchor("items/manage_categories",lang('items_manage_categories'),array('target' => '_blank', 'title'=>lang('items_manage_categories')));?>
+								<a href="javascript:void(0);" id="add_category"><?php echo lang('common_add_category'); ?></a>&nbsp;|&nbsp;<?php echo anchor("expenses/manage_categories",lang('items_manage_categories'),array('target' => '_blank', 'title'=>lang('items_manage_categories')));?>
 							</div>
 							<?php } ?>		
 					</div>
@@ -193,19 +193,28 @@ echo form_submit(array(
 </div>
 
 <script type='text/javascript'>
+<?php $this->load->view("partial/common_js"); ?>
 var submitting = false;
 //validation and submit handling
 $(document).ready(function()
 {
-	$('#category_id').selectize({
-		create: true,
-		render: {
-	      option_create: function(data, escape) {
-				var add_new = <?php echo json_encode(lang('common_new_category')) ?>;
-	        return '<div class="create">'+escape(add_new)+' <strong>' + escape(data.input) + '</strong></div>';
-	      }
-		}
-	});
+		$('#category_id').selectize({
+			create: true,
+			render: {
+				item: function(item, escape) {
+						var item = '<div class="item">'+ escape($('<div>').html(item.text).text()) +'</div>';
+						return item;
+				},
+				option: function(item, escape) {
+						var option = '<div class="option">'+ escape($('<div>').html(item.text).text()) +'</div>';
+						return option;
+				},
+				option_create: function(data, escape) {
+						var add_new = <?php echo json_encode(lang('common_new_category')) ?>;
+					return '<div class="create">'+escape(add_new)+' <strong>' + escape(data.input) + '</strong></div>';
+				}
+			}
+		});
 	        	
         $('#expenses_form').validate({
 		ignore: ':hidden:not([class~=selectized]),:hidden > .selectized, .selectize-control .selectize-input input',
@@ -286,5 +295,48 @@ date_time_picker_field($('.datepicker'), JS_DATE_FORMAT);
 $("#employee_id").select2();
 $("#approved_employee_id").select2();
 $("#cash_register_id").select2();
+
+// added for expense category
+
+$(document).on('click', "#add_category",function()
+{
+	$("#categoryModalDialogTitle").html(<?php echo json_encode(lang('common_add_category')); ?>);
+	var parent_id = $("#category_id").val();
+	
+	$parent_id_select = $('#parent_id');
+	$parent_id_select[0].selectize.setValue(parent_id, false);
+	
+	$("#categories_form").attr('action',SITE_URL+'/expenses/save_category');
+	
+	//Clear form
+	$(":file").filestyle('clear');
+	$("#categories_form").find('#category_name').val("");
+
+	
+	//show
+	$("#category-input-data").modal('show');
+});
+
+$("#categories_form").submit(function(event)
+{
+	event.preventDefault();
+
+	$(this).ajaxSubmit({ 
+		success: function(response, statusText, xhr, $form){
+			show_feedback(response.success ? 'success' : 'error', response.message, response.success ? <?php echo json_encode(lang('common_success')); ?> : <?php echo json_encode(lang('common_error')); ?>);
+			if(response.success)
+			{
+				$("#category-input-data").modal('hide');
+				
+				var category_id_selectize = $("#category_id")[0].selectize
+				category_id_selectize.clearOptions();
+				category_id_selectize.addOption(response.categories);		
+				category_id_selectize.addItem(response.selected, true);			
+			}		
+		},
+		dataType:'json',
+	});
+});
+
 </script>
 <?php $this->load->view('partial/footer')?>

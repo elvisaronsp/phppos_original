@@ -543,4 +543,10 @@ $lang['sales_offline_synced_successfully'] = 'ஆஃப்லைன் விற
 $lang['sales_edit_offline_sales'] = 'ஆஃப்லைன் விற்பனையைத் திருத்துக';
 $lang['sales_giftcard_exists_do_you_want_to_add'] = 'நீங்கள் விற்கும் பரிசு அட்டை ஏற்கனவே உள்ளது. இந்த அட்டையில் பணத்தை சேர்க்க விரும்புகிறீர்களா?';
 $lang['sales_the_balance_of_card_is'] = 'அட்டையின் இருப்பு';
+$lang['sales_serialnumber_duplicate'] = 'நகல் வரிசை எண், தயவுசெய்து மீண்டும் சேர்க்கவும்';
+$lang['sales_enter_note'] = 'குறிப்பை உள்ளிடவும்';
+$lang['sales_note'] = 'குறிப்பு';
+$lang['sales_detailed_note'] = 'விரிவான குறிப்பு';
+$lang['sales_internal_note'] = 'உள் குறிப்பு';
+$lang['sales_delveried_to'] = 'வழங்கப்பட்டது';
 ?>

@@ -2121,5 +2121,137 @@ class Employee extends Person
 		
 		return json_encode($table_lang);
 	}
+
+	//Santosh Changes
+	function get_inventory_count_columns_to_display()
+	{
+		static $has_cost_price_permission;
+		
+		if (!$has_cost_price_permission)
+		{
+			$has_cost_price_permission = $this->has_module_action_permission('items','see_cost_price', $this->get_logged_in_employee_info()->person_id);
+		}
+		
+		$this->load->model('Inventory');
+		
+		$all_columns = $this->Inventory->get_displayable_columns();
+		
+		
+		$columns_to_display = array();
+		
+		$this->load->model('Employee_appconfig');
+		if ($choices = $this->Employee_appconfig->get('item_count_column_prefs'))
+		{
+			$columns_to_display_keys = unserialize($choices);
+		}
+		else
+		{
+			$columns_to_display_keys = $this->Inventory->get_default_columns();
+
+		}
+		
+		foreach($columns_to_display_keys as $key)
+		{
+			if (isset($all_columns[$key]))
+			{
+				$columns_to_display[$key] = $all_columns[$key];
+			}
+		}
+		
+		if (!$has_cost_price_permission)
+		{
+			if (isset($columns_to_display['cost_price']))
+			{
+				unset($columns_to_display['cost_price']);
+			}
+
+			if (isset($columns_to_display['location_cost_price']))
+			{
+				unset($columns_to_display['location_cost_price']);
+			}
+		}
+		
+		return $columns_to_display;
+	}
+	
+	function get_item_not_count_columns_to_display()
+	{
+		static $has_cost_price_permission;
+		
+		if (!$has_cost_price_permission)
+		{
+			$has_cost_price_permission = $this->has_module_action_permission('items','see_cost_price', $this->get_logged_in_employee_info()->person_id);
+		}
+		
+		$this->load->model('Inventory');
+		
+		$all_columns = $this->Inventory->get_item_not_count_displayable_columns();
+		
+		
+		$columns_to_display = array();
+		
+		$this->load->model('Employee_appconfig');
+		if ($choices = $this->Employee_appconfig->get('item_not_count_column_prefs'))
+		{
+			$columns_to_display_keys = unserialize($choices);
+		}
+		else
+		{
+			$columns_to_display_keys = $this->Inventory->get_item_not_count_default_columns();
+
+		}
+		
+		foreach($columns_to_display_keys as $key)
+		{
+			if (isset($all_columns[$key]))
+			{
+				$columns_to_display[$key] = $all_columns[$key];
+			}
+		}
+		
+		if (!$has_cost_price_permission)
+		{
+			if (isset($columns_to_display['cost_price']))
+			{
+				unset($columns_to_display['cost_price']);
+			}
+
+			if (isset($columns_to_display['location_cost_price']))
+			{
+				unset($columns_to_display['location_cost_price']);
+			}
+		}
+		
+		return $columns_to_display;
+	}
+	//END
+	
+	function get_work_order_columns_to_display()
+	{
+		$this->load->model('Work_order');
+		$all_columns = $this->Work_order->get_displayable_columns();
+		
+		$columns_to_display = array();
+		
+		$this->load->model('Employee_appconfig');
+		if ($choices = $this->Employee_appconfig->get('work_orders_column_prefs'))
+		{
+			$columns_to_display_keys = unserialize($choices);
+		}
+		else
+		{
+			$columns_to_display_keys = $this->Work_order->get_default_columns();
+
+		}
+		
+		foreach($columns_to_display_keys as $key)
+		{
+			$columns_to_display[$key] = $all_columns[$key];
+		}
+	
+		return $columns_to_display;
+		
+	}	
+	
 }
 ?>

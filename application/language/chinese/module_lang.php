@@ -142,4 +142,7 @@ $lang['appointments_add'] = '添加约会';
 $lang['appointments_delete'] = '删除约会';
 $lang['appointments_search'] = '搜索约会';
 $lang['appointments_edit'] = '编辑约会';
+$lang['module_work_orders'] = '工作订单';
+$lang['module_work_orders_desc'] = '工作订单';
+$lang['module_manage_statuses'] = '管理状态';
 ?>

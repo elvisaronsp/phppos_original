@@ -102,4 +102,8 @@ $lang['locations_twilio_token'] = 'Twilio Token';
 $lang['locations_twilio_sms_from_number'] = 'Twilio SMS From Number';
 $lang['locations_auto_reports_email'] = 'Auto E-Mail Reports Address';
 $lang['locations_auto_reports_email_time'] = 'Auto E-Mail Reports Time';
+$lang['locations_previous_day'] = 'Previous Day';
+$lang['locations_current_day'] = 'Current Day';
+$lang['locations_auto_reports_day'] = 'Day to email report for';
+$lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'Disable Amount Confirmation when processing credit card';
 ?>

@@ -42,6 +42,8 @@ class Reportsmailer extends MY_Controller
 				continue;
 			}
 			
+			$days_to_subtract = $location['auto_reports_day'] == 'previous_day' ? 1 : 0;
+			
 			date_default_timezone_set($this->Location->get_info_for_key('timezone',$location['location_id']));
 			
 			
@@ -55,11 +57,11 @@ class Reportsmailer extends MY_Controller
 			$_GET['location_ids'] = array($location_id);
 			$from = $location['auto_reports_email'];
 			$to = $location['auto_reports_email'];
-			$subject = lang('reports_daily_report').' - '.date(get_date_format(),strtotime('-1 days'));
+			$subject = lang('reports_daily_report').' - '.date(get_date_format(),strtotime("-$days_to_subtract days"));
 		
 			
 			$report_model = Report::get_report_model('closeout');			
-			$input_parameters = array('hide_next_and_prev_days' => TRUE,'start_date' => date('Y-m-d',strtotime('-1 days')),'end_date' => date('Y-m-d',strtotime('-1 days')),'export_excel' => 0);
+			$input_parameters = array('hide_next_and_prev_days' => TRUE,'start_date' => date('Y-m-d',strtotime("-$days_to_subtract days")),'end_date' => date('Y-m-d',strtotime("-$days_to_subtract days")),'export_excel' => 0);
 			$report_model->setParams($input_parameters);
 			$output_data = $report_model->getOutputData();
 			$body = $this->load->view('reports/outputs/tabular_closeout_email',array_merge(array('key' => 'closeout','headersshow' => array()),$output_data,$input_parameters), TRUE);

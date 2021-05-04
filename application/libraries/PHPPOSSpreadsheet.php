@@ -28,12 +28,18 @@ abstract class PHPPOSSpreadsheet
 		$CI =& get_instance();
 		
 		$currency_symbol = $CI->config->item('currency_symbol') ? $CI->config->item('currency_symbol') : '$';
+		$thousands_separator = $CI->config->item('thousands_separator') ? $CI->config->item('thousands_separator') : ',';
 	
 		//If we have a currency number make it nice for excel
 		if (strpos($val, $currency_symbol) !== false)
 		{
-			$currency_symbol = preg_quote($currency_symbol);
-			$val = str_replace($currency_symbol,"", $val);
+			//Don't match payment type column
+			if (strpos($val,':') === false)
+			{
+				$thousands_separator = preg_quote($thousands_separator);
+				$currency_symbol = preg_quote($currency_symbol);
+				$val = preg_replace("/[${thousands_separator}${currency_symbol}]/", "", $val);
+			}
 		}
 		
 		return $val;

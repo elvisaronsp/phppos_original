@@ -92,4 +92,7 @@ $lang['appointments_add'] = 'Afspraken toevoegen';
 $lang['appointments_delete'] = 'Afspraken verwijderen';
 $lang['appointments_search'] = 'Zoek afspraken';
 $lang['appointments_edit'] = 'Bewerk afspraken';
+$lang['module_work_orders'] = 'Werkorders';
+$lang['module_work_orders_desc'] = 'Werkorders';
+$lang['module_manage_statuses'] = 'Beheer statussen';
 ?>

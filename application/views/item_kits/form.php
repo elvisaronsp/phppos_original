@@ -105,6 +105,32 @@
 					</div>
 				</div>
 				
+				<?php
+				foreach($this->Item_kit->get_secondary_categories($item_kit_info->item_kit_id)->result() as $sec_category)
+				{
+				?>
+					<div class="form-group">
+						<?php echo form_label(lang('common_secondary_category').':', 'secondary_category_id_'.$sec_category->id,array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label  wide')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+							<?php echo form_dropdown('secondary_categories['.$sec_category->id.']', $categories,$sec_category->category_id, 'class="form-control form-inps secondary_category" id="secondary_category_id_'.$sec_category->id.'"');?>
+							<div>
+							<a data-index="<?php echo $sec_category->id ?>" href="javascript:void(0)" class="delete_secondary_category"><?php echo lang('common_delete');?></a>
+							</div>
+						</div>
+						
+						
+					</div>
+				<?php
+				}
+				?>
+				
+				<div class="form-group">
+					<div class="col-sm-9 col-md-9 col-lg-10">
+
+					<a href="javascript:void(0);" id="add_secondary_category"><?php echo lang('common_add_secondary_category'); ?></a>
+					</div>
+				</div>
+				
 				<div class="form-group">
 					<?php echo form_label(lang('common_item_number_expanded').':', 'name',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label  ')); ?>
 					<div class="col-sm-9 col-md-9 col-lg-10">
@@ -494,6 +520,17 @@
 </div>
 <?php echo form_close(); ?>
 </div>
+
+<script id="secondary-category-template" type="text/x-handlebars-template">
+
+	<div class="form-group">
+		<?php echo form_label(lang('common_secondary_category').':', 'secondary_category_id_{{index}}',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label  wide')); ?>
+		<div class="col-sm-9 col-md-9 col-lg-10">
+			<?php echo form_dropdown('secondary_categories[{{index}}]', $categories,'', 'class="form-control form-inps" id="secondary_category_id_{{index}}"');?>
+		</div>
+	</div>
+</script>
+
 <script type='text/javascript'>
 <?php $this->load->view("partial/common_js"); ?>
 
@@ -848,6 +885,27 @@ $("#categories_form").submit(function(event)
 		dataType:'json',
 	});
 });
+
+
+var secondary_category_index = -1;
+var secondary_category_template = Handlebars.compile(document.getElementById("secondary-category-template").innerHTML);
+
+$(document).on('click', "#add_secondary_category",function()
+{
+	$("#add_secondary_category").parent().parent().before(secondary_category_template({index: secondary_category_index}));
+	secondary_category_index -= 1;
+});
+
+$(document).on('click', '.delete_secondary_category', function(e) {
+	var index = $(this).data('index');
+	$(this).parent().parent().parent().remove();
+	
+	if(index > 0)
+	{
+		$("#item_kit_form").append('<input type="hidden" class="secondary_categories_to_delete" name="secondary_categories_to_delete[]" value="'+ index +'" />');
+	}
+});
+
 
 $(document).on('click', "#add_category",function()
 {

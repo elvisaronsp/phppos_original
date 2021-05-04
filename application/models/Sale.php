@@ -120,6 +120,8 @@ class Sale extends MY_Model
 			}
 		}
 		
+		
+		
 		if (strpos($payment_type,'common_') !== FALSE)
 		{
 			if (isset($payment_data[lang($payment_type)]))
@@ -128,7 +130,7 @@ class Sale extends MY_Model
 			}
 		}
 		else
-		{
+		{			
 			if (isset($payment_data[$payment_type]))
 			{
 				return $payment_data[$payment_type]['payment_amount'];
@@ -356,6 +358,12 @@ class Sale extends MY_Model
 					{
 						$payment_key = NULL;
 						
+						//Partial credit card
+						if ($payment_row['payment_type'] == lang('sales_partial_credit'))
+						{
+							$payment_row['payment_type'] = lang('common_credit');
+						}
+						
 						//Gift card
 						if (strpos($payment_row['payment_type'],':') !== FALSE && !isset($foreign_language_to_cur_language[$payment_row['payment_type']]))
 						{
@@ -555,6 +563,14 @@ class Sale extends MY_Model
 					{
 						$payment_key = NULL;
 						
+						
+						//Partial credit card
+						if ($payment_row['payment_type'] == lang('sales_partial_credit'))
+						{
+							$payment_row['payment_type'] = lang('common_credit');
+						}
+						
+						
 						//Gift card
 						if (strpos($payment_row['payment_type'],':') !== FALSE && !isset($foreign_language_to_cur_language[$payment_row['payment_type']]))
 						{
@@ -677,6 +693,7 @@ class Sale extends MY_Model
 			
 	function save($cart)
 	{	
+		$this->load->model('Sale_types');
 		$series_to_add = array();
 		
 		$exchange_rate = $cart->get_exchange_rate() ? $cart->get_exchange_rate() : 1;
@@ -778,7 +795,8 @@ class Sale extends MY_Model
 		$sale_subtotal = $cart->get_subtotal();
 		$sale_total = $cart->get_total();
 		$sale_tax = $sale_total - $sale_subtotal;
-		
+		$non_taxable = $cart->get_non_taxable_subtotal();
+			
 		$sales_data = array(
 			'customer_id'=> $customer_id > 0 ? $customer_id : null,
 			'employee_id'=>$employee_id,
@@ -803,6 +821,7 @@ class Sale extends MY_Model
 			'subtotal' => $sale_subtotal,
 			'total' => $sale_total,
 			'tax' => $sale_tax,
+			'non_taxable' => $non_taxable,
 			'profit' =>0,//Will update when sale complete
 			'rule_id' => $cart->get_spending_price_rule_id(),
 			'rule_discount' => $cart->get_spending_price_rule_discount(),
@@ -1366,7 +1385,7 @@ class Sale extends MY_Model
 				$sale_profit+=$sale_item_profit;
 				$this->load->helper('items');
 				
-				$line_item_commission = get_commission_for_item($cart,$item->item_id,$item->unit_price,to_currency_no_money($cost_price,10), $item->quantity, $item->discount);
+				$line_item_commission = get_commission_for_item($cart,$item->item_id,$item->unit_price+$item->get_modifier_unit_total(),to_currency_no_money($cost_price+$item->get_modifier_cost_total(),10), $item->quantity, $item->discount);
 				$sale_commission+=$line_item_commission;
 				
 				$sales_items_override_taxes = $item->get_override_taxes();
@@ -1427,7 +1446,7 @@ class Sale extends MY_Model
 				{
 					
 					//create points from sale
-					if ($item->name==lang('common_purchase_points'))
+					if ($item->name==lang('common_purchase_points') && $suspended == 0)
 					{
 					  $this->db->set('points','points+'.$item->quantity,false);
 					  $this->db->where('person_id', $customer_id);
@@ -1467,7 +1486,7 @@ class Sale extends MY_Model
 				}
 				
 				//Only do stock check + inventory update if we are NOT an estimate
-				if (!$cart->is_ecommerce && $suspended < 2)
+				if (!$cart->is_ecommerce && $suspended < 2 || (!$cart->is_ecommerce && $this->Sale_types->can_remove_quantity($suspended)))
 				{
 					$stock_recorder_check=false;
 					$out_of_stock_check=false;
@@ -1843,7 +1862,7 @@ class Sale extends MY_Model
 				
 				$this->load->helper('item_kits');
 				
-				$line_item_commission = get_commission_for_item_kit($cart,$item->item_kit_id,$item->unit_price,$cost_price === NULL ? 0.00 : to_currency_no_money($cost_price,10), $item->quantity, $item->discount);
+				$line_item_commission = get_commission_for_item_kit($cart,$item->item_kit_id,$item->unit_price+$item->get_modifier_unit_total(),$cost_price === NULL ? 0.00 : to_currency_no_money($cost_price+$item->get_modifier_cost_total(),10), $item->quantity, $item->discount);
 				$sale_commission+=$line_item_commission;
 				
 				$sales_item_kits_override_taxes = $item->get_override_taxes();
@@ -2052,7 +2071,7 @@ class Sale extends MY_Model
 						$reorder_level = ($cur_item_location_info && $cur_item_location_info->reorder_level !== NULL) ? $cur_item_location_info->reorder_level : $cur_item_info->reorder_level;
 					
 						//Only do stock check + inventory update if we are NOT an estimate
-						if (!$cart->is_ecommerce && $suspended < 2)
+						if (!$cart->is_ecommerce && $suspended < 2 || (!$cart->is_ecommerce && $this->Sale_types->can_remove_quantity($suspended)))
 						{
 							$stock_recorder_check=false;
 							$out_of_stock_check=false;
@@ -2634,6 +2653,8 @@ class Sale extends MY_Model
 	
 	function delete($sale_id, $all_data = false)
 	{
+		$this->load->model('Sale_types');
+		
 		$sale_info = $this->get_info($sale_id)->row_array();
 		$this->load->model('Customer');
 		$this->Customer->delete_series_by_sale_id($sale_id);
@@ -2642,7 +2663,7 @@ class Sale extends MY_Model
 		$employee_id=$this->Employee->get_logged_in_employee_info()->person_id ? $this->Employee->get_logged_in_employee_info()->person_id : 1;
 		
 		//Only update stock quantity if we are NOT an estimate ($suspendd = 2)
-		if ($suspended < 2)
+		if ($suspended < 2 || ($this->Sale_types->can_remove_quantity($suspended)))
 		{
 			$this->db->select('unit_quantity,serialnumber, sales.location_id, item_id, quantity_purchased,item_variation_id,damaged_qty');
 			$this->db->from('sales_items');
@@ -2797,12 +2818,13 @@ class Sale extends MY_Model
 	
 	function undelete($sale_id)
 	{
+		$this->load->model('Sale_types');
 		$sale_info = $this->get_info($sale_id)->row_array();
 		$suspended = $sale_info['suspended'];
 		$employee_id=$this->Employee->get_logged_in_employee_info()->person_id;
 	
 		//Only update stock quantity + store accounts + giftcard balance if we are NOT an estimate ($suspended = 2)
-		if ($suspended < 2)
+		if ($suspended < 2 || ($this->Sale_types->can_remove_quantity($suspended)))
 		{		
 			$this->db->select('unit_quantity,serialnumber,sales.location_id, item_id, quantity_purchased,item_variation_id,damaged_qty');
 			$this->db->from('sales_items');
@@ -2989,6 +3011,18 @@ class Sale extends MY_Model
 		$this->db->order_by('categories.name, items.name');
 		return $this->db->get();		
 	}
+	
+	function get_sale_items_ordered_by_name($sale_id)
+	{
+		$this->db->select('items.*, sales_items.*, categories.name as category, categories.id as category_id, sales_items.description as sales_items_description');
+		$this->db->from('sales_items');
+		$this->db->join('items', 'items.item_id = sales_items.item_id');
+		$this->db->join('categories', 'categories.id = items.category_id');
+		$this->db->where('sales_items.sale_id',$sale_id);
+		$this->db->order_by('items.name');
+		return $this->db->get();		
+	}
+	
 
 	function get_sale_item_kits($sale_id)
 	{
@@ -3339,13 +3373,15 @@ class Sale extends MY_Model
 		
 		$sales_items = $this->db->dbprefix('sales_items');
 		$sales_item_kits = $this->db->dbprefix('sales_item_kits');
-		$this->db->select("sales.*, SUM(COALESCE($sales_items.quantity_purchased,0)) + SUM(COALESCE($sales_item_kits.quantity_purchased,0)) as items_purchased");
+		$this->db->select("CONCAT(sdp.first_name,' ',sdp.last_name) as delivered_to,sales.*, SUM(COALESCE($sales_items.quantity_purchased,0)) + SUM(COALESCE($sales_item_kits.quantity_purchased,0)) as items_purchased");
 		$this->db->from('sales');
+		$this->db->join('sales_deliveries','sales_deliveries.sale_id = sales.sale_id','left');
+		$this->db->join('people as sdp','sdp.person_id = sales_deliveries.shipping_address_person_id','left');
 		$this->db->join('sales_items', 'sales.sale_id = sales_items.sale_id','left');
 		$this->db->join('sales_item_kits', 'sales.sale_id = sales_item_kits.sale_id','left');
 		$this->db->where('customer_id', $customer_id);
-		$this->db->where('deleted', 0);
-		$this->db->where('suspended', 0);
+		$this->db->where('sales.deleted', 0);
+		$this->db->where('sales.suspended', 0);
 		$this->db->order_by('sale_time DESC');
 		$this->db->group_by('sales.sale_id');
 		$this->db->limit($this->config->item('number_of_recent_sales') ? $this->config->item('number_of_recent_sales') : 10);
@@ -4189,6 +4225,401 @@ class Sale extends MY_Model
 		return $sale_ids;
 
 	}
+	
+	function get_sale_item($sale_id,$item_id)
+	{
+		$variation_id = NULL;
+		
+		if (($item_identifer_parts = explode('#', $item_id)) !== false)
+		{
+			if (isset($item_identifer_parts[1]))
+			{
+				$item_id = $item_identifer_parts[0];
+				$variation_id = $item_identifer_parts[1];
+			}
+		}
+
+		$this->db->from('sales_items');
+		$this->db->where('sale_id',$sale_id);
+		$this->db->where('item_id',$item_id);
+		if($variation_id){
+			$this->db->where('item_variation_id',$variation_id);
+		}
+		$query = $this->db->get();
+
+		if($query->num_rows()==1){
+			return $query->row();
+		}
+		else{
+			return false;
+		}
+	}
+	
+	
+	function get_max_sale_item_line($sale_id)
+	{
+		$this->db->select('MAX('.$this->db->dbprefix('sales_items').'.line) as max_line');
+		$this->db->from('sales_items');
+		$this->db->where('sale_id',$sale_id);
+		$this->db->group_by('sale_id');
+		
+		return $this->db->get()->row()->max_line;
+	}
+	
+	
+	function delete_item($sale_id,$line){
+		$this->db->delete('sales_items_taxes', array('sale_id' => $sale_id,'line'=>$line)); 
+		$this->db->delete('sales_items',array('sale_id' => $sale_id,'line'=>$line));
+	}
+	function add_sale_item($sale_id,$item_id){
+		$line = $this->get_max_sale_item_line($sale_id)+1;
+
+		$variation_id = NULL;
+		
+		if (($item_identifer_parts = explode('#', $item_id)) !== false)
+		{
+			if (isset($item_identifer_parts[1]))
+			{
+				$item_id = $item_identifer_parts[0];
+				$variation_id = $item_identifer_parts[1];
+			}
+		}
+
+		$item_info = $this->Item->get_info($item_id);
+		$unit_price = $this->Item->get_sale_price(array('item_id' => $item_id,'variation_id' => $variation_id));	
+
+		if ($item_info->tax_included)
+		{
+			$this->load->helper('items');
+			$unit_price = get_price_for_item_excluding_taxes($item_id, $unit_price);
+		}
+
+		
+		$cur_item_location_info = $this->Item_location->get_info($item_id);
+		$cur_item_variation_info = $this->Item_variations->get_info($variation_id);
+
+		if ($cur_item_variation_info && $cur_item_variation_info->cost_price)
+		{
+			$cost_price = $cur_item_variation_info->cost_price;
+		}
+		else
+		{
+			$cost_price = ($cur_item_location_info && $cur_item_location_info->cost_price) ? $cur_item_location_info->cost_price : $item_info->cost_price;
+		}
+		
+		if ($cur_item_variation_info && $cur_item_variation_info->unit_price)
+		{
+			$regular_price = $cur_item_variation_info->unit_price;
+		}
+		else
+		{
+			$regular_price = ($cur_item_location_info && $cur_item_location_info->unit_price) ? $cur_item_location_info->unit_price : $item_info->unit_price;
+		}
+		
+		$quantity = 1;
+		$subtotal = $quantity*$unit_price;
+
+		$customer_id = $this->get_info($sale_id)->row()->customer_id;
+		$customer_info = $this->Customer->get_info($customer_id);
+
+		if(!$customer_id || $customer_info->taxable){
+			$tax = $this->get_taxes_for_sale_item($item_id,$unit_price,$quantity);
+		}
+		else{
+			$tax = 0;
+		}
+
+		$sales_item_data = array(
+			'sale_id'=>$sale_id,
+			'item_id'=>$item_id,
+			'item_variation_id' => $variation_id,
+			'line'=>$line,
+			'description'=>$item_info->description,
+			'item_cost_price'=>$cost_price,
+			'item_unit_price'=>$unit_price,
+			'regular_item_unit_price_at_time_of_sale'=>$regular_price,
+			'quantity_purchased'=>$quantity,
+			'subtotal'=>$subtotal,
+			'tax'=>$tax,
+			'total'=>$subtotal+$tax,
+			'profit'=>$subtotal-($quantity*$cost_price),
+		);
+
+		$this->db->insert('sales_items',$sales_item_data);
+
+		$this->update_sale_statistics($sale_id);
+
+		if(!$customer_id || $customer_info->taxable){
+			foreach($this->Item_taxes_finder->get_info($item_id) as $row)
+			{
+				$tax_name = $row['percent'].'% ' . $row['name'];
+				
+				$this->db->insert('sales_items_taxes', array(
+					'sale_id' 	=>$sale_id,
+					'item_id' 	=>$item_id,
+					'line'      =>$line,
+					'name'		=>$row['name'],
+					'percent' 	=>$row['percent'],
+					'cumulative'=>$row['cumulative']
+				));
+			}
+		}
+
+		return true;
+	}
+	
+	
+	function get_price_exclusive_of_tax($item_id,$unit_price)
+	{
+		$price_to_use = $unit_price;
+		
+		$item_info = $this->Item->get_info($item_id);
+		if($item_info->tax_included)
+		{
+			$this->load->helper('items');
+			$price_to_use = get_price_for_item_excluding_taxes($item_id, $unit_price);
+		}
+		
+		return $price_to_use;
+	}
+	
+	
+	public function get_taxes_for_sale_item($item_id,$unit_price,$quantity)
+	{
+		$total_tax_amount = 0;
+		
+		$tax_info = $this->Item_taxes_finder->get_info($item_id,'sale');
+		
+		foreach($tax_info as $key=>$tax)
+		{
+			$price_to_use = $this->get_price_exclusive_of_tax($item_id,$unit_price);
+
+			
+			if ($tax['cumulative'])
+			{
+				$prev_tax = ($price_to_use*$quantity)*(($tax_info[$key-1]['percent'])/100);
+				$tax_amount=(($price_to_use*$quantity) + $prev_tax)*(($tax['percent'])/100);					
+			}
+			else
+			{
+				$tax_amount=($price_to_use*$quantity)*(($tax['percent'])/100);
+			}
+			
+			$total_tax_amount += $tax_amount;
+		}
+		
+		return $total_tax_amount;
+		
+	}
+	
+	public function update_sale_data($sales_data,$sale_id){
+		$this->db->where('sale_id', $sale_id);
+		return $this->db->update('sales',$sales_data);
+	}
+	
+	
+	function update_sale_statistics($sale_id){
+		$total_profit = 0;
+		$subtotal = 0;
+		$total = 0;
+		$tax = 0;
+		$total_quantity_purchased = 0;
+
+		$this->load->helper('language');
+		$giftcard_langs = get_all_language_values_for_key('common_giftcard','giftcards');
+
+		foreach($this->get_sale_items($sale_id)->result_array() as $row){
+			$total_profit += $row['profit'];
+			$subtotal += $row['subtotal'];
+			$total += $row['total'];
+			$tax += $row['tax'];
+
+			$item_info = $this->Item->get_info($row['item_id']);
+			if (!$item_info->system_item || in_array($item_info->product_id,$giftcard_langs))
+			{
+				$total_quantity_purchased += $row['quantity_purchased'];
+			}
+		}
+
+		$update_sales_data = array(
+			'total_quantity_purchased'=>$total_quantity_purchased,
+			'profit'=>$total_profit,
+			'subtotal'=>$subtotal,
+			'tax'=>$tax,
+			'total'=>$total,
+		);
+		
+		$this->update_sale_data($update_sales_data,$sale_id);
+	}
+	
+	
+	function sale_item_quantity_update($sale_id,$item_id,$quantity){
+		$sale_item = $this->get_sale_item($sale_id,$item_id);
+		if($sale_item){
+			$variation_id = NULL;
+		
+			if (($item_identifer_parts = explode('#', $item_id)) !== false)
+			{
+				if (isset($item_identifer_parts[1]))
+				{
+					$item_id = $item_identifer_parts[0];
+					$variation_id = $item_identifer_parts[1];
+				}
+			}
+	
+			$item_info = $this->Item->get_info($item_id);
+
+			$cost_price = $sale_item->item_cost_price;
+			$unit_price = $sale_item->item_unit_price;
+
+			$subtotal = $quantity*$unit_price;
+	
+			$customer_id = $this->get_info($sale_id)->row()->customer_id;
+			$customer_info = $this->Customer->get_info($customer_id);
+	
+			if(!$customer_id || $customer_info->taxable){
+				$tax = $this->get_taxes_for_sale_item($item_id,$unit_price,$quantity);
+			}
+			else{
+				$tax = 0;
+			}
+	
+			$sales_item_data = array(
+				'quantity_purchased'=>$quantity,
+				'subtotal'=>$subtotal,
+				'tax'=>$tax,
+				'total'=>$subtotal+$tax,
+				'profit'=>$subtotal-($quantity*$cost_price),
+			);
+		
+			$this->db->where('sale_id', $sale_id);
+			$this->db->where('item_id', $item_id);
+			if($variation_id){
+				$this->db->where('item_variation_id',$variation_id);
+			}
+			$this->db->update('sales_items',$sales_item_data);
+
+			$this->update_sale_statistics($sale_id);
+	
+		}
+		return true;
+
+	}
+	
+	
+	function note_exists($note_id)
+	{
+		$this->db->from('sales_items_notes');
+		$this->db->where('note_id',$note_id);
+		$query = $this->db->get();
+
+		return ($query->num_rows()==1);
+	}
+
+	public function save_sales_items_notes_data($sales_items_notes_data,$note_id = false){
+		if (!$note_id or !$this->note_exists($note_id))
+		{
+			if($this->db->insert('sales_items_notes',$sales_items_notes_data))
+			{
+				$sales_items_notes_data['note_id']=$this->db->insert_id();
+				return true;
+			}
+			return false;
+		}
+
+		$this->db->where('note_id', $note_id);
+		return $this->db->update('sales_items_notes',$sales_items_notes_data);
+	}
+
+	function get_sales_items_notes_info($sale_id,$item_id,$line)
+	{
+		$this->db->select('sales_items_notes.*,CONCAT('.$this->db->dbprefix('people').'.first_name," ",'.$this->db->dbprefix('people').'.last_name) as employee_name');
+		$this->db->from('sales_items_notes');
+		$this->db->join('people', 'people.person_id = sales_items_notes.employee_id','left');
+		$this->db->where('sale_id',$sale_id);
+		$this->db->where('item_id',$item_id);
+		$this->db->where('line',$line);
+		$this->db->order_by('sales_items_notes.note_timestamp', 'desc');
+		return $this->db->get()->result_array();
+	}
+
+	function get_sales_items_notes_info_by_note_id($note_id)
+	{
+		$this->db->from('sales_items_notes');
+		$this->db->where('note_id',$note_id);
+		return $this->db->get()->row();
+	}
+
+	function get_repaired_item_notes($sale_id,$item_id)
+	{
+		$this->db->select('sales_items_notes.*,people.first_name,people.last_name');
+		$this->db->from('sales_items_notes');
+		$this->db->join('sales_work_orders', 'sales_items_notes.sale_id = sales_work_orders.sale_id','left');
+		$this->db->join('people', 'people.person_id = sales_items_notes.employee_id','left');
+		$this->db->where('sales_items_notes.sale_id',$sale_id);
+		$this->db->where('sales_items_notes.item_id',$item_id);
+		$this->db->where('sales_items_notes.line',0);
+		$this->db->order_by('sales_items_notes.note_timestamp', 'desc');
+		return $this->db->get()->result_array();
+	}
+	
+	function sale_item_unit_price_update($sale_id,$item_id,$unit_price){
+		$sale_item = $this->get_sale_item($sale_id,$item_id);
+		if($sale_item){
+			$variation_id = NULL;
+		
+			if (($item_identifer_parts = explode('#', $item_id)) !== false)
+			{
+				if (isset($item_identifer_parts[1]))
+				{
+					$item_id = $item_identifer_parts[0];
+					$variation_id = $item_identifer_parts[1];
+				}
+			}
+	
+			$item_info = $this->Item->get_info($item_id);
+
+			$cost_price = $sale_item->item_cost_price;
+			$quantity = $sale_item->quantity_purchased;
+
+			$subtotal = $quantity*$unit_price;
+	
+			$customer_id = $this->get_info($sale_id)->row()->customer_id;
+			$customer_info = $this->Customer->get_info($customer_id);
+	
+			if(!$customer_id || $customer_info->taxable){
+				$tax = $this->get_taxes_for_sale_item($item_id,$unit_price,$quantity);
+			}
+			else{
+				$tax = 0;
+			}
+	
+			$sales_item_data = array(
+				'item_unit_price'=>$unit_price,
+				'subtotal'=>$subtotal,
+				'tax'=>$tax,
+				'total'=>$subtotal+$tax,
+				'profit'=>$subtotal-($quantity*$cost_price),
+			);
+	
+			if($item_info->exclude_from_profit_report){
+				$sales_item_data['profit'] = 0;
+			}
+	
+			$this->db->where('sale_id', $sale_id);
+			$this->db->where('item_id', $item_id);
+			if($variation_id){
+				$this->db->where('item_variation_id',$variation_id);
+			}
+			$this->db->update('sales_items',$sales_item_data);
+
+			$this->update_sale_statistics($sale_id);
+	
+		}
+		return true;
+
+	}
+	
 
 }
 ?>

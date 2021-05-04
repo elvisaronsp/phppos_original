@@ -1090,7 +1090,8 @@ class Closeout extends Report
 			$store_account_credits_and_debits = $this->db->get()->row_array();
 		
 			$this->db->select('SUM(balance) as total_balance_of_all_store_accounts', false);
-			$this->db->from('customers');		
+			$this->db->from('customers');	
+			$this->db->where('deleted',0);	
 			$total_store_account_balances = $this->db->get()->row_array();
 		
 			$store_account_info = array_merge($store_account_credits_and_debits, $total_store_account_balances);
@@ -1115,6 +1116,7 @@ class Closeout extends Report
 		
 			$this->db->select('SUM(balance) as total_balance_of_all_store_accounts', false);
 			$this->db->from('suppliers');		
+			$this->db->where('deleted',0);
 			$total_store_account_balances = $this->db->get()->row_array();
 		
 			$store_account_info = array_merge($store_account_credits_and_debits, $total_store_account_balances);
@@ -1241,11 +1243,11 @@ class Closeout extends Report
 		
 		$return[] = array(' ', ' ');
 		
-		$this->db->select('categories.id as category_id,categories.name as category, SUM(expense_amount) as amount', false);
+		$this->db->select('expenses_categories.id as category_id,expenses_categories.name as category, SUM(expense_amount) as amount', false);
 		$this->db->from('expenses');
-		$this->db->join('categories', 'categories.id = expenses.category_id','left');
+		$this->db->join('expenses_categories', 'expenses_categories.id = expenses.category_id','left');
 		$this->db->where('expenses.deleted', 0);
-		$this->db->group_by('categories.id');
+		$this->db->group_by('expenses_categories.id');
 		$this->db->where($this->db->dbprefix('expenses').'.expense_date BETWEEN '. $this->db->escape($this->params['start_date']). ' and '. $this->db->escape($this->params['end_date']).' and location_id IN('.$location_ids_string.')');
 		$this->db->order_by('expenses.id');
 
@@ -1264,7 +1266,7 @@ class Closeout extends Report
 		
 		foreach($category_expenses as $category_sale_row)
 		{
-			$return[] = array($this->Category->get_full_path($category_sale_row['category_id']),to_currency($category_sale_row['amount']));
+			$return[] = array($this->Expense_category->get_full_path($category_sale_row['category_id']),to_currency($category_sale_row['amount']));
 		}
 		
 		

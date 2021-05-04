@@ -718,7 +718,7 @@ for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++)
 											?>
 										<tr class="text-center item-row">
 											<td style="padding-right:0;padding-top:10px !important;padding-left:10px;border-width:1px;border-style:solid;border-color:#DCE0E6;border-bottom-width:0px;border-right-width:0px;padding-bottom:10px;" >
-												<?php echo H($item->name).((get_class($item) == 'PHPPOSCartItemSale' && $item->variation_name) ? '- '.H($item->variation_name) : '' ); ?><?php if ($item_number_for_receipt){ ?> - <?php echo H($item_number_for_receipt); ?><?php } ?><?php if (!$this->config->item('hide_desc_emailed_receipts') && $item->description){ ?> - <?php echo H($item->description); ?><?php } ?><?php if ($item->size){ ?> (<?php echo H($item->size); ?>)<?php } ?>
+												<?php echo H($item->name).((get_class($item) == 'PHPPOSCartItemSale' && $item->variation_name) ? '- '.H($item->variation_name) : '' ); ?><?php if ($item_number_for_receipt){ ?> - <?php echo H($item_number_for_receipt); ?><?php } ?><?php if (!$this->config->item('hide_desc_emailed_receipts') && $item->description){ ?> - <?php echo clean_html($item->description); ?><?php } ?><?php if ($item->size){ ?> (<?php echo H($item->size); ?>)<?php } ?>
 												
 												<?php
 												if (property_exists($item,'quantity_unit_quantity') && $item->quantity_unit_quantity !== NULL)

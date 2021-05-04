@@ -746,7 +746,7 @@ $lang['import_products_button_text'] = '進口Woocomerce產品';
 //Create PO
 $lang['common_create_po'] = '創建PO';
 //WooCommerce Sync Completed Successfully.
-$lang['common_cron_success'] = 'WooCommerce同步已成功完成。';
+$lang['common_cron_success'] = '電子商務已成功同步';
 //Access Denied.
 $lang['common_access_denied'] = '拒絕訪問。';
 //Woocommerce Product
@@ -756,7 +756,7 @@ $lang['common_random_token'] = '生成隨機令牌';
 //Select a Product
 $lang['common_select_product'] = '選擇一個產品';
 //Are you sure you want to sync with WooCommerce?
-$lang['confirmation_woocommerce_cron'] = '您確定要與WooCommerce同步嗎？';
+$lang['confirmation_woocommerce_cron'] = '您確定要與電子商務同步嗎？';
 //Are you sure you want to import the products from woocommerce?
 $lang['confirmation_import_woocommerce_products'] = '您確定要從woocommerce導入產品嗎？';
 //Cron Documentation
@@ -1413,7 +1413,7 @@ $lang['common_favorite'] = '收藏夾';
 $lang['common_show'] = '顯示';
 $lang['common_entries'] = '參賽作品';
 $lang['common_next'] = '下一個';
-$lang['common_previous'] = '以前';
+$lang['common_previous'] = '以前的';
 $lang['common_showing'] = '正在顯示';
 $lang['to'] = '至';
 $lang['common_loading'] = '載入中...';
@@ -1489,4 +1489,22 @@ $lang['common_quick_cash_help'] = '快速現金對話框';
 $lang['common_sent_email'] = '發送郵件';
 
 $lang['common_serialnumber_already_added'] = '序列號已經添加';
+$lang['common_add_secondary_category'] = '添加二級類別';
+$lang['common_secondary_category'] = '次要類別';
+$lang['common_suspended_types'] = '懸浮類型';
+$lang['shopify_cron_job_entry'] = 'Shopify Cron Entry';
+$lang['item inventory changed in shopify'] = 'shopify中的商品庫存已更改';
+$lang['common_recent_exports'] = '最近出口';
+$lang['common_import_order'] = '進口訂單';
+$lang['shopify_not_paid'] = '您尚未激活Shopify帳單';
+$lang['common_color'] = '顏色';
+$lang['common_drag_and_drop_or_click'] = '拖放或單擊';
+$lang['common_workorder'] = '工作指示';
+$lang['common_item_being_repaired'] = '維修中的物品';
+$lang['work_orders_edit'] = '編輯工單';
+$lang['work_orders_delete'] = '刪除工單';
+$lang['work_orders_search'] = '搜索工單';
+$lang['work_orders_manage_statuses'] = '管理工單狀態';
+$lang['common_shopify_access_token_error'] = '您的訪問令牌已過期，我們無法連接到API。請再試一遍。';
+$lang['common_ecommerce_item'] = '電子商務項目';
 ?>

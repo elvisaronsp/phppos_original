@@ -335,5 +335,10 @@ $lang['is_favorite'] = 'Apakah Favorit?';
 $lang['items_item_quantity_unit_number_exists'] = 'Jumlah item kuantitas unit ada';
 $lang['items_quantity_unit'] = 'Variasi Unit Kuantitas';
 $lang['items_quantity_unit_quantity'] = 'Jumlah Satuan Jumlah';
+
+$lang['items_weight_unit'] = 'Satuan berat';
+
 $lang['items_inventory_print_list_summary'] = 'Ringkasan Daftar Cetak Inventaris';
+
+$lang['items_search_by_barcode'] = 'Cari Berdasarkan Barcode atau ID Item';
 ?>

@@ -73,6 +73,18 @@
 											<a href="<?php echo site_url('items/excel_export/0') ?>" class="btn btn-primary template_url"><?php echo lang('items_update_items_import'); ?></a>
 											<a href="<?php echo site_url('items/excel/0') ?>" class="btn btn-primary template_url"><?php echo lang('items_new_items_import'); ?></a>
 			            </div>
+						
+			            <div class="col-md-12 well">
+		                	<h4 class="text-center"><?php echo lang('common_recent_exports'); ?></h4>
+							<ul>
+							<?php
+							foreach($recent_exports as $file)
+							{
+								echo '<li>'.file_id_to_download_link($file['file_id']).'</li>';
+							}
+							?>
+							</ul>
+						</div>
 			        </div>
 				        <div class="col-xs-12">
 				            <div class="col-md-12 well">

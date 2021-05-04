@@ -103,4 +103,8 @@ $lang['locations_twilio_token'] = 'Twilio-token';
 $lang['locations_twilio_sms_from_number'] = 'Twilio SMS van nummer';
 $lang['locations_auto_reports_email'] = 'Adres voor automatische e-mailrapporten';
 $lang['locations_auto_reports_email_time'] = 'Tijd voor automatische e-mailrapporten';
+$lang['locations_previous_day'] = 'Vorige dag';
+$lang['locations_current_day'] = 'Huidige dag';
+$lang['locations_auto_reports_day'] = 'Dag naar e-mailrapport voor';
+$lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'Schakel de bevestiging van het bedrag uit bij het verwerken van een creditcard';
 ?>

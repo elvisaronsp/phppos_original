@@ -399,8 +399,39 @@ $lang['migrate_ecommerce_item_id_index'] = 'E-commerce-item-ID-index';
 $lang['migrate_add_always_sms_receipt_field_to_customers'] = 'Voeg altijd sms-ontvangstveld toe aan klanten';
 $lang['migrate_18_0_version'] = '18.0 versie';
 $lang['migrate_items_per_search_suggestion_store_config'] = 'Items per zoekopdracht Suggestie Store Config';
+
 $lang['migrate_serialnumber_index'] = 'Serienummer Index';
 $lang['migrate_create_email_field_auto_email_reports'] = 'Maak automatische e-mailrapporten voor e-mailvelden';
 $lang['migrate_email_report_time_to_email'] = 'E-mailrapport Tijd tot e-mail';
+
+$lang['migrate_shopify'] = 'Shopify';
+
 $lang['migrate_damaged_reason_comment_field'] = 'Beschadigde reden voor commentaarveld';
+$lang['migrate_18_1_version'] = '18.1 Versie';
+$lang['migrate_custom_suspended_sale_types_remove_quantity'] = 'Aangepaste soorten uitgestelde verkoop Hoeveelheid verwijderen';
+
+$lang['migrate_secondary_categories'] = 'Secundaire categorieën';
+
+
+
+$lang['migrate_non_taxable_on_sales_table'] = 'Niet belastbaar op verkooptafel';
+
+
+
+
+$lang['migrate_current_or_previous_day_option_for_auto_email'] = 'Optie voor huidige of vorige dag voor automatische e-mail';
+$lang['migrate_disable_confirmation_option_for_emv_credit_card'] = 'Schakel de bevestigingsoptie voor EMV-creditcard uit';
+
+
+$lang['migrate_weight_units'] = 'Gewichtseenheden';
+
+$lang['migrate_migrate_categories_for_expenses'] = 'Migreer categorieën voor onkosten';
+
+$lang['migrate_expenses_categories'] = 'Uitgavencategorieën';
+$lang['migrate_permission_for_manage_expenses_categories'] = 'Toestemming voor het beheren van uitgavencategorieën';
+$lang['migrate_update_foreign_key_for_expenses_categories'] = 'Update externe sleutel voor uitgavencategorieën';
+
+$lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'Toestaan dat e-commerce order-ID groter is Int';
+$lang['migrate_index_on_filename'] = 'Index op bestandsnaam';
+$lang['migrate_work_orders'] = 'Werkorders';
 ?>

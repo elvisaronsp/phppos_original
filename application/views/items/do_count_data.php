@@ -1,4 +1,5 @@
 <div class="container-fluid">
+
 <div class="row register">
 	<div class="col-lg-12 col-md-12 no-padding-left no-padding-right">
 		
@@ -34,8 +35,34 @@
 							  	} ?>
 	        					</ul>
 							</span>
-						
+							<!-- Santosh Changes -->
+							<form id="config_columns">
+								<div class="piluku-dropdown btn-group table_buttons pull-right m-left-20">
+									<button type="button" class="btn btn-more dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+										<i class="ion-gear-a"></i>
+									</button>
+									
+									<ul id="sortable" class="dropdown-menu dropdown-menu-left col-config-dropdown" role="menu">
+											<li class="dropdown-header"><a id="reset_to_default" class="pull-right"><span class="ion-refresh"></span> Reset</a><?php echo lang('common_column_configuration'); ?></li>
+																				
+											<?php foreach($all_columns as $col_key => $col_value) { 
+												$checked = '';
+												
+												if (isset($selected_columns[$col_key]))
+												{
+													$checked = 'checked ="checked" ';
+												}
+												?>
+												<li class="sort"><a><input <?php echo $checked; ?> name="selected_columns[]" type="checkbox" class="columns" id="<?php echo $col_key; ?>" value="<?php echo $col_key; ?>"><label class="sortable_column_name" for="<?php echo $col_key; ?>"><span></span><?php echo H($col_value['label']); ?></label><span class="handle ion-drag"></span></a></li>									
+											<?php } ?>
+										</ul>
+								</div>
+							</form>
+							<!-- END  -->
+							
+							
 						</div>
+
 					</form>
 				</div>
 			</div>
@@ -56,29 +83,35 @@
 				<table id="register" class="table table-hover">
 					<thead>
 						<tr class="register-items-header">
-							<th><?php echo lang('common_item');?></th>
-							<th><?php echo lang('common_variation');?></th>
-							<th><?php echo lang('items_count');?></th>
-							
-							<?php
-							if ($this->Employee->has_module_action_permission('items', 'see_count_when_count_inventory', $this->Employee->get_logged_in_employee_info()->person_id)) { 
+							<?php $tableArr = []; foreach($selected_columns as $sel_col_key => $sel_col_value) { 
+								array_push($tableArr,$sel_col_key);
+								if($sel_col_key == 'actual_quantity')
+								{
+									if ($this->Employee->has_module_action_permission('items', 'see_count_when_count_inventory', $this->Employee->get_logged_in_employee_info()->person_id)) { 
+									?>
+									<th><?php echo $sel_col_value['label'];?></th>
+									<?php }}else{ ?>
+									<th><?php echo $sel_col_value['label'];?></th>
+									<?php }}
 							?>
-							<th><?php echo lang('items_actual_on_hand');?></th>
-							<?php } ?>
-							
-							<th><?php echo lang('common_comments');?></th>
 							<?php if ($count_info->status == 'open') { ?>
 								<th><?php echo lang('common_delete');?></th>
 							<?php } ?>
+
+							
 						</tr>
 					</thead>
 				
 					<tbody class="register-item-content">
-						<?php foreach($items_counted as $counted_item) { ?>
+						<?php foreach($items_counted as $key=> $counted_item) { ?>
 							<tr class="register-item-details">
-								<td><a href="<?php echo site_url('home/view_item_modal').'/'.$counted_item['item_id']; ?>" data-toggle="modal" class="register-item-name count-items" data-target="#myModal"><?php echo H($counted_item['name']).' ('.H($counted_item['category']).')'; ?></a></td>
-								
-								<?php if ($count_info->status == 'open') { ?>
+								<?php
+								//if(in_array($key, $tableArr)){}
+								foreach($tableArr as $table_column) 
+								{ if($table_column == 'name'){?>
+									<td><a href="<?php echo site_url('home/view_item_modal').'/'.$counted_item['item_id']; ?>" data-toggle="modal" class="register-item-name count-items" data-target="#myModal"><?php echo H($counted_item['name']).' ('.H($counted_item['category']).')'; ?></a></td>
+								<?php } else if($table_column == 'item_variation_id'){?>
+									<?php if ($count_info->status == 'open') { ?>
 									<?php if(isset($counted_item['variations'])) { ?>
 									<td class="text-center"><a href="#" id="variation" class="xeditable" data-type="select" data-pk="<?php echo H($counted_item['id']); ?>" data-name="variation" data-url="<?php echo site_url('items/edit_count_item'); ?>" data-title="<?php echo H(lang('items_edit_variation')); ?>" data-value="<?php echo $counted_item['item_variation_id']; ?>" data-source="<?php echo H(json_encode($counted_item['variations'])); ?>" data-prepend=<?php echo json_encode(lang('common_empty')); ?>></a></td>
 									<?php } else {  ?>
@@ -97,17 +130,25 @@
 									<td class="text-center"><?php echo lang('common_none'); ?></td>
 									<?php } ?>
 
-								<?php } ?>
-							
-								<td class="text-center"><a href="#" id="count" class="xeditable" data-type="text" data-pk="<?php echo H($counted_item['id']); ?>" data-name="quantity" data-url="<?php echo site_url('items/edit_count_item'); ?>" data-title="<?php echo H(lang('items_edit_count')); ?>"><?php echo to_quantity($counted_item['count']); ?></a></td>
-								<?php
-								if ($this->Employee->has_module_action_permission('items', 'see_count_when_count_inventory', $this->Employee->get_logged_in_employee_info()->person_id)) { 
+								<?php }}elseif($table_column == 'count') {?>
+									<td class="text-center"><a href="#" id="count" class="xeditable" data-type="text" data-pk="<?php echo H($counted_item['id']); ?>" data-name="quantity" data-url="<?php echo site_url('items/edit_count_item'); ?>" data-title="<?php echo H(lang('items_edit_count')); ?>"><?php echo to_quantity($counted_item['count']); ?></a></td>
+								<?php }else if($table_column == 'actual_quantity'){
+									if ($this->Employee->has_module_action_permission('items', 'see_count_when_count_inventory', $this->Employee->get_logged_in_employee_info()->person_id)) {?>
+										<td class="text-center actual_quantity"><?php echo to_quantity($counted_item['actual_quantity']);?></td>
+									<?php }
+								}else if($table_column == 'comment'){	?>
+									<td class="text-center"><a href="#" id="comment" class="xeditable" data-type="text" data-pk="<?php echo H($counted_item['id']); ?>" data-name="comment" data-url="<?php echo site_url('items/edit_count_item'); ?>" data-title="<?php echo H(lang('items_edit_comment')); ?>"><?php echo $counted_item['comment'] ? H($counted_item['comment']): 'None'; ?></a>
+								</td>
+							</a></td>
+								<?php }else{?>
+									<td class="text-center"><a href="#" id="<?php echo  $table_column;?>"  data-name="<?php echo  $table_column;?>"  data-title="<?php echo  $table_column;?>"><?php echo $counted_item[$table_column]; ?></a></td>
+								<?php }
 								?>
-								
-								<td class="text-center actual_quantity"><?php echo to_quantity($counted_item['actual_quantity']);?></td>
-								<?php } ?>
-								<td class="text-center"><a href="#" id="comment" class="xeditable" data-type="text" data-pk="<?php echo H($counted_item['id']); ?>" data-name="comment" data-url="<?php echo site_url('items/edit_count_item'); ?>" data-title="<?php echo H(lang('items_edit_comment')); ?>"><?php echo $counted_item['comment'] ? H($counted_item['comment']): 'None'; ?></a></td></a></td>
-								<?php if ($count_info->status == 'open') { ?>
+
+
+
+								<?php }	
+								if ($count_info->status == 'open') { ?>
 									<td class="text-center"><?php echo anchor('items/delete_inventory_count_item/'.$counted_item['item_id'].($counted_item['item_variation_id'] ? rawurlencode('#').$counted_item['item_variation_id'] : ''), 'Delete Count Item',array('class' =>'text-danger delete-link'));?></td>
 								<?php } ?>
 							</tr>
@@ -146,10 +187,72 @@
 <script type='text/javascript'>
 	
 var mode = <?php echo json_encode($mode); ?>;
-
+function reload_items_table()
+	{
+		clearSelections();
+		location.reload();
+	}
 
 $(document).ready(function()
 {
+	//Santosh Changes
+	 $("#sortable").sortable({
+			items : '.sort',
+			containment: "#sortable",
+			cursor: "move",
+			handle: ".handle",
+			revert: 100,
+			update: function( event, ui ) {
+				$input = ui.item.find("input[type=checkbox]");
+				$input.trigger('change');
+			}
+		});
+		
+		$("#sortable").disableSelection();
+		
+		$("#sortable a").on("click", function(e) {
+			e.preventDefault();
+			
+			if($(this).attr("id") == "reset_to_default")
+			{
+				//Send a get request wihtout columns will clear column prefs
+				$.get(<?php echo json_encode(site_url("$controller_name/save_inventory_column_prefs")); ?>, function()
+				{
+					reload_items_table();
+					var $checkboxs = $("#config_columns a").find("input[type=checkbox]");
+					$checkboxs.prop("checked", false);
+					
+					<?php foreach($default_columns as $default_col) { ?>
+							$("#config_columns a").find('#'+<?php echo json_encode($default_col);?>).prop("checked", true);
+					<?php } ?>
+				});
+			}
+			
+			if(!$(e.target).hasClass("handle"))
+			{
+				var $checkboxs = $(this).find("input[type=checkbox]");
+				$checkboxs.prop("checked", !$checkboxs.prop("checked")).trigger("change");
+			}
+			
+			return false;
+		});
+		
+		
+		$("#sortable input[type=checkbox]").change(
+
+			function(e) {
+				var columns = $("#sortable input:checkbox:checked").map(function(){
+      		return $(this).val();
+    		}).get();
+				$.post(<?php echo json_encode(site_url("$controller_name/save_inventory_column_prefs")); ?>, {columns:columns}, function(json)
+				{
+					reload_items_table();
+				});
+				
+		});
+		
+	//END
+
 	// if #mode is changed
 	$('.change-mode').click(function(e){
 		e.preventDefault();
@@ -313,6 +416,7 @@ $(document).ready(function()
  function itemAddError(responseText, statusText)
  {
  	show_feedback('error',<?php echo json_encode(lang('items_inventory_count_error')); ?>,<?php echo json_encode(lang('common_error')); ?>);
+ 	$('#item').val('');
  }
  
 <?php } ?>

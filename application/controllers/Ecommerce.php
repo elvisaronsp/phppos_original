@@ -20,7 +20,131 @@ class Ecommerce extends MY_Controller
 				}
 			}			
 		}
+		
+		public function shopify_return_url_subscription()
+		{
+			$charge_id = $this->input->get('charge_id');
+			$this->Appconfig->save('shopify_charge_id',$charge_id);
+			redirect('config/shopify?step=3');
+		}
+		
+		public function oauth_shopify_finish()
+		{
+			$was_installed_before = $this->config->item('shopify_code');
+			$shopify_code = $this->input->request('code');
+			$this->Appconfig->save('shopify_code',$shopify_code);
+			
+			if (isset($_GET['shop']))
+			{
+				list($parsed_shop) = explode('.', $_GET['shop']);
+				$this->config->set_item('shopify_shop',$parsed_shop);
+				$this->Appconfig->save('shopify_shop',$parsed_shop);
+			}
+			$this->Appconfig->save('ecommerce_platform','shopify');
+			
+			$shop = $this->config->item('shopify_shop').'.myshopify.com';
+			
+			$query = array(
+			  "client_id" => SHOPIFY_API_KEY, // Your API key
+			  "client_secret" => SHOPIFY_API_SECRET_KEY, // Your app credentials (secret key)
+			  "code" => $shopify_code // Grab the access key from the URL
+			);
+
+			// Generate access token URL
+			$access_token_url = "https://" . $shop . "/admin/oauth/access_token";
+
+			// Configure curl client and execute request
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_URL, $access_token_url);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($ch, CURLOPT_POST, count($query));
+			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($query));
+			$result = curl_exec($ch);
+			curl_close($ch);
+			// Store the access token
+			$result = json_decode($result, true);
+			$access_token = $result['access_token'];
+			
+			if (!$access_token)
+			{
+				redirect('config/shopify?step=1&error=access_token');
+			}
+			else
+			{
+				$this->Appconfig->save('shopify_oauth_token',$access_token);
+
+				$ch = curl_init("https://" . $shop.'/admin/api/2021-01/locations.json');  
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);   
+				//Don't verify ssl...just in case a server doesn't have the ability to verify
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+				$headers = array(  
+			    	'X-Shopify-Access-Token: '.$access_token,  
+					'Content-Type: application/json',                                                                              
+				);
 				
+				curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+		 	   $return_locations = json_decode(curl_exec($ch), TRUE); 
+			   $location_id = $return_locations['locations'][0]['id'];
+			   $this->Appconfig->save('shopify_location_id',$location_id);
+			
+			   //If we were cancelled before redirect right to activating billing
+			   if ($this->config->item('shopify_was_cancelled') || $was_installed_before)
+			   {
+				   redirect('ecommerce/activate_shopify_billing');				   
+			   	
+			   }
+			   else
+			   {
+					redirect('config/shopify?step=2');
+			   }
+			}
+		}
+				
+		public function cancel_shopify_billing()
+		{
+			$this->load->model('Shopify');
+			if (!$this->Shopify->cancel_subscription())
+			{
+				die(lang('config_shopfiy_billing_failed'));
+			}
+			else
+			{
+				$this->Appconfig->delete('shopify_charge_id');
+				$this->Appconfig->save('shopify_was_cancelled',1);
+				redirect('config?search=shopify');
+			}
+		}
+		
+		
+		function oauth_shopify_disconnect()
+		{
+	        $this->Appconfig->delete('shopify_shop');
+	        $this->Appconfig->delete('shopify_code');
+	        $this->Appconfig->delete('shopify_oauth_token');
+	        $this->Appconfig->delete('shopify_location_id');
+	        redirect('config?search=shopify');
+		}
+		
+		public function activate_shopify_billing()
+		{
+			$this->load->model('Shopify');
+			
+			//Cancel out old plan
+			if ($this->config->item('shopify_charge_id'))
+			{
+				if (!$this->Shopify->cancel_subscription())
+				{
+					die(lang('config_shopfiy_billing_failed'));
+				}
+			}
+			if (!$this->Shopify->create_subscription())
+			{
+				die(lang('config_shopfiy_billing_failed'));
+			}
+		}
+						
 		public function cancel()
 		{
 			$this->load->model('Appconfig');
@@ -96,6 +220,10 @@ class Ecommerce extends MY_Controller
 					if($platform=="woocommerce")
 					{
 						$platform_model="woo";
+					}
+					elseif($platform == 'shopify')
+					{
+						$platform_model="shopify";
 					}
 					
 					if( $platform_model != "" )

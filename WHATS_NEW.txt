@@ -1,16 +1,29 @@
-18.0 Release!
+18.1 Release!
 
 Whats new:
-* Added offline sales support (Must use https AND enable in store config)
-* Added option to select quick cash amount by double clicking cash payment button for quicker sales
-* Can now send daily closeout reports via email
-* Added comment field to damaged items report
-* Can now disable items from price rules in bulk
-* Can now sell gift cards that already exist to add value to them
-* Removed employee's last name from receipt
-* Added deleted/voided to receiving receipt
-* Added option Only count store account payments to reports --> payments --> summary
-* Added cost and selling price to damaged items report
-* Added serial number history reports (Reports --> Items --> Serial Number History)
-* Add store config preference "Items Per Search Suggestion" (Default to items per page)
-* Minor fixes and improvements
+* Added Shopify e-commerce integration
+* Added Work Order Module
+* Now support secondary categories for item grid + WooCommerce
+* Can now Remove Quantity When Suspending for custom sale types (off by default)
+* Item subtotal before modifiers is now displayed on receipt
+* Added filter to suspended sales screen to filter by suspended sale type
+* Now have preference on which day the automatic report e-mail sends (Current day or previous day)
+* Added non-taxable amount to Detailed Sales Report
+* Improved inventory counting by adding search, column configuration and minor tweaks
+* Expenses now have their own categories
+* Now have the ability to download recent excel exports for items and customers for up to 1 week after exported
+* Added customer email and phone to reports --> Sales --> Detailed
+* Added store config option Automatically Sync Offline Sales
+* Fixed bug in reports --> custom where Item Category filter did not work in all cases
+* Now storing non_taxable total for each sale for faster calculations
+* Now show variation name when sales/receeivings interface collapsed
+* Added option for credit  card processing to disable amount confirmation
+* Bulk edit description and long description for items
+* Added custom fields to reports --> deleted sales
+* Added Delivered To in recent sales popup
+* Added employee last name back to receipt
+* Fixed a bug where selecting tier after price rule applied didn't remove rule if excluded from tiers
+* Commission now includes modifiers
+* Added store config option Show Total On Fulfillment Sheet
+* Added support for php 8
+* Minor bug fixes & improvements

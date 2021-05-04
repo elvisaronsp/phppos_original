@@ -46,6 +46,23 @@ class Supplier extends Person
 		return $data;	
 	}
 	
+	function get_name($supplier_id)
+	{
+		$supplier_info = $this->get_info($supplier_id);
+		
+		if ($supplier_info->company_name)
+		{
+			return $supplier_info->company_name;
+		}
+		
+		if ($supplier_info->first_name)
+		{
+			return $supplier_info->first_name. ' '.$supplier_info->last_name;			
+		}
+		return lang('common_none');
+	}
+	
+	
 	function account_number_exists($account_number)
 	{
 		$this->db->from('suppliers');	

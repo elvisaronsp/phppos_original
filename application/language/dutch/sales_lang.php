@@ -379,4 +379,10 @@ $lang['sales_offline_synced_successfully'] = 'Offline verkoop succesvol gesynchr
 $lang['sales_edit_offline_sales'] = 'Offline verkopen bewerken';
 $lang['sales_giftcard_exists_do_you_want_to_add'] = 'De cadeaukaart die u verkoopt, bestaat al. Wilt u geld aan deze kaart toevoegen?';
 $lang['sales_the_balance_of_card_is'] = 'Het saldo van de kaart is';
+$lang['sales_serialnumber_duplicate'] = 'Dubbel serienummer, voer het opnieuw in';
+$lang['sales_enter_note'] = 'Voer een notitie in';
+$lang['sales_note'] = 'Notitie';
+$lang['sales_detailed_note'] = 'Gedetailleerde opmerking';
+$lang['sales_internal_note'] = 'Interne opmerking';
+$lang['sales_delveried_to'] = 'Bezorgd bij';
 ?>

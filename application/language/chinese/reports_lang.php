@@ -722,4 +722,5 @@ $lang['reports_serial_number_history'] = '序列号历史';
 $lang['reports_daily_report'] = '每日报告';
 $lang['reports_only_count_store_account_payments'] = '只计算商店帐户付款';
 $lang['reports_generation_date'] = '产生日期';
+$lang['reports_non_taxable_customers'] = '非应税客户';
 ?>

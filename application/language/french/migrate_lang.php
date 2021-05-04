@@ -399,8 +399,39 @@ $lang['migrate_ecommerce_item_id_index'] = 'Index des identifiants d\'articles d
 $lang['migrate_add_always_sms_receipt_field_to_customers'] = 'Ajouter le champ de réception Always Sms aux clients';
 $lang['migrate_18_0_version'] = 'Version 18.0';
 $lang['migrate_items_per_search_suggestion_store_config'] = 'Articles par recherche Suggestion Store Config';
+
 $lang['migrate_serialnumber_index'] = 'Index des numéros de série';
 $lang['migrate_create_email_field_auto_email_reports'] = 'Créer des rapports automatiques de messagerie électronique';
 $lang['migrate_email_report_time_to_email'] = 'Envoyer le rapport par e-mail';
+
+$lang['migrate_shopify'] = 'Shopify';
+
 $lang['migrate_damaged_reason_comment_field'] = 'Champ de commentaire de raison endommagée';
+$lang['migrate_18_1_version'] = 'Version 18.1';
+$lang['migrate_custom_suspended_sale_types_remove_quantity'] = 'Types de vente suspendue personnalisés Supprimer la quantité';
+
+$lang['migrate_secondary_categories'] = 'Catégories secondaires';
+
+
+
+$lang['migrate_non_taxable_on_sales_table'] = 'Table non taxable sur les ventes';
+
+
+
+
+$lang['migrate_current_or_previous_day_option_for_auto_email'] = 'Option du jour actuel ou précédent pour l\'e-mail automatique';
+$lang['migrate_disable_confirmation_option_for_emv_credit_card'] = 'Désactiver l\'option de confirmation pour la carte de crédit Emv';
+
+
+$lang['migrate_weight_units'] = 'Unités de poids';
+
+$lang['migrate_migrate_categories_for_expenses'] = 'Migrer les catégories pour les dépenses';
+
+$lang['migrate_expenses_categories'] = 'Catégories de dépenses';
+$lang['migrate_permission_for_manage_expenses_categories'] = 'Autorisation de gérer les catégories de dépenses';
+$lang['migrate_update_foreign_key_for_expenses_categories'] = 'Mettre à jour la clé étrangère pour les catégories de dépenses';
+
+$lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'Autoriser l\'ID de commande de commerce électronique à être plus grand Int';
+$lang['migrate_index_on_filename'] = 'Index sur le nom de fichier';
+$lang['migrate_work_orders'] = 'Bons de travail';
 ?>

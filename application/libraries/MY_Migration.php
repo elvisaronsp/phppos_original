@@ -151,7 +151,7 @@ class MY_Migration extends CI_Migration
 				$this->_error_string = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
 				return FALSE;
 			}
-			elseif ( ! is_callable(array($class, $method)))
+			elseif ( ! in_array($method, get_class_methods($class)))
 			{
 				$this->_error_string = sprintf($this->lang->line('migration_missing_'.$method.'_method'), $class);
 				return FALSE;

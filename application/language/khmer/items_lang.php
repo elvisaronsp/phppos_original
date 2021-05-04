@@ -240,5 +240,10 @@ $lang['is_favorite'] = 'តើខ្ញុំចូលចិត្តទេ?';
 $lang['items_item_quantity_unit_number_exists'] = 'ចំនួនធាតុឯកតាបរិមាណមាន';
 $lang['items_quantity_unit'] = 'បំរែបំរួលឯកតាបរិមាណ';
 $lang['items_quantity_unit_quantity'] = 'ចំនួនឯកតាបរិមាណ';
+
+$lang['items_weight_unit'] = 'ឯកតាទំងន់';
+
 $lang['items_inventory_print_list_summary'] = 'សង្ខេបបញ្ជីបោះពុម្ពបញ្ជីសារពើភណ្ឌ';
+
+$lang['items_search_by_barcode'] = 'ស្វែងរកតាមលេខកូដបារកូដឬលេខសម្គាល់ធាតុ';
 ?>

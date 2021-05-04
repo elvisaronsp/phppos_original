@@ -527,7 +527,7 @@ class Delivery extends MY_Model
 	
 	}
 	
-	function get_all_for_range($deleted=0,$start_date,$end_date,$col='estimated_delivery_or_pickup_date')
+	function get_all_for_range($deleted=0,$start_date=null,$end_date=null,$col='estimated_delivery_or_pickup_date')
 	{	
 		if (!$deleted)
 		{

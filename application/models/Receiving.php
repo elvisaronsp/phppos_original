@@ -388,8 +388,11 @@ class Receiving extends MY_Model
 			{
 				if ((isset($cur_item_variation_info) && $cur_item_variation_info->unit_price != $item->selling_price))
 				{
-					$selling_price_item_variation_data = array('unit_price'=>$item->selling_price);
-					$this->Item_variations->save($selling_price_item_variation_data, $item->variation_id);
+					if ($cur_item_variation_info->unit_price || (!$cur_item_variation_info->unit_price && $cur_item_info->unit_price !== $item->selling_price ))
+					{
+						$selling_price_item_variation_data = array('unit_price'=>$item->selling_price);
+						$this->Item_variations->save($selling_price_item_variation_data, $item->variation_id);
+					}
 				}
 				else
 				{
@@ -539,7 +542,7 @@ class Receiving extends MY_Model
 						else
 						{
 							$receivings_items_data['item_unit_price_before_tax'] = $item_unit_price_before_tax;
-							$this->calculate_and_update_average_cost_price_for_item($item->item_id, $item->variation_id, $receivings_items_data);
+							$this->calculate_and_update_average_cost_price_for_item($item->item_id, $item->variation_id, $receivings_items_data,$cart);
 							unset($receivings_items_data['item_unit_price_before_tax']);
 						}
 					}
@@ -1085,11 +1088,16 @@ class Receiving extends MY_Model
 		return $this->Supplier->get_info($this->db->get()->row()->supplier_id);
 	}
 
-	function calculate_and_update_average_cost_price_for_item($item_id,$variation_id,$current_receivings_items_data)
+	function calculate_and_update_average_cost_price_for_item($item_id,$variation_id,$current_receivings_items_data,$cart)
 	{
 		//Dont calculate averages unless we receive quanitity > 0
-		if ($current_receivings_items_data['quantity_purchased'] > 0)
+		if ($current_receivings_items_data['quantity_purchased'] > 0 || ($cart->transfer_location_id && $this->config->item('update_cost_price_on_transfer')))
 		{
+			if ($cart->transfer_location_id)
+			{
+				$current_receivings_items_data['quantity_purchased'] = abs($current_receivings_items_data['quantity_purchased']);
+			}
+			
 			$cost_price_avg = false;
 			$averaging_method = $this->config->item('averaging_method');
 		
@@ -1187,7 +1195,17 @@ class Receiving extends MY_Model
 				elseif ($cur_item_location_info && $cur_item_location_info->cost_price)
 				{
 					$item_location_data = array('cost_price' => $cost_price_avg);
-					$this->Item_location->save($item_location_data,$item_id);
+					
+					//We are doing a transfer
+					if ($cart->transfer_location_id)
+					{
+						$this->Item_location->save($item_location_data,$item_id,$cart->location_id ? $cart->location_id : ($cart->transfer_from_location_id ? $cart->transfer_from_location_id : $this->Employee->get_logged_in_employee_current_location_id()));						
+						$this->Item_location->save($item_location_data,$item_id,$cart->transfer_location_id);						
+					}
+					else
+					{
+						$this->Item_location->save($item_location_data,$item_id);						
+					}
 				}				
 				else
 				{

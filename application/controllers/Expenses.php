@@ -9,7 +9,7 @@ class Expenses extends Secure_area implements Idata_controller {
 
         parent::__construct('expenses');
 		  $this->load->model('Expense');
-		  $this->load->model('Category');
+		  $this->load->model('Expense_category');
   			$this->lang->load('expenses');
   			$this->lang->load('module');		
 		  
@@ -140,10 +140,10 @@ class Expenses extends Secure_area implements Idata_controller {
 			  }
 		  }
 		
-			$categories = $this->Category->sort_categories_and_sub_categories($this->Category->get_all_categories_and_sub_categories());
+			$categories = $this->Expense_category->sort_categories_and_sub_categories($this->Expense_category->get_all_categories_and_sub_categories());
 			foreach($categories as $key=>$value)
 			{
-				$name = $this->config->item('show_full_category_path') ? str_repeat('&nbsp;&nbsp;', $value['depth']).$this->Category->get_full_path($key) : str_repeat('&nbsp;&nbsp;', $value['depth']).$value['name'];
+				$name = $this->config->item('show_full_category_path') ? str_repeat('&nbsp;&nbsp;', $value['depth']).$this->Expense_category->get_full_path($key) : str_repeat('&nbsp;&nbsp;', $value['depth']).$value['name'];
 				$data['categories'][$key] = $name;
 			}
 				
@@ -172,11 +172,11 @@ class Expenses extends Secure_area implements Idata_controller {
 	 {
 			$this->check_action_permission('add_update');		 
 
-			if (!$this->Category->exists($this->input->post('category_id')))
+			if (!$this->Expense_category->exists($this->input->post('category_id')))
 			{
-				if (!$category_id = $this->Category->get_category_id($this->input->post('category_id')))
+				if (!$category_id = $this->Expense_category->get_category_id($this->input->post('category_id')))
 				{
-					$category_id = $this->Category->save($this->input->post('category_id'));
+					$category_id = $this->Expense_category->save($this->input->post('category_id'));
 				}
 			}	
 			else
@@ -274,7 +274,97 @@ class Expenses extends Secure_area implements Idata_controller {
 			$params['offset'] = 0;
 			
 			$this->session->set_userdata("expenses_search_data",$params);
-		}
+        }
+        
+        function manage_categories()
+        {
+            $this->check_action_permission('manage_categories');
+            $categories = $this->Expense_category->get_all_categories_and_sub_categories_as_tree();
+            $data = array('category_tree' => $this->_category_tree_list($categories));
+            $data['categories']['0'] = lang('common_none');
+            $categories = $this->Expense_category->sort_categories_and_sub_categories($this->Expense_category->get_all_categories_and_sub_categories());
+            foreach($categories as $key=>$value)
+            {
+                $name = $this->config->item('show_full_category_path') ? str_repeat('&nbsp;&nbsp;', $value['depth']).$this->Expense_category->get_full_path($key) : str_repeat('&nbsp;&nbsp;', $value['depth']).$value['name'];
+                $data['categories'][$key] = $name;
+            }
+            
+            $data['redirect'] = $this->input->get("redirect");
+            
+            $this->load->view('expenses/categories',$data);		
+        }
+
+        function _category_tree_list($tree) 
+        {
+            $return = '';
+        if(!is_null($tree) && count($tree) > 0) 
+            {
+            $return = '<ul>';
+            foreach($tree as $node) 
+                    {
+                $return .='<li>'.H($node->name). ' <a href="javascript:void(0);" class="add_child_category" data-category_id="'.$node->id.'">['.lang('items_add_child_category').']</a> '.
+                            '<a href="javascript:void(0);" class="edit_category" data-name = "'.H($node->name).'" data-parent_id = "'.$node->parent_id.'" data-category_id="'.$node->id.'">['.lang('common_edit').']</a> '.
+                                '<a href="javascript:void(0);" class="delete_category" data-category_id="'.$node->id.'">['.lang('common_delete').']</a>';
+                                $return .= $this->_category_tree_list($node->children);
+                  $return .='</li>';
+            }
+            $return .='</ul>';
+        }
+            
+            return $return;
+        }
+
+        function save_category($category_id = FALSE)
+        {	
+            $this->check_action_permission('manage_categories');
+            
+            $update = $category_id ? true : false;
+            
+            $parent_id = $this->input->post('parent_id');
+            $category_name = $this->input->post('category_name');
+    
+            if (!$parent_id)
+            {
+                $parent_id = NULL;
+            }
+            
+            if ($category_id = $this->Expense_category->save($category_name, $parent_id, $category_id))
+            {
+                $categories_data = $this->Expense_category->sort_categories_and_sub_categories($this->Expense_category->get_all_categories_and_sub_categories());
+                $categories = array();
+                foreach($categories_data as $key=>$value)
+                {
+                    $name = $this->config->item('show_full_category_path') ? str_repeat('&nbsp;&nbsp;', $value['depth']).$this->Expense_category->get_full_path($key) : str_repeat('&nbsp;&nbsp;', $value['depth']).$value['name'];
+                    $categories[] = array('value'=> H($key),'text'=> H($name));
+                }
+                            
+                echo json_encode(array('success'=>true,'message'=>lang('items_category_successful_adding').' '.H($category_name), 'categories' => $categories, 'selected' => $category_id));
+            }
+            else
+            {
+                echo json_encode(array('success'=>false,'message'=>lang('items_category_successful_error')));
+            }
+        }
+
+        function get_category_tree_list()
+        {
+            $categories = $this->Expense_category->get_all_categories_and_sub_categories_as_tree();
+            echo $this->_category_tree_list($categories);
+        }
+
+        function delete_category()
+        {
+            $this->check_action_permission('manage_categories');		
+            $category_id = $this->input->post('category_id');
+            if($this->Expense_category->delete($category_id))
+            {
+                echo json_encode(array('success'=>true,'message'=>lang('items_successful_deleted')));
+            }
+            else
+            {
+                echo json_encode(array('success'=>false,'message'=>lang('items_cannot_be_deleted')));
+            }
+        }
 		
 }
 

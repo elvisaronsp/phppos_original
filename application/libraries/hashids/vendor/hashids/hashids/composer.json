@@ -2,36 +2,35 @@
     "name": "hashids/hashids",
     "description": "Generate short, unique, non-sequential ids (like YouTube and Bitly) from numbers",
     "keywords": [
-        "hashids",
-        "hashid",
-        "hash",
-        "ids",
-        "youtube",
         "bitly",
-        "encode",
         "decode",
-        "obfuscate"
+        "encode",
+        "hash",
+        "hashid",
+        "hashids",
+        "ids",
+        "obfuscate",
+        "youtube"
     ],
-    "homepage": "http://hashids.org/php",
+    "homepage": "https://hashids.org/php",
     "license": "MIT",
     "authors": [
         {
             "name": "Ivan Akimov",
-            "email": "ivan@barreleye.com",
-            "homepage": "https://twitter.com/IvanAkimov"
+            "email": "ivan@barreleye.com"
         },
         {
             "name": "Vincent Klaiber",
-            "email": "hello@doubledip.se",
-            "homepage": "https://doubledip.se"
+            "email": "hello@doubledip.se"
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.2 || ^8.0",
         "ext-mbstring": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.0"
+        "phpunit/phpunit": "^8.0 || ^9.4",
+        "squizlabs/php_codesniffer": "^3.5"
     },
     "suggest": {
         "ext-bcmath": "Required to use BC Math arbitrary precision mathematics (*).",
@@ -42,7 +41,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.0-dev"
+            "dev-master": "4.1-dev"
         }
     },
     "autoload": {

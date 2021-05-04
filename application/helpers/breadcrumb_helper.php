@@ -301,6 +301,10 @@ function create_breadcrumb()
 		{
 			$return.=create_report_breadcrumb(lang('reports_customers_summary_report'));
 		}		
+		elseif($ci->uri->segment(3) == 'summary_non_taxable_customers')
+		{
+			$return.=create_report_breadcrumb(lang('reports_non_taxable_customers'));
+		}
 		elseif($ci->uri->segment(3) == 'specific_customer')
 		{
 			$return.=create_report_breadcrumb(lang('reports_detailed_customers_report'));
@@ -702,6 +706,10 @@ function create_breadcrumb()
 		else if($ci->uri->segment(2) == 'cron_documentation')
 		{
   			$config_home_link=create_current_page_url(lang('title_cron_documentation'));
+		}
+		else if($ci->uri->segment(2) == 'shopify')
+		{
+  			$config_home_link=create_current_page_url(lang('module_config')).create_current_page_url('Shopify');
 		}
 		
 		else

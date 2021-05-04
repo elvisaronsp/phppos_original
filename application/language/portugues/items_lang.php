@@ -336,5 +336,10 @@ $lang['is_favorite'] = 'É favorito?';
 $lang['items_item_quantity_unit_number_exists'] = 'O número do item da unidade de quantidade existe';
 $lang['items_quantity_unit'] = 'Variação da unidade de quantidade';
 $lang['items_quantity_unit_quantity'] = 'Quantidade Quantidade Quantidade';
+
+$lang['items_weight_unit'] = 'Unidade de peso';
+
 $lang['items_inventory_print_list_summary'] = 'Resumo da lista de impressão de estoque';
+
+$lang['items_search_by_barcode'] = 'Pesquisar por código de barras ou ID do item';
 ?>

@@ -332,7 +332,7 @@ class Items extends REST_Controller {
 				}
 
 				$item_return['unit_variations'] = array();
-				foreach($this->item->get_quantity_units($item->item_id) as $unit){
+				foreach($this->Item->get_quantity_units($item->item_id) as $unit){
 					$item_return['unit_variations'][] = array(
 						'id' => $unit->id,
 						'unit_name' => $unit->unit_name,
@@ -764,9 +764,9 @@ class Items extends REST_Controller {
 					);
 
 					if(isset($unit_variation['id'])){
-						$this->item->save_unit_quantity($unit_variation_data, $unit_variation['id']);
+						$this->Item->save_unit_quantity($unit_variation_data, $unit_variation['id']);
 					}else{
-						$this->item->save_unit_quantity($unit_variation_data);
+						$this->Item->save_unit_quantity($unit_variation_data);
 					}
 				}
 			}
@@ -883,7 +883,7 @@ class Items extends REST_Controller {
 						{		
 							$this->load->library('image_lib');
 							@$image_contents = file_get_contents($variation['image_url']);
-							$tmpFilename = tempnam(ini_get('upload_tmp_dir'), 'api');
+							$tmpFilename = tempnam(ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir(), 'api');
 							file_put_contents($tmpFilename,$image_contents);
 
 							$config['image_library'] = 'gd2';
@@ -1335,7 +1335,7 @@ class Items extends REST_Controller {
 				for($k=0;$k<count($_FILES["images"]['tmp_name']);$k++)
 				{
 					@$image_contents = file_get_contents($_FILES["images"]["tmp_name"][$k]);
-					$tmpFilename = tempnam(ini_get('upload_tmp_dir'), 'api');
+					$tmpFilename = tempnam(ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir(), 'api');
 					file_put_contents($tmpFilename,$image_contents);
 
 
@@ -1366,7 +1366,7 @@ class Items extends REST_Controller {
     	  {
 					$this->load->model('Appfile');					
 					@$image_contents = file_get_contents($item_image['image_url']);
-					$tmpFilename = tempnam(ini_get('upload_tmp_dir'), 'api');
+					$tmpFilename = tempnam(ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir(), 'api');
 					file_put_contents($tmpFilename,$image_contents);
 
 

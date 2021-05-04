@@ -106,7 +106,14 @@
 										<?php echo anchor("$controller_name/toggle_show_deleted/1", '<span class="ion-trash-a"> '.lang($controller_name."_manage_deleted").'</span>',
 											array('class'=>'toggle_deleted','title'=> lang($controller_name."_manage_deleted"))); ?>
 								</li>
-							<?php }?>
+							<?php } ?>
+
+							<?php if ($this->Employee->has_module_action_permission('expenses', 'manage_categories', $this->Employee->get_logged_in_employee_info()->person_id)) {?>
+								<li>
+									<?php echo anchor("$controller_name/manage_categories?redirect=expenses", '<span class="ion-ios-folder-outline"> ' . lang("items_manage_categories").'</span>', array('class'=>'', 'title'=>lang('items_manage_categories'))); ?>
+								</li>
+							<?php } ?>	
+
 						</ul>
 					</div>
 					<?php } ?>

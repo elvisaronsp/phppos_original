@@ -3,13 +3,10 @@
 namespace Box\Spout\Reader\ODS;
 
 use Box\Spout\Reader\SheetInterface;
-use Box\Spout\Reader\Wrapper\XMLReader;
 
 /**
  * Class Sheet
  * Represents a sheet within a ODS file
- *
- * @package Box\Spout\Reader\ODS
  */
 class Sheet implements SheetInterface
 {
@@ -25,20 +22,29 @@ class Sheet implements SheetInterface
     /** @var string Name of the sheet */
     protected $name;
 
+    /** @var bool Whether the sheet was the active one */
+    protected $isActive;
+
+    /** @var bool Whether the sheet is visible */
+    protected $isVisible;
+
     /**
-     * @param XMLReader $xmlReader XML Reader, positioned on the "<table:table>" element
+     * @param RowIterator $rowIterator The corresponding row iterator
      * @param int $sheetIndex Index of the sheet, based on order in the workbook (zero-based)
      * @param string $sheetName Name of the sheet
+     * @param bool $isSheetActive Whether the sheet was defined as active
+     * @param bool $isSheetVisible Whether the sheet is visible
      */
-    public function __construct($xmlReader, $sheetIndex, $sheetName)
+    public function __construct($rowIterator, $sheetIndex, $sheetName, $isSheetActive, $isSheetVisible)
     {
-        $this->rowIterator = new RowIterator($xmlReader);
+        $this->rowIterator = $rowIterator;
         $this->index = $sheetIndex;
         $this->name = $sheetName;
+        $this->isActive = $isSheetActive;
+        $this->isVisible = $isSheetVisible;
     }
 
     /**
-     * @api
      * @return \Box\Spout\Reader\ODS\RowIterator
      */
     public function getRowIterator()
@@ -47,7 +53,6 @@ class Sheet implements SheetInterface
     }
 
     /**
-     * @api
      * @return int Index of the sheet, based on order in the workbook (zero-based)
      */
     public function getIndex()
@@ -56,11 +61,26 @@ class Sheet implements SheetInterface
     }
 
     /**
-     * @api
      * @return string Name of the sheet
      */
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return bool Whether the sheet was defined as active
+     */
+    public function isActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @return bool Whether the sheet is visible
+     */
+    public function isVisible()
+    {
+        return $this->isVisible;
     }
 }

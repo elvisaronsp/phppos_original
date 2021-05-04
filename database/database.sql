@@ -1,9 +1,9 @@
 SET SESSION sql_mode="";SET FOREIGN_KEY_CHECKS=0;SET SESSION innodb_strict_mode=OFF;
--- MySQL dump 10.13  Distrib 5.7.30, for osx10.12 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.32, for osx10.12 (x86_64)
 --
 -- Host: localhost    Database: pos
 -- ------------------------------------------------------
--- Server version	5.7.30
+-- Server version	5.7.32
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -91,7 +91,7 @@ CREATE TABLE `phppos_app_config` (
 
 LOCK TABLES `phppos_app_config` WRITE;
 /*!40000 ALTER TABLE `phppos_app_config` DISABLE KEYS */;
-INSERT INTO `phppos_app_config` VALUES ('additional_payment_types',''),('always_minimize_menu','1'),('always_print_duplicate_receipt_all','0'),('always_show_item_grid','0'),('always_use_average_cost_method','0'),('announcement_special',''),('auto_focus_on_item_after_sale_and_receiving','0'),('automatically_email_receipt','0'),('automatically_print_duplicate_receipt_for_cc_transactions','0'),('automatically_show_comments_on_receipt','0'),('averaging_method','moving_average'),('barcode_price_include_tax','0'),('calculate_average_cost_price_from_receivings','0'),('calculate_profit_for_giftcard_when',''),('capture_sig_for_all_payments','0'),('change_sale_date_for_new_sale','0'),('change_sale_date_when_completing_suspended_sale','0'),('change_sale_date_when_suspending','0'),('charge_tax_on_recv','0'),('commission_default_rate','0'),('commission_percent_type','selling_price'),('company','PHP Point Of Sale, LLC'),('confirm_error_adding_item','0'),('crlf','\r\n'),('currency_code',''),('currency_symbol','$'),('currency_symbol_location','before'),('customers_store_accounts','0'),('date_format','middle_endian'),('decimal_point','.'),('default_new_items_to_service','0'),('default_payment_type','Cash'),('default_reorder_level_when_creating_items',''),('default_sales_person','logged_in_employee'),('default_tax_1_name','Sales Tax'),('default_tax_1_rate',''),('default_tax_2_cumulative','0'),('default_tax_2_name','Sales Tax 2'),('default_tax_2_rate',''),('default_tax_3_name',''),('default_tax_3_rate',''),('default_tax_4_name',''),('default_tax_4_rate',''),('default_tax_5_name',''),('default_tax_5_rate',''),('default_tax_rate','8'),('default_tier_fixed_type_for_excel_import','fixed_amount'),('default_tier_percent_type_for_excel_import','percent_off'),('default_type_for_grid','categories'),('deleted_payment_types',''),('disable_confirmation_sale','0'),('disable_giftcard_detection','0'),('disable_price_rules_dialog','0'),('disable_quick_complete_sale','0'),('disable_sale_notifications','0'),('disable_store_account_when_over_credit_limit','0'),('disable_test_mode','0'),('discount_percent_earned','0'),('do_not_allow_below_cost','0'),('do_not_allow_out_of_stock_items_to_be_sold','0'),('do_not_force_http','0'),('do_not_group_same_items','0'),('do_not_show_closing','0'),('do_not_tax_service_items_for_deliveries','0'),('ecom_store_location','1'),('ecommerce_cron_sync_operations','a:13:{i:0;s:22:\"sync_inventory_changes\";i:1;s:33:\"import_ecommerce_tags_into_phppos\";i:2;s:39:\"import_ecommerce_categories_into_phppos\";i:3;s:39:\"import_ecommerce_attributes_into_phppos\";i:4;s:30:\"import_tax_classes_into_phppos\";i:5;s:35:\"import_shipping_classes_into_phppos\";i:6;s:34:\"import_ecommerce_items_into_phppos\";i:7;s:35:\"import_ecommerce_orders_into_phppos\";i:8;s:31:\"export_phppos_tags_to_ecommerce\";i:9;s:37:\"export_phppos_categories_to_ecommerce\";i:10;s:37:\"export_phppos_attributes_to_ecommerce\";i:11;s:30:\"export_tax_classes_into_phppos\";i:12;s:32:\"export_phppos_items_to_ecommerce\";}'),('ecommerce_platform',''),('edit_item_price_if_zero_after_adding','0'),('email_charset',''),('email_provider','Use System Default'),('emailed_receipt_subject',''),('enable_customer_loyalty_system','0'),('enable_ebt_payments','0'),('enable_markup_calculator','0'),('enable_quick_edit','0'),('enable_scale','0'),('enable_sounds','0'),('enable_wic','0'),('enhanced_search_method','0'),('fast_user_switching','0'),('force_https','0'),('group_all_taxes_on_receipt','0'),('hide_barcode_on_sales_and_recv_receipt','0'),('hide_customer_recent_sales','0'),('hide_desc_on_receipt','0'),('hide_layaways_sales_in_reports','0'),('hide_name_on_barcodes','0'),('hide_out_of_stock_grid','0'),('hide_points_on_receipt','0'),('hide_price_on_barcodes','0'),('hide_sales_to_discount_on_receipt','0'),('hide_signature','0'),('hide_size_field','1'),('hide_store_account_balance_on_receipt','0'),('hide_store_account_payments_from_report_totals','0'),('hide_store_account_payments_in_reports','0'),('hide_suspended_recv_in_reports','0'),('hide_test_mode_home','0'),('highlight_low_inventory_items_in_items_module','0'),('id_to_show_on_barcode','id'),('id_to_show_on_sale_interface','number'),('include_child_categories_when_searching_or_reporting','0'),('indicate_taxable_on_receipt','0'),('item_id_auto_increment','1'),('item_kit_id_auto_increment','1'),('item_lookup_order','a:6:{i:0;s:7:\"item_id\";i:1;s:11:\"item_number\";i:2;s:10:\"product_id\";i:3;s:23:\"additional_item_numbers\";i:4;s:14:\"serial_numbers\";i:5;s:26:\"item_variation_item_number\";}'),('items_per_search_suggestions','20'),('language','english'),('legacy_detailed_report_export','0'),('limit_manual_price_adj','0'),('lock_prices_suspended_sales','0'),('logout_on_clock_out','0'),('loyalty_option','simple'),('loyalty_points_without_tax','0'),('mailing_labels_type','pdf'),('new_items_are_ecommerce_by_default','1'),('newline','\r\n'),('number_of_decimals',''),('number_of_decimals_for_quantity_on_receipt',''),('number_of_items_in_grid','14'),('number_of_items_per_page','20'),('number_of_recent_sales','10'),('number_of_sales_for_discount',''),('online_price_tier','0'),('override_receipt_title',''),('override_tier_name',''),('overwrite_existing_items_on_excel_import','0'),('past_inventory_date','2020-11-27'),('paypal_me',''),('phppos_session_expiration','0'),('point_value',''),('prices_include_tax','0'),('print_after_receiving','0'),('print_after_sale','0'),('prompt_for_ccv_swipe','0'),('prompt_to_use_points','0'),('protocol',''),('qb_sync_operations','a:1:{i:0;s:33:\"export_journalentry_to_quickbooks\";}'),('receipt_text_size','small'),('receiving_id_auto_increment','1'),('redirect_to_sale_or_recv_screen_after_printing_receipt','0'),('remove_commission_from_profit_in_reports','0'),('remove_customer_company_from_receipt','0'),('remove_customer_contact_info_from_receipt','0'),('remove_customer_name_from_receipt','0'),('remove_employee_from_receipt','0'),('remove_points_from_profit','0'),('report_sort_order','asc'),('require_customer_for_sale','0'),('require_customer_for_suspended_sale','0'),('require_employee_login_before_each_sale','0'),('reset_location_when_switching_employee','0'),('return_policy','Change return policy'),('round_cash_on_sales','0'),('round_tier_prices_to_2_decimals','0'),('sale_id_auto_increment','1'),('sale_prefix','POS'),('scale_divide_by','100'),('scale_format','scale_1'),('select_sales_person_during_sale','0'),('show_barcode_company_name','1'),('show_clock_on_header','0'),('show_item_id_on_receipt','0'),('show_language_switcher','0'),('show_orig_price_if_marked_down_on_receipt','0'),('show_receipt_after_suspending_sale','0'),('shown_setup_wizard','0'),('smtp_crypto',''),('smtp_host',''),('smtp_pass',''),('smtp_port',''),('smtp_timeout',''),('smtp_user',''),('speed_up_search_queries','0'),('spend_to_point_ratio',''),('spreadsheet_format','XLSX'),('store_account_statement_message',''),('store_closing_time',''),('store_opening_time',''),('suppliers_store_accounts','0'),('supports_full_text','1'),('tax_class_id','1'),('test_mode','0'),('thousands_separator',','),('time_format','12_hour'),('timeclock','0'),('track_cash','0'),('user_configured_layaway_name',''),('version','18.0'),('virtual_keyboard',''),('website',''),('wide_printer_receipt_format','0'),('woo_api_key',''),('woo_api_secret',''),('woo_api_url',''),('woo_sku_sync_field','item_number'),('woo_version','3.0.0');
+INSERT INTO `phppos_app_config` VALUES ('additional_payment_types',''),('always_minimize_menu','1'),('always_print_duplicate_receipt_all','0'),('always_show_item_grid','0'),('always_use_average_cost_method','0'),('announcement_special',''),('auto_focus_on_item_after_sale_and_receiving','0'),('automatically_email_receipt','0'),('automatically_print_duplicate_receipt_for_cc_transactions','0'),('automatically_show_comments_on_receipt','0'),('averaging_method','moving_average'),('barcode_price_include_tax','0'),('calculate_average_cost_price_from_receivings','0'),('calculate_profit_for_giftcard_when',''),('capture_sig_for_all_payments','0'),('change_sale_date_for_new_sale','0'),('change_sale_date_when_completing_suspended_sale','0'),('change_sale_date_when_suspending','0'),('charge_tax_on_recv','0'),('commission_default_rate','0'),('commission_percent_type','selling_price'),('company','PHP Point Of Sale, LLC'),('confirm_error_adding_item','0'),('crlf','\r\n'),('currency_code',''),('currency_symbol','$'),('currency_symbol_location','before'),('customers_store_accounts','0'),('date_format','middle_endian'),('decimal_point','.'),('default_new_items_to_service','0'),('default_payment_type','Cash'),('default_reorder_level_when_creating_items',''),('default_sales_person','logged_in_employee'),('default_tax_1_name','Sales Tax'),('default_tax_1_rate',''),('default_tax_2_cumulative','0'),('default_tax_2_name','Sales Tax 2'),('default_tax_2_rate',''),('default_tax_3_name',''),('default_tax_3_rate',''),('default_tax_4_name',''),('default_tax_4_rate',''),('default_tax_5_name',''),('default_tax_5_rate',''),('default_tax_rate','8'),('default_tier_fixed_type_for_excel_import','fixed_amount'),('default_tier_percent_type_for_excel_import','percent_off'),('default_type_for_grid','categories'),('deleted_payment_types',''),('disable_confirmation_sale','0'),('disable_giftcard_detection','0'),('disable_price_rules_dialog','0'),('disable_quick_complete_sale','0'),('disable_sale_notifications','0'),('disable_store_account_when_over_credit_limit','0'),('disable_test_mode','0'),('discount_percent_earned','0'),('do_not_allow_below_cost','0'),('do_not_allow_out_of_stock_items_to_be_sold','0'),('do_not_force_http','0'),('do_not_group_same_items','0'),('do_not_show_closing','0'),('do_not_tax_service_items_for_deliveries','0'),('ecom_store_location','1'),('ecommerce_cron_sync_operations','a:13:{i:0;s:22:\"sync_inventory_changes\";i:1;s:33:\"import_ecommerce_tags_into_phppos\";i:2;s:39:\"import_ecommerce_categories_into_phppos\";i:3;s:39:\"import_ecommerce_attributes_into_phppos\";i:4;s:30:\"import_tax_classes_into_phppos\";i:5;s:35:\"import_shipping_classes_into_phppos\";i:6;s:34:\"import_ecommerce_items_into_phppos\";i:7;s:35:\"import_ecommerce_orders_into_phppos\";i:8;s:31:\"export_phppos_tags_to_ecommerce\";i:9;s:37:\"export_phppos_categories_to_ecommerce\";i:10;s:37:\"export_phppos_attributes_to_ecommerce\";i:11;s:30:\"export_tax_classes_into_phppos\";i:12;s:32:\"export_phppos_items_to_ecommerce\";}'),('ecommerce_platform',''),('edit_item_price_if_zero_after_adding','0'),('email_charset',''),('email_provider','Use System Default'),('emailed_receipt_subject',''),('enable_customer_loyalty_system','0'),('enable_ebt_payments','0'),('enable_markup_calculator','0'),('enable_quick_edit','0'),('enable_scale','0'),('enable_sounds','0'),('enable_wic','0'),('enhanced_search_method','0'),('fast_user_switching','0'),('force_https','0'),('group_all_taxes_on_receipt','0'),('hide_barcode_on_sales_and_recv_receipt','0'),('hide_customer_recent_sales','0'),('hide_desc_on_receipt','0'),('hide_layaways_sales_in_reports','0'),('hide_name_on_barcodes','0'),('hide_out_of_stock_grid','0'),('hide_points_on_receipt','0'),('hide_price_on_barcodes','0'),('hide_sales_to_discount_on_receipt','0'),('hide_signature','0'),('hide_size_field','1'),('hide_store_account_balance_on_receipt','0'),('hide_store_account_payments_from_report_totals','0'),('hide_store_account_payments_in_reports','0'),('hide_suspended_recv_in_reports','0'),('hide_test_mode_home','0'),('highlight_low_inventory_items_in_items_module','0'),('id_to_show_on_barcode','id'),('id_to_show_on_sale_interface','number'),('include_child_categories_when_searching_or_reporting','0'),('indicate_taxable_on_receipt','0'),('item_id_auto_increment','1'),('item_kit_id_auto_increment','1'),('item_lookup_order','a:6:{i:0;s:7:\"item_id\";i:1;s:11:\"item_number\";i:2;s:10:\"product_id\";i:3;s:23:\"additional_item_numbers\";i:4;s:14:\"serial_numbers\";i:5;s:26:\"item_variation_item_number\";}'),('items_per_search_suggestions','20'),('language','english'),('legacy_detailed_report_export','0'),('limit_manual_price_adj','0'),('lock_prices_suspended_sales','0'),('logout_on_clock_out','0'),('loyalty_option','simple'),('loyalty_points_without_tax','0'),('mailing_labels_type','pdf'),('new_items_are_ecommerce_by_default','1'),('newline','\r\n'),('number_of_decimals',''),('number_of_decimals_for_quantity_on_receipt',''),('number_of_items_in_grid','14'),('number_of_items_per_page','20'),('number_of_recent_sales','10'),('number_of_sales_for_discount',''),('online_price_tier','0'),('override_receipt_title',''),('override_tier_name',''),('overwrite_existing_items_on_excel_import','0'),('past_inventory_date','2021-03-11'),('paypal_me',''),('phppos_session_expiration','0'),('point_value',''),('prices_include_tax','0'),('print_after_receiving','0'),('print_after_sale','0'),('prompt_for_ccv_swipe','0'),('prompt_to_use_points','0'),('protocol',''),('qb_sync_operations','a:1:{i:0;s:33:\"export_journalentry_to_quickbooks\";}'),('receipt_text_size','small'),('receiving_id_auto_increment','1'),('redirect_to_sale_or_recv_screen_after_printing_receipt','0'),('remove_commission_from_profit_in_reports','0'),('remove_customer_company_from_receipt','0'),('remove_customer_contact_info_from_receipt','0'),('remove_customer_name_from_receipt','0'),('remove_employee_from_receipt','0'),('remove_points_from_profit','0'),('report_sort_order','asc'),('require_customer_for_sale','0'),('require_customer_for_suspended_sale','0'),('require_employee_login_before_each_sale','0'),('reset_location_when_switching_employee','0'),('return_policy','Change return policy'),('round_cash_on_sales','0'),('round_tier_prices_to_2_decimals','0'),('sale_id_auto_increment','1'),('sale_prefix','POS'),('scale_divide_by','100'),('scale_format','scale_1'),('select_sales_person_during_sale','0'),('show_barcode_company_name','1'),('show_clock_on_header','0'),('show_item_id_on_receipt','0'),('show_language_switcher','0'),('show_orig_price_if_marked_down_on_receipt','0'),('show_receipt_after_suspending_sale','0'),('shown_setup_wizard','0'),('sku_sync_field','item_number'),('smtp_crypto',''),('smtp_host',''),('smtp_pass',''),('smtp_port',''),('smtp_timeout',''),('smtp_user',''),('speed_up_search_queries','0'),('spend_to_point_ratio',''),('spreadsheet_format','XLSX'),('store_account_statement_message',''),('store_closing_time',''),('store_opening_time',''),('suppliers_store_accounts','0'),('supports_full_text','1'),('tax_class_id','1'),('test_mode','0'),('thousands_separator',','),('time_format','12_hour'),('timeclock','0'),('track_cash','0'),('user_configured_layaway_name',''),('version','18.1'),('virtual_keyboard',''),('website',''),('wide_printer_receipt_format','0'),('woo_api_key',''),('woo_api_secret',''),('woo_api_url',''),('woo_version','3.0.0');
 /*!40000 ALTER TABLE `phppos_app_config` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,7 +108,10 @@ CREATE TABLE `phppos_app_files` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `expires` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`file_id`),
-  KEY `expires` (`expires`)
+  KEY `expires` (`expires`),
+  KEY `file_name` (`file_name`),
+  KEY `timestamp` (`timestamp`),
+  KEY `filename_timestamp` (`file_name`,`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -807,7 +810,7 @@ CREATE TABLE `phppos_expenses` (
   KEY `expense_note` (`expense_note`(255)),
   CONSTRAINT `phppos_expenses_ibfk_1` FOREIGN KEY (`location_id`) REFERENCES `phppos_locations` (`location_id`),
   CONSTRAINT `phppos_expenses_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `phppos_employees` (`person_id`),
-  CONSTRAINT `phppos_expenses_ibfk_3` FOREIGN KEY (`category_id`) REFERENCES `phppos_categories` (`id`),
+  CONSTRAINT `phppos_expenses_ibfk_3` FOREIGN KEY (`category_id`) REFERENCES `phppos_expenses_categories` (`id`),
   CONSTRAINT `phppos_expenses_ibfk_4` FOREIGN KEY (`approved_employee_id`) REFERENCES `phppos_employees` (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -819,6 +822,35 @@ CREATE TABLE `phppos_expenses` (
 LOCK TABLES `phppos_expenses` WRITE;
 /*!40000 ALTER TABLE `phppos_expenses` DISABLE KEYS */;
 /*!40000 ALTER TABLE `phppos_expenses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_expenses_categories`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_expenses_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  `parent_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `deleted` (`deleted`),
+  KEY `phppos_expenses_categories_ibfk_1` (`parent_id`),
+  KEY `name` (`name`),
+  CONSTRAINT `phppos_expenses_categories_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `phppos_expenses_categories` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_expenses_categories`
+--
+
+LOCK TABLES `phppos_expenses_categories` WRITE;
+/*!40000 ALTER TABLE `phppos_expenses_categories` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phppos_expenses_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1416,6 +1448,34 @@ LOCK TABLES `phppos_item_kits_pricing_history` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `phppos_item_kits_secondary_categories`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_item_kits_secondary_categories` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `item_kit_id` int(10) NOT NULL,
+  `category_id` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `item_kit_category` (`item_kit_id`,`category_id`),
+  KEY `phppos_item_kits_secondary_categories_ibfk_1` (`item_kit_id`),
+  KEY `phppos_item_kits_secondary_categories_ibfk_2` (`category_id`),
+  CONSTRAINT `phppos_item_kits_secondary_categories_ibfk_1` FOREIGN KEY (`item_kit_id`) REFERENCES `phppos_item_kits` (`item_kit_id`),
+  CONSTRAINT `phppos_item_kits_secondary_categories_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `phppos_categories` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_item_kits_secondary_categories`
+--
+
+LOCK TABLES `phppos_item_kits_secondary_categories` WRITE;
+/*!40000 ALTER TABLE `phppos_item_kits_secondary_categories` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phppos_item_kits_secondary_categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `phppos_item_kits_tags`
 --
 
@@ -1545,10 +1605,12 @@ CREATE TABLE `phppos_item_variations` (
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ecommerce_last_modified` timestamp NULL DEFAULT NULL,
   `is_ecommerce` int(1) NOT NULL DEFAULT '1',
+  `ecommerce_inventory_item_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `item_number` (`item_number`),
   KEY `phppos_item_variations_ibfk_1` (`item_id`),
   KEY `phppos_item_variations_ibfk_2` (`ecommerce_variation_id`),
+  KEY `ecommerce_inventory_item_id` (`ecommerce_inventory_item_id`),
   CONSTRAINT `phppos_item_variations_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1642,6 +1704,8 @@ CREATE TABLE `phppos_items` (
   `tags` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
   `is_favorite` int(1) DEFAULT '0',
   `loyalty_multiplier` decimal(23,10) DEFAULT NULL,
+  `ecommerce_inventory_item_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `weight_unit` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`item_id`),
   UNIQUE KEY `item_number` (`item_number`),
   UNIQUE KEY `product_id` (`product_id`),
@@ -1676,6 +1740,7 @@ CREATE TABLE `phppos_items` (
   KEY `tags` (`tags`),
   KEY `is_favorite_index` (`is_favorite`),
   KEY `ecommerce_product_id` (`ecommerce_product_id`),
+  KEY `ecommerce_inventory_item_id` (`ecommerce_inventory_item_id`),
   CONSTRAINT `phppos_items_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `phppos_suppliers` (`person_id`),
   CONSTRAINT `phppos_items_ibfk_3` FOREIGN KEY (`category_id`) REFERENCES `phppos_categories` (`id`),
   CONSTRAINT `phppos_items_ibfk_4` FOREIGN KEY (`manufacturer_id`) REFERENCES `phppos_manufacturers` (`id`),
@@ -1782,6 +1847,34 @@ CREATE TABLE `phppos_items_quantity_units` (
 LOCK TABLES `phppos_items_quantity_units` WRITE;
 /*!40000 ALTER TABLE `phppos_items_quantity_units` DISABLE KEYS */;
 /*!40000 ALTER TABLE `phppos_items_quantity_units` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_items_secondary_categories`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_items_secondary_categories` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `item_id` int(10) NOT NULL,
+  `category_id` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `item_category` (`item_id`,`category_id`),
+  KEY `phppos_items_secondary_categories_ibfk_1` (`item_id`),
+  KEY `phppos_items_secondary_categories_ibfk_2` (`category_id`),
+  CONSTRAINT `phppos_items_secondary_categories_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`),
+  CONSTRAINT `phppos_items_secondary_categories_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `phppos_categories` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_items_secondary_categories`
+--
+
+LOCK TABLES `phppos_items_secondary_categories` WRITE;
+/*!40000 ALTER TABLE `phppos_items_secondary_categories` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phppos_items_secondary_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -2252,6 +2345,8 @@ CREATE TABLE `phppos_locations` (
   `twilio_sms_from` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `auto_reports_email` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `auto_reports_email_time` time DEFAULT NULL,
+  `auto_reports_day` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'previous_day',
+  `disable_confirmation_option_for_emv_credit_card` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`location_id`),
   KEY `deleted` (`deleted`),
   KEY `phppos_locations_ibfk_1` (`company_logo`),
@@ -2271,7 +2366,7 @@ CREATE TABLE `phppos_locations` (
 
 LOCK TABLES `phppos_locations` WRITE;
 /*!40000 ALTER TABLE `phppos_locations` DISABLE KEYS */;
-INSERT INTO `phppos_locations` VALUES (1,'Default',NULL,NULL,NULL,'123 Nowhere street','555-555-5555','','no-reply@phppointofsale.com',NULL,NULL,NULL,NULL,'0','','America/New_York','','0',NULL,'','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'','','','','0','','','','','','',0,'','',NULL,1,0,'USD','','100',NULL,NULL,0,NULL,NULL,'',NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,'',NULL);
+INSERT INTO `phppos_locations` VALUES (1,'Default',NULL,NULL,NULL,'123 Nowhere street','555-555-5555','','no-reply@phppointofsale.com',NULL,NULL,NULL,NULL,'0','','America/New_York','','0',NULL,'','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'','','','','0','','','','','','',0,'','',NULL,1,0,'USD','','100',NULL,NULL,0,NULL,NULL,'',NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,'',NULL,'previous_day',0);
 /*!40000 ALTER TABLE `phppos_locations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2404,7 +2499,7 @@ CREATE TABLE `phppos_migrations` (
 
 LOCK TABLES `phppos_migrations` WRITE;
 /*!40000 ALTER TABLE `phppos_migrations` DISABLE KEYS */;
-INSERT INTO `phppos_migrations` VALUES (20201127105123);
+INSERT INTO `phppos_migrations` VALUES (20210210113502);
 /*!40000 ALTER TABLE `phppos_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2488,7 +2583,7 @@ CREATE TABLE `phppos_modules` (
 
 LOCK TABLES `phppos_modules` WRITE;
 /*!40000 ALTER TABLE `phppos_modules` DISABLE KEYS */;
-INSERT INTO `phppos_modules` VALUES ('module_appointments','module_appointments_desc',75,'ti-calendar','appointments'),('module_config','module_config_desc',100,'icon ti-settings','config'),('module_customers','module_customers_desc',10,'icon ti-user','customers'),('module_deliveries','module_deliveries_desc',71,'ion-android-car','deliveries'),('module_employees','module_employees_desc',80,'icon ti-id-badge','employees'),('module_expenses','module_expenses_desc',75,'icon ti-money','expenses'),('module_giftcards','module_giftcards_desc',90,'icon ti-credit-card','giftcards'),('module_item_kits','module_item_kits_desc',30,'icon ti-harddrives','item_kits'),('module_items','module_items_desc',20,'icon ti-harddrive','items'),('module_locations','module_locations_desc',110,'icon ti-home','locations'),('module_messages','module_messages_desc',120,'icon ti-email','messages'),('module_price_rules','module_item_price_rules_desc',35,'ion-ios-pricetags-outline','price_rules'),('module_receivings','module_receivings_desc',60,'icon ti-cloud-down','receivings'),('module_reports','module_reports_desc',50,'icon ti-bar-chart','reports'),('module_sales','module_sales_desc',70,'icon ti-shopping-cart','sales'),('module_suppliers','module_suppliers_desc',40,'icon ti-download','suppliers');
+INSERT INTO `phppos_modules` VALUES ('module_appointments','module_appointments_desc',75,'ti-calendar','appointments'),('module_config','module_config_desc',100,'icon ti-settings','config'),('module_customers','module_customers_desc',10,'icon ti-user','customers'),('module_deliveries','module_deliveries_desc',71,'ion-android-car','deliveries'),('module_employees','module_employees_desc',80,'icon ti-id-badge','employees'),('module_expenses','module_expenses_desc',75,'icon ti-money','expenses'),('module_giftcards','module_giftcards_desc',90,'icon ti-credit-card','giftcards'),('module_item_kits','module_item_kits_desc',30,'icon ti-harddrives','item_kits'),('module_items','module_items_desc',20,'icon ti-harddrive','items'),('module_locations','module_locations_desc',110,'icon ti-home','locations'),('module_messages','module_messages_desc',120,'icon ti-email','messages'),('module_price_rules','module_item_price_rules_desc',35,'ion-ios-pricetags-outline','price_rules'),('module_receivings','module_receivings_desc',60,'icon ti-cloud-down','receivings'),('module_reports','module_reports_desc',50,'icon ti-bar-chart','reports'),('module_sales','module_sales_desc',70,'icon ti-shopping-cart','sales'),('module_suppliers','module_suppliers_desc',40,'icon ti-download','suppliers'),('module_work_orders','module_work_orders_desc',71,'ion-hammer','work_orders');
 /*!40000 ALTER TABLE `phppos_modules` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2515,7 +2610,7 @@ CREATE TABLE `phppos_modules_actions` (
 
 LOCK TABLES `phppos_modules_actions` WRITE;
 /*!40000 ALTER TABLE `phppos_modules_actions` DISABLE KEYS */;
-INSERT INTO `phppos_modules_actions` VALUES ('add','appointments','appointments_add',240),('add_update','customers','module_action_add_update',1),('add_update','deliveries','deliveries_add_update',240),('add_update','employees','module_action_add_update',130),('add_update','expenses','module_expenses_add_update',315),('add_update','giftcards','module_action_add_update',200),('add_update','item_kits','module_action_add_update',70),('add_update','items','module_action_add_update',40),('add_update','locations','module_action_add_update',240),('add_update','price_rules','module_action_add_update',400),('add_update','suppliers','module_action_add_update',100),('allow_customer_search_suggestions_for_sales','sales','sales_allow_customer_search_suggestions_for_sales',302),('allow_item_search_suggestions_for_receivings','receivings','receivings_allow_item_search_suggestions_for_receivings',301),('allow_item_search_suggestions_for_sales','sales','sales_allow_item_search_suggestions_for_sales',300),('allow_supplier_search_suggestions_for_suppliers','receivings','receivings_allow_supplier_search_suggestions_for_suppliers',303),('assign_all_locations','employees','module_action_assign_all_locations',151),('can_edit_inventory_comment','items','items_can_edit_inventory_comment',500),('can_lookup_receipt','sales','sales_can_lookup_receipt',503),('change_sale_date','sales','sales_change_sale_date',184),('complete_sale','sales','sales_complete_sale',184),('complete_transfer','receivings','receivings_complete_transfer',184),('count_inventory','items','items_count_inventory',65),('delete','appointments','appointments_delete',250),('delete','customers','module_action_delete',20),('delete','deliveries','deliveries_delete',250),('delete','employees','module_action_delete',140),('delete','expenses','module_expenses_delete',330),('delete','giftcards','module_action_delete',210),('delete','item_kits','module_action_delete',80),('delete','items','module_action_delete',50),('delete','locations','module_action_delete',250),('delete','price_rules','module_action_delete',405),('delete','suppliers','module_action_delete',110),('delete_receiving','receivings','module_action_delete_receiving',306),('delete_register_log','reports','common_delete_register_log',232),('delete_sale','sales','module_action_delete_sale',230),('delete_suspended_sale','sales','module_action_delete_suspended_sale',181),('delete_taxes','receivings','module_action_delete_taxes',300),('delete_taxes','sales','module_action_delete_taxes',182),('edit','appointments','appointments_edit',245),('edit','deliveries','deliveries_edit',245),('edit_customer_points','customers','module_edit_customer_points',35),('edit_giftcard_value','giftcards','module_edit_giftcard_value',205),('edit_prices','item_kits','common_edit_prices',502),('edit_prices','items','common_edit_prices',501),('edit_profile','employees','common_edit_profile',155),('edit_quantity','items','items_edit_quantity',62),('edit_receiving','receivings','module_action_edit_receiving',303),('edit_register_log','reports','common_edit_register_log',231),('edit_sale','sales','module_edit_sale',190),('edit_sale_cost_price','sales','module_edit_sale_cost_price',175),('edit_sale_price','sales','module_edit_sale_price',170),('edit_store_account_balance','customers','customers_edit_store_account_balance',31),('edit_store_account_balance','suppliers','suppliers_edit_store_account_balance',130),('edit_suspended_sale','sales','sales_edit_suspended_sale',192),('edit_taxes','receivings','module_edit_taxes',304),('edit_taxes','sales','module_edit_taxes',191),('edit_tier','customers','customers_edit_tier',45),('excel_export','customers','common_excel_export',40),('excel_export','employees','common_excel_export',160),('excel_export','giftcards','common_excel_export',225),('excel_export','item_kits','common_excel_export',95),('excel_export','items','common_excel_export',80),('excel_export','suppliers','common_excel_export',135),('give_discount','sales','module_give_discount',180),('manage_categories','items','items_manage_categories',70),('manage_manufacturers','items','items_manage_manufacturers',76),('manage_tags','items','items_manage_tags',75),('process_returns','sales','config_process_returns',184),('receive_store_account_payment','receivings','common_receive_store_account_payment',260),('receive_store_account_payment','sales','common_receive_store_account_payment',255),('search','appointments','appointments_search',255),('search','customers','module_action_search_customers',30),('search','deliveries','deliveries_search',255),('search','employees','module_action_search_employees',150),('search','expenses','module_expenses_search',310),('search','giftcards','module_action_search_giftcards',220),('search','item_kits','module_action_search_item_kits',90),('search','items','module_action_search_items',60),('search','locations','module_action_search_locations',260),('search','price_rules','module_action_search_price_rules',415),('search','sales','module_action_search_sales',235),('search','suppliers','module_action_search_suppliers',120),('see_cost_price','item_kits','module_see_cost_price',91),('see_cost_price','items','module_see_cost_price',61),('see_count_when_count_inventory','items','items_see_count_when_count_inventory',66),('send_message','messages','employees_send_message',350),('send_transfer','receivings','receivings_send_transfer',185),('show_cost_price','reports','reports_show_cost_price',290),('show_profit','reports','reports_show_profit',280),('suspend_sale','sales','sales_suspend_sale',183),('view_all_employee_commissions','reports','reports_view_all_employee_commissions',107),('view_appointments','reports','reports_appointments',95),('view_categories','reports','reports_categories',100),('view_closeout','reports','reports_closeout',105),('view_commissions','reports','reports_commission',106),('view_customers','reports','reports_customers',120),('view_dashboard_stats','reports','reports_view_dashboard_stats',300),('view_deleted_sales','reports','reports_deleted_sales',130),('view_deliveries','reports','reports_deliveries',135),('view_discounts','reports','reports_discounts',140),('view_employees','reports','reports_employees',150),('view_expenses','reports','module_expenses_report',155),('view_giftcards','reports','reports_giftcards',160),('view_inventory_at_all_locations','items','common_view_inventory_at_all_locations',268),('view_inventory_at_all_locations','reports','reports_view_inventory_at_all_locations',300),('view_inventory_print_list','items','common_view_inventory_print_list',267),('view_inventory_reports','reports','reports_inventory_reports',170),('view_item_kits','reports','module_item_kits',180),('view_items','reports','reports_items',190),('view_manufacturers','reports','reports_manufacturers',195),('view_payments','reports','reports_payments',200),('view_price_rules','reports','reports_price_rules',205),('view_profit_and_loss','reports','reports_profit_and_loss',210),('view_receivings','reports','reports_receivings',220),('view_register_log','reports','reports_register_log_title',230),('view_registers','reports','reports_registers',235),('view_sales','reports','reports_sales',240),('view_sales_generator','reports','reports_sales_generator',110),('view_store_account','reports','reports_store_account',250),('view_store_account_suppliers','reports','reports_store_account_suppliers',255),('view_suppliers','reports','reports_suppliers',260),('view_suspended_sales','reports','reports_suspended_sales',261),('view_tags','reports','common_tags',264),('view_taxes','reports','reports_taxes',270),('view_tiers','reports','reports_tiers',275),('view_timeclock','reports','employees_timeclock',280);
+INSERT INTO `phppos_modules_actions` VALUES ('add','appointments','appointments_add',240),('add_update','customers','module_action_add_update',1),('add_update','deliveries','deliveries_add_update',240),('add_update','employees','module_action_add_update',130),('add_update','expenses','module_expenses_add_update',315),('add_update','giftcards','module_action_add_update',200),('add_update','item_kits','module_action_add_update',70),('add_update','items','module_action_add_update',40),('add_update','locations','module_action_add_update',240),('add_update','price_rules','module_action_add_update',400),('add_update','suppliers','module_action_add_update',100),('allow_customer_search_suggestions_for_sales','sales','sales_allow_customer_search_suggestions_for_sales',302),('allow_item_search_suggestions_for_receivings','receivings','receivings_allow_item_search_suggestions_for_receivings',301),('allow_item_search_suggestions_for_sales','sales','sales_allow_item_search_suggestions_for_sales',300),('allow_supplier_search_suggestions_for_suppliers','receivings','receivings_allow_supplier_search_suggestions_for_suppliers',303),('assign_all_locations','employees','module_action_assign_all_locations',151),('can_edit_inventory_comment','items','items_can_edit_inventory_comment',500),('can_lookup_receipt','sales','sales_can_lookup_receipt',503),('change_sale_date','sales','sales_change_sale_date',184),('complete_sale','sales','sales_complete_sale',184),('complete_transfer','receivings','receivings_complete_transfer',184),('count_inventory','items','items_count_inventory',65),('delete','appointments','appointments_delete',250),('delete','customers','module_action_delete',20),('delete','deliveries','deliveries_delete',250),('delete','employees','module_action_delete',140),('delete','expenses','module_expenses_delete',330),('delete','giftcards','module_action_delete',210),('delete','item_kits','module_action_delete',80),('delete','items','module_action_delete',50),('delete','locations','module_action_delete',250),('delete','price_rules','module_action_delete',405),('delete','suppliers','module_action_delete',110),('delete','work_orders','work_orders_delete',241),('delete_receiving','receivings','module_action_delete_receiving',306),('delete_register_log','reports','common_delete_register_log',232),('delete_sale','sales','module_action_delete_sale',230),('delete_suspended_sale','sales','module_action_delete_suspended_sale',181),('delete_taxes','receivings','module_action_delete_taxes',300),('delete_taxes','sales','module_action_delete_taxes',182),('edit','appointments','appointments_edit',245),('edit','deliveries','deliveries_edit',245),('edit','work_orders','work_orders_edit',240),('edit_customer_points','customers','module_edit_customer_points',35),('edit_giftcard_value','giftcards','module_edit_giftcard_value',205),('edit_prices','item_kits','common_edit_prices',502),('edit_prices','items','common_edit_prices',501),('edit_profile','employees','common_edit_profile',155),('edit_quantity','items','items_edit_quantity',62),('edit_receiving','receivings','module_action_edit_receiving',303),('edit_register_log','reports','common_edit_register_log',231),('edit_sale','sales','module_edit_sale',190),('edit_sale_cost_price','sales','module_edit_sale_cost_price',175),('edit_sale_price','sales','module_edit_sale_price',170),('edit_store_account_balance','customers','customers_edit_store_account_balance',31),('edit_store_account_balance','suppliers','suppliers_edit_store_account_balance',130),('edit_suspended_sale','sales','sales_edit_suspended_sale',192),('edit_taxes','receivings','module_edit_taxes',304),('edit_taxes','sales','module_edit_taxes',191),('edit_tier','customers','customers_edit_tier',45),('excel_export','customers','common_excel_export',40),('excel_export','employees','common_excel_export',160),('excel_export','giftcards','common_excel_export',225),('excel_export','item_kits','common_excel_export',95),('excel_export','items','common_excel_export',80),('excel_export','suppliers','common_excel_export',135),('give_discount','sales','module_give_discount',180),('manage_categories','expenses','items_manage_categories',316),('manage_categories','items','items_manage_categories',70),('manage_manufacturers','items','items_manage_manufacturers',76),('manage_statuses','work_orders','work_orders_manage_statuses',243),('manage_tags','items','items_manage_tags',75),('process_returns','sales','config_process_returns',184),('receive_store_account_payment','receivings','common_receive_store_account_payment',260),('receive_store_account_payment','sales','common_receive_store_account_payment',255),('search','appointments','appointments_search',255),('search','customers','module_action_search_customers',30),('search','deliveries','deliveries_search',255),('search','employees','module_action_search_employees',150),('search','expenses','module_expenses_search',310),('search','giftcards','module_action_search_giftcards',220),('search','item_kits','module_action_search_item_kits',90),('search','items','module_action_search_items',60),('search','locations','module_action_search_locations',260),('search','price_rules','module_action_search_price_rules',415),('search','sales','module_action_search_sales',235),('search','suppliers','module_action_search_suppliers',120),('search','work_orders','work_orders_search',242),('see_cost_price','item_kits','module_see_cost_price',91),('see_cost_price','items','module_see_cost_price',61),('see_count_when_count_inventory','items','items_see_count_when_count_inventory',66),('send_message','messages','employees_send_message',350),('send_transfer','receivings','receivings_send_transfer',185),('show_cost_price','reports','reports_show_cost_price',290),('show_profit','reports','reports_show_profit',280),('suspend_sale','sales','sales_suspend_sale',183),('view_all_employee_commissions','reports','reports_view_all_employee_commissions',107),('view_appointments','reports','reports_appointments',95),('view_categories','reports','reports_categories',100),('view_closeout','reports','reports_closeout',105),('view_commissions','reports','reports_commission',106),('view_customers','reports','reports_customers',120),('view_dashboard_stats','reports','reports_view_dashboard_stats',300),('view_deleted_sales','reports','reports_deleted_sales',130),('view_deliveries','reports','reports_deliveries',135),('view_discounts','reports','reports_discounts',140),('view_employees','reports','reports_employees',150),('view_expenses','reports','module_expenses_report',155),('view_giftcards','reports','reports_giftcards',160),('view_inventory_at_all_locations','items','common_view_inventory_at_all_locations',268),('view_inventory_at_all_locations','reports','reports_view_inventory_at_all_locations',300),('view_inventory_print_list','items','common_view_inventory_print_list',267),('view_inventory_reports','reports','reports_inventory_reports',170),('view_item_kits','reports','module_item_kits',180),('view_items','reports','reports_items',190),('view_manufacturers','reports','reports_manufacturers',195),('view_payments','reports','reports_payments',200),('view_price_rules','reports','reports_price_rules',205),('view_profit_and_loss','reports','reports_profit_and_loss',210),('view_receivings','reports','reports_receivings',220),('view_register_log','reports','reports_register_log_title',230),('view_registers','reports','reports_registers',235),('view_sales','reports','reports_sales',240),('view_sales_generator','reports','reports_sales_generator',110),('view_store_account','reports','reports_store_account',250),('view_store_account_suppliers','reports','reports_store_account_suppliers',255),('view_suppliers','reports','reports_suppliers',260),('view_suspended_sales','reports','reports_suspended_sales',261),('view_tags','reports','common_tags',264),('view_taxes','reports','reports_taxes',270),('view_tiers','reports','reports_tiers',275),('view_timeclock','reports','employees_timeclock',280);
 /*!40000 ALTER TABLE `phppos_modules_actions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2610,7 +2705,7 @@ CREATE TABLE `phppos_permissions` (
 
 LOCK TABLES `phppos_permissions` WRITE;
 /*!40000 ALTER TABLE `phppos_permissions` DISABLE KEYS */;
-INSERT INTO `phppos_permissions` VALUES ('appointments',1),('config',1),('customers',1),('deliveries',1),('employees',1),('expenses',1),('giftcards',1),('item_kits',1),('items',1),('locations',1),('messages',1),('price_rules',1),('receivings',1),('reports',1),('sales',1),('suppliers',1);
+INSERT INTO `phppos_permissions` VALUES ('appointments',1),('config',1),('customers',1),('deliveries',1),('employees',1),('expenses',1),('giftcards',1),('item_kits',1),('items',1),('locations',1),('messages',1),('price_rules',1),('receivings',1),('reports',1),('sales',1),('suppliers',1),('work_orders',1);
 /*!40000 ALTER TABLE `phppos_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2639,7 +2734,7 @@ CREATE TABLE `phppos_permissions_actions` (
 
 LOCK TABLES `phppos_permissions_actions` WRITE;
 /*!40000 ALTER TABLE `phppos_permissions_actions` DISABLE KEYS */;
-INSERT INTO `phppos_permissions_actions` VALUES ('appointments',1,'add'),('appointments',1,'delete'),('appointments',1,'edit'),('appointments',1,'search'),('customers',1,'add_update'),('customers',1,'delete'),('customers',1,'edit_customer_points'),('customers',1,'edit_store_account_balance'),('customers',1,'edit_tier'),('customers',1,'excel_export'),('customers',1,'search'),('deliveries',1,'add_update'),('deliveries',1,'delete'),('deliveries',1,'edit'),('deliveries',1,'search'),('employees',1,'add_update'),('employees',1,'assign_all_locations'),('employees',1,'delete'),('employees',1,'edit_profile'),('employees',1,'excel_export'),('employees',1,'search'),('expenses',1,'add_update'),('expenses',1,'delete'),('expenses',1,'search'),('giftcards',1,'add_update'),('giftcards',1,'delete'),('giftcards',1,'edit_giftcard_value'),('giftcards',1,'excel_export'),('giftcards',1,'search'),('item_kits',1,'add_update'),('item_kits',1,'delete'),('item_kits',1,'edit_prices'),('item_kits',1,'excel_export'),('item_kits',1,'search'),('item_kits',1,'see_cost_price'),('items',1,'add_update'),('items',1,'can_edit_inventory_comment'),('items',1,'count_inventory'),('items',1,'delete'),('items',1,'edit_prices'),('items',1,'edit_quantity'),('items',1,'excel_export'),('items',1,'manage_categories'),('items',1,'manage_manufacturers'),('items',1,'manage_tags'),('items',1,'search'),('items',1,'see_cost_price'),('items',1,'see_count_when_count_inventory'),('items',1,'view_inventory_at_all_locations'),('items',1,'view_inventory_print_list'),('locations',1,'add_update'),('locations',1,'delete'),('locations',1,'search'),('messages',1,'send_message'),('price_rules',1,'add_update'),('price_rules',1,'delete'),('price_rules',1,'search'),('receivings',1,'allow_item_search_suggestions_for_receivings'),('receivings',1,'allow_supplier_search_suggestions_for_suppliers'),('receivings',1,'complete_transfer'),('receivings',1,'delete_receiving'),('receivings',1,'delete_taxes'),('receivings',1,'edit_receiving'),('receivings',1,'edit_taxes'),('receivings',1,'receive_store_account_payment'),('receivings',1,'send_transfer'),('reports',1,'delete_register_log'),('reports',1,'edit_register_log'),('reports',1,'show_cost_price'),('reports',1,'show_profit'),('reports',1,'view_all_employee_commissions'),('reports',1,'view_appointments'),('reports',1,'view_categories'),('reports',1,'view_closeout'),('reports',1,'view_commissions'),('reports',1,'view_customers'),('reports',1,'view_dashboard_stats'),('reports',1,'view_deleted_sales'),('reports',1,'view_deliveries'),('reports',1,'view_discounts'),('reports',1,'view_employees'),('reports',1,'view_expenses'),('reports',1,'view_giftcards'),('reports',1,'view_inventory_at_all_locations'),('reports',1,'view_inventory_reports'),('reports',1,'view_item_kits'),('reports',1,'view_items'),('reports',1,'view_manufacturers'),('reports',1,'view_payments'),('reports',1,'view_price_rules'),('reports',1,'view_profit_and_loss'),('reports',1,'view_receivings'),('reports',1,'view_register_log'),('reports',1,'view_registers'),('reports',1,'view_sales'),('reports',1,'view_sales_generator'),('reports',1,'view_store_account'),('reports',1,'view_store_account_suppliers'),('reports',1,'view_suppliers'),('reports',1,'view_suspended_sales'),('reports',1,'view_tags'),('reports',1,'view_taxes'),('reports',1,'view_tiers'),('reports',1,'view_timeclock'),('sales',1,'allow_customer_search_suggestions_for_sales'),('sales',1,'allow_item_search_suggestions_for_sales'),('sales',1,'can_lookup_receipt'),('sales',1,'change_sale_date'),('sales',1,'complete_sale'),('sales',1,'delete_sale'),('sales',1,'delete_suspended_sale'),('sales',1,'delete_taxes'),('sales',1,'edit_sale'),('sales',1,'edit_sale_cost_price'),('sales',1,'edit_sale_price'),('sales',1,'edit_suspended_sale'),('sales',1,'edit_taxes'),('sales',1,'give_discount'),('sales',1,'process_returns'),('sales',1,'receive_store_account_payment'),('sales',1,'search'),('sales',1,'suspend_sale'),('suppliers',1,'add_update'),('suppliers',1,'delete'),('suppliers',1,'edit_store_account_balance'),('suppliers',1,'excel_export'),('suppliers',1,'search');
+INSERT INTO `phppos_permissions_actions` VALUES ('appointments',1,'add'),('appointments',1,'delete'),('appointments',1,'edit'),('appointments',1,'search'),('customers',1,'add_update'),('customers',1,'delete'),('customers',1,'edit_customer_points'),('customers',1,'edit_store_account_balance'),('customers',1,'edit_tier'),('customers',1,'excel_export'),('customers',1,'search'),('deliveries',1,'add_update'),('deliveries',1,'delete'),('deliveries',1,'edit'),('deliveries',1,'search'),('employees',1,'add_update'),('employees',1,'assign_all_locations'),('employees',1,'delete'),('employees',1,'edit_profile'),('employees',1,'excel_export'),('employees',1,'search'),('expenses',1,'add_update'),('expenses',1,'delete'),('expenses',1,'manage_categories'),('expenses',1,'search'),('giftcards',1,'add_update'),('giftcards',1,'delete'),('giftcards',1,'edit_giftcard_value'),('giftcards',1,'excel_export'),('giftcards',1,'search'),('item_kits',1,'add_update'),('item_kits',1,'delete'),('item_kits',1,'edit_prices'),('item_kits',1,'excel_export'),('item_kits',1,'search'),('item_kits',1,'see_cost_price'),('items',1,'add_update'),('items',1,'can_edit_inventory_comment'),('items',1,'count_inventory'),('items',1,'delete'),('items',1,'edit_prices'),('items',1,'edit_quantity'),('items',1,'excel_export'),('items',1,'manage_categories'),('items',1,'manage_manufacturers'),('items',1,'manage_tags'),('items',1,'search'),('items',1,'see_cost_price'),('items',1,'see_count_when_count_inventory'),('items',1,'view_inventory_at_all_locations'),('items',1,'view_inventory_print_list'),('locations',1,'add_update'),('locations',1,'delete'),('locations',1,'search'),('messages',1,'send_message'),('price_rules',1,'add_update'),('price_rules',1,'delete'),('price_rules',1,'search'),('receivings',1,'allow_item_search_suggestions_for_receivings'),('receivings',1,'allow_supplier_search_suggestions_for_suppliers'),('receivings',1,'complete_transfer'),('receivings',1,'delete_receiving'),('receivings',1,'delete_taxes'),('receivings',1,'edit_receiving'),('receivings',1,'edit_taxes'),('receivings',1,'receive_store_account_payment'),('receivings',1,'send_transfer'),('reports',1,'delete_register_log'),('reports',1,'edit_register_log'),('reports',1,'show_cost_price'),('reports',1,'show_profit'),('reports',1,'view_all_employee_commissions'),('reports',1,'view_appointments'),('reports',1,'view_categories'),('reports',1,'view_closeout'),('reports',1,'view_commissions'),('reports',1,'view_customers'),('reports',1,'view_dashboard_stats'),('reports',1,'view_deleted_sales'),('reports',1,'view_deliveries'),('reports',1,'view_discounts'),('reports',1,'view_employees'),('reports',1,'view_expenses'),('reports',1,'view_giftcards'),('reports',1,'view_inventory_at_all_locations'),('reports',1,'view_inventory_reports'),('reports',1,'view_item_kits'),('reports',1,'view_items'),('reports',1,'view_manufacturers'),('reports',1,'view_payments'),('reports',1,'view_price_rules'),('reports',1,'view_profit_and_loss'),('reports',1,'view_receivings'),('reports',1,'view_register_log'),('reports',1,'view_registers'),('reports',1,'view_sales'),('reports',1,'view_sales_generator'),('reports',1,'view_store_account'),('reports',1,'view_store_account_suppliers'),('reports',1,'view_suppliers'),('reports',1,'view_suspended_sales'),('reports',1,'view_tags'),('reports',1,'view_taxes'),('reports',1,'view_tiers'),('reports',1,'view_timeclock'),('sales',1,'allow_customer_search_suggestions_for_sales'),('sales',1,'allow_item_search_suggestions_for_sales'),('sales',1,'can_lookup_receipt'),('sales',1,'change_sale_date'),('sales',1,'complete_sale'),('sales',1,'delete_sale'),('sales',1,'delete_suspended_sale'),('sales',1,'delete_taxes'),('sales',1,'edit_sale'),('sales',1,'edit_sale_cost_price'),('sales',1,'edit_sale_price'),('sales',1,'edit_suspended_sale'),('sales',1,'edit_taxes'),('sales',1,'give_discount'),('sales',1,'process_returns'),('sales',1,'receive_store_account_payment'),('sales',1,'search'),('sales',1,'suspend_sale'),('suppliers',1,'add_update'),('suppliers',1,'delete'),('suppliers',1,'edit_store_account_balance'),('suppliers',1,'excel_export'),('suppliers',1,'search'),('work_orders',1,'delete'),('work_orders',1,'edit'),('work_orders',1,'manage_statuses'),('work_orders',1,'search');
 /*!40000 ALTER TABLE `phppos_permissions_actions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3525,6 +3620,7 @@ CREATE TABLE `phppos_sale_types` (
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `sort` int(10) NOT NULL,
   `system_sale_type` int(1) NOT NULL DEFAULT '0',
+  `remove_quantity` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -3535,7 +3631,7 @@ CREATE TABLE `phppos_sale_types` (
 
 LOCK TABLES `phppos_sale_types` WRITE;
 /*!40000 ALTER TABLE `phppos_sale_types` DISABLE KEYS */;
-INSERT INTO `phppos_sale_types` VALUES (0,'common_sale',0,1),(1,'common_layaway',0,1),(2,'common_estimate',0,1);
+INSERT INTO `phppos_sale_types` VALUES (0,'common_sale',0,1,0),(1,'common_layaway',0,1,1),(2,'common_estimate',0,1,0);
 /*!40000 ALTER TABLE `phppos_sale_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3563,7 +3659,7 @@ CREATE TABLE `phppos_sales` (
   `deleted` int(1) NOT NULL DEFAULT '0',
   `suspended` int(10) NOT NULL DEFAULT '0',
   `is_ecommerce` int(1) NOT NULL DEFAULT '0',
-  `ecommerce_order_id` int(10) DEFAULT NULL,
+  `ecommerce_order_id` bigint(20) DEFAULT NULL,
   `ecommerce_status` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `store_account_payment` int(1) NOT NULL DEFAULT '0',
   `was_layaway` int(1) NOT NULL DEFAULT '0',
@@ -3604,6 +3700,7 @@ CREATE TABLE `phppos_sales` (
   `return_sale_id` int(10) DEFAULT NULL,
   `tip` decimal(23,10) DEFAULT NULL,
   `total_quantity_received` decimal(23,10) NOT NULL DEFAULT '0.0000000000',
+  `non_taxable` decimal(23,10) NOT NULL DEFAULT '0.0000000000',
   PRIMARY KEY (`sale_id`),
   KEY `customer_id` (`customer_id`),
   KEY `employee_id` (`employee_id`),
@@ -3926,6 +4023,43 @@ LOCK TABLES `phppos_sales_items_modifier_items` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `phppos_sales_items_notes`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_items_notes` (
+  `note_id` int(11) NOT NULL AUTO_INCREMENT,
+  `note_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `sale_id` int(10) NOT NULL,
+  `item_id` int(10) NOT NULL,
+  `line` int(10) NOT NULL DEFAULT '0',
+  `item_variation_id` int(10) DEFAULT NULL,
+  `note` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `detailed_notes` text COLLATE utf8_unicode_ci,
+  `internal` tinyint(10) DEFAULT NULL,
+  `employee_id` int(10) NOT NULL,
+  `images` text COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`note_id`),
+  KEY `phppos_sales_items_notes_ibfk_1` (`sale_id`),
+  KEY `phppos_sales_items_notes_ibfk_2` (`item_id`),
+  KEY `phppos_sales_items_notes_ibfk_3` (`employee_id`),
+  CONSTRAINT `phppos_sales_items_notes_ibfk_1` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales` (`sale_id`),
+  CONSTRAINT `phppos_sales_items_notes_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`),
+  CONSTRAINT `phppos_sales_items_notes_ibfk_3` FOREIGN KEY (`employee_id`) REFERENCES `phppos_employees` (`person_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_items_notes`
+--
+
+LOCK TABLES `phppos_sales_items_notes` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_items_notes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phppos_sales_items_notes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `phppos_sales_items_taxes`
 --
 
@@ -3998,6 +4132,63 @@ CREATE TABLE `phppos_sales_payments` (
 LOCK TABLES `phppos_sales_payments` WRITE;
 /*!40000 ALTER TABLE `phppos_sales_payments` DISABLE KEYS */;
 /*!40000 ALTER TABLE `phppos_sales_payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_work_orders`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_work_orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sale_id` int(10) NOT NULL,
+  `status` int(11) DEFAULT '1',
+  `employee_id` int(11) DEFAULT NULL,
+  `estimated_repair_date` timestamp NULL DEFAULT NULL,
+  `estimated_parts` decimal(23,10) DEFAULT NULL,
+  `estimated_labor` decimal(23,10) DEFAULT NULL,
+  `warranty` tinyint(1) DEFAULT NULL,
+  `custom_field_1_value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `custom_field_2_value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `custom_field_3_value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `custom_field_4_value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `custom_field_5_value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `custom_field_6_value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `custom_field_7_value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `custom_field_8_value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `custom_field_9_value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `custom_field_10_value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `comment` text COLLATE utf8_unicode_ci,
+  `images` text COLLATE utf8_unicode_ci,
+  `deleted` int(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `custom_field_1_value` (`custom_field_1_value`),
+  KEY `custom_field_2_value` (`custom_field_2_value`),
+  KEY `custom_field_3_value` (`custom_field_3_value`),
+  KEY `custom_field_4_value` (`custom_field_4_value`),
+  KEY `custom_field_5_value` (`custom_field_5_value`),
+  KEY `custom_field_6_value` (`custom_field_6_value`),
+  KEY `custom_field_7_value` (`custom_field_7_value`),
+  KEY `custom_field_8_value` (`custom_field_8_value`),
+  KEY `custom_field_9_value` (`custom_field_9_value`),
+  KEY `custom_field_10_value` (`custom_field_10_value`),
+  KEY `phppos_sales_work_orders_ibfk_1` (`sale_id`),
+  KEY `phppos_sales_work_orders_ibfk_2` (`employee_id`),
+  KEY `phppos_sales_work_orders_ibfk_3` (`status`),
+  CONSTRAINT `phppos_sales_work_orders_ibfk_1` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales` (`sale_id`),
+  CONSTRAINT `phppos_sales_work_orders_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `phppos_employees` (`person_id`),
+  CONSTRAINT `phppos_sales_work_orders_ibfk_3` FOREIGN KEY (`status`) REFERENCES `phppos_workorder_statuses` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_work_orders`
+--
+
+LOCK TABLES `phppos_sales_work_orders` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_work_orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phppos_sales_work_orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -4395,6 +4586,35 @@ LOCK TABLES `phppos_tax_classes_taxes` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `phppos_workorder_statuses`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_workorder_statuses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `notify_by_email` tinyint(1) DEFAULT '0',
+  `notify_by_sms` tinyint(1) DEFAULT '0',
+  `color` text,
+  `sort_order` int(11) DEFAULT '0',
+  `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_workorder_statuses`
+--
+
+LOCK TABLES `phppos_workorder_statuses` WRITE;
+/*!40000 ALTER TABLE `phppos_workorder_statuses` DISABLE KEYS */;
+INSERT INTO `phppos_workorder_statuses` VALUES (1,'lang:work_orders_new',NULL,0,0,'#4594cc',10,'2020-07-09 09:32:32'),(2,'lang:work_orders_in_progress',NULL,0,0,'#28a745',20,'2020-07-09 09:32:47'),(3,'lang:work_orders_out_for_repair',NULL,0,0,'#f7ac08',30,'2020-07-09 09:32:54'),(4,'lang:work_orders_waiting_on_customer',NULL,0,0,'#6a0dad',40,'2020-07-09 09:33:01'),(5,'lang:work_orders_repaired',NULL,0,0,'#006400',50,'2020-07-09 09:33:09'),(6,'lang:work_orders_complete',NULL,0,0,'#28a745',60,'2020-07-09 09:33:17'),(7,'lang:work_orders_cancelled',NULL,0,0,'#fb5d5d',70,'2020-07-09 09:33:34');
+/*!40000 ALTER TABLE `phppos_workorder_statuses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `phppos_zips`
 --
 
@@ -4430,7 +4650,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-27 22:16:49
+-- Dump completed on 2021-03-11  9:14:12
 REPLACE INTO `phppos_app_config` (`key`, `value`) VALUES ('supports_full_text', '0');
 /*!50604	ALTER TABLE `phppos_items` ADD FULLTEXT INDEX full_search (`name`, `item_number`, `product_id`, `description`)*/;	
 /*!50604	ALTER TABLE `phppos_items` ADD FULLTEXT INDEX name_search (`name`)*/;

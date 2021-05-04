@@ -177,6 +177,7 @@ class Detailed_suspended_sales extends Report
 					
 					$details_data_row[] = array('data'=>$drow['item_number'], 'align'=>'left');
 					$details_data_row[] = array('data'=>$drow['item_product_id'], 'align'=>'left');
+					$details_data_row[] = array('data'=>$drow['item_id'], 'align'=>'left');
 					$details_data_row[] = array('data'=>$drow['item_name'], 'align'=>'left');
 					$details_data_row[] = array('data'=>$this->Category->get_full_path($drow['category_id']), 'align'=>'left');
 					$details_data_row[] = array('data'=>$drow['size'], 'align'=>'left');
@@ -616,6 +617,7 @@ class Detailed_suspended_sales extends Report
 		$details = array();
 		$details[] = array('data'=>lang('common_item_number'), 'align'=> 'left');
 		$details[] = array('data'=>lang('common_product_id'), 'align'=> 'left');
+		$details[] = array('data'=>lang('common_item_id'), 'align'=> 'left');
 		$details[] = array('data'=>lang('reports_name'), 'align'=> 'left');
 		$details[] = array('data'=>lang('reports_category'), 'align'=> 'left');
 		$details[] = array('data'=>lang('common_size'), 'align'=> 'left');
@@ -730,6 +732,7 @@ class Detailed_suspended_sales extends Report
 				$details_data_row = array();
 				$details_data_row[] = array('data'=>$drow['item_number'], 'align'=>'left');
 				$details_data_row[] = array('data'=>$drow['item_product_id'], 'align'=>'left');
+				$details_data_row[] = array('data'=>$drow['item_id'], 'align'=>'left');
 				$details_data_row[] = array('data'=>$drow['item_name'].(isset($variation_labels[$drow['item_variation_id']]) ? ': '.$variation_labels[$drow['item_variation_id']] : ''), 'align'=>'left');
 				$details_data_row[] = array('data'=>$this->Category->get_full_path($drow['category_id']), 'align'=>'left');
 				$details_data_row[] = array('data'=>$drow['size'], 'align'=>'left');

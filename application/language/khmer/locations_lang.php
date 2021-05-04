@@ -88,4 +88,8 @@ $lang['locations_twilio_token'] = 'Twilio Token';
 $lang['locations_twilio_sms_from_number'] = 'សារអេឡិចត្រូនិច Twilio ពីលេខ';
 $lang['locations_auto_reports_email'] = 'អាស័យដ្ឋានរបាយការណ៍តាមអ៊ីមែលដោយស្វ័យប្រវត្តិ';
 $lang['locations_auto_reports_email_time'] = 'របាយការណ៍តាមអ៊ីមែលដោយស្វ័យប្រវត្តិ';
+$lang['locations_previous_day'] = 'ថ្ងៃមុន';
+$lang['locations_current_day'] = 'ថ្ងៃបច្ចុប្បន្ន';
+$lang['locations_auto_reports_day'] = 'ថ្ងៃផ្ញើអ៊ីមែលសំរាប់របាយការណ៍';
+$lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'បិទការបញ្ជាក់ចំនួនទឹកប្រាក់នៅពេលដំណើរការកាតឥណទាន';
 ?>

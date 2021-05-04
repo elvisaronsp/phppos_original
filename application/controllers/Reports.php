@@ -307,7 +307,7 @@ class Reports extends Secure_area
 			
 			$tmpData = array();
 			foreach ($field as $a => $b) {
-				$uData = explode(",",$value[$a]);
+				@$uData = explode(",",$value[$a]);
 				$tmp = $tmpID = array();
 				switch ($b) {
 					case '1': // Customer
@@ -393,7 +393,7 @@ class Reports extends Secure_area
 					break;
 					
 					default: // Custom fields
-						$tmpID[] = $value[$a];
+						@$tmpID[] = $value[$a];
 					break;
 									
 					
@@ -401,7 +401,7 @@ class Reports extends Secure_area
 				$data['prepopulate']['field'][$a][$b] = $tmp;			
 
 				// Data for sql
-				$tmpData[] = array('f' => $b, 'o' => $condition[$a], 'i' => $tmpID);
+				@$tmpData[] = array('f' => $b, 'o' => $condition[$a], 'i' => $tmpID);
 			}
 			
 			$params['matchType'] = $data['matchType'];

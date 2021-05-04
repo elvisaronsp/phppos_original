@@ -258,7 +258,7 @@ $lang['config_woo_api_key'] = 'WooCommerce API Key';
 $lang['config_email_settings_info'] = 'Email Einstellungen';
 
 $lang['config_last_sync_date'] = 'Datum der letzten Synchronisierung';
-$lang['config_sync'] = 'Sync';
+$lang['config_sync'] = 'Synchronisieren';
 $lang['config_smtp_crypto'] = 'SMTP-Verschlüsselung';
 $lang['config_email_protocol'] = 'Senden von Mail-Protokoll';
 $lang['config_smtp_host'] = 'SMTP-Server-Adresse';
@@ -411,7 +411,7 @@ $lang['config_show_barcode_company_name'] = 'Firmennamen auf Barcode anzeigen';
 $lang['config_import_ecommerce_attributes_into_phppos'] = 'Importieren von Attributen in Phppos';
 $lang['config_export_phppos_attributes_to_ecommerce'] = 'Exportieren von Attributen an E-Commerce';
 
-$lang['config_woo_sku_sync_field'] = 'SKU-Feld zum Synchronisieren mit';
+$lang['config_sku_sync_field'] = 'SKU-Feld zum Synchronisieren mit';
 
 
 
@@ -725,6 +725,38 @@ $lang['config_do_not_allow_items_to_go_out_of_stock_when_transfering'] = 'Lassen
 $lang['config_show_tags_on_fulfillment_sheet'] = 'Artikel-Tags auf Erfüllungsblatt anzeigen';
 $lang['config_automatically_sms_receipt'] = 'Automatischer SMS-Empfang';
 $lang['config_items_per_search_suggestions'] = 'Anzahl der Elemente für Suchvorschläge';
+
+$lang['config_shopify_settings_info'] = 'Shopify-Einstellungen';
+$lang['config_shopify_shop'] = 'Shopify Store URL';
+$lang['config_connect_to_shopify'] = 'Mit Shopify verbinden';
+$lang['config_connect_to_shopify_reconnect'] = 'Zum Shopify erneut verbinden';
+$lang['config_connected_to_shopify'] = 'Sie sind mit Shopify verbunden';
+$lang['config_disconnect_to_shopify'] = 'Trennen Sie die Verbindung zu Shopify';
+
 $lang['config_offline_mode'] = 'Aktivieren Sie den Offline-Modus';
 $lang['config_reset_offline_data'] = 'Offline-Daten zurücksetzen';
+
+
+
+$lang['config_remove_quantity_suspending'] = 'Menge beim Anhalten entfernen';
+$lang['config_auto_sync_offline_sales'] = 'Offline-Verkauf automatisch synchronisieren, wenn Sie wieder online sind';
+
+$lang['config_shopify_billing_terms'] = 'Abrechnung aktivieren - 14-Tage-Testversion, dann 19 USD pro Monat';
+$lang['config_shopfiy_billing_failed'] = 'Shopify-Abrechnung fehlgeschlagen';
+$lang['config_cancel_shopify'] = 'Shopify-Abrechnung abbrechen';
+$lang['config_confirm_cancel_shopify'] = 'Möchten Sie shopify wirklich stornieren?';
+$lang['config_step_1'] = 'Schritt 1';
+$lang['config_step_2'] = 'Schritt 2';
+$lang['config_step_3'] = 'Schritt 3';
+$lang['config_step_4'] = 'Schritt 4';
+$lang['config_install_shopify_app'] = 'Installieren Sie die Shopify-App';
+$lang['config_connect_billing'] = 'Abrechnung verbinden';
+$lang['config_choose_sync_options'] = 'Wählen Sie Synchronisierungsoptionen';
+$lang['config_ecommerce_sync_running'] = 'Die E-Commerce-Synchronisierung wird jetzt im Hintergrund ausgeführt. Sie können den Status in Store Config überprüfen.';
+$lang['config_show_total_on_fulfillment'] = 'Gesamtsumme auf Erfüllungsblatt anzeigen';
+$lang['config_connect_shopify_in_app_store'] = 'Sie sind nicht mit Shopify verbunden. Sie können im App Store eine Verbindung zu Shopify herstellen';
+$lang['config_override_signature_text'] = 'Signaturtext überschreiben';
+$lang['config_update_cost_price_on_transfer'] = 'Aktualisieren Sie den Selbstkostenpreis bei Überweisung';
+$lang['config_tip_preset_zero'] = 'Tipp voreingestellter Betrag von 0%';
+$lang['config_show_person_id_on_receipt'] = 'Personen-ID nach Erhalt anzeigen';
 ?>

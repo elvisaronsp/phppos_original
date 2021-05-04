@@ -396,8 +396,39 @@ $lang['migrate_ecommerce_item_id_index'] = 'Índice de ID de artículo de comerc
 $lang['migrate_add_always_sms_receipt_field_to_customers'] = 'Agregar campo de recibo Always Sms a los clientes';
 $lang['migrate_18_0_version'] = 'Versión 18.0';
 $lang['migrate_items_per_search_suggestion_store_config'] = 'Elementos por configuración de tienda de sugerencias de búsqueda';
+
 $lang['migrate_serialnumber_index'] = 'Índice de número de serie';
 $lang['migrate_create_email_field_auto_email_reports'] = 'Crear informes de correo electrónico automático de campo de correo electrónico';
 $lang['migrate_email_report_time_to_email'] = 'Tiempo de envío del informe por correo electrónico';
+
+$lang['migrate_shopify'] = 'Shopify';
+
 $lang['migrate_damaged_reason_comment_field'] = 'Campo de comentario de motivo dañado';
+$lang['migrate_18_1_version'] = '18.1 Versión';
+$lang['migrate_custom_suspended_sale_types_remove_quantity'] = 'Tipos de venta suspendida personalizados Eliminar cantidad';
+
+$lang['migrate_secondary_categories'] = 'Categorías secundarias';
+
+
+
+$lang['migrate_non_taxable_on_sales_table'] = 'No sujeto a impuestos en la tabla de ventas';
+
+
+
+
+$lang['migrate_current_or_previous_day_option_for_auto_email'] = 'Opción de día actual o anterior para correo electrónico automático';
+$lang['migrate_disable_confirmation_option_for_emv_credit_card'] = 'Desactivar la opción de confirmación para la tarjeta de crédito Emv';
+
+
+$lang['migrate_weight_units'] = 'Unidades de peso';
+
+$lang['migrate_migrate_categories_for_expenses'] = 'Migrar categorías para gastos';
+
+$lang['migrate_expenses_categories'] = 'Categorías de gastos';
+$lang['migrate_permission_for_manage_expenses_categories'] = 'Permiso para administrar categorías de gastos';
+$lang['migrate_update_foreign_key_for_expenses_categories'] = 'Actualizar clave externa para categorías de gastos';
+
+$lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'Permitir que el ID de pedido de comercio electrónico sea más grande Int';
+$lang['migrate_index_on_filename'] = 'Índice en nombre de archivo';
+$lang['migrate_work_orders'] = 'Órdenes de trabajo';
 ?>

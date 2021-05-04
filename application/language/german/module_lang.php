@@ -79,4 +79,7 @@ $lang['appointments_add'] = 'Termine hinzufügen';
 $lang['appointments_delete'] = 'Termine löschen';
 $lang['appointments_search'] = 'Termine suchen';
 $lang['appointments_edit'] = 'Termine bearbeiten';
+$lang['module_work_orders'] = 'Arbeitsanweisungen';
+$lang['module_work_orders_desc'] = 'Arbeitsanweisungen';
+$lang['module_manage_statuses'] = 'Status verwalten';
 ?>

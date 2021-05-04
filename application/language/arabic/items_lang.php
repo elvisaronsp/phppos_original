@@ -441,5 +441,10 @@ $lang['is_favorite'] = 'هو المفضل؟';
 $lang['items_item_quantity_unit_number_exists'] = 'رقم بند وحدة الكمية موجود';
 $lang['items_quantity_unit'] = 'تغير وحدة الكمية';
 $lang['items_quantity_unit_quantity'] = 'الكمية الكمية الوحدة';
+
+$lang['items_weight_unit'] = 'وحدة الوزن';
+
 $lang['items_inventory_print_list_summary'] = 'ملخص قائمة طباعة المخزون';
+
+$lang['items_search_by_barcode'] = 'البحث عن طريق الرمز الشريطي أو معرف العنصر';
 ?>
