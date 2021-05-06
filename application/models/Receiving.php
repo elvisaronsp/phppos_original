@@ -2043,6 +2043,7 @@ class Receiving extends MY_Model
 		$this->db->select('receiving_id');
 		$this->db->from('receivings');
 		$this->db->where('receiving_time BETWEEN '.$this->db->escape($start_date).' and '.$this->db->escape($end_date));
+		$this->db->where('deleted',0);
 		
 		$receiving_ids = array();
 		foreach($this->db->get()->result_array() as $row)

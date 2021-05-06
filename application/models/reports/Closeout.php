@@ -46,6 +46,11 @@ class Closeout extends Report
 			$end_date = date('Y-m-d H:i:59', strtotime(rawurldecode($this->params['end_date']).' '.$close_time));
 		}
 				
+		$hide_next_and_prev_days = isset($this->params['hide_next_and_prev_days']) ? $this->params['hide_next_and_prev_days'] : NULL;
+				
+		//This needs to be set so the payment functions get the right dates
+		$this->setParams(array('hide_next_and_prev_days' => $hide_next_and_prev_days,'start_date'=>$start_date, 'end_date' => $end_date));
+				
 		
 		$location_ids = self::get_selected_location_ids();
 		$location_ids_string = implode(',',$location_ids);
@@ -108,8 +113,8 @@ class Closeout extends Report
 		
 				
 		$model = $this;
-		$hide_next_and_prev_days = $this->params['hide_next_and_prev_days'];
-		$model->setParams(array('hide_next_and_prev_days' => $hide_next_and_prev_days,'start_date'=>$start_date, 'end_date' => $end_date, 'sales_total_for_payments' => $sales_totals_for_payments, 'receivings_total_for_payments' => $receivings_totals_for_payments,'export_excel' => $this->params['export_excel']));
+		$hide_next_and_prev_days = isset($this->params['hide_next_and_prev_days']) ? $this->params['hide_next_and_prev_days'] : NULL;
+		$model->setParams(array('hide_next_and_prev_days' => $hide_next_and_prev_days,'start_date'=>$start_date, 'end_date' => $end_date, 'sales_total_for_payments' => $sales_totals_for_payments, 'receivings_total_for_payments' => $receivings_totals_for_payments,'export_excel' => isset($this->params['export_excel']) ? $this->params['export_excel'] : FALSE));
 
 		$tabular_data = array();
 		$report_data = $model->getData();

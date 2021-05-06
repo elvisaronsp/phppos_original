@@ -24,6 +24,7 @@ $sale_custom_fields_to_display = array();
 $item_kit_custom_fields_to_display = array();
 $customer_custom_fields_to_display = array();
 $employee_custom_fields_to_display = array();
+$work_order_custom_fields_to_display  = array();
 
 
 for ($k = 1; $k <= NUMBER_OF_PEOPLE_CUSTOM_FIELDS; $k++) {
@@ -32,6 +33,7 @@ for ($k = 1; $k <= NUMBER_OF_PEOPLE_CUSTOM_FIELDS; $k++) {
     $item_kit_custom_field = $this->Item_kit->get_custom_field($k, 'show_on_receipt');
     $customer_custom_field = $this->Customer->get_custom_field($k, 'show_on_receipt');
     $employee_custom_field = $this->Employee->get_custom_field($k, 'show_on_receipt');
+  	$work_order_custom_field = $this->Work_order->get_custom_field($k,'show_on_receipt');
 
     if ($item_custom_field) {
         $item_custom_fields_to_display[] = $k;
@@ -52,6 +54,12 @@ for ($k = 1; $k <= NUMBER_OF_PEOPLE_CUSTOM_FIELDS; $k++) {
     if ($employee_custom_field) {
         $employee_custom_fields_to_display[] = $k;
     }
+	
+  	 if ($work_order_custom_field)
+  	 {
+  	 	$work_order_custom_fields_to_display[] = $k;
+  	 }
+	
 }
 
 //Check for EMV signature for non pin verified
@@ -647,6 +655,97 @@ foreach ($sale_custom_fields_to_display as $custom_field_id) {
 <?php
 }
 ?>
+
+<?php
+foreach($work_order_custom_fields_to_display as $custom_field_id)
+{
+	if($this->Work_order->get_custom_field($custom_field_id) !== false && $this->Work_order->get_custom_field($custom_field_id) !== false)
+	{
+		if ($cart->{"work_order_custom_field_${custom_field_id}_value"})
+		{
+			if ($this->Work_order->get_custom_field($custom_field_id,'type') == 'checkbox')
+			{
+				$format_function = 'boolean_as_string';
+			}
+			elseif($this->Work_order->get_custom_field($custom_field_id,'type') == 'date')
+			{
+				$format_function = 'date_as_display_date';				
+			}
+			elseif($this->Work_order->get_custom_field($custom_field_id,'type') == 'email')
+			{
+				$format_function = 'strsame';					
+			}
+			elseif($this->Work_order->get_custom_field($custom_field_id,'type') == 'url')
+			{
+				$format_function = 'strsame';					
+			}
+			elseif($this->Work_order->get_custom_field($custom_field_id,'type') == 'phone')
+			{
+				$format_function = 'strsame';					
+			}
+			elseif($this->Work_order->get_custom_field($custom_field_id,'type') == 'image')
+			{
+				$this->load->helper('url');
+				$format_function = 'file_id_to_image_thumb_right';					
+			}
+			elseif($this->Work_order->get_custom_field($custom_field_id,'type') == 'file')
+			{
+				$this->load->helper('url');
+				$format_function = 'file_id_to_download_link';					
+			}
+			else
+			{
+				$format_function = 'strsame';
+			}
+            ?>
+            <tr>
+                <td colspan="2">
+                <div class="invoice-content-heading"><?php
+                    if (!$this->Work_order->get_custom_field($custom_field_id, 'hide_field_label')) {
+                        echo $this->Work_order->get_custom_field($custom_field_id, 'name');
+                    } else {
+                        echo $format_function($cart->{"work_order_custom_field_${custom_field_id}_value"});
+                    }
+
+                    ?>
+                </div>
+                <div class="invoice-desc"><?php
+                    if (!$this->Work_order->get_custom_field($custom_field_id, 'hide_field_label')) {
+                        echo $format_function($cart->{"work_order_custom_field_${custom_field_id}_value"});
+                    }
+                    ?>
+                </div>
+                </td>
+                <td colspan="2"></td>
+            </tr>
+        <?php
+    	}
+	}
+	?>
+<?php
+}
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- end item panel -->
 
 <!-- subtotal -->

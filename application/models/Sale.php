@@ -3428,6 +3428,7 @@ class Sale extends MY_Model
 		$this->db->select('sale_id');
 		$this->db->from('sales');
 		$this->db->where('sale_time BETWEEN '.$this->db->escape($start_date).' and '.$this->db->escape($end_date));
+		$this->db->where('deleted',0);
 		if ($customer_id)
 		{
 			$this->db->where('customer_id',$customer_id);
