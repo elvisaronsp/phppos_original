@@ -1154,7 +1154,11 @@
 						?>
 					</div>
 				</li>
-
+				
+				<?php
+				if (!$this->config->item('disabled_fixed_discounts'))
+				{
+				?>
 				<li class="list-group-item global-discount-group">
 					<div class="key"><?php echo lang('sales_global_sale_discount_fixed') . ': '; ?> </div>
 					<?php
@@ -1168,7 +1172,7 @@
 
 					</div>
 				</li>
-
+				<?php } ?>
 				<?php if ($has_discount) { ?>
 
 					<li class="list-group-item global-discount-group" id="discount-reason-group">

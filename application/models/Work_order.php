@@ -736,7 +736,8 @@ class Work_order extends CI_Model
 		$register_id = $this->Register->get_first_register_id_by_location_id($location_id);
 
 		$item_info = $this->Item->get_info($item_id);
-
+		$item_location_info = $this->Item_location->get_info($item_id,$location_id);
+		
 		//insert to phppos_sales
 		$sales_data = array(
 			'customer_id'=> $customer_id,
@@ -744,7 +745,7 @@ class Work_order extends CI_Model
 			'suspended'=>2,
 			'location_id' => $location_id,
 			'register_id' =>$register_id,
-			'total_quantity_purchased' => -1,
+			'total_quantity_purchased' => 1,
 			'subtotal' => 0,
 			'total' => 0,
 			'tax' => 0,
@@ -786,7 +787,7 @@ class Work_order extends CI_Model
 			'line'=>0,
 			'description'=>$item_info->description,
 			'serialnumber'=>$serial_number,
-			'quantity_purchased'=>-1,
+			'quantity_purchased'=>1,
 			'item_cost_price' =>0,
 			'item_unit_price'=>0,
 			'commission' =>0,
@@ -797,6 +798,23 @@ class Work_order extends CI_Model
 		);
 
 		$this->db->insert('sales_items',$sales_items_data);
+		
+		$inv_data = array
+		(
+			'trans_date'=>date('Y-m-d H:i:s'),
+			'trans_items'=>$item_id,
+			'trans_user'=>$employee_id,
+			'trans_comment'=>$this->config->item('sale_prefix').' '.$sale_id,
+			'trans_inventory'=> 1,
+			'location_id'=>$location_id,
+			'trans_current_quantity' => ($item_location_info->quantity ? $item_location_info->quantity : 0) + 1,
+		);
+	
+		$this->Inventory->insert($inv_data);
+		
+		//Update stock quantity
+		$this->Item_location->save_quantity(($item_location_info->quantity ? $item_location_info->quantity : 0) + 1,$item_id);
+		
 		
 		return $work_order_id;
 	}

@@ -1053,4 +1053,5 @@ $lang['config_override_signature_text'] = 'تجاوز نص التوقيع';
 $lang['config_update_cost_price_on_transfer'] = 'تحديث سعر التكلفة عند التحويل';
 $lang['config_tip_preset_zero'] = 'مقدار الضبط المسبق لطرف 0٪';
 $lang['config_show_person_id_on_receipt'] = 'إظهار هوية الشخص عند الاستلام';
+$lang['config_disabled_fixed_discounts'] = 'تعطيل الخصومات الثابتة على واجهة المبيعات';
 ?>

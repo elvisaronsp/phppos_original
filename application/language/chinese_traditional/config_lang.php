@@ -1037,4 +1037,5 @@ $lang['config_override_signature_text'] = '覆蓋簽名文本';
 $lang['config_update_cost_price_on_transfer'] = '轉移時更新成本價';
 $lang['config_tip_preset_zero'] = '小費預設量為0％';
 $lang['config_show_person_id_on_receipt'] = '在收據上顯示人員ID';
+$lang['config_disabled_fixed_discounts'] = '在銷售界面上禁用固定折扣';
 ?>

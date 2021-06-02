@@ -767,4 +767,5 @@ $lang['config_override_signature_text'] = 'Remplacer le texte de la signature';
 $lang['config_update_cost_price_on_transfer'] = 'Mettre à jour le prix de revient lors du transfert';
 $lang['config_tip_preset_zero'] = 'Montant préréglé du pourboire de 0%';
 $lang['config_show_person_id_on_receipt'] = 'Afficher l\'identifiant de la personne sur le reçu';
+$lang['config_disabled_fixed_discounts'] = 'Désactiver les remises fixes sur l\'interface de vente';
 ?>

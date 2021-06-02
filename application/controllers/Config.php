@@ -631,6 +631,7 @@ class Config extends Secure_area
 		'update_cost_price_on_transfer' => $this->input->post('update_cost_price_on_transfer') ? 1 : 0,
 		'tip_preset_zero' => $this->input->post('tip_preset_zero') ? 1 : 0,
 		'show_person_id_on_receipt' => $this->input->post('show_person_id_on_receipt') ? 1 : 0,
+		'disabled_fixed_discounts' => $this->input->post('disabled_fixed_discounts') ? 1 : 0,
 	);
 
 	//Old way of doing taxes; we handle this case

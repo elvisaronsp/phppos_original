@@ -882,4 +882,5 @@ $lang['config_override_signature_text'] = 'Ghi đè Văn bản Chữ ký';
 $lang['config_update_cost_price_on_transfer'] = 'Cập nhật giá chi phí khi chuyển nhượng';
 $lang['config_tip_preset_zero'] = 'Số tiền tip đặt trước là 0%';
 $lang['config_show_person_id_on_receipt'] = 'Hiển thị ID cá nhân khi nhận';
+$lang['config_disabled_fixed_discounts'] = 'Tắt giảm giá cố định trên giao diện bán hàng';
 ?>

@@ -350,7 +350,7 @@ class Item extends MY_Model
 		if (!$hide_out_of_stock_grid)
 		{
 			$result = $this->db->query("(SELECT item_id, unit_price,name, image_id FROM $items_table LEFT JOIN $items_images_table USING (item_id) INNER JOIN $items_tags_table USING (item_id)
-			WHERE deleted = 0 and system_item = 0 and $items_tags_table.tag_id = $tag_id and $items_table.item_id NOT IN (SELECT item_id FROM phppos_grid_hidden_items WHERE location_id=$location_id) GROUP BY item_id ORDER BY name) UNION ALL (SELECT CONCAT('KIT ',item_kit_id), unit_price, name, 'no_image' as image_id FROM $item_kits_table INNER JOIN $item_kits_tags_table USING (item_kit_id)
+			WHERE deleted = 0 and system_item = 0 and $items_tags_table.tag_id = $tag_id and $items_table.item_id NOT IN (SELECT item_id FROM phppos_grid_hidden_items WHERE location_id=$location_id) GROUP BY item_id ORDER BY name) UNION ALL (SELECT CONCAT('KIT ',item_kit_id), unit_price, name, main_image_id as image_id FROM $item_kits_table INNER JOIN $item_kits_tags_table USING (item_kit_id)
 			WHERE deleted = 0 and $item_kits_tags_table.tag_id = $tag_id and $item_kits_table.item_kit_id NOT IN (SELECT item_kit_id FROM phppos_grid_hidden_item_kits WHERE location_id=$location_id) ORDER BY name) ORDER BY name LIMIT $offset, $limit");
 		}
 		else
@@ -358,7 +358,7 @@ class Item extends MY_Model
 			$location_items_table = $this->db->dbprefix('location_items ');
 			$current_location=$this->Employee->get_logged_in_employee_current_location_id();
 			$result = $this->db->query("(SELECT i.item_id, i.unit_price, name,size, image_id FROM $items_table as i LEFT JOIN $items_images_table USING (item_id) INNER JOIN $items_tags_table USING (item_id) LEFT JOIN $location_items_table as li ON i.item_id = li.item_id and li.location_id = $current_location
-			WHERE (quantity > 0 or quantity IS NULL or is_service = 1) and deleted = 0 and system_item = 0 and $items_tags_table.tag_id = $tag_id and i.item_id NOT IN (SELECT item_id FROM phppos_grid_hidden_items WHERE location_id=$location_id) GROUP BY i.item_id ORDER BY name) UNION ALL (SELECT CONCAT('KIT ',item_kit_id), unit_price, name, '', 'no_image' as image_id FROM $item_kits_table INNER JOIN $item_kits_tags_table USING (item_kit_id)
+			WHERE (quantity > 0 or quantity IS NULL or is_service = 1) and deleted = 0 and system_item = 0 and $items_tags_table.tag_id = $tag_id and i.item_id NOT IN (SELECT item_id FROM phppos_grid_hidden_items WHERE location_id=$location_id) GROUP BY i.item_id ORDER BY name) UNION ALL (SELECT CONCAT('KIT ',item_kit_id), unit_price, name, '', main_image_id as image_id FROM $item_kits_table INNER JOIN $item_kits_tags_table USING (item_kit_id)
 			WHERE deleted = 0 and $item_kits_tags_table.tag_id = $tag_id and $item_kits_table.item_kit_id NOT IN (SELECT item_kit_id FROM phppos_grid_hidden_item_kits WHERE location_id=$location_id) ORDER BY name) ORDER BY name LIMIT $offset, $limit");
 		}
 		
@@ -388,7 +388,7 @@ class Item extends MY_Model
 			GROUP BY item_id ORDER BY name) 
 			
 			UNION ALL (
-			SELECT CONCAT('KIT ',item_kit_id), unit_price, name, 'no_image' as image_id,'' as SIZE
+			SELECT CONCAT('KIT ',item_kit_id), unit_price, name, main_image_id as image_id,'' as SIZE
 			FROM $item_kits_table 
 			WHERE deleted = 0 
 			and $item_kits_table.is_favorite = 1
@@ -4073,7 +4073,7 @@ SQL;
 			
 			return to_currency_no_money(($item_cost_price + $tier_info->default_cost_plus_fixed_amount)*$quantity_unit_quantity, $this->config->item('round_tier_prices_to_2_decimals') ? 2 : 10);
 		}
-		elseif(($variation_id && $variation_info->unit_price) || ($variation_id && $variation_location_info && $variation_location_info->unit_price))
+		elseif(($variation_id && $variation_info->unit_price) || ($variation_id && $variation_location_info && $variation_location_info->unit_price) || ($variation_id && $variation_info->promo_price) || ($variation_id && $variation_location_info && $variation_location_info->promo_price))
 		{
 			$today =  strtotime(date('Y-m-d'));
 			

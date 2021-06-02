@@ -616,7 +616,7 @@ class Item_kit extends MY_Model
 			foreach($by_name->result() as $row)
 			{
 				$data = array(
-					'image' => base_url()."assets/img/item-kit.png" ,
+					'image' => $row->main_image_id ?  app_file_url($row->main_image_id) : base_url()."assets/img/item-kit.png" ,
 					'category' => $row->category,
 					'item_kit_number' => $row->item_kit_number,
 				);
@@ -660,7 +660,7 @@ class Item_kit extends MY_Model
 			{
 				$data = array(
 						'label' => $row->item_kit_number.' - '.($price_field ? to_currency($row->$price_field) : ''),
-						'image' => base_url()."assets/img/item-kit.png" ,
+						'image' => $row->main_image_id ?  app_file_url($row->main_image_id) : base_url()."assets/img/item-kit.png" ,
 						'category' => $row->category,
 						'item_kit_number' => $row->item_kit_number,
 					);
@@ -695,7 +695,7 @@ class Item_kit extends MY_Model
 			{
 				$data = array(
 						'label' => $row->product_id.' - '.($price_field ? to_currency($row->$price_field) : ''),
-						'image' => base_url()."assets/img/item-kit.png" ,
+						'image' => $row->main_image_id ?  app_file_url($row->main_image_id) : base_url()."assets/img/item-kit.png" ,
 						'category' => $row->category,
 						'item_kit_number' => $row->item_kit_number,
 					);

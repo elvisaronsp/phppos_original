@@ -1047,6 +1047,21 @@ $this->load->helper('update');
 					
 					
 					
+					
+					
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">	
+					<?php echo form_label(lang('config_disabled_fixed_discounts').':', 'disabled_fixed_discounts',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'disabled_fixed_discounts',
+							'id'=>'disabled_fixed_discounts',
+							'value'=>'1',
+							'checked'=>$this->config->item('disabled_fixed_discounts')));?>
+							<label for="disabled_fixed_discounts"><span></span></label>
+						</div>
+					</div>
+					
+					
 					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">	
 					<?php echo form_label(lang('common_disable_sale_cloning').':', 'disable_sale_cloning',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
 						<div class="col-sm-9 col-md-9 col-lg-10">

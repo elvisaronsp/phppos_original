@@ -759,4 +759,5 @@ $lang['config_override_signature_text'] = 'Signaturtext überschreiben';
 $lang['config_update_cost_price_on_transfer'] = 'Aktualisieren Sie den Selbstkostenpreis bei Überweisung';
 $lang['config_tip_preset_zero'] = 'Tipp voreingestellter Betrag von 0%';
 $lang['config_show_person_id_on_receipt'] = 'Personen-ID nach Erhalt anzeigen';
+$lang['config_disabled_fixed_discounts'] = 'Deaktivieren Sie feste Rabatte auf der Verkaufsoberfläche';
 ?>

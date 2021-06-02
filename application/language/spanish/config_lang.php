@@ -767,4 +767,5 @@ $lang['config_override_signature_text'] = 'Anular el texto de la firma';
 $lang['config_update_cost_price_on_transfer'] = 'Actualizar precio de costo en transferencia';
 $lang['config_tip_preset_zero'] = 'Cantidad preestablecida de propina del 0%';
 $lang['config_show_person_id_on_receipt'] = 'Mostrar identificación de persona al recibirlo';
+$lang['config_disabled_fixed_discounts'] = 'Desactivar descuentos fijos en la interfaz de ventas';
 ?>

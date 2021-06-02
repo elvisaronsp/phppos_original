@@ -765,4 +765,5 @@ $lang['config_override_signature_text'] = 'Sostituisci il testo della firma';
 $lang['config_update_cost_price_on_transfer'] = 'Aggiorna prezzo di costo al trasferimento';
 $lang['config_tip_preset_zero'] = 'Importo predefinito della mancia dello 0%';
 $lang['config_show_person_id_on_receipt'] = 'Mostra l\'ID persona al ricevimento';
+$lang['config_disabled_fixed_discounts'] = 'Disattiva sconti fissi sull\'interfaccia di vendita';
 ?>

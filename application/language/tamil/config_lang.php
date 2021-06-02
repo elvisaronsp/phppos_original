@@ -1075,4 +1075,5 @@ $lang['config_override_signature_text'] = 'கையொப்ப உரையை
 $lang['config_update_cost_price_on_transfer'] = 'பரிமாற்றத்தில் செலவு விலையைப் புதுப்பிக்கவும்';
 $lang['config_tip_preset_zero'] = 'உதவிக்குறிப்பு முன்னமைக்கப்பட்ட அளவு 0%';
 $lang['config_show_person_id_on_receipt'] = 'ரசீதில் நபர் ஐடியைக் காட்டு';
+$lang['config_disabled_fixed_discounts'] = 'விற்பனை இடைமுகத்தில் நிலையான தள்ளுபடியை முடக்கு';
 ?>

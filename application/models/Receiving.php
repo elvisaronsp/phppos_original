@@ -653,7 +653,7 @@ class Receiving extends MY_Model
 				}
 				else
 				{
-					$item_loc_qty_to_save = $this->Item_location->get_location_quantity($item->item_id,$location_id) + ($item->quantity * -1);
+					$item_loc_qty_to_save = ($this->Item_location->get_location_quantity($item->item_id,$location_id) + ($item->quantity * -1))*($item->quantity_unit_quantity !== NULL ? $item->quantity_unit_quantity : 1);
 					$this->Item_location->save_quantity($item_loc_qty_to_save,$item->item_id,$location_id);
 				
 					if (!isset($inv_data))
@@ -853,7 +853,7 @@ class Receiving extends MY_Model
 					{
 						$cur_item_variation_location_transfer_info = $this->Item_variation_location->get_info($receiving_item_row['item_variation_id'], $receiving_item_row['transfer_to_location_id']);
 				
-						$this->Item_variation_location->save_quantity($cur_item_variation_location_transfer_info->quantity + $receiving_item_row['quantity_purchased'],$receiving_item_row['item_variation_id'], $receiving_item_row['transfer_to_location_id']);
+						$this->Item_variation_location->save_quantity($cur_item_variation_location_transfer_info->quantity + $inventory_to_remove,$receiving_item_row['item_variation_id'], $receiving_item_row['transfer_to_location_id']);
 		
 						$receiving_remarks ='RECV '.$receiving_id;
 						$inv_data = array
@@ -862,10 +862,10 @@ class Receiving extends MY_Model
 							'trans_items'=>$receiving_item_row['item_id'],
 							'trans_user'=>$employee_id,
 							'trans_comment'=>$receiving_remarks,
-							'trans_inventory'=>$receiving_item_row['quantity_purchased'] * 1,
+							'trans_inventory'=>$inventory_to_remove * 1,
 							'location_id'=>$receiving_item_row['transfer_to_location_id'],
 							'item_variation_id' => $receiving_item_row['item_variation_id'],
-							'trans_current_quantity' => $cur_item_variation_location_transfer_info->quantity + $receiving_item_row['quantity_purchased'],
+							'trans_current_quantity' => $cur_item_variation_location_transfer_info->quantity + $inventory_to_remove,
 							
 							);
 							$this->Inventory->insert($inv_data);
@@ -875,7 +875,7 @@ class Receiving extends MY_Model
 					{
 						$cur_item_location_transfer_info = $this->Item_location->get_info($receiving_item_row['item_id'], $receiving_item_row['transfer_to_location_id']);
 				
-						$this->Item_location->save_quantity($cur_item_location_transfer_info->quantity + $receiving_item_row['quantity_purchased'],$receiving_item_row['item_id'], $receiving_item_row['transfer_to_location_id']);
+						$this->Item_location->save_quantity($cur_item_location_transfer_info->quantity + $inventory_to_remove,$receiving_item_row['item_id'], $receiving_item_row['transfer_to_location_id']);
 
 						$receiving_remarks ='RECV '.$receiving_id;
 						$inv_data = array
@@ -884,9 +884,9 @@ class Receiving extends MY_Model
 							'trans_items'=>$receiving_item_row['item_id'],
 							'trans_user'=>$employee_id,
 							'trans_comment'=>$receiving_remarks,
-							'trans_inventory'=>$receiving_item_row['quantity_purchased'] * 1,
+							'trans_inventory'=>$inventory_to_remove * 1,
 							'location_id'=>$receiving_item_row['transfer_to_location_id'],
-							'trans_current_quantity' => $cur_item_location_transfer_info->quantity + $receiving_item_row['quantity_purchased'],
+							'trans_current_quantity' => $cur_item_location_transfer_info->quantity + $inventory_to_remove,
 							
 							);
 							$this->Inventory->insert($inv_data);
@@ -1011,7 +1011,7 @@ class Receiving extends MY_Model
 				{
 					$cur_item_location_transfer_info = $this->Item_location->get_info($receiving_item_row['item_id'], $receiving_item_row['transfer_to_location_id']);
 					
-					$this->Item_location->save_quantity($cur_item_location_transfer_info->quantity - $receiving_item_row['quantity_purchased'],$receiving_item_row['item_id'], $receiving_item_row['transfer_to_location_id']);
+					$this->Item_location->save_quantity($cur_item_location_transfer_info->quantity - $inventory_to_add,$receiving_item_row['item_id'], $receiving_item_row['transfer_to_location_id']);
 			
 					$receiving_remarks ='RECV '.$receiving_id;
 					$inv_data = array
@@ -1020,9 +1020,9 @@ class Receiving extends MY_Model
 						'trans_items'=>$receiving_item_row['item_id'],
 						'trans_user'=>$employee_id,
 						'trans_comment'=>$receiving_remarks,
-						'trans_inventory'=>$receiving_item_row['quantity_purchased'] * -1,
+						'trans_inventory'=>$inventory_to_add * -1,
 						'location_id'=>$receiving_item_row['transfer_to_location_id'],
-						'trans_current_quantity' => $cur_item_location_transfer_info->quantity - $receiving_item_row['quantity_purchased'],
+						'trans_current_quantity' => $cur_item_location_transfer_info->quantity - $inventory_to_add,
 						);
 						$this->Inventory->insert($inv_data);
 				}

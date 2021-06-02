@@ -39,7 +39,7 @@ class Item_attribute extends MY_Model
 		
 		$query = $this->db->get();
 
-		if($query->num_rows()==1)
+		if($query->num_rows()>=1)
 		{
 			$cache[$lookup_field.'|'.$attribute_name_or_id.'|'.$item_id] = $query->row();
 			return $cache[$lookup_field.'|'.$attribute_name_or_id.'|'.$item_id];

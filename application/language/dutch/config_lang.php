@@ -761,4 +761,5 @@ $lang['config_override_signature_text'] = 'Handtekeningstekst overschrijven';
 $lang['config_update_cost_price_on_transfer'] = 'Update kostprijs bij overdracht';
 $lang['config_tip_preset_zero'] = 'Fooi vooraf ingesteld bedrag van 0%';
 $lang['config_show_person_id_on_receipt'] = 'Toon persoons-ID op ontvangstbewijs';
+$lang['config_disabled_fixed_discounts'] = 'Schakel vaste kortingen op verkoopinterface uit';
 ?>

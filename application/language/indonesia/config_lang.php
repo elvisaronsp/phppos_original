@@ -766,4 +766,5 @@ $lang['config_override_signature_text'] = 'Timpa Teks Tanda Tangan';
 $lang['config_update_cost_price_on_transfer'] = 'Perbarui Biaya Harga Saat Transfer';
 $lang['config_tip_preset_zero'] = 'Tip jumlah preset 0%';
 $lang['config_show_person_id_on_receipt'] = 'Tunjukkan ID Orang pada tanda terima';
+$lang['config_disabled_fixed_discounts'] = 'Nonaktifkan Diskon Tetap Pada Antarmuka Penjualan';
 ?>

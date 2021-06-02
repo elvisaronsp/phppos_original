@@ -785,4 +785,5 @@ $lang['config_override_signature_text'] = 'Override Signature Text';
 $lang['config_update_cost_price_on_transfer'] = 'Update Cost Price On Transfer';
 $lang['config_tip_preset_zero'] = 'Tip preset amount of 0%';
 $lang['config_show_person_id_on_receipt'] = 'Show Person ID on receipt';
+$lang['config_disabled_fixed_discounts'] = 'Disable Fixed Discounts On Sales Interface';
 ?>

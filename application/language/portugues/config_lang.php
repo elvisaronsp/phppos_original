@@ -765,4 +765,5 @@ $lang['config_override_signature_text'] = 'Substituir Texto de Assinatura';
 $lang['config_update_cost_price_on_transfer'] = 'Atualizar preço de custo na transferência';
 $lang['config_tip_preset_zero'] = 'Valor predefinido da ponta de 0%';
 $lang['config_show_person_id_on_receipt'] = 'Mostrar identificação da pessoa no recibo';
+$lang['config_disabled_fixed_discounts'] = 'Desativar descontos fixos na interface de vendas';
 ?>
