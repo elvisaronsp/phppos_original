@@ -94,7 +94,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 define('NUMBER_OF_PEOPLE_CUSTOM_FIELDS',10);
 define('APPLICATION_VERSION', '18.1');
 define('ASSET_TIMESTAMP', '1617804740');
-define('BUILD_TIMESTAMP', '1622042681');
+define('BUILD_TIMESTAMP', '1623332972');
 
 /*
 |--------------------------------------------------------------------------

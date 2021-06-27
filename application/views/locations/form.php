@@ -644,19 +644,7 @@
 								<label for="disable_markup_markdown"><span></span></label>
 							</div>
 						</div>
-					
-						<div class="form-group">	
-							<?php echo form_label(lang('locations_receive_stock_alert').':', 'receive_stock_alert',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
-							<div class="col-sm-9 col-md-9 col-lg-10">
-							<?php echo form_checkbox(array(
-								'name'=>'receive_stock_alert',
-								'id'=>'receive_stock_alert',
-								'value'=>'1',
-								'checked'=>$location_info->receive_stock_alert));?>
-								<label for="receive_stock_alert"><span></span></label>
-							</div>
-						</div>
-
+						
 						<div class="form-group">	
 						<?php echo form_label(lang('locations_auto_reports_email').':', 'auto_reports_email',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label'), FALSE); ?>
 							<div class="col-sm-9 col-md-9 col-lg-10">
@@ -686,9 +674,19 @@
 							</div>
 						</div>
 						
-						
-						
-						
+					
+						<div class="form-group">	
+							<?php echo form_label(lang('locations_receive_stock_alert').':', 'receive_stock_alert',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+							<div class="col-sm-9 col-md-9 col-lg-10">
+							<?php echo form_checkbox(array(
+								'name'=>'receive_stock_alert',
+								'id'=>'receive_stock_alert',
+								'value'=>'1',
+								'checked'=>$location_info->receive_stock_alert));?>
+								<label for="receive_stock_alert"><span></span></label>
+							</div>
+						</div>
+
 
 						<div class="form-group" id="stock_alert_email_container">	
 						<?php echo form_label(lang('locations_stock_alert_email').':', 'stock_alert_email',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>

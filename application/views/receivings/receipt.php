@@ -51,7 +51,7 @@ for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++)
 					if ((empty($deleted) || (!$deleted))) { ?>
 					
 					<?php
-					 if ($this->Employee->has_module_action_permission('receivings', 'edit_receiving', $this->Employee->get_logged_in_employee_info()->person_id)){
+					 if ($this->Employee->has_module_action_permission('receivings', 'edit_receiving', $this->Employee->get_logged_in_employee_info()->person_id) && !$store_account_payment){
 				   		$edit_recv_url = $suspended ? 'unsuspend' : 'change_recv';
 						echo '<li>';
 						echo form_open("receivings/$edit_recv_url/".$receiving_id_raw,array('id'=>'receivings_change_form')); ?>

@@ -893,7 +893,7 @@ abstract class PHPPOSCart
 			
 			if ($tax_found)
 			{
-				$subtotal+=$item->get_subtotal();
+				$subtotal+=to_currency_no_money($item->get_modifiers_subtotal() + ( $item->unit_price*$item->quantity-$item->unit_price*$item->quantity*$item->discount/100));
 			}
 		}
 		
