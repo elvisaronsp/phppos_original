@@ -235,7 +235,25 @@ class PHPPOSCartSale extends PHPPOSCart
 			if ($item_props['tax_included'] && $cart->is_editing_previous && $item_props['taxable'])
 			{
 				$CI->load->helper('items');
-				$item_props['unit_price'] = to_currency_no_money(get_price_for_item_including_taxes($row->item_id, $item_props['unit_price']));
+				
+				if ($row->item_id == $CI->Item->get_item_id_for_flat_discount_item() && $CI->config->item('flat_discounts_discount_tax'))
+				{
+					$tax_info = $CI->Sale->get_sale_items_taxes_by_item_id($sale_id,$row->item_id);
+					
+					$total_tax_percent = 0;
+	
+					foreach($tax_info as $tax)
+					{
+						$total_tax_percent+=$tax['percent'];
+					}
+	
+					$item_props['unit_price'] = $item_props['unit_price']*(1+($total_tax_percent /100));
+					
+				}
+				else
+				{
+					$item_props['unit_price'] = to_currency_no_money(get_price_for_item_including_taxes($row->item_id, $item_props['unit_price']));
+				}
 			}
 			
 			$quantity_units = $CI->Item->get_quantity_units($row->item_id);
@@ -3569,7 +3587,7 @@ class PHPPOSCartSale extends PHPPOSCart
 				continue;
 			}
 			
-			if ($item->item_id == $CI->Item->get_item_id_for_flat_discount_item())
+			if (property_exists($item,'item_id') && $item->item_id == $CI->Item->get_item_id_for_flat_discount_item())
 			{
 				$total_discount+=-1*$item->unit_price*$item->quantity;
 			}

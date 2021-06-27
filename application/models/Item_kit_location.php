@@ -31,6 +31,11 @@ class Item_kit_location extends MY_Model
 		
 		if (!$this->exists($item_kit_id,$location_id))
 		{
+			if (isset($item_location_data['unit_price']) || isset($item_location_data['cost_price']))
+			{
+				$this->Item_kit->save_price_history($item_kit_id,$location_id,isset($item_location_data['unit_price']) ? $item_location_data['unit_price'] : NULL,isset($item_location_data['cost_price']) ? $item_location_data['cost_price'] : NULL, TRUE);
+			}
+			
 			return $this->db->insert('location_item_kits',$item_location_data);
 		}
 

@@ -543,6 +543,38 @@ class Inventory_past_date_summary extends Report
 		$join_subquery = $this->db->get_compiled_select();
     $this->db->reset_query();
 
+		// Build left join query as subquery
+		//  iph.item_id, iph.item_variation_id, iph.location_id, iph.on_date, iph.cost_price as hist_cost_price, iph.unit_price as hist_unit_price
+		// iph2:
+		$this->db->select('item_id');
+		$this->db->select('item_variation_id');
+		$this->db->select('location_id');
+		$this->db->select('cost_price');
+		$this->db->select('unit_price');
+		$this->db->select('max(on_date) as max_on_date');
+		$this->db->from('items_pricing_history');
+    $this->db->where('on_date <', $date . ' 23:59:59');
+    $this->db->group_by('item_id, item_variation_id, location_id');
+		$join_subquery_iph2 = $this->db->get_compiled_select();
+		$this->db->reset_query();
+
+    // iph
+		$this->db->select('iph.item_id');
+		$this->db->select('iph.item_variation_id');
+		$this->db->select('iph.location_id');
+		$this->db->select('iph.on_date');
+		$this->db->select('iph.cost_price as hist_cost_price');
+		$this->db->select('iph.unit_price as hist_unit_price');
+		$this->db->from('items_pricing_history iph');
+    $this->db->join("($join_subquery_iph2) iph2", 'iph.item_id = iph2.item_id'.
+			' and (iph.item_variation_id = iph2.item_variation_id or (iph.item_variation_id is null and iph2.item_variation_id is null))'.
+			' and (iph.location_id = iph2.location_id or (iph.location_id is null and iph2.location_id is null))'.
+			' and iph.on_date = iph2.max_on_date');
+		$join_subquery_iph = $this->db->get_compiled_select();
+		$this->db->reset_query();
+
+		// inner join with subquery
+
 		$this->db->protect_identifiers('SQL_CALC_FOUND_ROWS');
 
 		$this->db->select('/*+ SEMIJOIN(@subq MATERIALIZATION) */ SQL_CALC_FOUND_ROWS 1 as _h', FALSE);
@@ -558,15 +590,18 @@ class Inventory_past_date_summary extends Report
 		$this->db->select('items.size');
 		$this->db->select('items.product_id');
 
-    $this->db->select('COALESCE('.$this->db->dbprefix('location_item_variations').'.cost_price, '
+    $this->db->select('COALESCE(hist_cost_price,'
+                                 .$this->db->dbprefix('location_item_variations').'.cost_price, '
                                  .$this->db->dbprefix('item_variations').'.cost_price, '
                                  .$this->db->dbprefix('location_items').'.cost_price, '
                                  .$this->db->dbprefix('items').'.cost_price, 0) as cost_price', FALSE);
 
-    $this->db->select('COALESCE('.$this->db->dbprefix('location_item_variations').'.unit_price, '
+    $this->db->select('COALESCE(hist_unit_price,'
+                                 .$this->db->dbprefix('location_item_variations').'.unit_price, '
                                  .$this->db->dbprefix('item_variations').'.unit_price, '
                                  .$this->db->dbprefix('location_items').'.unit_price, '
                                  .$this->db->dbprefix('items').'.unit_price, 0) as unit_price', FALSE);
+
     $sum_query = 'SUM(COALESCE(inv.trans_current_quantity, 0))';
 		$this->db->select($sum_query.' as quantity', FALSE);
 
@@ -598,6 +633,14 @@ class Inventory_past_date_summary extends Report
 		$this->db->join("($join_subquery) inv1", 'inv1.trans_id = inv.trans_id AND inv1.trans_items = inv.trans_items AND (inv1.item_variation_id = '.
 		  $this->db->dbprefix('item_variations').'.id OR '.
 		  $this->db->dbprefix('item_variations').'.id IS NULL) AND inv1.location_id = inv.location_id', 'inner');
+
+    //left join with subquery
+		$this->db->join("($join_subquery_iph) iph", 'iph.item_id = inv.trans_items'
+		  .' and (iph.item_variation_id = inv.item_variation_id or (iph.item_variation_id is null and inv.item_variation_id is null))'
+		  .' and (iph.location_id = inv.location_id or (iph.location_id is null and inv.location_id is null))'
+		, 'left');
+
+
     /*
     // Old implementation using WHERE to determine last trans_items
     $past_date_where = '(SELECT MAX(inv1.trans_id)
@@ -689,8 +732,8 @@ class Inventory_past_date_summary extends Report
 		$location_item_variations_quantity_col = 'trans_current_quantity';
 		$location_items_quantity_col = 'trans_current_quantity';
 		
-		$full_sum_query = 'SUM(COALESCE('.$location_item_variations_quantity_col.', '.$location_items_quantity_col.', 0))';
-		$quantity_query = 'COALESCE('.$location_item_variations_quantity_col.', '.$location_items_quantity_col.', 0)';
+		// $full_sum_query = 'SUM(COALESCE('.$location_item_variations_quantity_col.', '.$location_items_quantity_col.', 0))';
+		// $quantity_query = 'COALESCE('.$location_item_variations_quantity_col.', '.$location_items_quantity_col.', 0)';
 
     $location_where = '';
     if (count($location_ids))
@@ -749,18 +792,23 @@ class Inventory_past_date_summary extends Report
 
     $query = 'SELECT /*+ SEMIJOIN(@subq MATERIALIZATION) */
     SUM(COALESCE(inv.trans_current_quantity, inv.trans_current_quantity, 0)) AS total_items_in_inventory
-    ,SUM(COALESCE(phppos_location_item_variations.cost_price, phppos_item_variations.cost_price, phppos_location_items.cost_price, phppos_items.cost_price, 0) * (COALESCE(trans_current_quantity, trans_current_quantity, 0))) AS inventory_total
-    ,SUM(COALESCE(phppos_location_item_variations.unit_price, phppos_item_variations.unit_price, phppos_location_items.unit_price, phppos_items.unit_price, 0) * (COALESCE(trans_current_quantity, trans_current_quantity, 0))) AS inventory_sale_total
-    ,SUM(COALESCE(phppos_location_item_variations.cost_price, phppos_item_variations.cost_price, phppos_location_items.cost_price, phppos_items.cost_price, 0) * (COALESCE(trans_current_quantity, trans_current_quantity, 0))) / SUM(COALESCE(trans_current_quantity, trans_current_quantity, 0)) AS weighted_cost
+    ,SUM(COALESCE(hist_cost_price, phppos_location_item_variations.cost_price, phppos_item_variations.cost_price, phppos_location_items.cost_price, phppos_items.cost_price, 0) * (COALESCE(trans_current_quantity, trans_current_quantity, 0))) AS inventory_total
+    ,SUM(COALESCE(hist_unit_price, phppos_location_item_variations.unit_price, phppos_item_variations.unit_price, phppos_location_items.unit_price, phppos_items.unit_price, 0) * (COALESCE(trans_current_quantity, trans_current_quantity, 0))) AS inventory_sale_total
+    ,SUM(COALESCE(hist_cost_price, phppos_location_item_variations.cost_price, phppos_item_variations.cost_price, phppos_location_items.cost_price, phppos_items.cost_price, 0) * (COALESCE(trans_current_quantity, trans_current_quantity, 0))) / SUM(COALESCE(trans_current_quantity, trans_current_quantity, 0)) AS weighted_cost
 
 FROM `phppos_inventory` `inv`
 	JOIN `phppos_items` on `phppos_items`.`item_id` = inv.`trans_items`
-	LEFT JOIN `phppos_item_variations` ON `phppos_items`.`item_id` = `phppos_item_variations`.`item_id` AND `phppos_item_variations`.`deleted` = 0
+
+	LEFT JOIN `phppos_item_variations` ON `phppos_items`.`item_id` = `phppos_item_variations`.`item_id`
+		AND inv.item_variation_id = `phppos_item_variations`.`id`
+		AND `phppos_item_variations`.`deleted` = 0
+
 	LEFT JOIN `phppos_location_item_variations` ON `phppos_location_item_variations`.`item_variation_id` = `phppos_item_variations`.`id`
 		AND `phppos_location_item_variations`.`location_id` = inv.location_id
 	LEFT JOIN `phppos_location_items` ON `phppos_location_items`.`item_id` = `phppos_items`.`item_id`
 		AND `phppos_location_items`.`location_id` = inv.location_id
 
+  -- From Inventory, we take the LAST Entry by takeing MAX(trans_id)
 	INNER JOIN (
 		SELECT inv1.trans_items, inv1.item_variation_id, inv1.location_id, MAX(inv1.trans_id) as trans_id
 			FROM phppos_inventory inv1
@@ -772,17 +820,27 @@ FROM `phppos_inventory` `inv`
 		AND (inv1.item_variation_id = phppos_item_variations.id OR phppos_item_variations.id IS NULL)
 		AND inv1.location_id = inv.location_id
 
+	-- phppos_items_pricing_history holds the new price it was changed to
+  -- grab the LAST historic price from the phppos_items_pricing_history prior to the report DATE
+  LEFT JOIN (
+		select iph.item_id, iph.item_variation_id, iph.location_id, iph.on_date, iph.cost_price as hist_cost_price, iph.unit_price as hist_unit_price
+		from phppos_items_pricing_history iph
+		inner join (
+			select item_id, item_variation_id, location_id, cost_price, unit_price, -- on_date
+				max(on_date) as max_on_date
+			from phppos_items_pricing_history iph
+			where 1=1
+				and on_date < \''. $date . ' 23:59:59\'
+			group by item_id, item_variation_id, location_id
+		) iph2 on iph.item_id = iph2.item_id
+			and (iph.item_variation_id = iph2.item_variation_id or (iph.item_variation_id is null and iph2.item_variation_id is null))
+			and (iph.location_id = iph2.location_id or (iph.location_id is null and iph2.location_id is null))
+			and iph.on_date = iph2.max_on_date
+	) iph on iph.item_id = `inv`.`trans_items`
+		and (iph.item_variation_id = inv.item_variation_id or (iph.item_variation_id is null and inv.item_variation_id is null))
+		and (iph.location_id = inv.location_id or (iph.location_id is null and inv.location_id is null))
+
 	WHERE 1=1
---		AND inv.trans_id = (
---		SELECT MAX(inv1.trans_id)
---			FROM
---				phppos_inventory inv1
---			WHERE
---             inv1.trans_items = inv.trans_items
---				AND (inv1.item_variation_id = phppos_item_variations.id OR `phppos_item_variations`.`id` IS NULL)
---				AND inv1.`location_id` = inv.location_id
---        AND inv1.trans_date < \''. $date . ' 23:59:59\'
---        )
 		AND `phppos_items`.`is_service` != 1
 		AND `phppos_items`.`system_item` = 0
     '.$location_where.'

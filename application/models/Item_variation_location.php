@@ -72,6 +72,15 @@ class Item_variation_location extends MY_Model
 			$item_variation_location_data['item_variation_id'] = $item_variation_id;
 			$item_variation_location_data['location_id'] = $location_id;
 			
+			if (isset($item_variation_location_data['unit_price']) || isset($item_variation_location_data['cost_price']))
+			{		
+				$item_info = $this->Item_variations->get_info($item_variation_id);
+				$item_id = $item_info->item_id;
+					
+				$this->Item->save_price_history($item_id,$item_variation_location_data['item_variation_id'],$item_variation_location_data['location_id'],isset($item_variation_location_data['unit_price']) ? $item_variation_location_data['unit_price'] : NULL,isset($item_variation_location_data['cost_price']) ? $item_variation_location_data['cost_price'] : NULL, TRUE);
+			}
+			
+			
 			return $this->db->insert('location_item_variations',$item_variation_location_data);
 		}
 

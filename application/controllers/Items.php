@@ -1842,6 +1842,12 @@ class Items extends Secure_area implements Idata_controller
 				'0' => lang('common_no'), 
 				'1' => lang('common_yes')	
 			);
+
+			$data['is_barcoded_choices'] = array(
+				''=>lang('common_do_nothing'), 
+				'0' => lang('common_no'), 
+				'1' => lang('common_yes')	
+			);
 		
 		
 		$data['item_promo_price_choices'] = array(

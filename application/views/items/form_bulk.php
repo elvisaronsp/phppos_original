@@ -516,6 +516,14 @@
 							</div>
 						</div>
 						
+						<div class="form-group row">
+							<?php echo form_label(lang('common_is_barcoded').':', 'is_barcoded',array('class'=>'control-label col-xs-3')); ?>
+							<div class="col-xs-9">
+								<?php echo form_dropdown('is_barcoded', $is_barcoded_choices, '','class="form-control"');?>
+							</div>
+						</div>
+						
+						
 						<?php if ($this->config->item('verify_age_for_products')) { ?>
 						
 						<div class="form-group row">

@@ -916,6 +916,11 @@ class Item extends MY_Model
 			if($this->db->insert('items',$item_data))
 			{
 				$item_data['item_id']=$this->db->insert_id();
+				
+				if(isset($item_data['unit_price']) || isset($item_data['cost_price']))
+				{
+					$this->save_price_history($item_data['item_id'],NULL,NULL,isset($item_data['unit_price']) ? $item_data['unit_price'] : NULL,isset($item_data['cost_price']) ? $item_data['cost_price'] : NULL, TRUE);
+				}
 				return true;
 			}
 			return false;
@@ -4195,7 +4200,7 @@ SQL;
 		$this->db->delete('items_quantity_units');
 	}
 	
-	function save_price_history($item_id,$item_variation_id,$location_id,$unit_price,$cost_price)
+	function save_price_history($item_id,$item_variation_id,$location_id,$unit_price,$cost_price, $force=FALSE)
 	{
 		$employee_id = $this->Employee->get_logged_in_employee_info() && $this->Employee->get_logged_in_employee_info()->person_id ? $this->Employee->get_logged_in_employee_info()->person_id : 1;
 		
@@ -4223,7 +4228,7 @@ SQL;
 			}
 		}
 		
-		if ($item_info->unit_price != $unit_price || $item_info->cost_price!=$cost_price)
+		if ($item_info->unit_price != $unit_price || $item_info->cost_price!=$cost_price || $force)
 		{
 			$this->db->insert('items_pricing_history', array(
 			'on_date' => date('Y-m-d H:i:s'),

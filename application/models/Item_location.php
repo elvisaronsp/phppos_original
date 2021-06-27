@@ -37,6 +37,12 @@ class Item_location extends MY_Model
 		{
 			$item_location_data['item_id'] = $item_id;
 			$item_location_data['location_id'] = $location_id;
+			
+			if (isset($item_location_data['unit_price']) || isset($item_location_data['cost_price']))
+			{
+				$this->Item->save_price_history($item_location_data['item_id'],NULL,$item_location_data['location_id'],isset($item_location_data['unit_price']) ? $item_location_data['unit_price'] : NULL,isset($item_location_data['cost_price']) ? $item_location_data['cost_price'] : NULL, TRUE);
+			}
+			
 			return $this->db->insert('location_items',$item_location_data);
 		}
 

@@ -444,6 +444,14 @@ class Item_variations extends MY_Model
 			{
 				$this->db->insert('item_variations', $data);
 				$item_variation_id = $this->db->insert_id();
+				$item_info = $this->get_info($item_variation_id);
+				$item_id = $item_info->item_id;
+				
+				if (isset($data['unit_price']) || isset($date['cost_price']))
+				{
+					$this->Item->save_price_history($item_id,$item_variation_id,NULL,isset($data['unit_price']) ? $data['unit_price'] : NULL,isset($data['cost_price']) ? $data['cost_price'] : NULL, TRUE);
+				}
+				
 			}
 		}
 		

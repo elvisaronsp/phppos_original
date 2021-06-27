@@ -3043,6 +3043,53 @@ class Sale extends MY_Model
 		return $this->db->get();		
 	}
 	
+	function get_sale_items_taxes_by_item_id($sale_id,$item_id)
+	{
+		$item_where = '';
+		
+		//This is sort of hacky but 0 needs to work but anything else fasly shouldn't work
+		if ($item_id!== FALSE && $item_id!=='' && $item_id !== NULL)
+		{
+			$item_where = 'and '.$this->db->dbprefix('sales_items').'.item_id = '.$item_id;
+		}
+
+		$query = $this->db->query('SELECT name, line, percent, cumulative, item_unit_price as price, quantity_purchased as quantity, discount_percent as discount '.
+		'FROM '. $this->db->dbprefix('sales_items_taxes'). ' JOIN '.
+		$this->db->dbprefix('sales_items'). ' USING (sale_id, item_id, line) '.
+		'WHERE '.$this->db->dbprefix('sales_items_taxes').".sale_id = $sale_id".' '.$item_where.' '.
+		'ORDER BY '.$this->db->dbprefix('sales_items').'.line,'.$this->db->dbprefix('sales_items').'.item_id,cumulative,name,percent');
+		$return1 =  $query->result_array();
+		
+		
+		$item_where = '';
+		
+		//This is sort of hacky but 0 needs to work but anything else fasly shouldn't work
+		if ($item_id!== FALSE && $item_id!=='' && $item_id !== NULL)
+		{
+			$item_where = 'and '.$this->db->dbprefix('sales_items').'.item_id = '.$item_id;
+		}
+
+		$query = $this->db->query('SELECT name, phppos_sales_items_taxes.line, percent, cumulative, item_unit_price as price, quantity_purchased as quantity, discount_percent as discount '.
+		'FROM '. $this->db->dbprefix('sales_items_taxes'). ' LEFT JOIN '.
+		$this->db->dbprefix('sales_items'). ' USING (sale_id, item_id) '.
+		'WHERE phppos_sales_items_taxes.line >= 10000 and '.$this->db->dbprefix('sales_items_taxes').".sale_id = $sale_id".' '.$item_where.' '.
+		'ORDER BY '.$this->db->dbprefix('sales_items').'.line,'.$this->db->dbprefix('sales_items').'.item_id,cumulative,name,percent');
+		$return2 =  $query->result_array();
+		
+		$return = array();
+		
+		foreach($return1 as $row)
+		{
+			$return[] = $row;
+		}
+		foreach($return2 as $row)
+		{
+			$return[] = $row;
+		}
+				
+		return $return;
+	}
+	
 	function get_sale_items_taxes($sale_id, $line = FALSE)
 	{
 		$item_where = '';

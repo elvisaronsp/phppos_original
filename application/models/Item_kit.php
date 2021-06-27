@@ -347,6 +347,11 @@ class Item_kit extends MY_Model
 			if($this->db->insert('item_kits',$item_kit_data))
 			{
 				$item_kit_data['item_kit_id']=$this->db->insert_id();
+				
+				if (isset($item_kit_data['unit_price']) || isset($item_kit_data['cost_price']))
+				{
+					$this->save_price_history($item_kit_data['item_kit_id'],NULL,isset($item_kit_data['unit_price']) ? $item_kit_data['unit_price'] : NULL,isset($item_kit_data['cost_price']) ? $item_kit_data['cost_price'] : NULL, TRUE);
+				}
 				return true;
 			}
 			return false;
@@ -812,6 +817,8 @@ class Item_kit extends MY_Model
 			{
 					$this->db->where("(".$this->db->dbprefix('item_kits').".name LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search).
 					"%' ESCAPE '!' or item_kit_number LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search)."%' ESCAPE '!'".
+					" or phppos_item_kits.item_kit_id LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search)."%' ESCAPE '!'".
+					" or CONCAT('KIT ',phppos_item_kits.item_kit_id) LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search)."%' ESCAPE '!'".
 					"or product_id LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search)."%' ESCAPE '!' or
 					".$this->db->dbprefix('tags').".name LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search)."%' ESCAPE '!' or
 					description LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search)."%' ESCAPE '!' or $custom_fields) and ".$this->db->dbprefix('item_kits').".deleted=$deleted");
@@ -919,9 +926,13 @@ class Item_kit extends MY_Model
 
 		if ($search)
 		{
-				$this->db->where("(".$this->db->dbprefix('item_kits').".name LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search).
-				"%' ESCAPE '!' or item_kit_number LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search)."%' ESCAPE '!' or
-				description LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search)."%' ESCAPE '!' or $custom_fields) and ".$this->db->dbprefix('item_kits').".deleted=$deleted");						
+			$this->db->where("(".$this->db->dbprefix('item_kits').".name LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search).
+			"%' ESCAPE '!' or item_kit_number LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search)."%' ESCAPE '!'".
+			" or phppos_item_kits.item_kit_id LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search)."%' ESCAPE '!'".
+			" or CONCAT('KIT ',phppos_item_kits.item_kit_id) LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search)."%' ESCAPE '!'".
+			"or product_id LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search)."%' ESCAPE '!' or
+			".$this->db->dbprefix('tags').".name LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search)."%' ESCAPE '!' or
+			description LIKE '".(!$this->config->item('speed_up_search_queries') ? '%' : '').$this->db->escape_like_str($search)."%' ESCAPE '!' or $custom_fields) and ".$this->db->dbprefix('item_kits').".deleted=$deleted");
 		}
 		else
 		{
@@ -1179,7 +1190,7 @@ class Item_kit extends MY_Model
 		
 	}
 	
-	function save_price_history($item_kit_id,$location_id,$unit_price,$cost_price)
+	function save_price_history($item_kit_id,$location_id,$unit_price,$cost_price, $force = FALSE)
 	{
 		$employee_id = $this->Employee->get_logged_in_employee_info() && $this->Employee->get_logged_in_employee_info()->person_id ? $this->Employee->get_logged_in_employee_info()->person_id : 1;
 		
@@ -1192,7 +1203,7 @@ class Item_kit extends MY_Model
 			$item_kit_info = $this->get_info($item_kit_id);
 		}
 		
-		if ($item_kit_info->unit_price != $unit_price || $item_kit_info->cost_price!=$cost_price)
+		if ($item_kit_info->unit_price != $unit_price || $item_kit_info->cost_price!=$cost_price || $force)
 		{
 			$this->db->insert('item_kits_pricing_history', array(
 			'on_date' => date('Y-m-d H:i:s'),
