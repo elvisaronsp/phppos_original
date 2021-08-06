@@ -864,7 +864,7 @@ $lang['config_reset_offline_data'] = 'Đặt lại dữ liệu ngoại tuyến';
 $lang['config_remove_quantity_suspending'] = 'Xóa số lượng khi tạm ngưng';
 $lang['config_auto_sync_offline_sales'] = 'Tự động đồng bộ hóa bán hàng ngoại tuyến khi trực tuyến trở lại';
 
-$lang['config_shopify_billing_terms'] = 'Kích hoạt thanh toán - dùng thử 14 ngày, sau đó 19 USD mỗi tháng';
+$lang['config_shopify_billing_terms'] = 'Kích hoạt thanh toán - dùng thử 14 ngày, sau đó {SHOPIFY_PRICE} mỗi tháng';
 $lang['config_shopfiy_billing_failed'] = 'Shopify Billing không thành công';
 $lang['config_cancel_shopify'] = 'Huỷ Shopify Billing';
 $lang['config_confirm_cancel_shopify'] = 'Bạn có chắc chắn muốn hủy mua sắm không?';
@@ -883,4 +883,6 @@ $lang['config_update_cost_price_on_transfer'] = 'Cập nhật giá chi phí khi 
 $lang['config_tip_preset_zero'] = 'Số tiền tip đặt trước là 0%';
 $lang['config_show_person_id_on_receipt'] = 'Hiển thị ID cá nhân khi nhận';
 $lang['config_disabled_fixed_discounts'] = 'Tắt giảm giá cố định trên giao diện bán hàng';
+$lang['config_always_put_last_added_item_on_top_of_cart'] = 'Luôn đặt mặt hàng được thêm cuối cùng lên đầu giỏ hàng';
+$lang['config_show_giftcards_even_if_0_balance'] = 'Hiển thị thẻ quà tặng ngay cả khi số dư bằng không';
 ?>

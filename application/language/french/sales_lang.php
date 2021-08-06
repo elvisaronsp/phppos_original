@@ -241,7 +241,7 @@ $lang['sales_esc_cancel_sale'] = 'Annuler la vente courante';
 $lang['sales_completes_currrent_sale'] = 'Complète vente en cours';
 $lang['sales_set_focus_item'] = 'Mettre le focus sur la recherche d\'articles';
 $lang['sales_set_focus_payment'] = 'Mettre le focus sur le champs de montant du paiement';
-$lang['sales_invoice_to'] = 'Facturer à';
+$lang['sales_invoice_to'] = 'Facturer';
 
 $lang['sales_set_discount_fixed_or_percent'] = 'Appliquer un rabais (% ou fixe)';
 $lang['sales_customer_facing_display'] = 'Affichage client';

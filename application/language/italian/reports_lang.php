@@ -513,4 +513,5 @@ $lang['reports_daily_report'] = 'Rapporto Giornaliero';
 $lang['reports_only_count_store_account_payments'] = 'Conta solo i pagamenti dell\'account del negozio';
 $lang['reports_generation_date'] = 'Data di generazione';
 $lang['reports_non_taxable_customers'] = 'Clienti non tassabili';
+$lang['reports_summary_journal'] = 'Rapporto di riepilogo del diario Journal';
 ?>

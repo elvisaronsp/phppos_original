@@ -326,7 +326,7 @@ $lang['sales_set_focus_item'] = 'உருப்படி தேடலில் 
 //Set focus on payment amount field
 $lang['sales_set_focus_payment'] = 'கட்டணத் தொகை துறையில் கவனம் செலுத்துங்கள்';
 //Invoice to
-$lang['sales_invoice_to'] = 'விலைப்பட்டியல்';
+$lang['sales_invoice_to'] = 'பில் டு';
 //Set Discount (% or fixed)
 $lang['sales_set_discount_fixed_or_percent'] = 'தள்ளுபடியை அமைக்கவும் (% அல்லது நிலையானது)';
 //Customer Facing Display

@@ -40,6 +40,7 @@ table {
 			<table class="table table-bordered table-striped table-reports tablesorter" id="sortable_table">
 				<thead>
 					<tr>
+						<th><?php echo lang('common_item_id')?></th>
 						<th><?php echo lang('common_name')?></th>
 						<th><?php echo lang('common_category')?></th>
 						<th><?php echo lang('common_product_id')?></th>
@@ -51,6 +52,7 @@ table {
 					<tbody>
 						<?php foreach($items as $row) { ?>
 							<tr <?php echo $row['is_variation'] ? 'style="background-color: #eee;"' : '';?>>
+								<td><?php echo $row['item_id'];?></td>
 								<td><?php echo $row['name'];?></td>
 								<td><?php echo $this->Category->get_full_path($row['category_id']);?></td>
 								<td><?php echo $row['product_id'];?></td>

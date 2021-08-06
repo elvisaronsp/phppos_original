@@ -201,6 +201,11 @@ abstract class PHPPOSCartItem extends PHPPOSCartItemBase
 				{
 					$this->selling_price = $cur_item_variation_info->unit_price;
 				}
+				elseif($this->quantity_unit_id)
+				{
+					$qui = $CI->Item->get_quantity_unit_info($this->quantity_unit_id);
+					$this->selling_price = $qui->unit_price;
+				}
 				else
 				{
 					$this->selling_price = $cur_item_info->unit_price;

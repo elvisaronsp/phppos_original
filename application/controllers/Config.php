@@ -394,6 +394,7 @@ class Config extends Secure_area
 		'show_clock_on_header' => $this->input->post('show_clock_on_header') ? 1 : 0,
 		'disable_giftcard_detection' => $this->input->post('disable_giftcard_detection') ? 1 : 0,
 		'hide_available_giftcards' => $this->input->post('hide_available_giftcards') ? 1 : 0,
+		'show_giftcards_even_if_0_balance' => $this->input->post('show_giftcards_even_if_0_balance') ? 1 : 0,
 		'always_show_item_grid' => $this->input->post('always_show_item_grid') ? 1 : 0,
 		'hide_out_of_stock_grid' => $this->input->post('hide_out_of_stock_grid') ? 1 : 0,
 		'default_payment_type'=> $this->input->post('default_payment_type'),
@@ -632,6 +633,7 @@ class Config extends Secure_area
 		'tip_preset_zero' => $this->input->post('tip_preset_zero') ? 1 : 0,
 		'show_person_id_on_receipt' => $this->input->post('show_person_id_on_receipt') ? 1 : 0,
 		'disabled_fixed_discounts' => $this->input->post('disabled_fixed_discounts') ? 1 : 0,
+		'always_put_last_added_item_on_top_of_cart' => $this->input->post('always_put_last_added_item_on_top_of_cart') ? 1 : 0,
 	);
 
 	//Old way of doing taxes; we handle this case

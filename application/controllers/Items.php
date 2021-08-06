@@ -3385,6 +3385,7 @@ class Items extends Secure_area implements Idata_controller
 		foreach($result_data as $row)
 		{
 			$data[] = array(
+				'item_id' => $row->item_id,
 				'is_variation' => FALSE,
 				'name' => $row->name,
 				'product_id' => $row->product_id,
@@ -3401,6 +3402,7 @@ class Items extends Secure_area implements Idata_controller
 				foreach($variations as $var_id=>$var_info)
 				{
 					$data[] = array(
+						'item_id' => $row->item_id.'#'.$var_id,
 						'is_variation' => TRUE,
 						'name' => $var_info['name'],
 						'product_id' => '',
@@ -3426,6 +3428,7 @@ class Items extends Secure_area implements Idata_controller
 			
 			
 			$header_row= array(
+				'item_id' => lang('common_item_id'),
 				'name' => lang('common_item_name'),
 				'product_id' => lang('common_product_id'),
 				'category_id' => lang('common_category'),

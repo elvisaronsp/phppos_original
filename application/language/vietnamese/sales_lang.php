@@ -334,7 +334,7 @@ $lang['sales_set_focus_item'] = 'Đặt con trỏ chuột vào ô tìm kiếm';
 //Set focus on payment amount field
 $lang['sales_set_focus_payment'] = 'Đặt con trỏ chuột vào ô số tiền thanh toán';
 //Invoice to
-$lang['sales_invoice_to'] = 'Hóa đơn để';
+$lang['sales_invoice_to'] = 'Hoa đơn để';
 //Set Discount (% or fixed)
 $lang['sales_set_discount_fixed_or_percent'] = 'Đặt giám giả cố định hoặc phần trăm';
 //Customer Facing Display

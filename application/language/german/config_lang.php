@@ -741,7 +741,7 @@ $lang['config_reset_offline_data'] = 'Offline-Daten zurücksetzen';
 $lang['config_remove_quantity_suspending'] = 'Menge beim Anhalten entfernen';
 $lang['config_auto_sync_offline_sales'] = 'Offline-Verkauf automatisch synchronisieren, wenn Sie wieder online sind';
 
-$lang['config_shopify_billing_terms'] = 'Abrechnung aktivieren - 14-Tage-Testversion, dann 19 USD pro Monat';
+$lang['config_shopify_billing_terms'] = 'Abrechnung aktivieren - 14-Tage-Testversion, dann {SHOPIFY_PRICE} pro Monat';
 $lang['config_shopfiy_billing_failed'] = 'Shopify-Abrechnung fehlgeschlagen';
 $lang['config_cancel_shopify'] = 'Shopify-Abrechnung abbrechen';
 $lang['config_confirm_cancel_shopify'] = 'Möchten Sie shopify wirklich stornieren?';
@@ -760,4 +760,6 @@ $lang['config_update_cost_price_on_transfer'] = 'Aktualisieren Sie den Selbstkos
 $lang['config_tip_preset_zero'] = 'Tipp voreingestellter Betrag von 0%';
 $lang['config_show_person_id_on_receipt'] = 'Personen-ID nach Erhalt anzeigen';
 $lang['config_disabled_fixed_discounts'] = 'Deaktivieren Sie feste Rabatte auf der Verkaufsoberfläche';
+$lang['config_always_put_last_added_item_on_top_of_cart'] = 'Immer den zuletzt hinzugefügten Artikel oben in den Warenkorb legen';
+$lang['config_show_giftcards_even_if_0_balance'] = 'Geschenkkarten anzeigen, auch wenn kein Guthaben vorhanden ist';
 ?>

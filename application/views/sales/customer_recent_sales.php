@@ -169,7 +169,7 @@
 								
 								<td><?php echo to_currency($ssale['amount_due']); ?></td>
 								<td><?php echo $ssale['last_payment_date'] !== lang('common_none') ? date(get_date_format() . ' @ ' . get_time_format(), strtotime($ssale['last_payment_date'])) : lang('common_none'); ?></td>
-								<td><?php echo $ssale['comments']; ?></td>
+								<td><?php echo $ssale['comment']; ?></td>
 
 								<td>
 									<?php

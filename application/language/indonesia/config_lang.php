@@ -748,7 +748,7 @@ $lang['config_reset_offline_data'] = 'Setel Ulang Data Offline';
 $lang['config_remove_quantity_suspending'] = 'Hapus Kuantitas Saat Menangguhkan';
 $lang['config_auto_sync_offline_sales'] = 'Auto Sync Penjualan Offline Saat Kembali Online';
 
-$lang['config_shopify_billing_terms'] = 'Aktifkan penagihan - uji coba 14 hari, lalu 19 USD per bulan';
+$lang['config_shopify_billing_terms'] = 'Aktifkan penagihan - uji coba 14 hari, lalu {SHOPIFY_PRICE} per bulan';
 $lang['config_shopfiy_billing_failed'] = 'Penagihan Shopify Gagal';
 $lang['config_cancel_shopify'] = 'Batalkan Penagihan Shopify';
 $lang['config_confirm_cancel_shopify'] = 'Anda yakin ingin membatalkan shopify?';
@@ -767,4 +767,6 @@ $lang['config_update_cost_price_on_transfer'] = 'Perbarui Biaya Harga Saat Trans
 $lang['config_tip_preset_zero'] = 'Tip jumlah preset 0%';
 $lang['config_show_person_id_on_receipt'] = 'Tunjukkan ID Orang pada tanda terima';
 $lang['config_disabled_fixed_discounts'] = 'Nonaktifkan Diskon Tetap Pada Antarmuka Penjualan';
+$lang['config_always_put_last_added_item_on_top_of_cart'] = 'Selalu letakkan item yang terakhir ditambahkan di atas troli';
+$lang['config_show_giftcards_even_if_0_balance'] = 'Tunjukkan kartu Hadiah meskipun saldo nol';
 ?>

@@ -1038,4 +1038,6 @@ $lang['config_update_cost_price_on_transfer'] = '轉移時更新成本價';
 $lang['config_tip_preset_zero'] = '小費預設量為0％';
 $lang['config_show_person_id_on_receipt'] = '在收據上顯示人員ID';
 $lang['config_disabled_fixed_discounts'] = '在銷售界面上禁用固定折扣';
+$lang['config_always_put_last_added_item_on_top_of_cart'] = '始終將最後添加的項目放在購物車頂部';
+$lang['config_show_giftcards_even_if_0_balance'] = '即使餘額為零也顯示禮品卡';
 ?>

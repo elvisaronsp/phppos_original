@@ -52,7 +52,7 @@ class Shopify extends Ecom
 		$charge_response = $this->do_post('/admin/api/2021-01/recurring_application_charges.json',array('recurring_application_charge' =>
 		array(
 			"name" => "PHP POS Shopify",
-			"price" => 19.00,
+			"price" => to_currency_no_money(SHOPIFY_PRICE),
 			"return_url" => site_url('ecommerce/shopify_return_url_subscription'),
 			"test" => $is_test,
 			'trial_days' => 14
@@ -1278,6 +1278,7 @@ class Shopify extends Ecom
 					$cost = $product_variant['cost'];
 				}
 				$sku = $product_variant['sku'];
+				$barcode = $product_variant['barcode'];
 				$shopify_image_id = $product_variant['image_id'];
 				$attribute_value_ids = array();
 				
@@ -1405,6 +1406,15 @@ class Shopify extends Ecom
 
 
 				$variation_id = $this->Item_variations->save($item_variation, $variation_id, $attribute_value_ids);
+				
+				
+				if ($barcode)
+				{
+					$this->load->model('Additional_item_numbers');
+					$this->Additional_item_numbers->save_variation($item_id, $variation_id, array($barcode));				
+				}
+				
+				
 				
 				if ($shopify_image_id)
 				{

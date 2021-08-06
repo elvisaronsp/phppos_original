@@ -135,6 +135,12 @@ class Sales extends REST_Controller {
 			{
 				$this->cart->location_id = 1;
 			}
+			
+			if (isset($sale_request['mode']) && in_array($sale_request['mode'], array('sale','return','store_account_payment','purchase_points')))
+			{
+				$this->cart->set_mode($sale_request['mode']);
+			}
+			
 			date_default_timezone_set($this->Location->get_info_for_key('timezone',$this->cart->location_id));
 			
 			if (isset($sale_request['register_id']) && $sale_request['register_id'])

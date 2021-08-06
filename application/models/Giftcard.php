@@ -59,7 +59,11 @@ class Giftcard extends MY_Model
 		$this->db->where('deleted',0);
 		$this->db->where('inactive',0);
 		$this->db->where('integrated_gift_card',0);
-		$this->db->where('value > ',0);
+		
+		if (!$this->config->item('show_giftcards_even_if_0_balance'))
+		{
+			$this->db->where('value > ',0);			
+		}
 		$this->db->order_by('value', 'desc');
 		$this->db->limit(20);
 

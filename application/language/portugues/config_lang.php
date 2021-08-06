@@ -766,4 +766,6 @@ $lang['config_update_cost_price_on_transfer'] = 'Atualizar preço de custo na tr
 $lang['config_tip_preset_zero'] = 'Valor predefinido da ponta de 0%';
 $lang['config_show_person_id_on_receipt'] = 'Mostrar identificação da pessoa no recibo';
 $lang['config_disabled_fixed_discounts'] = 'Desativar descontos fixos na interface de vendas';
+$lang['config_always_put_last_added_item_on_top_of_cart'] = 'Sempre coloque o último item adicionado no topo do carrinho';
+$lang['config_show_giftcards_even_if_0_balance'] = 'Mostrar vales-presente mesmo com saldo zero';
 ?>

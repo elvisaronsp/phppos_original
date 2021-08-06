@@ -1,3 +1,4 @@
+.vscode
 application/config/database.php
 application/logs
 application/libraries/tfpdf/font/unifont/dejavusanscondensed.cw.dat

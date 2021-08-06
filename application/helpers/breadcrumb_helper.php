@@ -606,6 +606,10 @@ function create_breadcrumb()
 		{
 			$return.=create_report_breadcrumb(lang('reports_last_4_cc'));			
 		}
+		elseif($ci->uri->segment(3) == 'summary_journal')
+		{
+			$return.=create_report_breadcrumb(lang('reports_summary_journal'));
+		}
 	}
 	
 	elseif ($ci->uri->segment(1) == 'employees')

@@ -274,7 +274,7 @@ class Category extends MY_Model
 		
 		return $return;
 	}
-	
+		
 	function get_all($parent_id = NULL, $show_hidden = FALSE, $limit=10000, $offset=0,$col='name',$order='asc',$can_use_cache = TRUE)
 	{
 		static $cache = array();

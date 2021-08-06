@@ -767,7 +767,7 @@ $lang['config_reset_offline_data'] = 'Reset Offline Data';
 $lang['config_remove_quantity_suspending'] = 'Remove Quantity When Suspending';
 $lang['config_auto_sync_offline_sales'] = 'Auto Sync Offline Sales When Back Online';
 
-$lang['config_shopify_billing_terms'] = 'Activate billing - 14 day trial then $19 USD per month';
+$lang['config_shopify_billing_terms'] = 'Activate billing - 14 day trial then ${SHOPIFY_PRICE} per month';
 $lang['config_shopfiy_billing_failed'] = 'Shopify Billing Failed';
 $lang['config_cancel_shopify'] = 'Cancel Shopify Billing';
 $lang['config_confirm_cancel_shopify'] = 'Are you sure you want to cancel shopify?';
@@ -786,4 +786,6 @@ $lang['config_update_cost_price_on_transfer'] = 'Update Cost Price On Transfer';
 $lang['config_tip_preset_zero'] = 'Tip preset amount of 0%';
 $lang['config_show_person_id_on_receipt'] = 'Show Person ID on receipt';
 $lang['config_disabled_fixed_discounts'] = 'Disable Fixed Discounts On Sales Interface';
+$lang['config_always_put_last_added_item_on_top_of_cart'] = 'Always put last added item on top of cart';
+$lang['config_show_giftcards_even_if_0_balance'] = 'Show Gift cards even if zero balance';
 ?>

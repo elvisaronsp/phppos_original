@@ -1322,5 +1322,12 @@ Report::$reports = array(
 														'display' => 'tabular'
 													),
 												),
+												'summary_journal' =>  array(
+													'model' => 'Summary_journal',
+													'settings' => array(
+														'permission_action' => 'view_sales',
+														'display' => 'tabular'
+													),
+												),
 									 ); 
 ?>

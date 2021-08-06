@@ -1054,4 +1054,6 @@ $lang['config_update_cost_price_on_transfer'] = 'تحديث سعر التكلف�
 $lang['config_tip_preset_zero'] = 'مقدار الضبط المسبق لطرف 0٪';
 $lang['config_show_person_id_on_receipt'] = 'إظهار هوية الشخص عند الاستلام';
 $lang['config_disabled_fixed_discounts'] = 'تعطيل الخصومات الثابتة على واجهة المبيعات';
+$lang['config_always_put_last_added_item_on_top_of_cart'] = 'ضع دائمًا آخر عنصر مضاف أعلى سلة التسوق';
+$lang['config_show_giftcards_even_if_0_balance'] = 'إظهار بطاقات الهدايا حتى لو لم يكن هناك رصيد';
 ?>

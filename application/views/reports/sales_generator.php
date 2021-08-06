@@ -306,6 +306,7 @@ function disableConditions(elm, q) {
 										<option value="16" rel="saleComment"<?php if($field[$k] == 16) echo " selected='selected'";?>><?php echo lang("deliveries_sale_comment") ?></option>
 										<option value="17" rel="itemVariationNumber"<?php if($field[$k] == 17) echo " selected='selected'";?>><?php echo lang("common_item_variation_item_number") ?></option>
 										<option value="18" rel="tierName"<?php if($field[$k] == 18) echo " selected='selected'";?>><?php echo lang("common_tier_name") ?></option>
+										<option value="29" rel="tierName"<?php if($field[$k] == 29) echo " selected='selected'";?>><?php echo lang("common_tag") ?></option>
 										
 										<?php
 									 
@@ -377,6 +378,7 @@ function disableConditions(elm, q) {
 										<option value="16" rel="saleComment"><?php echo lang("deliveries_sale_comment") ?></option>
 										<option value="17" rel="itemVariationNumber"><?php echo lang("common_item_variation_item_number") ?></option>
 										<option value="18" rel="tierName"><?php echo lang("common_tier_name") ?></option>
+										<option value="29" rel="tagName"><?php echo lang("common_tag") ?></option>
 										
  										<?php
 									 

@@ -456,15 +456,33 @@ abstract class PHPPOSCart
 		return $return;
 	}
 	
+	public function move_item_to_top_of_cart($index)
+	{
+		$move_to_top_value = $this->cart_items[$index];
+		unset($this->cart_items[$index]);
+		$this->cart_items[] = $move_to_top_value;
+		$this->cart_items = array_values($this->cart_items);
+	}
+	
 	public function merge_item($item_merge_from, $item_merge_into)
 	{
-		foreach($this->get_items(get_class($item_merge_into)) as $item)
+		$CI =& get_instance();
+		
+		$index = 0;
+		foreach($this->get_items($CI->config->item('always_put_last_added_item_on_top_of_cart') ? NULL : get_class($item_merge_into)) as $item)
 		{
 			if ($item === $item_merge_into)
 			{
 				$item_merge_into->quantity+=$item_merge_from->quantity;				
+				if ($CI->config->item('always_put_last_added_item_on_top_of_cart'))
+				{
+					$this->move_item_to_top_of_cart($index);
+				}
+				
 				return TRUE;
 			}
+			
+			$index++;
 		}
 		
 		return FALSE;

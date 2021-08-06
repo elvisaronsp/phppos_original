@@ -452,6 +452,7 @@ class Reports extends Secure_area
 				26 => 'sales.custom_field_8_value',
 				27 => 'sales.custom_field_9_value',
 				28 => 'sales.custom_field_10_value',
+				29 => 'phppos_items.tags',
 			);			
 			$params['values'] = $tmpData;
 			$params['offset'] = $this->input->get('per_page')  ? $this->input->get('per_page') : 0;

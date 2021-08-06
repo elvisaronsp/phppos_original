@@ -336,7 +336,7 @@ $lang['sales_set_focus_item'] = '将重点放在物品搜索上';
 //Set focus on payment amount field
 $lang['sales_set_focus_payment'] = '将重点放在付款金额领域';
 //Invoice to
-$lang['sales_invoice_to'] = '开发票';
+$lang['sales_invoice_to'] = '记账到';
 //Set Discount (% or fixed)
 $lang['sales_set_discount_fixed_or_percent'] = '设置折扣（％或固定）';
 //Customer Facing Display

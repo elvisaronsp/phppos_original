@@ -749,7 +749,7 @@ $lang['config_reset_offline_data'] = 'Réinitialiser les données hors ligne';
 $lang['config_remove_quantity_suspending'] = 'Supprimer la quantité lors de la suspension';
 $lang['config_auto_sync_offline_sales'] = 'Ventes hors ligne de synchronisation automatique une fois de retour en ligne';
 
-$lang['config_shopify_billing_terms'] = 'Activer la facturation - Essai de 14 jours puis 19 USD par mois';
+$lang['config_shopify_billing_terms'] = 'Activer la facturation - Essai de 14 jours puis {SHOPIFY_PRICE} par mois';
 $lang['config_shopfiy_billing_failed'] = 'Échec de la facturation Shopify';
 $lang['config_cancel_shopify'] = 'Annuler la facturation Shopify';
 $lang['config_confirm_cancel_shopify'] = 'Êtes-vous sûr de vouloir annuler shopify?';
@@ -768,4 +768,6 @@ $lang['config_update_cost_price_on_transfer'] = 'Mettre à jour le prix de revie
 $lang['config_tip_preset_zero'] = 'Montant préréglé du pourboire de 0%';
 $lang['config_show_person_id_on_receipt'] = 'Afficher l\'identifiant de la personne sur le reçu';
 $lang['config_disabled_fixed_discounts'] = 'Désactiver les remises fixes sur l\'interface de vente';
+$lang['config_always_put_last_added_item_on_top_of_cart'] = 'Toujours mettre le dernier article ajouté en haut du panier';
+$lang['config_show_giftcards_even_if_0_balance'] = 'Afficher les cartes-cadeaux même si le solde est nul';
 ?>

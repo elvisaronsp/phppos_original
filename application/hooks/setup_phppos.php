@@ -35,6 +35,11 @@ function setup_mysql()
 	$CI->db->query('SET SESSION optimizer_switch="index_merge_intersection=off"');
 }
 
+function setup_shopify_price()
+{
+	define('SHOPIFY_PRICE',19);
+}
+
 //Loads configuration from database into global CI config
 function load_config()
 {	
@@ -89,6 +94,6 @@ function load_config()
 				date_default_timezone_set($timezone);
 			}
 		}
-	}	
+	}		
 }
 ?>

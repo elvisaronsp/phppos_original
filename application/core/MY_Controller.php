@@ -7,7 +7,7 @@ function force_http_if_needed()
 		{
 		    $CI =& get_instance();
 				
-				if ($CI->db->table_exists('app_config'))
+				if ($CI->db->table_exists('app_config') && $CI->db->table_exists('locations'))
 				{	
 					$is_credit_card_processing = ($CI->uri->segment(1) == 'locations' || ($CI->Location->get_info_for_key('emv_merchant_id') && $CI->Location->get_info_for_key('com_port') && $CI->Location->get_info_for_key('listener_port')));
 					if ($is_credit_card_processing)
@@ -27,10 +27,13 @@ function force_https_if_needed()
 		{
 	    $CI =& get_instance();
 			
-			$is_credit_card_processing = ($CI->uri->segment(1) == 'locations' || ($CI->Location->get_info_for_key('emv_merchant_id') && $CI->Location->get_info_for_key('com_port') && $CI->Location->get_info_for_key('listener_port')));
-			if (!$is_credit_card_processing)
+			if ($CI->db->table_exists('app_config') && $CI->db->table_exists('locations'))
 			{
-				force_https();
+				$is_credit_card_processing = ($CI->uri->segment(1) == 'locations' || ($CI->Location->get_info_for_key('emv_merchant_id') && $CI->Location->get_info_for_key('com_port') && $CI->Location->get_info_for_key('listener_port')));
+				if (!$is_credit_card_processing)
+				{
+					force_https();
+				}
 			}
 		}
 	}

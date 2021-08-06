@@ -1075,6 +1075,20 @@ $this->load->helper('update');
 					</div>
 					
 					
+					
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">	
+					<?php echo form_label(lang('config_always_put_last_added_item_on_top_of_cart').':', 'always_put_last_added_item_on_top_of_cart',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'always_put_last_added_item_on_top_of_cart',
+							'id'=>'always_put_last_added_item_on_top_of_cart',
+							'value'=>'1',
+							'checked'=>$this->config->item('always_put_last_added_item_on_top_of_cart')));?>
+							<label for="always_put_last_added_item_on_top_of_cart"><span></span></label>
+						</div>
+					</div>
+					
+					
 					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">	
 					<?php echo form_label(lang('common_disable_recv_cloning').':', 'disable_recv_cloning',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
 						<div class="col-sm-9 col-md-9 col-lg-10">
@@ -1553,6 +1567,22 @@ $this->load->helper('update');
 							<label for="hide_available_giftcards"><span></span></label>
 						</div>
 					</div>
+					
+					
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">	
+						<?php echo form_label(lang('config_show_giftcards_even_if_0_balance').':', 'show_giftcards_even_if_0_balance',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'show_giftcards_even_if_0_balance',
+							'id'=>'show_giftcards_even_if_0_balance',
+							'value'=>'1',
+							'checked'=>$this->config->item('show_giftcards_even_if_0_balance')));?>
+							<label for="show_giftcards_even_if_0_balance"><span></span></label>
+						</div>
+					</div>
+					
+					
+				
 					
 					
 					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">	
@@ -4708,7 +4738,7 @@ $this->load->helper('update');
 						else
 						{
 						?>
-                    	<a href="<?php echo site_url('ecommerce/activate_shopify_billing');?>" class="btn btn-success" id="shopify_activate_billing"><?php echo lang('config_shopify_billing_terms'); ?></a>
+                    	<a href="<?php echo site_url('ecommerce/activate_shopify_billing');?>" class="btn btn-success" id="shopify_activate_billing"><?php echo str_replace('{SHOPIFY_PRICE}',SHOPIFY_PRICE,lang('config_shopify_billing_terms')); ?></a>
 						<br /><br />
 						<a href="<?php echo site_url('ecommerce/oauth_shopify_disconnect');?>" class="btn btn-danger" id="shopify_oauth_disconnect"><?php echo lang('config_disconnect_to_shopify'); ?></a>
 						

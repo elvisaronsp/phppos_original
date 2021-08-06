@@ -624,7 +624,7 @@ class Receiving extends MY_Model
 				}
 			}
 			
-			if($suspended  == 0 && $mode=='transfer' && $location_id && $cur_item_location_info->quantity !== NULL && !$cur_item_info->is_service)
+			if($suspended  == 0 && $mode=='transfer' && $location_id && !$cur_item_info->is_service)
 			{				
 				
 				if ($item->variation_id)

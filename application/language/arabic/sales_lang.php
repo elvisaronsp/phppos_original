@@ -332,7 +332,7 @@ $lang['sales_set_focus_item'] = 'ضبط التركيز على البحث عن ا
 //Set focus on payment amount field
 $lang['sales_set_focus_payment'] = 'اضبط التركيز على حقل مبلغ الدفع';
 //Invoice to
-$lang['sales_invoice_to'] = 'فاتورة إلى';
+$lang['sales_invoice_to'] = 'فاتورة الى';
 //Set Discount (% or fixed)
 $lang['sales_set_discount_fixed_or_percent'] = 'تعيين الخصم (٪ أو ثابت)';
 //Customer Facing Display

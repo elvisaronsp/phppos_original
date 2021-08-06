@@ -317,6 +317,8 @@
 				</div>
 
 				<div class="list-group sales hidden">
+					<a class="list-group-item" href="<?php echo site_url('reports/generate/summary_journal');?>" ><i class="icon ti-receipt"></i> <?php echo lang('reports_summary_journal'); ?></a>
+					
 					<?php if (can_display_graphical_report() ){ ?>
 						<a class="list-group-item" href="<?php echo site_url('reports/generate/graphical_summary_sales');?>" ><i class="icon ti-bar-chart-alt"></i> <?php echo lang('reports_graphical_reports'); ?></a>
 					<?php } ?>

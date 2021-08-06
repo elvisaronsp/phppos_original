@@ -21,6 +21,14 @@ $hook['pre_system'][] = array(
 		
 $hook['post_controller_constructor'][] = array(
                                 'class'    => '',
+                                'function' => 'setup_shopify_price',
+                                'filename' => 'setup_phppos.php',
+                                'filepath' => 'hooks'
+                                );
+
+		
+$hook['post_controller_constructor'][] = array(
+                                'class'    => '',
                                 'function' => 'load_config',
                                 'filename' => 'setup_phppos.php',
                                 'filepath' => 'hooks'

@@ -482,6 +482,30 @@ class Sale extends MY_Model
 	}
 	
 	
+	
+	function get_payment_data_grouped_by_day($payments_by_sale,$sales_totals)
+	{
+		$return = array();
+		
+		$payments_grouped_by_sale = $this->get_payment_data_grouped_by_sale($payments_by_sale,$sales_totals);
+	
+		foreach($payments_grouped_by_sale as $sale_id => $payment_types)
+		{
+			foreach ($payment_types as $payment_type => $payment_data)
+			{
+				if (!isset($return[date('Y-m-d',strtotime($payment_data['payment_date']))][$payment_type]))
+				{
+					$return[date('Y-m-d',strtotime($payment_data['payment_date']))][$payment_type] = 0;
+				}
+				
+				$return[date('Y-m-d',strtotime($payment_data['payment_date']))][$payment_type]+=$payment_data['payment_amount'];
+			}
+		}
+		
+		return $return;
+	}
+	
+	
 		
 	function get_payment_data_grouped_by_sale($payments_by_sale,$sales_totals)
 	{

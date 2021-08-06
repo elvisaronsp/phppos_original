@@ -29,7 +29,7 @@
                              '100' => '100');
             echo form_dropdown('sel',$options,'','class="form-control form-inps" id="type"');
             //echo form_dropdown('type', $rule_types, $rule, 'class="form-control form-inps" id="type"');
-			echo form_submit('submit',Submit,'class="btn btn-primary btn-lg" id="type"');
+			echo form_submit('submit',lang('common_submit'),'class="btn btn-primary btn-lg" id="type"');
 				?>
 			</li> -->
 			<li>

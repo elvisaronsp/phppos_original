@@ -379,7 +379,7 @@ if ($this->input->get('error') == 'access_token')
 					else
 					{
 					?>
-                	<a href="<?php echo site_url('ecommerce/activate_shopify_billing');?>" class="btn btn-success" id="shopify_activate_billing"><?php echo lang('config_shopify_billing_terms'); ?></a>
+                	<a href="<?php echo site_url('ecommerce/activate_shopify_billing');?>" class="btn btn-success" id="shopify_activate_billing"><?php echo str_replace('{SHOPIFY_PRICE}',SHOPIFY_PRICE,lang('config_shopify_billing_terms')); ?></a>
 					<?php
 					}
 					?>

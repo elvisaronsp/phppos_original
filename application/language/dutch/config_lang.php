@@ -743,7 +743,7 @@ $lang['config_reset_offline_data'] = 'Reset offline gegevens';
 $lang['config_remove_quantity_suspending'] = 'Hoeveelheid verwijderen bij opschorting';
 $lang['config_auto_sync_offline_sales'] = 'Offline verkoop automatisch synchroniseren wanneer u weer online bent';
 
-$lang['config_shopify_billing_terms'] = 'Activeer facturering - 14 dagen op proef, daarna 19 USD per maand';
+$lang['config_shopify_billing_terms'] = 'Activeer facturering - 14 dagen op proef, daarna {SHOPIFY_PRICE} per maand';
 $lang['config_shopfiy_billing_failed'] = 'Shopify-facturering mislukt';
 $lang['config_cancel_shopify'] = 'Annuleer Shopify-facturering';
 $lang['config_confirm_cancel_shopify'] = 'Weet je zeker dat je Shopify wilt annuleren?';
@@ -762,4 +762,6 @@ $lang['config_update_cost_price_on_transfer'] = 'Update kostprijs bij overdracht
 $lang['config_tip_preset_zero'] = 'Fooi vooraf ingesteld bedrag van 0%';
 $lang['config_show_person_id_on_receipt'] = 'Toon persoons-ID op ontvangstbewijs';
 $lang['config_disabled_fixed_discounts'] = 'Schakel vaste kortingen op verkoopinterface uit';
+$lang['config_always_put_last_added_item_on_top_of_cart'] = 'Plaats altijd het laatst toegevoegde artikel bovenop de winkelwagen';
+$lang['config_show_giftcards_even_if_0_balance'] = 'Toon cadeaubonnen, zelfs als het saldo nul is';
 ?>
