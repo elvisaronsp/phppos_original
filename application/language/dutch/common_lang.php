@@ -1021,19 +1021,42 @@ $lang['common_serialnumber_already_added'] = 'Het serienummer is al toegevoegd';
 $lang['common_add_secondary_category'] = 'Voeg een secundaire categorie toe';
 $lang['common_secondary_category'] = 'Secundaire categorie';
 $lang['common_suspended_types'] = 'Opgeschorte typen';
+
+$lang['common_duration'] = 'Looptijd';
+
 $lang['shopify_cron_job_entry'] = 'Shopify Cron-invoer';
 $lang['item inventory changed in shopify'] = 'Artikelvoorraad gewijzigd in Shopify';
 $lang['common_recent_exports'] = 'Recente exporten';
 $lang['common_import_order'] = 'Order importeren';
+
+
+
+
+$lang['shopfiy_not_paid'] = 'U heeft uw Shopify-facturering niet geactiveerd';
+
+
+
+
 $lang['shopify_not_paid'] = 'U heeft uw Shopify-facturering niet geactiveerd';
+
 $lang['common_color'] = 'Kleur';
 $lang['common_drag_and_drop_or_click'] = 'Slepen en neerzetten of klikken';
 $lang['common_workorder'] = 'Werkorder';
 $lang['common_item_being_repaired'] = 'Item wordt gerepareerd';
+
+
+
 $lang['work_orders_edit'] = 'Werkopdracht bewerken';
 $lang['work_orders_delete'] = 'Werkopdracht verwijderen';
 $lang['work_orders_search'] = 'Zoek werkorders';
 $lang['work_orders_manage_statuses'] = 'Beheer de statussen van werkorders';
 $lang['common_shopify_access_token_error'] = 'Uw toegangstoken is verlopen en we kunnen geen verbinding maken met de API. Probeer het a.u.b. opnieuw.';
 $lang['common_ecommerce_item'] = 'E-commerce-item';
+$lang['config_show_qr_code_for_sale'] = 'QR-code weergeven op kassabon';
+$lang['common_suppliers'] = 'Leveranciers';
+$lang['common_back_to_suppliers'] = 'Terug naar leveranciers';
+
+$lang['common_change_status'] = 'Verander status';
+$lang['common_please_select'] = 'Selecteer alstublieft';
+$lang['sales_can_lookup_last_receipt'] = 'Kan laatste bon opzoeken Look';
 ?>

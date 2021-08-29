@@ -758,10 +758,42 @@ $lang['config_ecommerce_sync_running'] = 'De e-commerce-synchronisatie wordt nu 
 $lang['config_show_total_on_fulfillment'] = 'Totaal weergeven op uitvoeringsblad';
 $lang['config_connect_shopify_in_app_store'] = 'Je bent niet verbonden met Shopify. U kunt verbinding maken met Shopify in de App Store';
 $lang['config_override_signature_text'] = 'Handtekeningstekst overschrijven';
+
+$lang['config_delivery_color_based_on'] = 'Leveringskleur gebaseerd op';
+$lang['config_delivery_color_based_on_status'] = 'Toestand';
+$lang['config_delivery_color_based_on_category'] = 'Categorie';
+
+
 $lang['config_update_cost_price_on_transfer'] = 'Update kostprijs bij overdracht';
+
+
+
 $lang['config_tip_preset_zero'] = 'Fooi vooraf ingesteld bedrag van 0%';
+
+
+
+$lang['config_layaway_statement_message'] = 'Layaway Statement-bericht';
+
+
 $lang['config_show_person_id_on_receipt'] = 'Toon persoons-ID op ontvangstbewijs';
+
+
+
+
+$lang['config_import_ecommerce_orders_suspended'] = 'Importeren van e-commercebestellingen opgeschort';
+
+$lang['config_show_images_on_receipt'] = 'Toon afbeeldingen bij ontvangst';
+
 $lang['config_disabled_fixed_discounts'] = 'Schakel vaste kortingen op verkoopinterface uit';
+
+
+
 $lang['config_always_put_last_added_item_on_top_of_cart'] = 'Plaats altijd het laatst toegevoegde artikel bovenop de winkelwagen';
+
+
+
 $lang['config_show_giftcards_even_if_0_balance'] = 'Toon cadeaubonnen, zelfs als het saldo nul is';
+
+$lang['config_scale_5'] = 'Gewicht Ingebedde streepjescode';
+$lang['config_hide_description_on_suspended_sales'] = 'Itembeschrijving verbergen bij opgeschorte verkopen';
 ?>

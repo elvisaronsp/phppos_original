@@ -50,7 +50,7 @@ class Deleted_sales extends Report
 		$summary_data = array();
 		$details_data = array();
 
-		$location_count = count(Report::get_selected_location_ids());			
+		$location_count = $this->Location->count_all();			
 
 		foreach(isset($this->params['export_excel']) == 1 && isset($report_data['summary']) ? $report_data['summary']:$report_data as $key=>$row)
 		{
@@ -184,7 +184,7 @@ class Deleted_sales extends Report
 		
 		$return = array();
 		
-		$location_count = count(self::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		
 		$return['summary'] = array();
 		$return['summary'][] = array('data'=>lang('reports_sale_id'), 'align'=> 'left');

@@ -341,8 +341,22 @@ for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++)
 		}
 	</style>
 </head>
-<body style="Margin:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;min-width:100%;background-color:#E8EBF1;line-height:20px;" >
+<body style="Margin:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;min-width:100%;background-color:#E8EBF1;line-height:20px;" >	
+	
 	<center class="wrapper" style="width:100%;table-layout:fixed;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;" >
+		<?php
+			if (version_compare(PHP_VERSION, '7.2', '>='))
+			{
+				require_once (APPPATH."libraries/hashids/vendor/autoload.php");
+			
+				$hashids = new Hashids\Hashids(base_url());
+				$sms_id = $hashids->encode($sale_id_raw);
+			
+				echo '<br /><p>'.anchor(site_url('r/'.$sms_id),lang('sales_view_receipt_on_web_page')).'</p>';
+			}
+	
+		?>
+		
 		<div class="webkit" style="max-width:600px;background-color:#FFFFFF;margin-top:30px;border-radius:6px;border-width:1px;border-style:solid;border-color:#DCE0E6;" >
 			<!--[if (gte mso 9)|(IE)]>
 			<table width="600" align="center" style="border-spacing:0;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;color:#555555;font-size:13px;" >
@@ -1163,6 +1177,28 @@ for($k=1;$k<=NUMBER_OF_PEOPLE_CUSTOM_FIELDS;$k++)
 				}
 					
 				?>
+		
+		
+		<?php if ($this->config->item('show_qr_code_for_sale')) {?>
+			<?php
+			require_once (APPPATH."libraries/hashids/vendor/autoload.php");
+	
+			$hashids = new Hashids\Hashids(base_url());
+			$sms_id = $hashids->encode($sale_id_raw);
+			$sale_id_url = site_url('r/'.$sms_id);
+			?>
+			
+			<tr class="text-center item-row">
+				<td  colspan="<?php echo $total_columns; ?>"align="center" style="padding-right:0;padding-top:10px !important;padding-left:10px;border-width:1px;border-style:solid;border-color:#DCE0E6;border-bottom-width:0px;border-right-width:0px;padding-bottom:10px;" >
+					<?php	
+						$file = file_get_contents(site_url('qrcodegenerator/index?qrcode='.$sale_id_url));
+						$base64_file_data = base64_encode($file);
+					?>
+					<img style="width:100px;" src="data:image/png;base64,<?php echo $base64_file_data ?>" />
+				</td>
+			</tr>
+			
+			<?php } ?>
 								
 			</table>
 			<!--[if (gte mso 9)|(IE)]>

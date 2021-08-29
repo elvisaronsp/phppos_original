@@ -1159,10 +1159,16 @@ class Receivings extends Secure_area
 		if ($suspended_recv_id)
 		{
 			$this->cart->receiving_id = NULL;
-			$this->Receiving->delete($suspended_recv_id, false);
+			if(is_array($suspended_recv_id)){
+				foreach($suspended_recv_id as $recv_id){
+						$this->Receiving->delete($recv_id);
+				}
+			}else{
+				$this->Receiving->delete($suspended_recv_id, false);
+			}
 		}
 		$this->cart->save();
-    redirect('receivings/suspended');
+    	redirect('receivings/suspended');
 	}
 	
 	function clone_receiving($receiving_id)
@@ -1624,6 +1630,35 @@ class Receivings extends Secure_area
 		
 		echo json_encode($data);	
 	}
+
+	function suppliers($offset = 0)
+	{
+		//allow parallel searchs to improve performance.
+		session_write_close();
+		
+		$suppliers = $this->Supplier->get_all(0, $this->config->item('number_of_items_in_grid') ? $this->config->item('number_of_items_in_grid') : 14, $offset);
+		
+		$suppliers_count = $this->Supplier->count_all();		
+		$config['base_url'] = site_url('receivings/suppliers');
+		$config['uri_segment'] = 3;
+		$config['total_rows'] = $suppliers_count;
+		$config['per_page'] = $this->config->item('number_of_items_in_grid') ? $this->config->item('number_of_items_in_grid') : 14; 
+		$this->load->library('pagination');
+		$this->pagination->initialize($config);
+		
+		$suppliers_response = array();
+		$this->load->model('Appfile');
+		foreach($suppliers->result_array() as $id=>$value)
+		{
+				$suppliers_response[] = array('id' => $value['pid'], 'name' => $value['company_name'], 'image_id' => $value['image_id'], 'image_timestamp' => $this->Appfile->get_file_timestamp($value['image_id']));
+		}
+
+		$data = array();
+		$data['suppliers'] = H($suppliers_response);
+		$data['pagination'] = $this->pagination->create_links();
+		
+		echo json_encode($data);	
+	}
 	
 	function tags($offset = 0)
 	{
@@ -1653,7 +1688,6 @@ class Receivings extends Secure_area
 	
 		echo json_encode($data);	
 	}
-
 
 	function tag_items($tag_id, $offset = 0)
 	{
@@ -1775,6 +1809,61 @@ class Receivings extends Secure_area
 		$config['total_rows'] = $items_count;
 		$this->load->library('pagination');
 		$this->pagination->initialize($config);
+		$data['pagination'] = $this->pagination->create_links();
+		
+		echo json_encode($data);
+	}
+
+	function supplier_items($supplier_id, $offset = 0)
+	{
+		$this->load->model('Item_variations');
+		
+		//allow parallel searchs to improve performance.
+		session_write_close();
+		
+		$config['base_url'] = site_url('receivings/supplier_items/'.($supplier_id ? $supplier_id : 0));
+		$config['uri_segment'] = 4;
+		$config['per_page'] = $this->config->item('number_of_items_in_grid') ? $this->config->item('number_of_items_in_grid') : 14; 
+		
+				
+		//Items
+		$items = array();
+		
+		$items_result = $this->Item->get_all_item_by_supplier($supplier_id, $this->config->item('hide_out_of_stock_grid') ? TRUE : FALSE, $offset, $this->config->item('number_of_items_in_grid') ? $this->config->item('number_of_items_in_grid') : 14)->result();
+		
+		
+		foreach($items_result as $item)
+		{
+			$img_src = "";
+			if ($item->image_id != 'no_image' && trim($item->image_id) != '') {
+				$img_src = app_file_url($item->image_id);
+			}
+
+			$cur_item_info = $this->Item->get_info($item->item_id);
+			$cur_item_location_info = $this->Item_location->get_info($item->item_id);
+
+			$price_to_use = ($cur_item_location_info && $cur_item_location_info->cost_price) ? $cur_item_location_info->cost_price : $cur_item_info->cost_price;
+	
+			$has_cost_price_permission = $this->Employee->has_module_action_permission('items', 'see_cost_price', $this->Employee->get_logged_in_employee_info()->person_id);
+	
+			$items[] = array(
+				'id' => $item->item_id,
+				'name' => character_limiter($item->name, 58),				
+				'image_src' => 	$img_src,
+				'type' => 'item',		
+				'has_variations' => count($this->Item_variations->get_variations($item->item_id)) > 0 ? TRUE : FALSE,
+				'price' => $price_to_use != '0.00' ? to_currency($price_to_use) : FALSE,
+				'regular_price' => $has_cost_price_permission ? to_currency($price_to_use) : '',	
+				'different_price' => $price_to_use != $item->unit_price,	
+			);	
+		}
+	
+		$items_count = count($items_result) + 1; //$this->Item->count_all_by_tag($supplier_id);
+		
+		$data = array();
+		$data['items'] = H($items);
+		$config['total_rows'] = $items_count;
+		$this->load->library('pagination');$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();
 		
 		echo json_encode($data);

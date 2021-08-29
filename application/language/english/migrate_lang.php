@@ -433,7 +433,47 @@ $lang['migrate_expenses_categories'] = 'Expenses Categories';
 $lang['migrate_permission_for_manage_expenses_categories'] = 'Permission For Manage Expenses Categories';
 $lang['migrate_update_foreign_key_for_expenses_categories'] = 'Update Foreign Key For Expenses Categories';
 
+$lang['migrate_delivery_categories'] = 'Delivery Categories';
+$lang['migrate_permission_for_manage_delivery_categories'] = 'Permission For Manage Delivery Categories';
+$lang['migrate_add_category_id_to_phppos_sales_deliveries'] = 'Add Category Id To Phppos Sales Deliveries';
+$lang['migrate_add_duration_to_phppos_sales_deliveries'] = 'Add Duration To Phppos Sales Deliveries';
+$lang['migrate_allow_sales_id_nullable_in_sales_deliveries_table'] = 'Allow Sales Id Nullable In Sales Deliveries Table';
+$lang['migrate_delivery_items'] = 'Delivery Items';
+$lang['migrate_delivery_item_kits'] = 'Delivery Item Kits';
+$lang['migrate_added_location_id_to_sales_deliveries_table'] = 'Added Location Id To Sales Deliveries Table';
+
+
 $lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'Allow Ecommerce Order Id To Be Larger Int';
 $lang['migrate_index_on_filename'] = 'Index On Filename';
+
+
+
+
+$lang['migrate_18_2_version'] = '18.2 Version';
+
+$lang['migrate_add_delivery_type_column_to_salse_deliveries'] = 'Add Delivery Type Column To Salse Deliveries';
+$lang['migrate_update_sales_deliveries_delivery_type'] = 'Update Sales Deliveries Delivery Type';
+
+$lang['migrate_18_2_version'] = '18.2 Version';
+
 $lang['migrate_work_orders'] = 'Work Orders';
+
+
+
+$lang['migrate_delivery_statuses'] = 'Delivery Statuses';
+$lang['migrate_update_existing_delivery_status_and_change_status_column_type_to_sales_deliveries'] = 'Update Existing Delivery Status And Change Status Column Type To Sales Deliveries';
+$lang['migrate_update_location_in_sales_deliveries_from_sales_table'] = 'Update Location In Sales Deliveries From Sales Table';
+$lang['migrate_add_notify_by_columns_in_delivery_statuses_table'] = 'Add Notify By Columns In Delivery Statuses Table';
+$lang['migrate_manage_delivery_statuses_permission'] = 'Manage Delivery Statuses Permission';
+$lang['migrate_add_default_delivery_statuses'] = 'Add Default Delivery Statuses';
+$lang['migrate_serial_number_variations'] = 'Serial Number Variations';
+
+
+$lang['migrate_import_ecommerce_orders_suspended_type'] = 'Import Ecommerce Orders Suspended Type';
+
+$lang['migrate_can_lookup_last_receipt_permission'] = 'Can Lookup Last Receipt Permission';
+
+$lang['migrate_permission_for_delete_suspended_receivings'] = 'Permission For Delete Suspended Receivings';
+
+$lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = 'Fix Utf8 General Ci To Utf8 Unicode Ci For Phppos Workorder Statuses';
 ?>

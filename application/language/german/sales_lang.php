@@ -65,7 +65,7 @@ $lang['sales_successfully_deleted'] = 'Wurde erfolgreich gelöscht';
 $lang['sales_unsuccessfully_deleted'] = 'Verkauf/Verkäufe konnten nicht gelöscht werden';
 $lang['sales_change_sale'] = 'Verkauf erneut aufrufen';
 $lang['sales_delete_entire_sale'] = 'Gesamten Verkauf löschen';
-$lang['sales_delete_confirmation'] = 'Soll der Verkauf wirklich gelöscht werden? Diese Aktion kann nicht rückgängig gemacht werden';
+$lang['sales_delete_confirmation'] = 'Sind Sie sicher, dass Sie diese Verkäufe löschen möchten, kann diese Aktion nicht rückgängig gemacht werden.';
 
 $lang['sales_delete_successful'] = 'Der Verkauf wurde erfolgreich gelöscht';
 $lang['sales_delete_unsuccessful'] = 'Der Verkauf konnte nicht gelöscht werden';
@@ -375,4 +375,5 @@ $lang['sales_note'] = 'Hinweis';
 $lang['sales_detailed_note'] = 'Detaillierte Anmerkung';
 $lang['sales_internal_note'] = 'Interner Hinweis';
 $lang['sales_delveried_to'] = 'Geliefert an';
+$lang['sales_view_receipt_on_web_page'] = 'Quittung auf der Webseite anzeigen';
 ?>

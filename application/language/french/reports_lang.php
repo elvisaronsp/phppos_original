@@ -510,6 +510,15 @@ $lang['reports_serial_number_history'] = 'Historique des numéros de série';
 $lang['reports_daily_report'] = 'Rapport journalier';
 $lang['reports_only_count_store_account_payments'] = 'Ne comptez que les paiements du compte magasin';
 $lang['reports_generation_date'] = 'Date de génération';
+
 $lang['reports_non_taxable_customers'] = 'Clients non taxables';
+
+
+$lang['reports_layaway_statements'] = 'Déclarations de mise à l\'écart';
+$lang['reports_payment'] = 'Paiement';
+$lang['reports_due'] = 'Dû';
+
+
 $lang['reports_summary_journal'] = 'Rapport de synthèse';
+
 ?>

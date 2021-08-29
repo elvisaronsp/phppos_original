@@ -88,11 +88,11 @@ $lang['deliveries_calendars'] = 'التقويمات';
 //Cancel Delivery
 $lang['delivery_cancel_delivery'] = 'إلغاء التسليم';
 //You have successfully deleted
-$lang['deliveries_successful_deleted'] = 'لقد قمت بحذف بنجاح';
+$lang['deliveries_successful_deleted'] = 'لقد قمت بحذفه بنجاح';
 //Delivery(s)
 $lang['deliveries_one_or_multiple'] = 'تسليم (ق)';
 //Could not deleted selected deliveries
-$lang['deliveries_cannot_be_deleted'] = 'لا يمكن حذف عمليات التسليم المحددة';
+$lang['deliveries_cannot_be_deleted'] = 'تعذر حذف الحالة المختارة.';
 //Select Date
 $lang['deliveries_select_date'] = 'حدد تاريخ';
 //Edit the Sale to change this value.
@@ -115,4 +115,29 @@ $lang['deliveries_manage_deleted'] = 'إدارة التسليمات المحذو
 $lang['deliveries_confirm_undelete'] = 'هل أنت متأكد من أنك تريد إلغاء إلغاء الطلبات المحددة؟';
 $lang['deliveries_status_scheduled'] = 'المقرر';
 $lang['deliveries_status_not_scheduled'] = 'غير مقرر';
+$lang['deliveries_new'] = 'توصيل جديد';
+$lang['deliveries_manage_without_sales_deliveries'] = 'إدارة دون تسليم المبيعات';
+$lang['deliveries_manage_with_sales_deliveries'] = 'إدارة مع تسليم المبيعات';
+$lang['deliveries_with_or_without_sales'] = 'التسليم مع / بدون المبيعات';
+$lang['deliveries_with_sales'] = 'مع المبيعات';
+$lang['deliveries_without_sales'] = 'بدون مبيعات';
+$lang['deliveries_status_shipped'] = 'شحنها';
+$lang['deliveries_status_delivered'] = 'تم التوصيل';
+$lang[''] = '';
+$lang['deliveries_select_status'] = 'حدد الحالة';
+$lang['deliveries_manage_statuses'] = 'إدارة الحالات';
+$lang['deliveries_add_status'] = 'أضف الحالة';
+$lang['deliveries_edit_status'] = 'تحرير الحالة';
+$lang['deliveries_status_delete_confirmation'] = 'هل أنت متأكد أنك تريد حذف هذه الحالة؟';
+$lang['deliveries_status_successful_adding'] = 'تم إضافة / تحديث الحالة بنجاح';
+$lang['deliveries_status_successful_error'] = 'حدث خطأ أثناء إضافة الحالة';
+$lang['deliveries_confirm_status_change'] = 'هل أنت متأكد أنك تريد تغيير حالة هذا التسليم؟';
+$lang['deliveries_delivery_status_update_message'] = 'يود٪ s إبلاغك بأن حالة التسليم٪ s قد تغيرت إلى:٪ s.';
+$lang['deliveries_delivery_status_update'] = 'تحديث حالة التسليم';
+$lang['deliveries_successful_changed'] = 'لقد تغيرت بنجاح';
+$lang['deliveries_notify_customer_via_email'] = 'إخطار العميل عبر البريد الإلكتروني';
+$lang['deliveries_notify_customer_via_sms'] = 'قم بإخطار العميل عبر الرسائل القصيرة';
+$lang['deliveries_unable_to_add_item'] = 'غير قادر على إضافة عنصر للتسليم';
+$lang['deliveries_calendar_error_while_fetching_events'] = 'حدث خطأ أثناء إحضار الأحداث!';
+$lang['deliveries_delivery_items'] = 'عناصر التوصيل';
 ?>

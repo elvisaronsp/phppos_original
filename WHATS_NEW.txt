@@ -1,29 +1,14 @@
-18.1 Release!
+18.2 Release!
 
 Whats new:
-* Added Shopify e-commerce integration
-* Added Work Order Module
-* Now support secondary categories for item grid + WooCommerce
-* Can now Remove Quantity When Suspending for custom sale types (off by default)
-* Item subtotal before modifiers is now displayed on receipt
-* Added filter to suspended sales screen to filter by suspended sale type
-* Now have preference on which day the automatic report e-mail sends (Current day or previous day)
-* Added non-taxable amount to Detailed Sales Report
-* Improved inventory counting by adding search, column configuration and minor tweaks
-* Expenses now have their own categories
-* Now have the ability to download recent excel exports for items and customers for up to 1 week after exported
-* Added customer email and phone to reports --> Sales --> Detailed
-* Added store config option Automatically Sync Offline Sales
-* Fixed bug in reports --> custom where Item Category filter did not work in all cases
-* Now storing non_taxable total for each sale for faster calculations
-* Now show variation name when sales/receeivings interface collapsed
-* Added option for credit  card processing to disable amount confirmation
-* Bulk edit description and long description for items
-* Added custom fields to reports --> deleted sales
-* Added Delivered To in recent sales popup
-* Added employee last name back to receipt
-* Fixed a bug where selecting tier after price rule applied didn't remove rule if excluded from tiers
-* Commission now includes modifiers
-* Added store config option Show Total On Fulfillment Sheet
-* Added support for php 8
-* Minor bug fixes & improvements
+* Improved delivery section with a new calendar view. Now also have categories and custom statuses. Can now also email/SMS customer when delivery status changes
+* Added Layaway statements report
+* Added View Receipt On Web Page to receipt link. This allows a standalone link to be e-mailed or sent
+* Added store config option to import e-commerce order suspended
+* Added store config option Show Images on Receipt
+* Serial numbers can be tied to a variation
+* Added supplier option to item grid
+* Added predicted sale id to CardConnect
+* Added Weight Embedded Barcodes
+* Added permission Can lookup last receipt
+* Bulk delete suspended sales & Receivings

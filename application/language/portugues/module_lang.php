@@ -95,4 +95,5 @@ $lang['appointments_edit'] = 'Editar compromissos';
 $lang['module_work_orders'] = 'Ordens de trabalho';
 $lang['module_work_orders_desc'] = 'Ordens de trabalho';
 $lang['module_manage_statuses'] = 'Gerenciar status';
+$lang['module_action_delete_suspended_receiving'] = 'Excluir recebimento suspenso';
 ?>

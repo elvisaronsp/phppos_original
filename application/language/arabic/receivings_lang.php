@@ -194,4 +194,5 @@ $lang['receivings_show_signature_on_receiving_receipt'] = 'إظهار التوق
 $lang['receivings_out_of_stock'] = 'سيكون عنصر واحد أو أكثر غير متوفر في المخزون عند إتمام هذه المعاملة';
 $lang['receivings_you_do_not_have_permission_to_complete_transfers'] = 'ليس لديك إذن لإكمال النقل. سوف تحتاج إلى الاتصال بالمدير للحصول على إذن';
 $lang['receivings_undelete_unsuccessful'] = 'تعذر حذف الاستلام';
+$lang['delete_suspended_receivings_confirmation'] = 'هل أنت متأكد أنك تريد حذف هذا (المستلمين) ، لا يمكن التراجع عن هذا الإجراء';
 ?>

@@ -1614,19 +1614,42 @@ $lang['common_serialnumber_already_added'] = 'تمت إضافة الرقم ال�
 $lang['common_add_secondary_category'] = 'أضف فئة ثانوية';
 $lang['common_secondary_category'] = 'الفئة الثانوية';
 $lang['common_suspended_types'] = 'الأنواع المعلقة';
+
+$lang['common_duration'] = 'المدة الزمنية';
+
 $lang['shopify_cron_job_entry'] = 'Shopify دخول كرون';
 $lang['item inventory changed in shopify'] = 'تم تغيير مخزون العنصر في Shopify';
 $lang['common_recent_exports'] = 'الصادرات الحديثة';
 $lang['common_import_order'] = 'أمر استيراد';
+
+
+
+
+$lang['shopfiy_not_paid'] = 'لم تقم بتنشيط Shopify Billing';
+
+
+
+
 $lang['shopify_not_paid'] = 'لم تقم بتنشيط Shopify Billing';
+
 $lang['common_color'] = 'اللون';
 $lang['common_drag_and_drop_or_click'] = 'السحب والإفلات أو النقر';
 $lang['common_workorder'] = 'أمر العمل';
 $lang['common_item_being_repaired'] = 'البند الجاري إصلاحه';
+
+
+
 $lang['work_orders_edit'] = 'تحرير أمر العمل';
 $lang['work_orders_delete'] = 'حذف أمر العمل';
 $lang['work_orders_search'] = 'البحث في أوامر العمل';
 $lang['work_orders_manage_statuses'] = 'إدارة أوضاع أوامر العمل';
 $lang['common_shopify_access_token_error'] = 'انتهت صلاحية رمز الوصول الخاص بك ولا يمكننا الاتصال بواجهة برمجة التطبيقات. حاول مرة اخرى.';
 $lang['common_ecommerce_item'] = 'عنصر التجارة الإلكترونية';
+$lang['config_show_qr_code_for_sale'] = 'إظهار رمز الاستجابة السريعة على إيصال البيع';
+$lang['common_suppliers'] = 'الموردين';
+$lang['common_back_to_suppliers'] = 'رجوع إلى الموردين';
+
+$lang['common_change_status'] = 'تغيير الوضع';
+$lang['common_please_select'] = 'الرجاء التحديد';
+$lang['sales_can_lookup_last_receipt'] = 'يمكن البحث عن آخر إيصال';
 ?>

@@ -289,7 +289,7 @@ $has_cost_price_permission = $this->Employee->has_module_action_permission('item
 												<?php } ?>
 
 												<?php
-												if ($this->config->item('calculate_average_cost_price_from_receivings')) {
+												if ($this->config->item('calculate_average_cost_price_from_receivings') && $has_cost_price_permission) {
 												?>
 													<dt><?php echo lang('receivings_cost_price_preview'); ?></dt>
 													<dd><?php echo $item->cost_price_preview; ?></dd>
@@ -959,20 +959,23 @@ $has_cost_price_permission = $this->Employee->has_module_action_permission('item
 
 									<?php
 									$choices = explode('|', $this->Receiving->get_custom_field($k, 'choices'));
-									$select_options = array();
+									$select_options = array('' => lang('common_please_select'));
 									foreach ($choices as $choice) {
 										$select_options[$choice] = $choice;
 									}
 									echo form_dropdown("custom_field_${k}_value", $select_options, $cart->{"custom_field_${k}_value"}, 'class="form-control custom-fields-select customFields" '.$required_text); ?>
 
 								<?php } elseif ($this->Receiving->get_custom_field($k, 'type') == 'image' || $this->Receiving->get_custom_field($k, 'type') == 'file') {
-									echo form_input(array(
-										'name' => "custom_field_${k}_value",
-										'id' => "custom_field_${k}_value",
-										'type' => 'file',
-										'class' => "custom_field_${k}_value" . ' form-control custom-fields-file customFields',
-										($required ? $required_text : $required_text) => ($required ? $required_text : $required_text)
-									));
+									echo form_input(
+										array(
+											'name'=>"custom_field_${k}_value",
+											'id'=>"custom_field_${k}_value",
+											'type' => 'file',
+											'class'=>"custom_field_${k}_value".' form-control custom-fields-file customFields'
+										),
+										NULL,
+										$cart->{"custom_field_${k}_value"} ? "" : $required_text
+									);
 
 									if ($cart->{"custom_field_${k}_value"} && $this->Receiving->get_custom_field($k, 'type') == 'image') {
 										echo "<img width='30%' src='" . app_file_url($cart->{"custom_field_${k}_value"}) . "' />";

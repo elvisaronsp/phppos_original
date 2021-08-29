@@ -1669,14 +1669,17 @@ class Employee extends Person
 		$columns_to_display = array();
 		
 		$this->load->model('Employee_appconfig');
-		if ($choices = $this->Employee_appconfig->get('sale_orders_column_prefs'))
+		$choices = $this->Employee_appconfig->get('sale_orders_column_prefs');
+	
+		if ($choices)
 		{
 			$columns_to_display_keys = unserialize($choices);
 		}
 		else
 		{
-			$columns_to_display_keys = $this->Delivery->get_default_columns();
 
+			$columns_to_display_keys = $this->Delivery->get_default_columns();
+			
 		}
 		
 		foreach($columns_to_display_keys as $key)

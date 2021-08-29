@@ -76,7 +76,7 @@ $lang['sales_change_sale'] = 'تغيير البيع';
 //Delete entire sale
 $lang['sales_delete_entire_sale'] = 'حذف و عدم اتمام البيع';
 //Are you sure you want to delete this sale, this action cannot be undone
-$lang['sales_delete_confirmation'] = 'هل أنت متأكد من أنك تريد حذف هذا البيع ، لا يمكن التراجع عن هذا الإجراء';
+$lang['sales_delete_confirmation'] = 'هل أنت متأكد أنك تريد حذف عملية البيع هذه ، لا يمكن التراجع عن هذا الإجراء.';
 //You have successfully deleted a sale
 $lang['sales_delete_successful'] = 'لقد قمت بحذف عملية بيع بنجاح';
 //You have unsuccessfully deleted a sale
@@ -540,4 +540,5 @@ $lang['sales_note'] = 'ملحوظة';
 $lang['sales_detailed_note'] = 'ملاحظة مفصلة';
 $lang['sales_internal_note'] = 'مذكرة داخلية';
 $lang['sales_delveried_to'] = 'سلمت ل';
+$lang['sales_view_receipt_on_web_page'] = 'عرض الإيصال على صفحة ويب';
 ?>

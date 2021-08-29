@@ -222,6 +222,7 @@ class PHPPOSCartSale extends PHPPOSCart
 			$item_props['category_id'] = $cur_item_info->category_id;
 			$item_props['size'] = $cur_item_info->size;
 			$item_props['item_number'] = $cur_item_info->item_number;
+			$item_props['main_image_id'] = $cur_item_info->image_id;
 			$item_props['product_id'] = $cur_item_info->product_id;
 			$item_props['allow_alt_description'] = $cur_item_info->allow_alt_description;
 			$item_props['is_serialized'] = $cur_item_info->is_serialized;
@@ -393,6 +394,8 @@ class PHPPOSCartSale extends PHPPOSCart
 			$item_kit_props['line'] = $row->line;
 			$item_kit_props['name'] = $cur_item_kit_info->name;
 			$item_kit_props['item_number'] = $cur_item_kit_info->item_kit_number;
+			$item_kit_props['main_image_id'] = $cur_item_kit_info->main_image_id;
+			
 			$item_kit_props['product_id'] = $cur_item_kit_info->product_id;
 			
 			$item_kit_props['quantity'] = $row->quantity_purchased;

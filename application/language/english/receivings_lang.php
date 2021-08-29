@@ -118,4 +118,5 @@ $lang['receivings_show_signature_on_receiving_receipt'] = 'Show signature on rec
 $lang['receivings_out_of_stock'] = 'One or more items will be out of stock when completing this transaction';
 $lang['receivings_you_do_not_have_permission_to_complete_transfers'] = 'You do not have permission to complete transfer. You will need to contact manager to get permission';
 $lang['receivings_undelete_unsuccessful'] = 'Unable to delete receiving';
+$lang['delete_suspended_receivings_confirmation'] = 'Are you sure you want to delete this receiving(s), this action cannot be undone.';
 ?>

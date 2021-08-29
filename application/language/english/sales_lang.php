@@ -65,7 +65,7 @@ $lang['sales_successfully_deleted'] = 'Sale successfully deleted';
 $lang['sales_unsuccessfully_deleted'] = 'Sale unsuccessfully deleted';
 $lang['sales_change_sale'] = 'Change sale';
 $lang['sales_delete_entire_sale'] = 'Delete entire sale';
-$lang['sales_delete_confirmation'] = 'Are you sure you want to delete this sale, this action cannot be undone';
+$lang['sales_delete_confirmation'] = 'Are you sure you want to delete this sale(s), this action cannot be undone.';
 
 $lang['sales_delete_successful'] = 'You have successfully deleted a sale';
 $lang['sales_delete_unsuccessful'] = 'You have unsuccessfully deleted a sale';
@@ -385,4 +385,5 @@ $lang['sales_note'] = 'Note';
 $lang['sales_detailed_note'] = 'Detailed Note';
 $lang['sales_internal_note'] = 'Internal Note';
 $lang['sales_delveried_to'] = 'Delivered To';
+$lang['sales_view_receipt_on_web_page'] = 'View Receipt On Web Page';
 ?>

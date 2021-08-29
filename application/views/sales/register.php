@@ -842,8 +842,9 @@
 						<li>
 							<?php echo '<a href="#look-up-receipt" class="look-up-receipt" data-toggle="modal"><i class="ion-document"></i> ' . lang('lookup_receipt') . '</a>'; ?>
 						</li>
-
 					<?php
+					}
+					if ($this->Employee->has_module_action_permission('sales', 'can_lookup_last_receipt', $this->Employee->get_logged_in_employee_info()->person_id)) {
 						if ($last_sale_id = $this->Sale->get_last_sale_id()) {
 							echo '<li>';
 							echo anchor(
@@ -1474,20 +1475,23 @@
 
 							<?php
 							$choices = explode('|', $this->Sale->get_custom_field($k, 'choices'));
-							$select_options = array();
+							$select_options = array('' => lang('common_please_select'));
 							foreach ($choices as $choice) {
 								$select_options[$choice] = $choice;
 							}
 							echo form_dropdown("custom_field_${k}_value", $select_options, $cart->{"custom_field_${k}_value"}, 'class="form-control custom-fields-select customFields" '.$required_text); ?>
 
 						<?php } elseif ($this->Sale->get_custom_field($k, 'type') == 'image' || $this->Sale->get_custom_field($k, 'type') == 'file') {
-							echo form_input(array(
-								'name' => "custom_field_${k}_value",
-								'id' => "custom_field_${k}_value",
-								'type' => 'file',
-								'class' => "custom_field_${k}_value" . ' form-control custom-fields-file customFields',
-								($required ? $required_text : $required_text) => ($required ? $required_text : $required_text)
-							));
+							echo form_input(
+								array(
+									'name'=>"custom_field_${k}_value",
+									'id'=>"custom_field_${k}_value",
+									'type' => 'file',
+									'class'=>"custom_field_${k}_value".' form-control custom-fields-file customFields'
+								),
+								NULL,
+								$cart->{"custom_field_${k}_value"} ? "" : $required_text
+							);
 
 							if ($cart->{"custom_field_${k}_value"} && $this->Sale->get_custom_field($k, 'type') == 'image') {
 								echo "<img width='30%' src='" . app_file_url($cart->{"custom_field_${k}_value"}) . "' />";

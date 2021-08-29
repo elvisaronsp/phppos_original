@@ -72,7 +72,7 @@ class Person extends MY_Model
 	/*
 	Inserts or updates a person
 	*/
-	function save(&$person_data,$person_id=false)
+	function save(&$person_data,$person_id=false,$return_data=false)
 	{		
 		if(!empty($person_data))
 		{
@@ -99,6 +99,9 @@ class Person extends MY_Model
 				if ($this->db->insert('people',$person_data))
 				{
 					$person_data['person_id']=$this->db->insert_id();
+					if($return_data==true){
+						return $person_data;
+					}
 					return true;
 				}
 			

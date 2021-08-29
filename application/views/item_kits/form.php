@@ -396,7 +396,7 @@
 									
 									<?php 
 									$choices = explode('|',$this->Item_kit->get_custom_field($k,'choices'));
-									$select_options = array();
+									$select_options = array('' => lang('common_please_select'));
 									foreach($choices as $choice)
 									{
 										$select_options[$choice] = $choice;
@@ -404,13 +404,17 @@
 									echo form_dropdown("custom_field_${k}_value", $select_options, $item_kit_info->{"custom_field_${k}_value"}, 'class="form-control" '.$required_text);?>
 									
 								<?php } elseif($this->Item_kit->get_custom_field($k,'type') == 'image') {
-										echo form_input(array(
-										'name'=>"custom_field_${k}_value",
-										'id'=>"custom_field_${k}_value",
-										'type' => 'file',
-										'class'=>"custom_field_${k}_value".' form-control',
-										($required ? $required_text : $required_text) => ($required ? $required_text : $required_text)
-									));
+										echo form_input(
+											array(
+												'name'=>"custom_field_${k}_value",
+												'id'=>"custom_field_${k}_value",
+												'type' => 'file',
+												'class'=>"custom_field_${k}_value".' form-control',
+												'accept'=>".png,.jpg,.jpeg,.gif"
+											),
+											NULL,
+											$item_kit_info->{"custom_field_${k}_value"} ? "" : $required_text
+										);
 							
 										if ($item_kit_info->{"custom_field_${k}_value"})
 										{
@@ -421,13 +425,16 @@
 							 	}
  							 elseif($this->Item_kit->get_custom_field($k,'type') == 'file')
  							 {
- 								 echo form_input(array(
- 								 'name'=>"custom_field_${k}_value",
- 								 'id'=>"custom_field_${k}_value",
- 								 'type' => 'file',
-								  'class'=>"custom_field_${k}_value".' form-control',
-								  ($required ? $required_text : $required_text) => ($required ? $required_text : $required_text)
- 								 ));
+								echo form_input(
+									array(
+									  'name'=>"custom_field_${k}_value",
+									  'id'=>"custom_field_${k}_value",
+									  'type' => 'file',
+									  'class'=>"custom_field_${k}_value".' form-control'
+									),
+								  NULL,
+								  $item_kit_info->{"custom_field_${k}_value"} ? "" : $required_text
+							  );
 
  								 if ($item_kit_info->{"custom_field_${k}_value"})
  								 {
@@ -826,7 +833,13 @@ $(document).ready(function()
 				$custom_field = $this->Item_kit->get_custom_field($k);
 				if($custom_field !== FALSE) {
 					if( $this->Item_kit->get_custom_field($k,'required') && in_array($current_location, $this->Item_kit->get_custom_field($k,'locations'))){
-						echo "custom_field_${k}_value: 'required',\n";
+						if(($this->Item_kit->get_custom_field($k,'type') == 'file' || $this->Item_kit->get_custom_field($k,'type') == 'image') && !$item_kit_info->{"custom_field_${k}_value"}){
+							echo "custom_field_${k}_value: 'required',\n";
+						}
+						
+						if(($this->Item_kit->get_custom_field($k,'type') != 'file' && $this->Item_kit->get_custom_field($k,'type') != 'image')){
+							echo "custom_field_${k}_value: 'required',\n";
+						}
 					}
 				}
 			}
@@ -840,8 +853,15 @@ $(document).ready(function()
 					$custom_field = $this->Item_kit->get_custom_field($k);
 					if($custom_field !== FALSE) {
 						if( $this->Item_kit->get_custom_field($k,'required') && in_array($current_location, $this->Item_kit->get_custom_field($k,'locations'))){
-							$error_message = json_encode($custom_field." ".lang('is_required'));
-							echo "custom_field_${k}_value: $error_message,\n";
+							if(($this->Item_kit->get_custom_field($k,'type') == 'file' || $this->Item_kit->get_custom_field($k,'type') == 'image') && !$item_kit_info->{"custom_field_${k}_value"}){
+								$error_message = json_encode($custom_field." ".lang('is_required'));
+								echo "custom_field_${k}_value: $error_message,\n";
+							}
+
+							if(($this->Item_kit->get_custom_field($k,'type') != 'file' && $this->Item_kit->get_custom_field($k,'type') != 'image')){
+								$error_message = json_encode($custom_field." ".lang('is_required'));
+								echo "custom_field_${k}_value: $error_message,\n";
+							}
 						}
 					}
 				}

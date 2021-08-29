@@ -9,6 +9,7 @@ class Deliveries extends Secure_area implements Idata_controller
 		parent::__construct('deliveries');	
 		$this->lang->load('deliveries');
 		$this->load->model('Delivery');
+		$this->load->model('Delivery_category');
 		$this->load->model('Shipping_provider');
 		$this->load->model('Shipping_method');
 		
@@ -18,7 +19,11 @@ class Deliveries extends Secure_area implements Idata_controller
 		
 		$this->lang->load('module');	
 		$this->load->model('Sale');
-		
+		$this->load->model('Location');
+		$this->load->model('Item');
+		$this->load->model('Item_kit');
+		$this->load->model('Item_variations');
+		$this->lang->load('work_orders');
 	}
 
 	function index($offset=0)
@@ -89,6 +94,9 @@ class Deliveries extends Secure_area implements Idata_controller
 			}
 		}
 		$data['locations'] = $locations;
+
+		$data['delivery_statuses'] = $this->Delivery->get_all_statuses();
+		$data['delivery_categories'] = $this->Delivery->get_all_categories();
 		
 		$this->load->view('deliveries/manage', $data);
 	}
@@ -210,14 +218,14 @@ class Deliveries extends Secure_area implements Idata_controller
 		$this->load->model('Module_action');
 		$this->load->model('Delivery');
 		$this->check_action_permission('edit');
-		
 		$data = $this->_get_delivery_data($delivery_id);
 		$data['redirect']= $redirect_code;
 		$data['rule_id'] = $delivery_id;
-
+		$data['categories'] = $this->Delivery_category->get_all();
 		$data['redirect_code']=$redirect_code;
 		$data['status_types'] = $this->Delivery->get_delivery_statuses();
-		
+		$data['locations'] = $this->Location->get_all()->result();
+		$data['delivery_items'] = $this->get_delivery_items($delivery_id);
 		$this->load->view('deliveries/form', $data);
 	}
 	
@@ -226,15 +234,23 @@ class Deliveries extends Secure_area implements Idata_controller
 		$data = array();
 		$data['delivery_info'] = $this->Delivery->get_info($delivery_id)->row_array();
 		
-		$shipping_address_person_id = $data['delivery_info']['shipping_address_person_id'];
-		if($shipping_address_person_id)
-		{
-			$data['delivery_person_info'] = (array)$this->Person->get_info($shipping_address_person_id);
+		if($data['delivery_info'] == NULL){
+			$fields = $this->Delivery->get_delivery_fields();
+
+			foreach ($fields as $field)
+			{
+				$data['delivery_info'][$field]='';
+			}
 		}
+
+		$shipping_address_person_id = $data['delivery_info']['shipping_address_person_id'];
+		
+		$data['delivery_person_info'] = (array)$this->Person->get_info($shipping_address_person_id);
+		
 		
 		$delivery_providers = $this->Shipping_provider->get_all()->result_array();
 		$delivery_methods = $this->Shipping_method->get_all()->result_array();
-		
+
 		$providers_with_methods = array();
 		
 		foreach($delivery_providers as $provider)
@@ -248,7 +264,16 @@ class Deliveries extends Secure_area implements Idata_controller
 		}
 		
 		$data['providers_with_methods'] = $providers_with_methods;
-		
+
+		$change_status_array = array(''=>lang('common_none'));
+
+		foreach($this->Delivery->get_all_statuses() as $id => $row)
+		{
+			$change_status_array[$id] = $row['name'];
+		}
+
+		$data['change_status_array'] = $change_status_array;
+
 		return $data;
 	}
 	
@@ -259,6 +284,8 @@ class Deliveries extends Secure_area implements Idata_controller
 		$delivery_person_data = array(
 			'first_name' => $this->input->post('first_name'),
 			'last_name' => $this->input->post('last_name'),
+			'email' => $this->input->post('email'),
+			'phone_number' => $this->input->post('phone_number'),
 			'address_1' => $this->input->post('address_1'),
 			'address_2' => $this->input->post('address_2'),
 			'city' => $this->input->post('city'),
@@ -266,34 +293,63 @@ class Deliveries extends Secure_area implements Idata_controller
 			'zip' => $this->input->post('zip'),
 			'country' => $this->input->post('country'),
 		);
-		
-		
+
 		$delivery_data = array(
 			'comment' => $this->input->post('comment'),
 			'tracking_number' => $this->input->post('tracking_number'),
-			'status' => $this->input->post('status'),
+			'status' => $this->input->post('status') ? $this->input->post('status') : NULL,
 			'estimated_shipping_date' => $this->input->post('estimated_shipping_date') ? date('Y-m-d H:i:s', strtotime($this->input->post('estimated_shipping_date'))) : NULL,
 			'actual_shipping_date' => $this->input->post('actual_shipping_date') ? date('Y-m-d H:i:s', strtotime($this->input->post('actual_shipping_date'))) : NULL,
 			'estimated_delivery_or_pickup_date' => $this->input->post('estimated_delivery_or_pickup_date') ? date('Y-m-d H:i:s', strtotime($this->input->post('estimated_delivery_or_pickup_date'))) : NULL,
 			'actual_delivery_or_pickup_date' => $this->input->post('actual_delivery_or_pickup_date') ? date('Y-m-d H:i:s', strtotime($this->input->post('actual_delivery_or_pickup_date'))) : NULL,
 			'delivery_employee_person_id' => $this->input->post('delivery_employee_person_id') ? $this->input->post('delivery_employee_person_id') : NULL,
+			'category_id' => $this->input->post('category_id') ? $this->input->post('category_id') : NULL,
+			'duration' => $this->input->post('duration') ? $this->input->post('duration') : NULL,
+			'location_id' => $this->input->post('location_id') ? $this->input->post('location_id') : NULL,
 		);
+
+		if($delivery == -1){
+			$person_info = $this->Person->save($delivery_person_data, $person_id=false, $return_data=true);
+			$delivery_data['shipping_address_person_id'] = $person_info['person_id'];
+		}
 		
-		if($this->Delivery->save($delivery_data, $delivery))
+		$delivery_items = false;
+		if($this->input->post('delivery_items')){
+			$delivery_items = $this->input->post('delivery_items');
+			$delivery_data['delivery_type'] = 'without_sales';
+		}else{
+			$delivery_data['delivery_type'] = 'with_sales';
+		}
+		
+		$refer = 'deliveries';
+
+		if($this->input->get('redirect')){
+			$refer = $this->input->get('redirect');
+		}
+		
+		//delivery = delivery_id
+		if($this->Delivery->save($delivery_data, $delivery, $delivery_items))
 		{
-			
-			$shipping_address_person_id = $this->Delivery->get_info($delivery)->row()->shipping_address_person_id;
-			
-			$this->Person->save($delivery_person_data,$shipping_address_person_id);
+			if($this->Delivery->get_info($delivery)->num_rows() == 1){
+				$shipping_address_person_id = $this->Delivery->get_info($delivery)->row()->shipping_address_person_id;
+				$this->Person->save($delivery_person_data,$shipping_address_person_id);
+				$success=lang('deliveries_success');
+				$this->session->set_flashdata('success', $success);
+				$this->session->unset_userdata('item_info');
+				redirect($refer);
+			}
+
 			$success=lang('deliveries_success');
 			$this->session->set_flashdata('success', $success);
-			redirect('deliveries');
+			$this->session->unset_userdata('item_info');
+			redirect($refer);
 		}
 		else
 		{
 			$error=lang('deliveries_error');
 			$this->session->set_flashdata('error', $error);
-			redirect('deliveries');
+			$this->session->unset_userdata('item_info');
+			redirect($refer);
 		}
 	}
 	
@@ -369,6 +425,7 @@ class Deliveries extends Secure_area implements Idata_controller
 		}
 		else
 		{
+			
 			$config['total_rows'] = $this->Delivery->count_all($params['deleted']);
 			$table_data = $this->Delivery->get_all($params['deleted'],$data['per_page'],$params['offset'],$params['order_col'],$params['order_dir'],$data['filters']);
 		}
@@ -376,7 +433,7 @@ class Deliveries extends Secure_area implements Idata_controller
 		echo get_orders_manage_table($table_data,$this);
 	}
 	
-	function calendar($date_field, $year = '', $month='',$week='',$day='')
+	function calendar_($date_field, $year = '', $month='',$week='',$day='')
 	{
 		$this->load->helper('date_helper');
 		
@@ -524,26 +581,500 @@ class Deliveries extends Secure_area implements Idata_controller
 				$daily_url = site_url("deliveries/calendar/$date_field/$year/$month/-1/$day");
 				$weekly_url = site_url("deliveries/calendar/$date_field/");
 				$monthly_url = '';
-				
 				$this->load->view('deliveries/calendar',array('monthly_url' =>site_url("deliveries/calendar/$date_field/$year/$month"), 'weekly_url' =>site_url("deliveries/calendar/$date_field/$year/$month/$url_week"), 'daily_url' => site_url("deliveries/calendar/$date_field/$year/$month/-1/$url_day"),'controller_name' => $controller_name, 'date_field' => $date_field,'month' => $month,'year'=>$year,'week' => $week,'day' => $day,'date_fields' => $date_fields,'calendar' => $this->calendar->generate($year,$month,$week,$day,$calendar_data), 'selected_date' => $selected_date, 'deleted' => $params['deleted']));
 				
-		 }
-		 
-	 	function toggle_show_deleted($deleted=0)
-	 	{
-	 		$this->check_action_permission('search');
-	 		$params = $this->session->userdata('deliveries_orders_search_data') ? $this->session->userdata('deliveries_orders_search_data') :array('offset' => 0, 'order_col' => 'estimated_shipping_date', 'order_dir' => 'asc', 'search' => FALSE,'deleted' => 0);
-	 		$params['deleted'] = $deleted;
-			$params['offset'] = 0;
+	}
+
+	function calendar($date_field=null)
+	{
+	
+		if($this->input->post() && $this->input->post('action_type') == 'update_event'){
+			$delivery_id = $this->input->post('id');
+			$start_date = $this->input->post('start');
+			$end_date = $this->input->post('end');
+			$date_field = $this->input->post('date_field');
+
+			$to_time = strtotime($end_date);
+			$from_time = strtotime($start_date);
+
+			$duration = round(abs($to_time - $from_time) / 60,2). " minute";
 			
-	 		$this->session->set_userdata("deliveries_orders_search_data",$params);
-	 	}
-		
-		function set_status($status)
-		{
-	 		$this->check_action_permission('edit');
-			$ids = $this->input->post('ids');
-			$this->Delivery->update_status_bulk($ids,$status);
+			$this->delivery->update_event($delivery_id, $start_date, $date_field, $duration);
+			exit;
 		}
+
+		$date_fields = array(
+			'estimated_delivery_or_pickup_date' => lang('deliveries_estimated_delivery_or_pickup_date'),
+			'actual_shipping_date' => lang('deliveries_actual_shipping_date'),
+			'actual_delivery_or_pickup_date' => lang('deliveries_actual_delivery_or_pickup_date'),
+			'sale_time' => lang('common_sale_date'),
+		);
+		
+		if(!isset($date_fields[$date_field]))
+		{
+			$date_field = 'estimated_delivery_or_pickup_date';
+		}
+		
+		$params = $this->session->userdata('deliveries_orders_search_data') ? $this->session->userdata('deliveries_orders_search_data') : array('deleted' => 0);
+
+		$this->load->view('deliveries/calendar', array( 'selected_date' => '', 'date_fields' => $date_fields, 'date_field' => $date_field, 'deleted' => $params['deleted']));
+				
+	}
+
+	function get_calendar(){
+		$date_field = $this->input->post('date_field');
+		$start_date = $this->input->post('start');
+		$end_date = $this->input->post('end');
+
+		$params = $this->session->userdata('deliveries_orders_search_data') ? $this->session->userdata('deliveries_orders_search_data') : array('deleted' => 0);
+
+		$data = array();
+		foreach($this->Delivery->get_all_for_range($params['deleted'], $start_date, $end_date, $date_field)->result() as $row)
+		{
+
+			if($this->config->item('delivery_color_based_on') == "category" && $row->category_color){
+				$color = $row->category_color;
+			}else{
+				$color = $this->Delivery->get_status_info($row->status)->color;
+			}
+			
+			$data[] = array(
+				"id" => $row->delivery_id,
+				"title" => H($row->first_name.' '.$row->last_name).' '.$row->full_address,
+				"start" => $row->{$date_field},
+				"end" => date("Y-m-d H:i:s", strtotime($row->{$date_field}." +".$row->duration." minutes")),
+				"description" => $row->full_address,
+				"status" => $row->status,
+				"color" => $color
+			);
+		}
+
+		echo json_encode($data);
+	}
+		 
+	function toggle_show_deleted($deleted=0)
+	{
+		$this->check_action_permission('search');
+		$params = $this->session->userdata('deliveries_orders_search_data') ? $this->session->userdata('deliveries_orders_search_data') :array('offset' => 0, 'order_col' => 'estimated_shipping_date', 'order_dir' => 'asc', 'search' => FALSE,'deleted' => 0);
+		$params['deleted'] = $deleted;
+		$params['offset'] = 0;
+		
+		$this->session->set_userdata("deliveries_orders_search_data",$params);
+	}
+	
+	function set_status($status)
+	{
+		$this->check_action_permission('edit');
+		$ids = $this->input->post('ids');
+		$this->Delivery->update_status_bulk($ids,$status);
+	}
+
+	function change_status()
+	{
+		$delivery_ids=$this->input->post('delivery_ids');
+		$status = $this->input->post('status');
+		$status_changed_delivery_ids = array();
+		
+		foreach($delivery_ids as $delivery_id)
+		{
+			$delivery_info = $this->Delivery->get_info($delivery_id)->row();
+			if($delivery_info->status != $status){
+				$status_changed_delivery_ids[] = $delivery_id;
+				$this->Delivery->change_status($delivery_id,$status);
+			}
+		}
+		
+		if(count($status_changed_delivery_ids) > 0){
+			foreach($status_changed_delivery_ids as $delivery_id)
+			{
+				$delivery_info = $this->Delivery->get_info($delivery_id)->row();
+				$delivery_status_info = $this->Delivery->get_status_info($status);
+				if($delivery_status_info->notify_by_email || $delivery_status_info->notify_by_sms){
+					$this->load->model('Common');
+					$company_name = $this->config->item('company');
+					$message = sprintf($this->lang->line('deliveries_delivery_status_update_message'), $company_name, $delivery_id, $delivery_status_info->description ? $delivery_status_info->description : $this->Delivery->get_status_name($delivery_status_info->name));
+					
+					if($delivery_status_info->notify_by_email){
+						$customer_email = $this->Person->get_info($delivery_info->shipping_address_person_id)->email;
+						if($customer_email){
+							$subject = lang('deliveries_delivery_status_update');
+		
+							$this->Common->send_email($customer_email,$subject,$message);
+						}
+					}
+		
+					if($delivery_status_info->notify_by_sms){
+						$customer_phone_number = $this->Person->get_info($delivery_info->shipping_address_person_id)->phone_number;
+						if($customer_phone_number){
+							$this->Common->send_sms($customer_phone_number,$message);
+						}
+					}
+				}
+			}
+		}
+		
+		echo json_encode(array('success'=>true,'message'=>lang('deliveries_successful_changed')));
+	}
+
+	function manage_categories()
+	{
+		$this->check_action_permission('manage_categories');
+		$categories = $this->Delivery_category->get_all();
+		$data = array('categories' => $categories, 'category_list' => $this->_category_list());
+		$data['redirect'] = $this->input->get('redirect');
+
+		$progression = $this->input->get('progression');
+		$quick_edit = $this->input->get('quick_edit');
+		$data['progression'] = !empty($progression);
+		$data['quick_edit'] = !empty($quick_edit);
+		$this->load->view('deliveries/categories',$data);
+	}
+	
+	function save_category($category_id = FALSE)
+	{		
+		$this->check_action_permission('manage_categories');
+		$category_name = $this->input->post('category_name');
+		$category_color = $this->input->post('category_color');
+		
+		if ($this->Delivery_category->save($category_name, $category_color, $category_id))
+		{
+			echo json_encode(array('success'=>true,'message'=>lang('items_category_successful_adding').' '.H($category_name)));
+		}
+		else
+		{
+			echo json_encode(array('success'=>false,'message'=>lang('items_category_successful_error')));
+		}
+	}
+	
+	function delete_category()
+	{
+		$this->check_action_permission('manage_categories');		
+		$category_id = $this->input->post('category_id');
+		if($this->Delivery_category->delete($category_id))
+		{
+			echo json_encode(array('success'=>true, 'message'=>lang('items_successful_deleted')));
+		}
+		else
+		{
+			echo json_encode(array('success'=>false, 'message'=>lang('items_cannot_be_deleted')));
+		}
+	}
+	
+	function category_list()
+	{
+		echo $this->_category_list();
+	}
+	
+	function _category_list()
+	{
+		$categories = $this->Delivery_category->get_all();
+		$return = '<ul>';
+
+		foreach($categories as $category_id => $category) 
+		{
+			$return .='<li>'.H($category['name']).'&nbsp;'.
+				'<a href="javascript:void(0);" class="edit_category" data-name="'.H($category['name']).'"  data-category_id="'.$category_id.'" data-color="'.H($category["color"]).'"  >['.lang('common_edit').']</a> '.
+				'<a href="javascript:void(0);" class="delete_category" data-category_id="'.$category_id.'">['.lang('common_delete').']</a> ';
+			$return .='</li>';
+		}
+
+		$return .='</ul>';
+		
+		return $return;
+	}
+
+	//delivery without sales
+	function item_search()
+	{
+		//allow parallel searchs to improve performance.
+		session_write_close();
+		if(!$this->config->item('speed_up_search_queries'))
+		{
+			$suggestions = $this->Item->get_item_search_suggestions($this->input->get('term'),0,false,$this->config->item('items_per_search_suggestions') ? (int)$this->config->item('items_per_search_suggestions') : 20, TRUE);
+			$suggestions = array_merge($suggestions, $this->Item_kit->get_item_kit_search_suggestions_sales_recv($this->input->get('term'),0,'unit_price', 100, TRUE));
+		}
+		else
+		{
+			$suggestions = $this->Item->get_item_search_suggestions_without_variations($this->input->get('term'),0,$this->config->item('items_per_search_suggestions') ? (int)$this->config->item('items_per_search_suggestions') : 20,'unit_price', TRUE);
+			$suggestions = array_merge($suggestions, $this->Item_kit->get_item_kit_search_suggestions_sales_recv($this->input->get('term'),0,'unit_price', 100, TRUE));
+			
+			for($k=0;$k<count($suggestions);$k++)
+			{
+				if(isset($suggestions[$k]['avatar']))
+				{
+					$suggestions[$k]['image'] = $suggestions[$k]['avatar'];
+				}
+				
+				if(isset($suggestions[$k]['subtitle']))
+				{
+					$suggestions[$k]['category'] = $suggestions[$k]['subtitle'];
+				}
+			}
+		}
+		echo json_encode(H($suggestions));
+	}
+
+	function add_item(){
+	
+		$item = $this->input->post('item');
+		$item_name = $this->input->post('item_label');
+
+		if(!$item){
+			return false;
+		}
+
+		$item_id = $this->input->post("item_id") ? $this->input->post("item_id") : null;
+		$item_variation_id = $this->input->post("item_variation_id") ? $this->input->post("item_variation_id") : null;
+
+		$item_kit_id = null;
+
+		if($this->input->post("is_manual") && !$item_id){
+			$this->load->helper("items_helper");
+			$data = parse_item_scan_data($item);
+			$item_id = $data["item_id"];
+
+			if(!$item_id){
+				echo $this->get_delivery_items(false, array("success" => false, "message"=>lang('deliveries_unable_to_add_item')));
+				exit;
+			}
+
+			$item_variation_id = $data["variation_id"];
+			if($data["variation_choices_model"] && !$item_variation_id){
+				echo $this->get_delivery_items(false, array("has_variation" => true, "variation_choices_model" => $data["variation_choices_model"], "item_id" => $item_id));
+				exit;
+			}
+		}else{
+
+			if(!$item_id && !$item_variation_id){
+				$identifier = explode('#', rawurldecode($item));
+				$item_id = $identifier[0];
+				$item_variation_id = isset($identifier[1]) ? $identifier[1] : $item_variation_id;
+			}
+			if (strpos($item_id, 'KIT') !== false) {
+				$kit_identifier = explode(' ', $item_id);
+				$item_kit_id = $kit_identifier[1];
+			}
+		}
+
+		if($item_id || $item_kit_id){
+
+			if($item_kit_id){
+				$item_kit = $this->Item_kit->get_info($item_kit_id);
+				$name = $item_kit->name." (".$this->Item->get_category($item_kit->category_id).")";
+			}else if($item_id){
+				$item = $this->Item->get_info($item_id);
+				$name = $item->name." (".$this->Item->get_category($item->category_id).")";
+				
+			}else{
+				echo $this->get_delivery_items(false, array("success" => false, "message"=>lang('deliveries_unable_to_add_item')));
+				exit;
+			}
+	
+
+			if($this->session->userdata('item_info')){
+				$item_info = $this->session->userdata('item_info');
+	
+				$quantity_updated = false;
+				foreach($item_info as $ik => $iv){
+					if($iv['item_id'] == $item_id && $iv['item_variation_id'] == $item_variation_id && $iv['item_kit_id'] == $item_kit_id){
+						$item_info[$ik]['quantity'] += 1;
+						$quantity_updated = true;
+					}
+				}
+	
+				if($quantity_updated == false){
+					array_push($item_info, array(
+						'item_id' => $item_id,
+						'item_variation_id' => $item_variation_id,
+						'item_kit_id' => $item_kit_id,
+						'quantity' => 1,
+						'name' => $name,
+						'category' => null,
+						'variation' => ($item_variation_id) ? $this->Item_variations->get_variation_name($item_variation_id) : NULL
+					));
+				}
+			}else{
+				$item_info = array(
+					array(
+						'item_id' => $item_id,
+						'item_variation_id' => $item_variation_id,
+						'item_kit_id' => $item_kit_id,
+						'quantity' => 1,
+						'name' => $name,
+						'category' => null,
+						'variation' => ($item_variation_id) ? $this->Item_variations->get_variation_name($item_variation_id) : NULL
+					)
+				);
+			}
+	
+			$this->session->set_userdata('item_info', $item_info);
+			echo $this->get_delivery_items();
+		}else{
+			echo $this->get_delivery_items(false, array("success" => false, "message"=>lang('deliveries_unable_to_add_item')));
+		}
+
+	}
+
+	function get_delivery_items($delivery_id = false, $additional_data=array(), $return_result=false){
+		if($delivery_id && $delivery_id != -1){
+			$item_info = array();
+			
+			$delivery_items = $this->Delivery->get_delivery_items($delivery_id);
+			
+			foreach($delivery_items->result() as $item){
+				$item_info[] = array(
+					'item_id' => $item->item_id,
+					'item_variation_id' => $item->item_variation_id,
+					'item_kit_id' => null,
+					'quantity' => $item->quantity,
+					'name' => $item->name,
+					'category' => $item->category,
+					'variation' => ($item->item_variation_id) ? $this->Item_variations->get_variation_name($item->item_variation_id) : NULL
+				);
+			}
+
+			$delivery_item_kits = $this->Delivery->get_delivery_item_kits($delivery_id);
+
+			foreach($delivery_item_kits->result() as $item_kit){
+				$item_info[] = array(
+					'item_id' => null,
+					'item_variation_id' => null,
+					'item_kit_id' => $item_kit->item_kit_id,
+					'quantity' => $item_kit->quantity,
+					'name' => $item_kit->name,
+					'category' => $item_kit->category,
+					'variation' => NULL
+				);
+			}
+			if($return_result==true){
+				return $item_info;
+			}
+			$this->session->set_userdata('item_info',$item_info);
+		}
+
+		$data['items'] = $this->session->userdata('item_info');
+		$data['additional_data'] = $additional_data;
+		return $this->load->view('deliveries/delivery_items', $data, true);
+	}
+
+	function delete_delivery_item(){
+		$item_id = $this->input->post('item_id');
+		$item_kit_id = $this->input->post('item_kit_id');
+		$item_variation_id = $this->input->post('item_variation_id');
+
+		$item_info = $this->session->userdata('item_info');
+
+		foreach($item_info as $ik => $iv){
+			if($iv['item_id'] == $item_id && $iv['item_variation_id'] == $item_variation_id && $iv['item_kit_id'] == $item_kit_id){
+				unset($item_info[$ik]);
+			}
+		}
+
+		$this->session->set_userdata('item_info', $item_info);
+		echo $this->get_delivery_items();
+
+	}
+
+	function edit_item($key){
+		$quantity = $this->input->post('value');
+		$item_info = $this->session->userdata('item_info');
+		$item_info[$key]['quantity'] = $quantity;
+
+		$this->session->set_userdata('item_info', $item_info);
+		echo $this->get_delivery_items();
+	}
+
+	function manage_statuses()
+	{
+		$this->check_action_permission('manage_statuses');
+		$statuses = $this->Delivery->get_all_statuses();
+		$data = array('statuses' => $statuses, 'statuses_list' => $this->_statuses_list());
+		
+		$data['redirect'] = $this->input->get('redirect');
+		
+		$this->load->view('deliveries/manage_statuses',$data);		
+	
+	}
+	
+	function save_status($status_id = FALSE)
+	{
+		$this->check_action_permission('manage_statuses');
+		$status_name = $this->input->post('status_name');
+		$status_color = $this->input->post('status_color');
+		$status_sort_order = $this->input->post('status_sort_order');
+
+		$status_data = array(
+			'name'=> $status_name,
+			'description'=> $this->input->post('status_description'),
+			'notify_by_email'=> $this->input->post('notify_by_email') ? 1 : 0,
+			'notify_by_sms'=> $this->input->post('notify_by_sms') ? 1 : 0,
+			'color'=> $status_color
+		);
+		
+		if ($this->Delivery->status_save($status_data, $status_id))
+		{
+			echo json_encode(array('success'=>true,'message'=>lang('deliveries_status_successful_adding').' '.H($status_name)));
+		}
+		else
+		{
+			echo json_encode(array('success'=>false,'message'=>lang('deliveries_status_successful_error')));
+		}
+	
+	}
+	
+	function delete_status()
+	{
+		$this->check_action_permission('manage_statuses');
+		$status_id = $this->input->post('status_id');
+		if($this->Delivery->delete_status($status_id))
+		{
+			echo json_encode(array('success'=>true,'message'=>lang('deliveries_successful_deleted')));
+		}
+		else
+		{
+			echo json_encode(array('success'=>false,'message'=>lang('deliveries_cannot_be_deleted')));
+		}
+		
+	}
+	
+	function statuses_list()
+	{
+		echo $this->_statuses_list();
+	}
+	
+	function _statuses_list()
+	{
+		$statuses = $this->Delivery->get_all_statuses();
+     	$return = '<ul>';
+		foreach($statuses as $status_id => $status) 
+		{
+			$return .='<li>'.H($status['name']).
+					'<a href="javascript:void(0);" class="edit_status" data-name = "'.H($status['name']).'" data-description = "'.H($status['description']).'" data-notify_by_email = "'.H($status['notify_by_email']).'" data-notify_by_sms = "'.H($status['notify_by_sms']).'" data-color = "'.H($status['color']).'" data-status_id="'.$status_id.'">['.lang('common_edit').']</a> '.
+					'<a href="javascript:void(0);" class="delete_status" data-status_id="'.$status_id.'">['.lang('common_delete').']</a> ';
+			 $return .='</li>';
+		}
+     	$return .='</ul>';
+		
+		return $return;
+	}
+
+	function view_delivery_modal($delivery_id, $redirect_code=null){
+		$this->load->model('Module_action');
+		$this->load->model('Delivery');
+		$this->check_action_permission('edit');
+		$data = $this->_get_delivery_data($delivery_id);
+		$data['redirect']= $redirect_code;
+		$data['rule_id'] = $delivery_id;
+		$data['categories'] = $this->Delivery_category->get_all();
+		$data['redirect_code']=$redirect_code;
+		$data['status_types'] = $this->Delivery->get_delivery_statuses();
+		$data['locations'] = $this->Location->get_all()->result();
+		$data['delivery_items'] = $this->get_delivery_items($delivery_id);
+
+		$this->load->view('deliveries/delivery_modal', $data);
+	}
+
 }
+
+
 ?>

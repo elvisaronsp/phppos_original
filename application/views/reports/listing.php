@@ -445,6 +445,7 @@
 				
 				<div class="list-group suspended_sales hidden">
 					<a href="<?php echo site_url('reports/generate/detailed_suspended_sales');?>" class="list-group-item"><i class="icon ti-calendar"></i> <?php echo lang('reports_detailed_reports'); ?></a>
+					<a href="<?php echo site_url('reports/generate/layaway_statements');?>" class="list-group-item"><i class="icon ti-receipt"></i> <?php echo lang('reports_layaway_statements'); ?></a>
 				</div>
 				
 				<div class="list-group taxes hidden">

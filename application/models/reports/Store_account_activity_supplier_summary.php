@@ -42,7 +42,7 @@ class Store_account_activity_supplier_summary extends Report
 	{
 		$this->setupDefaultPagination();
 		$report_data = $this->getData();
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 
 		foreach($report_data as $row)
 		{

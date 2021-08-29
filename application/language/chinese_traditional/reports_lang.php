@@ -723,6 +723,15 @@ $lang['reports_serial_number_history'] = '序列號歷史';
 $lang['reports_daily_report'] = '每日報告';
 $lang['reports_only_count_store_account_payments'] = '只計算商店帳戶付款';
 $lang['reports_generation_date'] = '產生日期';
+
 $lang['reports_non_taxable_customers'] = '非應稅客戶';
+
+
+$lang['reports_layaway_statements'] = '散客聲明';
+$lang['reports_payment'] = '支付';
+$lang['reports_due'] = '到期的';
+
+
 $lang['reports_summary_journal'] = '摘要期刊報告';
+
 ?>

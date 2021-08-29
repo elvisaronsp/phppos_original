@@ -141,10 +141,10 @@ abstract class Report extends MY_Model
 			$location_ids = implode(',',Report::get_selected_location_ids());
 		}
 		
-		$where = 'sale_time BETWEEN '.$this->db->escape($this->params['start_date']).' and '.$this->db->escape($this->params['end_date']).' and '.$this->db->dbprefix('sales').'.location_id IN ('.$location_ids.')'. (($this->config->item('hide_store_account_payments_in_reports') ) ? ' and '.$this->db->dbprefix('sales').'.store_account_payment=0 ' : ' ');
-		$where .= 'or estimated_shipping_date BETWEEN '.$this->db->escape($this->params['start_date']).' and '.$this->db->escape($this->params['end_date']).' and '.$this->db->dbprefix('sales').'.location_id IN ('.$location_ids.')'. (($this->config->item('hide_store_account_payments_in_reports') ) ? ' and '.$this->db->dbprefix('sales').'.store_account_payment=0 ' : ' ');
-		$where .= 'or actual_shipping_date BETWEEN '.$this->db->escape($this->params['start_date']).' and '.$this->db->escape($this->params['end_date']).' and '.$this->db->dbprefix('sales').'.location_id IN ('.$location_ids.')'. (($this->config->item('hide_store_account_payments_in_reports') ) ? ' and '.$this->db->dbprefix('sales').'.store_account_payment=0 ' : ' ');
-		$where .= 'or estimated_delivery_or_pickup_date BETWEEN '.$this->db->escape($this->params['start_date']).' and '.$this->db->escape($this->params['end_date']).' and '.$this->db->dbprefix('sales').'.location_id IN ('.$location_ids.')'. (($this->config->item('hide_store_account_payments_in_reports') ) ? ' and '.$this->db->dbprefix('sales').'.store_account_payment=0 ' : ' ');
+		$where = 'sale_time BETWEEN '.$this->db->escape($this->params['start_date']).' and '.$this->db->escape($this->params['end_date']).' and '.$this->db->dbprefix('sales_deliveries').'.location_id IN ('.$location_ids.')'. (($this->config->item('hide_store_account_payments_in_reports') ) ? ' and '.$this->db->dbprefix('sales').'.store_account_payment=0 ' : ' ');
+		$where .= 'or estimated_shipping_date BETWEEN '.$this->db->escape($this->params['start_date']).' and '.$this->db->escape($this->params['end_date']).' and '.$this->db->dbprefix('sales_deliveries').'.location_id IN ('.$location_ids.')'. (($this->config->item('hide_store_account_payments_in_reports') ) ? ' and '.$this->db->dbprefix('sales').'.store_account_payment=0 ' : ' ');
+		$where .= 'or actual_shipping_date BETWEEN '.$this->db->escape($this->params['start_date']).' and '.$this->db->escape($this->params['end_date']).' and '.$this->db->dbprefix('sales_deliveries').'.location_id IN ('.$location_ids.')'. (($this->config->item('hide_store_account_payments_in_reports') ) ? ' and '.$this->db->dbprefix('sales').'.store_account_payment=0 ' : ' ');
+		$where .= 'or estimated_delivery_or_pickup_date BETWEEN '.$this->db->escape($this->params['start_date']).' and '.$this->db->escape($this->params['end_date']).' and '.$this->db->dbprefix('sales_deliveries').'.location_id IN ('.$location_ids.')'. (($this->config->item('hide_store_account_payments_in_reports') ) ? ' and '.$this->db->dbprefix('sales').'.store_account_payment=0 ' : ' ');
 	
 		//Added for detailed_suspended_report, we don't need this for other reports as we are always going to have start + end date
 		if (isset($this->settings['force_suspended']) && $this->settings['force_suspended'])
@@ -1116,6 +1116,23 @@ Report::$reports = array(
       			 	'display' => 'tabular'
       			 	),
       			 ),
+
+				   'layaway_statements' =>  array(
+					'model' => 'Layaway_statements',
+					'settings' => array(
+						'permission_action' => 'view_suspended_sales',
+						'display' => 'tabular'
+						),
+					),
+
+					'layaway_statements_email_customer' => array(
+						'model' => 'Layaway_statements',
+						'settings' => array(
+							'permission_action' => 'view_suspended_sales',
+							'display' => 'email'
+							),
+						),
+
  	     		  'summary_tags' => array(
  	     			 'model' => 'Summary_tags',
  	     			 'settings' => array(

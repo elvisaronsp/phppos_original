@@ -5454,6 +5454,9 @@ components:
           type: number
           format: float
           example: 2.25
+        variation_id:
+          type: integer
+          example: 3
     ItemResponse:
        allOf:
         - $ref: '#/components/schemas/Item'
@@ -6213,6 +6216,10 @@ components:
           type: integer
           format: uuid
           example: 3
+        rule_id:
+          type: integer
+          format: int32
+          example: 1
         store_account_payment:
           type: boolean
           example: true

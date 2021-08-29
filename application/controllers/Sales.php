@@ -46,8 +46,10 @@ class Sales extends Secure_area
 		$this->load->helper('giftcards');
 		$this->load->model('Item_attribute_value');
 		$this->load->model('Item_modifier');
+		$this->load->model('Delivery_category');
 		$this->load->model('Work_order');
 		$this->load->helper('text');
+		$this->load->model('Supplier');
 		
 		$this->cart = PHPPOSCartSale::get_instance('sale');
 		cache_item_and_item_kit_cart_info($this->cart->get_items());
@@ -65,14 +67,14 @@ class Sales extends Secure_area
 			$this->cart->show_comment_on_receipt = 1;
 			$this->cart->save();
 		}
-		
+
 		if ($this->config->item('default_sales_person') != 'not_set' && !$this->cart->sold_by_employee_id)
 		{
 			$employee_id=$this->Employee->get_logged_in_employee_info()->person_id;
 			$this->cart->sold_by_employee_id = $employee_id;
 			$this->cart->save();
-		}		
-		
+		}
+
 		$location_id=$this->Employee->get_logged_in_employee_current_location_id();
 		
 		$register_count = $this->Register->count_all($location_id);
@@ -2599,7 +2601,7 @@ class Sales extends Secure_area
 		
 		$this->load->view("sales/receipt",$data);
 	}
-	
+
 	function fulfillment($sale_id)
 	{
 		$sale_info = $this->Sale->get_info($sale_id)->row_array();
@@ -3632,7 +3634,7 @@ class Sales extends Secure_area
 		$data['controller_name'] = strtolower(get_class());
 		$table_data = $this->Sale->get_all_suspended($this->session->userdata('search_suspended_sale_types'));
 		$data['manage_table'] = get_suspended_sales_manage_table($table_data, $this);
-		$data['suspended_sale_types'] = $this->Sale_types->get_all()->result_array();
+		$data['suspended_sale_types'] = $this->Sale_types->get_all(!$this->config->item('ecommerce_platform') ? $this->config->item('ecommerce_suspended_sale_type_id') : NULL)->result_array();
 		$data['default_columns'] = $this->Sale->get_suspended_sales_default_columns();
 		$data['selected_columns'] = $this->Employee->get_suspended_sales_columns_to_display();
 		
@@ -3728,9 +3730,20 @@ class Sales extends Secure_area
 			$this->cart->is_editing_previous = FALSE;
 			$this->cart->sale_id = NULL;
 			
-			if (!$this->Sale->is_sale_deleted($suspended_sale_id))
-			{
-				$this->Sale->delete($suspended_sale_id);
+			if(is_array($suspended_sale_id)){
+
+				foreach($suspended_sale_id as $sale_id){
+					if (!$this->Sale->is_sale_deleted($sale_id))
+					{
+						$this->Sale->delete($sale_id);
+					}
+				}
+
+			}else{
+				if (!$this->Sale->is_sale_deleted($suspended_sale_id))
+				{
+					$this->Sale->delete($suspended_sale_id);
+				}
 			}
 		}
 		if($this->input->post('redirection')){
@@ -3947,10 +3960,9 @@ class Sales extends Secure_area
 		$this->load->model('Appfile');
 		foreach($categories as $id=>$value)
 		{
-				$categories_response[] = array('id' => $id, 'name' => $value['name'], 'color' => $value['color'], 'image_id' => $value['image_id'],'image_timestamp' => $this->Appfile->get_file_timestamp($value['image_id']));
+			$categories_response[] = array('id' => $id, 'name' => $value['name'], 'color' => $value['color'], 'image_id' => $value['image_id'], 'image_timestamp' => $this->Appfile->get_file_timestamp($value['image_id']));
 		}
 		
-
 		$data = array();
 		$data['categories'] = H($categories_response);
 		$data['pagination'] = $this->pagination->create_links();
@@ -3977,12 +3989,40 @@ class Sales extends Secure_area
 		
 		foreach($tags as $id=>$value)
 		{
-				$tags_response[] = array('id' => $id, 'name' => $value['name']);
+			$tags_response[] = array('id' => $id, 'name' => $value['name']);
 		}
 		
-
 		$data = array();
 		$data['tags'] = H($tags_response);
+		$data['pagination'] = $this->pagination->create_links();
+		
+		echo json_encode($data);	
+	}
+
+	function suppliers($offset = 0)
+	{
+		//allow parallel searchs to improve performance.
+		session_write_close();
+		
+		$suppliers = $this->Supplier->get_all(0, $this->config->item('number_of_items_in_grid') ? $this->config->item('number_of_items_in_grid') : 14, $offset);
+		
+		$suppliers_count = $this->Supplier->count_all();		
+		$config['base_url'] = site_url('sales/suppliers');
+		$config['uri_segment'] = 3;
+		$config['total_rows'] = $suppliers_count;
+		$config['per_page'] = $this->config->item('number_of_items_in_grid') ? $this->config->item('number_of_items_in_grid') : 14; 
+		$this->load->library('pagination');
+		$this->pagination->initialize($config);
+		
+		$suppliers_response = array();
+		$this->load->model('Appfile');
+		foreach($suppliers->result_array() as $id=>$value)
+		{
+			$suppliers_response[] = array('id' => $value['pid'], 'name' => $value['company_name'], 'image_id' => $value['image_id'], 'image_timestamp' => $this->Appfile->get_file_timestamp($value['image_id']));
+		}
+
+		$data = array();
+		$data['suppliers'] = H($suppliers_response);
 		$data['pagination'] = $this->pagination->create_links();
 		
 		echo json_encode($data);	
@@ -4104,6 +4144,55 @@ class Sales extends Secure_area
 		echo json_encode($data);
 	}
 	
+	function supplier_items($supplier_id, $offset = 0)
+	{
+		$this->load->model('Item_variations');
+		
+		//allow parallel searchs to improve performance.
+		session_write_close();
+		
+		$config['base_url'] = site_url('sales/supplier_items/'.($supplier_id ? $supplier_id : 0));
+		$config['uri_segment'] = 4;
+		$config['per_page'] = $this->config->item('number_of_items_in_grid') ? $this->config->item('number_of_items_in_grid') : 14; 
+		
+				
+		//Items
+		$items = array();
+		
+		$items_result = $this->Item->get_all_item_by_supplier($supplier_id, $this->config->item('hide_out_of_stock_grid') ? TRUE : FALSE, $offset, $this->config->item('number_of_items_in_grid') ? $this->config->item('number_of_items_in_grid') : 14)->result();
+		
+		
+		foreach($items_result as $item)
+		{
+			$img_src = "";
+			if ($item->image_id != 'no_image' && trim($item->image_id) != '') {
+				$img_src = app_file_url($item->image_id);
+			}
+
+			$price_to_use = $this->Item->get_sale_price(array('item_id' => $item->item_id));	
+	
+			$items[] = array(
+				'id' => $item->item_id,
+				'name' => character_limiter($item->name, 58),				
+				'image_src' => 	$img_src,
+				'type' => 'item',		
+				'has_variations' => count($this->Item_variations->get_variations($item->item_id)) > 0 ? TRUE : FALSE,
+				'price' => $price_to_use != '0.00' ? to_currency($price_to_use) : FALSE,
+				'regular_price' => to_currency($item->unit_price),	
+				'different_price' => $price_to_use != $item->unit_price,	
+			);	
+		}
+	
+		$items_count = count($items_result) + 1; //$this->Item->count_all_by_tag($supplier_id);
+		
+		$data = array();
+		$data['items'] = H($items);
+		$config['total_rows'] = $items_count;
+		$this->load->library('pagination');$this->pagination->initialize($config);
+		$data['pagination'] = $this->pagination->create_links();
+		
+		echo json_encode($data);
+	}
 		
 	function delete_tax($name)
 	{
@@ -4184,7 +4273,7 @@ class Sales extends Secure_area
 		}
 		
 		$delivery_info = $this->cart->get_delivery_info();
-				
+		
 		if (empty($delivery_info))
 		{
 			$delivery_info['comment'] = '';
@@ -4192,6 +4281,8 @@ class Sales extends Secure_area
 			$delivery_info['is_pickup'] = 0;
 			$delivery_info['delivery_employee_person_id'] = NULL;
 			$delivery_info['status'] = NULL;
+			$delivery_info['category_id'] = NULL;
+			$delivery_info['duration'] = 30;
 		}
 		
 		$delivery_person_info = $this->cart->get_delivery_person_info();
@@ -4260,10 +4351,18 @@ class Sales extends Secure_area
 		
 		$delivery_fee = $this->cart->get_delivery_item_price_in_cart();
 		
-		$deliveries_status = $this->Delivery->get_delivery_statuses();
 		$deliveries_status[''] = lang('common_none');
 		
-		$this->load->view('sales/delivery_modal', array('delivery_person_info' => $delivery_person_info, 'delivery_info' => $delivery_info, 'providers_with_methods' => $providers_with_methods, 'tax_classes' => $tax_classes, 'delivery_tax_group_id' => $delivery_tax_group_id, 'shipping_zone_id' => $shipping_zone_id, 'shipping_zone_info' => $shipping_zone_info, 'shipping_zones' => $shipping_zones, 'delivery_fee' => $delivery_fee, 'zip_zones' => $zip_zones, 'deliveries_status' => $deliveries_status));
+		foreach($this->Delivery->get_all_statuses() as $id => $row)
+		{
+			$deliveries_status[$id] = $row['name'];
+		}
+
+		$data['deliveries_status'] = $deliveries_status;
+
+		$categories = $this->Delivery_category->get_all();
+		
+		$this->load->view('sales/delivery_modal', array('delivery_person_info' => $delivery_person_info, 'delivery_info' => $delivery_info, 'providers_with_methods' => $providers_with_methods, 'tax_classes' => $tax_classes, 'delivery_tax_group_id' => $delivery_tax_group_id, 'shipping_zone_id' => $shipping_zone_id, 'shipping_zone_info' => $shipping_zone_info, 'shipping_zones' => $shipping_zones, 'delivery_fee' => $delivery_fee, 'zip_zones' => $zip_zones, 'deliveries_status' => $deliveries_status, 'categories' => $categories));
 	}
 	
 	function sig_save($sale_register_id_display = false)
@@ -4471,7 +4570,7 @@ class Sales extends Secure_area
 		}
 		
 		$this->load->model('Sale_types');
-		$data['additional_sale_types_suspended'] = $this->Sale_types->get_all()->result_array();
+		$data['additional_sale_types_suspended'] = $this->Sale_types->get_all(!$this->config->item('ecommerce_platform') ? $this->config->item('ecommerce_suspended_sale_type_id') : NULL)->result_array();
 		return $data;
 	}
 	

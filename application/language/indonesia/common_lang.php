@@ -1031,19 +1031,42 @@ $lang['common_serialnumber_already_added'] = 'Nomor seri telah ditambahkan';
 $lang['common_add_secondary_category'] = 'Tambahkan Kategori Sekunder';
 $lang['common_secondary_category'] = 'Kategori Sekunder';
 $lang['common_suspended_types'] = 'Jenis yang Ditangguhkan';
+
+$lang['common_duration'] = 'Durasi';
+
 $lang['shopify_cron_job_entry'] = 'Masuk Shopify Cron';
 $lang['item inventory changed in shopify'] = 'Persediaan barang berubah di shopify';
 $lang['common_recent_exports'] = 'Ekspor Terbaru';
 $lang['common_import_order'] = 'Impor Pesanan';
+
+
+
+
+$lang['shopfiy_not_paid'] = 'Anda belum mengaktifkan Penagihan Shopify Anda';
+
+
+
+
 $lang['shopify_not_paid'] = 'Anda belum mengaktifkan Penagihan Shopify Anda';
+
 $lang['common_color'] = 'Warna';
 $lang['common_drag_and_drop_or_click'] = 'Seret dan Lepas Atau Klik';
 $lang['common_workorder'] = 'Perintah kerja';
 $lang['common_item_being_repaired'] = 'Item Sedang Diperbaiki';
+
+
+
 $lang['work_orders_edit'] = 'Edit Perintah Kerja';
 $lang['work_orders_delete'] = 'Hapus Perintah Kerja';
 $lang['work_orders_search'] = 'Cari Perintah Kerja';
 $lang['work_orders_manage_statuses'] = 'Kelola Status Perintah Kerja';
 $lang['common_shopify_access_token_error'] = 'Token akses Anda telah kedaluwarsa dan kami tidak dapat terhubung ke API. Silahkan coba lagi.';
 $lang['common_ecommerce_item'] = 'Item E-niaga';
+$lang['config_show_qr_code_for_sale'] = 'Tunjukkan kode QR pada tanda terima penjualan';
+$lang['common_suppliers'] = 'Pemasok';
+$lang['common_back_to_suppliers'] = 'Kembali ke pemasok';
+
+$lang['common_change_status'] = 'Merubah status';
+$lang['common_please_select'] = 'Silahkan pilih';
+$lang['sales_can_lookup_last_receipt'] = 'Dapat Mencari Tanda Terima Terakhir';
 ?>

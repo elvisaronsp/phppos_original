@@ -418,6 +418,8 @@ function get_suspended_sales_manage_table($items,$controller)
 	$table='<table class="table table-bordered table-striped table-hover data-table" id="dTable">';	
 	$columns_to_display = $CI->Employee->get_suspended_sales_columns_to_display();
 	
+	$headers[] = array('label' => '<input type="checkbox" id="select_all" /><label for="select_all"><span></span></label>', 'sort_column' => '');
+
 	foreach(array_values($columns_to_display) as $value)
 	{
 		$headers[] = H($value);
@@ -522,6 +524,7 @@ function get_suspended_sales_data_row($item,$controller)
 
 	$table_data_row='<tr>';
 
+		$table_data_row.="<td><input type='checkbox' id='item_$item->sale_id' value='".$item->sale_id."'/><label for='item_$item->sale_id'><span></span></label></td>";
 							
 		$displayable_columns = $CI->Employee->get_suspended_sales_columns_to_display();
 		$CI->load->helper('text');
@@ -567,14 +570,12 @@ function get_suspended_sales_data_row($item,$controller)
 			}
 			
 			if($column_id == 'customer_id'){
-				if (isset($item->customer_id)){
-					$customer = $CI->Customer->get_info($item->customer_id);
-					$company_name = $customer->company_name;
-					if($company_name) {
-						$val = $customer->first_name. ' '. $customer->last_name.' ('.$customer->company_name.')';
+				if ($item->customer_id){
+					if($item->company_name) {
+						$val = $item->first_name. ' '. $item->last_name.' ('.$item->company_name.')';
 					}
 					else {
-						$val =  $customer->first_name. ' '. $customer->last_name;
+						$val =  $item->first_name. ' '. $item->last_name;
 					}
 				}
 			}
@@ -602,7 +603,7 @@ function get_suspended_sales_data_row($item,$controller)
 		
 		$table_data_row.='<td>';
 			$table_data_row.= form_open('sales/receipt/'.$item->sale_id, array('method'=>'get', 'class' => 'form_receipt_suspended_sale'));
-			$table_data_row.='<input type="submit" name="submit" value="'.lang('common_recp').'" id="submit_receipt" class="btn btn-primary" />';
+			$table_data_row.='<input type="submit" name="submit" value="'.lang('common_recp').'" class="btn btn-primary" />';
 			$table_data_row.=form_close();
 		$table_data_row.='</td>';
 		
@@ -610,7 +611,7 @@ function get_suspended_sales_data_row($item,$controller)
 		if ($item->email) 
 		{
 			$table_data_row .= form_open('sales/email_receipt/'.$item->sale_id, array('method'=>'get', 'class' => 'form_email_receipt_suspended_sale'));
-				$table_data_row .= '<input type="submit" name="submit" value="'.lang('common_email').'" id="submit_receipt" class="btn btn-primary" />';
+				$table_data_row .= '<input type="submit" name="submit" value="'.lang('common_email').'" class="btn btn-primary" />';
 			$table_data_row .= form_close();
 		}
 		
@@ -643,11 +644,13 @@ function get_suspended_receivings_manage_table($items,$controller)
 	$table='<table class="table table-bordered table-striped table-hover data-table" id="dTable">';	
 	$columns_to_display = $CI->Employee->get_suspended_receivings_columns_to_display();
 	
+	$headers[] = array('label' => '<input type="checkbox" id="select_all" /><label for="select_all"><span></span></label>', 'sort_column' => '');
+
 	foreach(array_values($columns_to_display) as $value)
 	{
 		$headers[] = H($value);
 	}
-	
+
 	$headers[] = array('label' => lang('common_unsuspend'), 'sort_column' => '');
 	$headers[] = array('label' => lang('receivings_receipt'), 'sort_column' => '');
 	$headers[] = array('label' => lang('common_email_receipt'), 'sort_column' => '');
@@ -741,7 +744,7 @@ function get_suspended_receivings_data_row($item,$controller)
 
 
 	$table_data_row='<tr>';
-
+	$table_data_row.="<td><input type='checkbox' id='item_$item->receiving_id' value='".$item->receiving_id."'/><label for='item_$item->receiving_id'><span></span></label></td>";
 							
 		$displayable_columns = $CI->Employee->get_suspended_receivings_columns_to_display();
 		$CI->load->helper('text');
@@ -783,14 +786,12 @@ function get_suspended_receivings_data_row($item,$controller)
 			}
 			
 			if($column_id == 'supplier_id'){
-				if (isset($item->supplier_id)){
-					$supplier = $CI->Supplier->get_info($item->supplier_id);
-					$company_name = $supplier->company_name;
-					if($company_name) {
-						$val = $supplier->first_name. ' '. $supplier->last_name.' ('.$supplier->company_name.')';
+				if ($item->supplier_id){
+					if($item->company_name) {
+						$val = $item->first_name. ' '. $item->last_name.' ('.$item->company_name.')';
 					}
 					else {
-						$val =  $supplier->first_name. ' '. $supplier->last_name;
+						$val =  $item->first_name. ' '. $item->last_name;
 					}
 				}
 			}
@@ -814,7 +815,7 @@ function get_suspended_receivings_data_row($item,$controller)
 		
 		$table_data_row.='<td>';
 			$table_data_row.= form_open('receivings/receipt/'.$item->receiving_id, array('method'=>'get', 'class' => 'form_receipt_suspended_recv'));
-			$table_data_row.='<input type="submit" name="submit" value="'.lang('common_recp').'" id="submit_receipt" class="btn btn-primary" />';
+			$table_data_row.='<input type="submit" name="submit" value="'.lang('common_recp').'" class="btn btn-primary" />';
 			$table_data_row.=form_close();
 		$table_data_row.='</td>';
 		
@@ -822,7 +823,7 @@ function get_suspended_receivings_data_row($item,$controller)
 		if ($item->email) 
 		{			
 			$table_data_row .= form_open('receivings/email_receipt/'.$item->receiving_id, array('method'=>'get', 'class' => 'form_email_receipt_suspended_recv'));
-				$table_data_row .= '<input type="submit" name="submit" value="'.($item->is_po ? lang('receivings_email_po') : lang('common_email_receipt')).'" id="submit_receipt" class="btn btn-primary" />';
+				$table_data_row .= '<input type="submit" name="submit" value="'.($item->is_po ? lang('receivings_email_po') : lang('common_email_receipt')).'" class="btn btn-primary" />';
 			$table_data_row .= form_close();
 		}
 		

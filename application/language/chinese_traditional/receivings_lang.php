@@ -191,4 +191,5 @@ $lang['receivings_show_signature_on_receiving_receipt'] = '在收據上顯示簽
 $lang['receivings_out_of_stock'] = '完成此交易時，一件或多件物品將無庫存';
 $lang['receivings_you_do_not_have_permission_to_complete_transfers'] = '您無權完成轉移。您需要聯繫經理以獲取許可';
 $lang['receivings_undelete_unsuccessful'] = '無法刪除接收';
+$lang['delete_suspended_receivings_confirmation'] = '您確定要刪除此接收，此操作無法撤消。';
 ?>

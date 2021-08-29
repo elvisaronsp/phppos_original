@@ -95,4 +95,5 @@ $lang['appointments_edit'] = 'Modifier les rendez-vous';
 $lang['module_work_orders'] = 'Bons de travail';
 $lang['module_work_orders_desc'] = 'Bons de travail';
 $lang['module_manage_statuses'] = 'Gérer les statuts';
+$lang['module_action_delete_suspended_receiving'] = 'Supprimer la réception suspendue';
 ?>

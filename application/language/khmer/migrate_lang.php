@@ -412,7 +412,47 @@ $lang['migrate_expenses_categories'] = 'ប្រភេទចំណាយ';
 $lang['migrate_permission_for_manage_expenses_categories'] = 'ការអនុញ្ញាតសម្រាប់ការគ្រប់គ្រងប្រភេទចំណាយ';
 $lang['migrate_update_foreign_key_for_expenses_categories'] = 'ធ្វើបច្ចុប្បន្នភាពប្រភេទគន្លឹះបរទេសសម្រាប់ប្រភេទចំណាយ';
 
+$lang['migrate_delivery_categories'] = 'ប្រភេទដឹកជញ្ជូន';
+$lang['migrate_permission_for_manage_delivery_categories'] = 'ការអនុញ្ញាតសម្រាប់ការគ្រប់គ្រងប្រភេទដឹកជញ្ជូន';
+$lang['migrate_add_category_id_to_phppos_sales_deliveries'] = 'បន្ថែមលេខសម្គាល់ប្រភេទទៅភីភីសលក់ចែកចាយ';
+$lang['migrate_add_duration_to_phppos_sales_deliveries'] = 'បន្ថែមរយៈពេលដល់អ្នកចែកចាយការលក់ភីភីភី';
+$lang['migrate_allow_sales_id_nullable_in_sales_deliveries_table'] = 'អនុញ្ញាតឱ្យលេខសម្គាល់ការលក់មិនអាចទុកបាននៅក្នុងតារាងផ្តល់ជូនការលក់';
+$lang['migrate_delivery_items'] = 'ទំនិញដឹកជញ្ជូន';
+$lang['migrate_delivery_item_kits'] = 'ឧបករណ៍ដឹកជញ្ជូន';
+$lang['migrate_added_location_id_to_sales_deliveries_table'] = 'លេខសម្គាល់ទីតាំងដែលបានបន្ថែមទៅតារាងប្រគល់ការលក់';
+
+
 $lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'អនុញ្ញាតលេខសម្គាល់ការធ្វើពាណិជ្ជកម្មតាមអ៊ីធឺណិតឱ្យកាន់តែធំទៅ';
 $lang['migrate_index_on_filename'] = 'សន្ទស្សន៍នៅលើឈ្មោះឯកសារ';
+
+
+
+
+$lang['migrate_18_2_version'] = '១៨.២ កំណែ';
+
+$lang['migrate_add_delivery_type_column_to_salse_deliveries'] = 'បន្ថែមជួរឈរប្រភេទដឹកជញ្ជូនដើម្បីផ្តល់ជូនការបញ្ជូន';
+$lang['migrate_update_sales_deliveries_delivery_type'] = 'ធ្វើឱ្យទាន់សម័យនូវប្រភេទការដឹកជញ្ជូនចែកចាយ';
+
+$lang['migrate_18_2_version'] = '១៨.២ កំណែ';
+
 $lang['migrate_work_orders'] = 'ការបញ្ជាទិញការងារ';
+
+
+
+$lang['migrate_delivery_statuses'] = 'លក្ខន្តិកៈដឹកជញ្ជូន';
+$lang['migrate_update_existing_delivery_status_and_change_status_column_type_to_sales_deliveries'] = 'ធ្វើឱ្យទាន់សម័យស្ថានភាពដឹកជញ្ជូនដែលមានស្រាប់និងផ្លាស់ប្តូរប្រភេទជួរឈរស្ថានភាពដើម្បីផ្តល់ជូនការលក់';
+$lang['migrate_update_location_in_sales_deliveries_from_sales_table'] = 'ធ្វើបច្ចុប្បន្នភាពទីតាំងក្នុងការផ្តល់ជូនការលក់ពីតារាងលក់';
+$lang['migrate_add_notify_by_columns_in_delivery_statuses_table'] = 'បន្ថែមសេចក្តីជូនដំណឹងតាមជួរឈរនៅក្នុងតារាងលក្ខន្តិកៈដឹកជញ្ជូន';
+$lang['migrate_manage_delivery_statuses_permission'] = 'គ្រប់គ្រងការអនុញ្ញាតលក្ខន្តិកៈដឹកជញ្ជូន';
+$lang['migrate_add_default_delivery_statuses'] = 'បន្ថែមដំណាក់កាលដឹកជញ្ជូនតាមលំនាំដើម';
+$lang['migrate_serial_number_variations'] = 'បំរែបំរួលលេខស៊េរី';
+
+
+$lang['migrate_import_ecommerce_orders_suspended_type'] = 'នាំចូលប្រភេទការបញ្ជាទិញតាមអ៊ីធឺណិតដែលត្រូវបានផ្អាក';
+
+$lang['migrate_can_lookup_last_receipt_permission'] = 'អាចរកមើលការអនុញ្ញាតបង្កាន់ដៃចុងក្រោយ';
+
+$lang['migrate_permission_for_delete_suspended_receivings'] = 'ការអនុញ្ញាតសម្រាប់លុបការទទួលបានផ្អាក';
+
+$lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = 'ជួសជុល Utf8 ទូទៅ Ci ទៅ Utf8 Unicode Ci សម្រាប់ស្ថានភាពការងាររបស់ភីភីស';
 ?>

@@ -484,7 +484,7 @@
 
 
 							<?php if ($this->Employee->has_module_action_permission($controller_name, 'add_update', $this->Employee->get_logged_in_employee_info()->person_id) && !$deleted) {?>
-								<?php if ($controller_name =='customers' or $controller_name =='employees' or $controller_name =='suppliers') {?>
+								<?php if ($controller_name =='employees') {?>
 								<li>
 									<?php echo anchor("permission_templates", '<span class="ion-ios-list-outline"> '.lang("permission_templates").'</span>',
 										array('id'=>'permission_templates','title'=> lang("permission_templates"))); ?>

@@ -431,7 +431,47 @@ $lang['migrate_expenses_categories'] = 'Uitgavencategorieën';
 $lang['migrate_permission_for_manage_expenses_categories'] = 'Toestemming voor het beheren van uitgavencategorieën';
 $lang['migrate_update_foreign_key_for_expenses_categories'] = 'Update externe sleutel voor uitgavencategorieën';
 
+$lang['migrate_delivery_categories'] = 'Levering Categorieën';
+$lang['migrate_permission_for_manage_delivery_categories'] = 'Toestemming voor het beheren van bezorgingscategorieën';
+$lang['migrate_add_category_id_to_phppos_sales_deliveries'] = 'Voeg categorie-ID toe aan Phppos-verkoopleveringen';
+$lang['migrate_add_duration_to_phppos_sales_deliveries'] = 'Duur toevoegen aan Phppos-verkoopleveringen';
+$lang['migrate_allow_sales_id_nullable_in_sales_deliveries_table'] = 'Toestaan dat verkoop-id Nullable in tabel met verkoopleveringen is';
+$lang['migrate_delivery_items'] = 'Levering Artikelen';
+$lang['migrate_delivery_item_kits'] = 'Leveringsitemsets';
+$lang['migrate_added_location_id_to_sales_deliveries_table'] = 'Locatie-ID toegevoegd aan tabel met verkoopleveringen';
+
+
 $lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'Toestaan dat e-commerce order-ID groter is Int';
 $lang['migrate_index_on_filename'] = 'Index op bestandsnaam';
+
+
+
+
+$lang['migrate_18_2_version'] = '18.2 Versie';
+
+$lang['migrate_add_delivery_type_column_to_salse_deliveries'] = 'Kolom Leveringstype toevoegen om leveringen te verkopen';
+$lang['migrate_update_sales_deliveries_delivery_type'] = 'Bijwerken leveringstype verkoopleveringen';
+
+$lang['migrate_18_2_version'] = '18.2 Versie';
+
 $lang['migrate_work_orders'] = 'Werkorders';
+
+
+
+$lang['migrate_delivery_statuses'] = 'Bezorgstatussen';
+$lang['migrate_update_existing_delivery_status_and_change_status_column_type_to_sales_deliveries'] = 'Bestaande leveringsstatus bijwerken en statuskolomtype wijzigen in verkoopleveringen';
+$lang['migrate_update_location_in_sales_deliveries_from_sales_table'] = 'Update locatie in verkoopleveringen vanuit verkooptafel';
+$lang['migrate_add_notify_by_columns_in_delivery_statuses_table'] = 'Melding per kolommen toevoegen in tabel met leveringsstatussen';
+$lang['migrate_manage_delivery_statuses_permission'] = 'Beheer de machtiging voor leveringsstatussen';
+$lang['migrate_add_default_delivery_statuses'] = 'Voeg standaard bezorgstatus toe';
+$lang['migrate_serial_number_variations'] = 'Variaties in serienummer';
+
+
+$lang['migrate_import_ecommerce_orders_suspended_type'] = 'Type onderbroken e-commerceorders importeren';
+
+$lang['migrate_can_lookup_last_receipt_permission'] = 'Kan laatste ontvangstbewijs opzoeken';
+
+$lang['migrate_permission_for_delete_suspended_receivings'] = 'Toestemming voor het verwijderen van opgeschorte ontvangsten';
+
+$lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = 'Fix Utf8 General Ci naar Utf8 Unicode Ci voor Phppos-werkorderstatussen';
 ?>

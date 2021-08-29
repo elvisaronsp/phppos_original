@@ -327,6 +327,11 @@ abstract class PHPPOSCartItem extends PHPPOSCartItemBase
 			$this->loyalty_multiplier = $cur_item_info->loyalty_multiplier ? $cur_item_info->loyalty_multiplier : 1; 			
 		}
 		
+		if (!isset($params['main_image_id']))
+		{
+			$this->main_image_id = $cur_item_info->image_id ? $cur_item_info->image_id : NULL; 			
+		}
+		
 		if (!isset($params['tag_ids']))
 		{
 			$CI->load->model('Tag');

@@ -19,7 +19,7 @@ class Summary_inventory_count_report extends Report
 			array('data'=>lang('reports_total_difference'), 'align'=> 'left'),
 			array('data'=>lang('common_comments'), 'align'=>'left'));
 				
-		$location_count = count(self::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 	
 		if ($location_count > 1)
 		{
@@ -57,7 +57,7 @@ class Summary_inventory_count_report extends Report
 		$this->setupDefaultPagination();
 		$headers = $this->getDataColumns();
 		$report_data = $this->getData();
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 
 		$summary_data = array();
 			

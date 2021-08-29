@@ -154,4 +154,5 @@ $lang['appointments_edit'] = 'تحرير المواعيد';
 $lang['module_work_orders'] = 'طلبات العمل';
 $lang['module_work_orders_desc'] = 'طلبات العمل';
 $lang['module_manage_statuses'] = 'إدارة الحالات';
+$lang['module_action_delete_suspended_receiving'] = 'حذف الاستلام المعلق';
 ?>

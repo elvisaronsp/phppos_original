@@ -824,6 +824,66 @@ class Reports extends Secure_area
 			$this->email->send();
 		}
 	}
+
+	function layaway_statements_email_customer()
+	{
+		if (!empty($_GET))
+		{
+			if ($this->input->get('report_type') == 'simple')
+			{
+				$dates = simple_date_range_to_date($this->input->get('report_date_range_simple'), (boolean)$this->input->get('with_time'),(boolean)$this->input->get('end_date_end_of_day')); 
+				$_GET['start_date'] = $dates['start_date'];
+				$_GET['end_date'] = $dates['end_date'];
+			
+			}
+		
+			if ($this->input->get('report_type_compare') == 'simple')
+			{
+				$dates = simple_date_range_to_date($this->input->get('report_date_range_simple_compare'), (boolean)$this->input->get('compare_with_time'),(boolean)$this->input->get('compare_end_date_end_of_day')); 
+				$_GET['start_date_compare'] = $dates['start_date'];
+				$_GET['end_date_compare'] = $dates['end_date'];
+			}
+		}
+		
+		$report_model = Report::get_report_model('layaway_statements_email_customer');
+		$this->check_action_permission($report_model->settings['permission_action']);
+		$report_model->setParams($this->input->get());
+		$report_data = $report_model->getData();
+		
+		$customer_info = $this->Customer->get_info($this->input->get('customer_id'));
+		$data = array(
+			"title" => lang('reports_layaway_statements'),
+			"subtitle" => date(get_date_format(), strtotime($this->input->get('start_date'))) .'-'.date(get_date_format(), strtotime($this->input->get('end_date'))),
+			'report_data' => $report_data,
+			'hide_items' => $this->input->get('hide_items'),
+			'date_column' => 'sale_time',
+		);
+		
+		if (!empty($customer_info->email))
+		{
+			$this->load->library('email');
+			$config = array();
+			$config['mailtype'] = 'html';
+					
+			$this->email->initialize($config);
+			$this->email->from($this->Location->get_info_for_key('email') ? $this->Location->get_info_for_key('email') : 'no-reply@mg.phppointofsale.com', $this->config->item('company'));
+			$this->email->to($customer_info->email);
+			
+			if($this->Location->get_info_for_key('cc_email'))
+			{
+				$this->email->cc($this->Location->get_info_for_key('cc_email'));
+			}
+			
+			if($this->Location->get_info_for_key('bcc_email'))
+			{
+				$this->email->bcc($this->Location->get_info_for_key('bcc_email'));
+			}
+
+			$this->email->subject(lang('reports_layaway_statements'));
+			$this->email->message($this->load->view("reports/outputs/layaway_statement_email",$data, true));	
+			$this->email->send();
+		}
+	}
 	
 	function store_account_outstanding_mark_as_paid()
 	{

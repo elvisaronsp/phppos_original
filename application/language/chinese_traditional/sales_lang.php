@@ -78,7 +78,7 @@ $lang['sales_change_sale'] = '改變銷售';
 //Delete entire sale
 $lang['sales_delete_entire_sale'] = '刪除整個銷售';
 //Are you sure you want to delete this sale, this action cannot be undone
-$lang['sales_delete_confirmation'] = '您確定要刪除此銷售，此操作無法撤消';
+$lang['sales_delete_confirmation'] = '您確定要刪除此交易嗎，此操作無法撤消。';
 //You have successfully deleted a sale
 $lang['sales_delete_successful'] = '您已成功刪除銷售';
 //You have unsuccessfully deleted a sale
@@ -536,4 +536,5 @@ $lang['sales_note'] = '注意';
 $lang['sales_detailed_note'] = '詳細說明';
 $lang['sales_internal_note'] = '內部說明';
 $lang['sales_delveried_to'] = '送到了（送去了';
+$lang['sales_view_receipt_on_web_page'] = '在網頁上查看收據';
 ?>

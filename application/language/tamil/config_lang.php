@@ -1075,7 +1075,24 @@ $lang['config_override_signature_text'] = 'கையொப்ப உரையை
 $lang['config_update_cost_price_on_transfer'] = 'பரிமாற்றத்தில் செலவு விலையைப் புதுப்பிக்கவும்';
 $lang['config_tip_preset_zero'] = 'உதவிக்குறிப்பு முன்னமைக்கப்பட்ட அளவு 0%';
 $lang['config_show_person_id_on_receipt'] = 'ரசீதில் நபர் ஐடியைக் காட்டு';
+
+$lang['config_import_ecommerce_orders_suspended'] = 'இறக்குமதி இ-காமர்ஸ் ஆர்டர்கள் இடைநீக்கம் செய்யப்பட்டன';
+$lang['config_show_images_on_receipt'] = 'ரசீதில் படங்களைக் காட்டு';
+
 $lang['config_disabled_fixed_discounts'] = 'விற்பனை இடைமுகத்தில் நிலையான தள்ளுபடியை முடக்கு';
+
+
+
 $lang['config_always_put_last_added_item_on_top_of_cart'] = 'கடைசியாக சேர்க்கப்பட்ட உருப்படியை எப்போதும் வண்டியின் மேல் வைக்கவும்';
+
+
+
 $lang['config_show_giftcards_even_if_0_balance'] = 'ஜீரோ பேலன்ஸ் இருந்தாலும் கிஃப்ட் கார்டுகளைக் காட்டுங்கள்';
+
+$lang['config_scale_5'] = 'எடை உட்பொதிக்கப்பட்ட பார்கோடு';
+$lang['config_delivery_color_based_on'] = 'டெலிவரி நிறத்தின் அடிப்படையில்';
+$lang['config_delivery_color_based_on_status'] = 'நிலை';
+$lang['config_delivery_color_based_on_category'] = 'வகை';
+$lang['config_layaway_statement_message'] = 'Layway அறிக்கை செய்தி';
+$lang['config_hide_description_on_suspended_sales'] = 'இடைநீக்கம் செய்யப்பட்ட விற்பனையில் பொருள் விளக்கத்தை மறைக்கவும்';
 ?>

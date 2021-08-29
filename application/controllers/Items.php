@@ -2722,7 +2722,7 @@ class Items extends Secure_area implements Idata_controller
 			$this->load->model('Item_serial_number');
 			if ($this->input->post('serial_numbers') && is_array($this->input->post('serial_numbers')))
 			{
-				$this->Item_serial_number->save($item_id, $this->input->post('serial_numbers'), $this->input->post('serial_number_cost_prices'), $this->input->post('serial_number_prices'),$this->input->post('serials_to_delete'));
+				$this->Item_serial_number->save($item_id, $this->input->post('serial_numbers'), $this->input->post('serial_number_cost_prices'), $this->input->post('serial_number_prices'),$this->input->post('serial_number_prices_variations'),$this->input->post('serials_to_delete'));
 			}
 			else
 			{

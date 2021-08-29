@@ -434,7 +434,47 @@ $lang['migrate_expenses_categories'] = 'Hạng mục Chi phí';
 $lang['migrate_permission_for_manage_expenses_categories'] = 'Quyền Quản lý Danh mục Chi phí';
 $lang['migrate_update_foreign_key_for_expenses_categories'] = 'Cập nhật khóa nước ngoài cho danh mục chi phí';
 
+$lang['migrate_delivery_categories'] = 'Phân loại giao hàng';
+$lang['migrate_permission_for_manage_delivery_categories'] = 'Quyền quản lý danh mục phân phối';
+$lang['migrate_add_category_id_to_phppos_sales_deliveries'] = 'Thêm Id danh mục vào giao hàng bán hàng của Phppos';
+$lang['migrate_add_duration_to_phppos_sales_deliveries'] = 'Thêm thời lượng để giao hàng cho Phppos';
+$lang['migrate_allow_sales_id_nullable_in_sales_deliveries_table'] = 'Cho phép Id Bán hàng bị vô hiệu trong Bảng Phân phối Bán hàng';
+$lang['migrate_delivery_items'] = 'Giao hàng';
+$lang['migrate_delivery_item_kits'] = 'Bộ dụng cụ giao hàng';
+$lang['migrate_added_location_id_to_sales_deliveries_table'] = 'Đã thêm Id Vị trí vào Bảng Giao hàng Bán hàng';
+
+
 $lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'Cho phép Id đơn đặt hàng thương mại điện tử lớn hơn Int';
 $lang['migrate_index_on_filename'] = 'Chỉ mục trên tên tệp';
+
+
+
+
+$lang['migrate_18_2_version'] = 'Phiên bản 18.2';
+
+$lang['migrate_add_delivery_type_column_to_salse_deliveries'] = 'Thêm cột loại giao hàng vào giao hàng mặn';
+$lang['migrate_update_sales_deliveries_delivery_type'] = 'Cập nhật loại giao hàng bán hàng';
+
+$lang['migrate_18_2_version'] = 'Phiên bản 18.2';
+
 $lang['migrate_work_orders'] = 'Đơn hàng làm việc';
+
+
+
+$lang['migrate_delivery_statuses'] = 'Trạng thái giao hàng';
+$lang['migrate_update_existing_delivery_status_and_change_status_column_type_to_sales_deliveries'] = 'Cập nhật trạng thái giao hàng hiện tại và thay đổi loại cột trạng thái thành giao hàng bán';
+$lang['migrate_update_location_in_sales_deliveries_from_sales_table'] = 'Cập nhật vị trí trong giao hàng bán hàng từ bảng bán hàng';
+$lang['migrate_add_notify_by_columns_in_delivery_statuses_table'] = 'Thêm thông báo theo cột trong bảng trạng thái giao hàng';
+$lang['migrate_manage_delivery_statuses_permission'] = 'Quản lý quyền trạng thái giao hàng';
+$lang['migrate_add_default_delivery_statuses'] = 'Thêm các điểm dừng phân phối mặc định';
+$lang['migrate_serial_number_variations'] = 'Các biến thể số sê-ri';
+
+
+$lang['migrate_import_ecommerce_orders_suspended_type'] = 'Nhập đơn hàng thương mại điện tử Loại bị tạm ngưng';
+
+$lang['migrate_can_lookup_last_receipt_permission'] = 'Có thể tra cứu quyền biên nhận lần cuối';
+
+$lang['migrate_permission_for_delete_suspended_receivings'] = 'Quyền để xóa các nhận bị tạm ngưng';
+
+$lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = 'Sửa lỗi Utf8 General Ci thành Utf8 Unicode Ci cho các trạng thái máy làm việc Phppos';
 ?>

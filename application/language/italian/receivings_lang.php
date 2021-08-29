@@ -117,4 +117,5 @@ $lang['receivings_show_signature_on_receiving_receipt'] = 'Mostra la firma alla 
 $lang['receivings_out_of_stock'] = 'Uno o più articoli saranno esauriti al completamento di questa transazione';
 $lang['receivings_you_do_not_have_permission_to_complete_transfers'] = 'Non disponi dell\'autorizzazione per completare il trasferimento. Dovrai contattare il manager per ottenere l\'autorizzazione';
 $lang['receivings_undelete_unsuccessful'] = 'Impossibile eliminare la ricezione';
+$lang['delete_suspended_receivings_confirmation'] = 'Sei sicuro di voler eliminare questa/e ricezione/i, questa azione non può essere annullata.';
 ?>

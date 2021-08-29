@@ -531,6 +531,7 @@
 							<th><?php echo lang('items_serial_number'); ?></th>
 							<th><?php echo lang('common_cost_price'); ?></th>
 							<th><?php echo lang('common_price'); ?></th>
+							<th><?php echo lang('common_variation'); ?></th>
 							<th><?php echo lang('common_delete'); ?></th>
 							</tr>
 						</thead>
@@ -542,6 +543,19 @@
 									<td><input type="text" class="form-control form-inps" size="40" name="serial_numbers[]" value="<?php echo H($serial_item_number['serial_number']); ?>" /></td>
 									<td><input type="text" class="form-control form-inps" size="20" name="serial_number_cost_prices[]" value="<?php echo H($serial_item_number['cost_price'] !== NULL ? to_currency_no_money($serial_item_number['cost_price']) : ''); ?>" /></td>
 									<td><input type="text" class="form-control form-inps" size="20" name="serial_number_prices[]" value="<?php echo H($serial_item_number['unit_price'] !== NULL ? to_currency_no_money($serial_item_number['unit_price']) : ''); ?>" /></td>
+									<td>
+										<?php
+										$item_var_options = array('' => lang('common_none'));
+											foreach($item_variations as $item_variation_id => $item_variation)
+											{
+												$item_var_options[$item_variation_id] = $item_variation['name'] ? $item_variation['name'] : implode(', ',array_column($item_variation['attributes'],'label'));												
+											}
+											
+											echo form_dropdown("serial_number_prices_variations[]", $item_var_options,$serial_item_number['variation_id'], 'class="form-control"');
+											
+										?>
+										
+									</td>
 									<td><a data-serial-number="<?php echo H($serial_item_number['serial_number']); ?>" class="delete_serial_number" href="javascript:void(0);"><?php echo lang('common_delete'); ?></a></td>
 								</tr>
 								<?php } ?>
@@ -656,7 +670,7 @@
 									
 									<?php 
 									$choices = explode('|',$this->Item->get_custom_field($k,'choices'));
-									$select_options = array();
+									$select_options = array('' => lang('common_please_select'));
 									foreach($choices as $choice)
 									{
 										$select_options[$choice] = $choice;
@@ -664,13 +678,17 @@
 									echo form_dropdown("custom_field_${k}_value", $select_options, $item_info->{"custom_field_${k}_value"}, 'class="form-control" '.$required_text);?>
 									
 							<?php } elseif($this->Item->get_custom_field($k,'type') == 'image') {
-								echo form_input(array(
-								'name'=>"custom_field_${k}_value",
-								'id'=>"custom_field_${k}_value",
-								'type' => 'file',
-								'class'=>"custom_field_${k}_value".' form-control',
-								($required ? $required_text : $required_text) => ($required ? $required_text : $required_text)
-							));
+								echo form_input(
+									array(
+										'name'=>"custom_field_${k}_value",
+										'id'=>"custom_field_${k}_value",
+										'type' => 'file',
+										'class'=>"custom_field_${k}_value".' form-control',
+										'accept'=>".png,.jpg,.jpeg,.gif"
+									),
+									NULL,
+									$item_info->{"custom_field_${k}_value"} ? "" : $required_text
+								);
 							
 								if ($item_info->{"custom_field_${k}_value"})
 								{
@@ -680,13 +698,16 @@
 							 }
 							 elseif($this->Item->get_custom_field($k,'type') == 'file')
 							 {
-								 echo form_input(array(
-								 'name'=>"custom_field_${k}_value",
-								 'id'=>"custom_field_${k}_value",
-								 'type' => 'file',
-								 'class'=>"custom_field_${k}_value".' form-control',
-								 ($required ? $required_text : $required_text) => ($required ? $required_text : $required_text)
-								 ));
+								echo form_input(
+									array(
+									  'name'=>"custom_field_${k}_value",
+									  'id'=>"custom_field_${k}_value",
+									  'type' => 'file',
+									  'class'=>"custom_field_${k}_value".' form-control'
+									),
+								  NULL,
+								  $item_info->{"custom_field_${k}_value"} ? "" : $required_text
+							  );
 
 								 if ($item_info->{"custom_field_${k}_value"})
 								 {
@@ -756,6 +777,23 @@
 	</div>
 </script>
 
+<script id="item-variation-template" type="text/x-handlebars-template">
+
+<td>
+	<?php
+	$item_var_options = array('' => lang('common_none'));
+	foreach($item_variations as $item_variation_id => $item_variation)
+	{
+		$item_var_options[$item_variation_id] = $item_variation['name'] ? $item_variation['name'] : implode(', ',array_column($item_variation['attributes'],'label'));												
+	}
+		
+	echo form_dropdown("serial_number_prices_variations[]", $item_var_options,'', 'class="form-control"');
+		
+	?>
+</td>
+</script>
+
+
 <script type='text/javascript'>
 <?php $this->load->view("partial/common_js"); ?>
 	
@@ -772,6 +810,10 @@ function check_service_inputs()
 		$reorder_inputs.removeClass('hidden');
 	}
 }
+
+
+
+var item_variation_template = Handlebars.compile(document.getElementById("item-variation-template").innerHTML);
 
 
 $(document).ready(function()
@@ -797,7 +839,7 @@ $(document).ready(function()
 	
 	$("#add_serial_number").click(function()
 	{
-		$("#serial_numbers tbody").append('<tr><td><input type="text" class="form-control form-inps" size="40" name="serial_numbers[]" value="" /></td><td><input type="text" class="form-control form-inps" size="40" name="serial_number_cost_prices[]" value="" /></td><td><input type="text" class="form-control form-inps" size="20" name="serial_number_prices[]" value="" /></td><td>&nbsp;</td></tr>');
+		$("#serial_numbers tbody").append('<tr><td><input type="text" class="form-control form-inps" size="40" name="serial_numbers[]" value="" /></td><td><input type="text" class="form-control form-inps" size="40" name="serial_number_cost_prices[]" value="" /></td><td><input type="text" class="form-control form-inps" size="20" name="serial_number_prices[]" value="" /></td>'+item_variation_template()+'<td>&nbsp;</td></tr>');
 	});
 	
 	$(".delete_addtional_item_number").click(function()
@@ -932,7 +974,13 @@ $(document).ready(function()
 				$custom_field = $this->Item->get_custom_field($k);
 				if($custom_field !== FALSE) {
 					if( $this->Item->get_custom_field($k,'required') && in_array($current_location, $this->Item->get_custom_field($k,'locations'))){
-						echo "custom_field_${k}_value: 'required',\n";
+						if(($this->Item->get_custom_field($k,'type') == 'file' || $this->Item->get_custom_field($k,'type') == 'image') && !$item_info->{"custom_field_${k}_value"}){
+							echo "custom_field_${k}_value: 'required',\n";
+						}
+						
+						if(($this->Item->get_custom_field($k,'type') != 'file' && $this->Item->get_custom_field($k,'type') != 'image')){
+							echo "custom_field_${k}_value: 'required',\n";
+						}
 					}
 				}
 			}
@@ -964,8 +1012,15 @@ $(document).ready(function()
 					$custom_field = $this->Item->get_custom_field($k);
 					if($custom_field !== FALSE) {
 						if( $this->Item->get_custom_field($k,'required') && in_array($current_location, $this->Item->get_custom_field($k,'locations'))){
-							$error_message = json_encode($custom_field." ".lang('is_required'));
-							echo "custom_field_${k}_value: $error_message,\n";
+							if(($this->Item->get_custom_field($k,'type') == 'file' || $this->Item->get_custom_field($k,'type') == 'image') && !$item_info->{"custom_field_${k}_value"}){
+								$error_message = json_encode($custom_field." ".lang('is_required'));
+								echo "custom_field_${k}_value: $error_message,\n";
+							}
+
+							if(($this->Item->get_custom_field($k,'type') != 'file' && $this->Item->get_custom_field($k,'type') != 'image')){
+								$error_message = json_encode($custom_field." ".lang('is_required'));
+								echo "custom_field_${k}_value: $error_message,\n";
+							}
 						}
 					}
 				}

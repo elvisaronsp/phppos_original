@@ -33,10 +33,15 @@ class Sale_types extends MY_Model
 		}
 	}
 
-	function get_all()
+	function get_all($exclude = NULL)
 	{
 		$this->db->from('sale_types');
 		$this->db->where('system_sale_type',0);
+		
+		if ($exclude)
+		{
+			$this->db->where('id!=',$exclude);
+		}
 		$this->db->order_by('sort');
 		return $this->db->get();
 	}
@@ -57,7 +62,7 @@ class Sale_types extends MY_Model
 		{
 			if($this->db->insert('sale_types',$sale_type_data))
 			{
-				$tier_data['id']=$this->db->insert_id();
+				$sale_type_data['id']=$this->db->insert_id();
 				return true;
 			}
 			return false;

@@ -15,7 +15,7 @@ class Item_variations extends MY_Model
 		$return = array();
 		
 		//get attributes
-		$this->db->select('attributes.name as attribute_name, item_variations.unit_price as unit_price, item_variations.cost_price as cost_price, item_variations.name as variation_name, '.$this->db->dbprefix('attributes').'.id as attribute_id,'.$this->db->dbprefix('attribute_values').'.name as attribute_value_name,CONCAT('.$this->db->dbprefix('attributes').'.name,": ",'.$this->db->dbprefix('attribute_values').'.name) as label, item_variation_attribute_values.attribute_value_id as attribute_value_id, '.$this->db->dbprefix('item_variations').'.id as item_variation_id', FALSE);
+		$this->db->select('item_variations.item_number as item_variation_item_number,attributes.name as attribute_name, item_variations.unit_price as unit_price, item_variations.cost_price as cost_price, item_variations.name as variation_name, '.$this->db->dbprefix('attributes').'.id as attribute_id,'.$this->db->dbprefix('attribute_values').'.name as attribute_value_name,CONCAT('.$this->db->dbprefix('attributes').'.name,": ",'.$this->db->dbprefix('attribute_values').'.name) as label, item_variation_attribute_values.attribute_value_id as attribute_value_id, '.$this->db->dbprefix('item_variations').'.id as item_variation_id', FALSE);
 		$this->db->from('item_variations');
 		$this->db->join('item_variation_attribute_values', 'item_variations.id = item_variation_attribute_values.item_variation_id');
 		$this->db->join('attribute_values', 'attribute_values.id = item_variation_attribute_values.attribute_value_id');
@@ -44,6 +44,7 @@ class Item_variations extends MY_Model
 				'unit_price' => $attr_value['unit_price'],
 				'cost_price' => $attr_value['cost_price'],
 				'variation_name' => $attr_value['variation_name'],
+				'item_variation_item_number' => $attr_value['item_variation_item_number'],
 				'attribute_name' => $attr_value['attribute_name'],
 				'attribute_id' => $attr_value['attribute_id'],
 				'attribute_value_name' => $attr_value['attribute_value_name'],

@@ -9,7 +9,7 @@ class Summary_giftcards_sales extends Report
 	
 	public function getDataColumns()
 	{	
-		$location_count = count(self::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		
 		$return = array(
 			array('data'=>lang('common_sale_date'), 'align'=>'left'), 
@@ -17,7 +17,7 @@ class Summary_giftcards_sales extends Report
 			array('data'=>lang('reports_sales_generator_selectField_1'), 'align'=> 'left'),
 			array('data'=>lang('reports_giftcard_sale_amount'), 'align'=> 'left'));
 			
-			$location_count = count(self::get_selected_location_ids());
+			$location_count = $this->Location->count_all();
 		
 			if ($location_count > 1)
 			{
@@ -57,7 +57,7 @@ class Summary_giftcards_sales extends Report
 		$end_date = $this->params['end_date'];
 		$tabular_data = array();
 		$report_data = $this->getData();
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		
 		foreach($report_data as $row)
 		{

@@ -109,4 +109,5 @@ $lang['receivings_show_signature_on_receiving_receipt'] = 'Zeigen Sie die Unters
 $lang['receivings_out_of_stock'] = 'Ein oder mehrere Artikel sind nach Abschluss dieser Transaktion nicht vorrätig';
 $lang['receivings_you_do_not_have_permission_to_complete_transfers'] = 'Sie haben keine Berechtigung, die Übertragung abzuschließen. Sie müssen sich an den Manager wenden, um die Erlaubnis zu erhalten';
 $lang['receivings_undelete_unsuccessful'] = 'Empfang kann nicht gelöscht werden';
+$lang['delete_suspended_receivings_confirmation'] = 'Möchten Sie diesen Empfang(en) wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.';
 ?>

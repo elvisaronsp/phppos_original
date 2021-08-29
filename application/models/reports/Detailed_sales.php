@@ -103,7 +103,7 @@ class Detailed_sales extends Report
 		$report_data = $this->getData();
 		$tier_count = $this->Tier->count_all();
 		
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		$summary_data = array();
 		foreach($this->params['export_excel'] == 1 && isset($report_data['summary']) ? $report_data['summary']:$report_data as $key=>$row)
 		{
@@ -471,7 +471,7 @@ class Detailed_sales extends Report
 		$return = array();
 		
 		$return['summary'] = array();
-		$location_count = count(self::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		
 		$return['summary'][] = array('data'=>lang('reports_sale_id'), 'align'=> 'left');
 		if ($location_count > 1)
@@ -875,6 +875,43 @@ class Detailed_sales extends Report
 		
 		if($export_excel == 1)
 		{
+			$variation_ids = array();
+			foreach($res as $key=>$drow)
+			{			
+				if (isset($drow['item_variation_id']) && $drow['item_variation_id'])
+				{
+					$variation_ids[] = $drow['item_variation_id'];
+				}
+			}
+		
+			$variations_info = $this->Item_variations->get_multiple_info($variation_ids);
+		
+		
+		
+			$this->load->model('Item_variations');
+			$variation_attrs = $this->Item_variations->get_attributes($variation_ids);
+			$variations_info = $this->Item_variations->get_multiple_info($variation_ids);
+			
+			
+			$variation_labels = array();
+		
+			foreach($variation_attrs as $variation_id => $attrs)
+			{
+				 $variation_labels[$variation_id] = implode(', ', array_column($attrs,'label'));
+			}
+			
+			for($k=0;$k<count($res);$k++)
+			{
+				if (isset($variations_info[$res[$k]['item_variation_id']]['item_variation_item_number']) && $variations_info[$res[$k]['item_variation_id']]['item_variation_item_number'])
+				{
+					$res[$k]['item_number'] = $variations_info[$res[$k]['item_variation_id']]['item_variation_item_number'];
+				}
+				
+				if (isset($variations_info[$res[$k]['item_variation_id']]) && $variations_info[$res[$k]['item_variation_id']])
+				{
+					$res[$k]['item_name'].=(isset($variation_labels[$res[$k]['item_variation_id']]) ? ': '.$variation_labels[$res[$k]['item_variation_id']] : '');
+				}
+			}
 			return $res;
 			exit;
 		}
@@ -883,16 +920,18 @@ class Detailed_sales extends Report
 		$variation_ids = array();
 		foreach($res as $key=>$drow)
 		{			
-			if (isset($row['variation_id']) && $row['variation_id'])
+			if (isset($drow['item_variation_id']) && $drow['item_variation_id'])
 			{
-				$variation_ids[] = $row['variation_id'];
+				$variation_ids[] = $drow['item_variation_id'];
 			}
 		}
 		
 		
+		
+		
 		$this->load->model('Item_variations');
 		$variation_attrs = $this->Item_variations->get_attributes($variation_ids);
-
+		$variations_info = $this->Item_variations->get_multiple_info($variation_ids);
 		$variation_labels = array();
 		
 		foreach($variation_attrs as $variation_id => $attrs)
@@ -905,7 +944,7 @@ class Detailed_sales extends Report
 			{	
 				$details_data_row = array();
 				$details_data_row[] = array('data'=>$drow['item_id'], 'align'=>'left');
-				$details_data_row[] = array('data'=>$drow['item_number'], 'align'=>'left');
+				$details_data_row[] = array('data'=>isset($variations_info[$drow['item_variation_id']]['item_variation_item_number']) ? $variations_info[$drow['item_variation_id']]['item_variation_item_number'] : $drow['item_number'], 'align'=>'left');
 				$details_data_row[] = array('data'=>$drow['item_product_id'], 'align'=>'left');
 				$details_data_row[] = array('data'=>$drow['item_name'].(isset($variation_labels[$drow['item_variation_id']]) ? ': '.$variation_labels[$drow['item_variation_id']] : ''), 'align'=>'left');
 				$details_data_row[] = array('data'=>$this->Category->get_full_path($drow['category_id']), 'align'=>'left');

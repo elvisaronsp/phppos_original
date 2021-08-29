@@ -133,6 +133,9 @@
 											</div>
 					
 										</div>
+
+
+
 									<div class="form-group row">
 											<label for="tracking_number" class="col-sm-3 col-md-3 col-lg-3 control-label "><?php echo lang("deliveries_tracking_number"); ?> :</label>
 						 					<div class="col-sm-9 col-md-9 col-lg-9">
@@ -203,6 +206,44 @@
 										<?php 
 										echo form_dropdown('deliveries_status', $deliveries_status, $delivery_info['status'], 'class="form-control" id="deliveries_status"');
 										?>
+									</div>
+			
+								</div>
+
+
+
+								<div class="form-group">
+									<?php echo form_label(lang('common_category').':', 'category_id', array('class'=>'col-sm-3 col-md-3 col-lg-3 control-label')); ?>
+									<div class="col-sm-9 col-md-9 col-lg-9">
+										<?php 
+
+
+										$cats = array('' => lang('common_none'));
+
+										foreach($categories as $key => $category)
+										{
+											$cats[$key] = $category["name"];
+										}
+
+										echo form_dropdown('category_id', $cats, $delivery_info['category_id'], 'class="form-control" id="category_id"'); ?>
+						
+									</div>
+			
+								</div>
+
+
+								<div class="form-group">
+									<?php echo form_label(lang('common_duration').':', 'duration', array('class'=>'col-sm-3 col-md-3 col-lg-3 control-label')); ?>
+									<div class="col-sm-9 col-md-9 col-lg-9">
+										<?php
+
+										$duration = array();
+										for($i=30; $i<=2400; $i=$i+15){
+											$duration[$i] = sprintf('%02d', floor($i / 60)).' Hours, '.sprintf('%02d',($i -   floor($i / 60) * 60))." Minutes";
+										}
+										
+										echo form_dropdown('duration', $duration, $delivery_info['duration'], 'class="form-control" id="duration"'); ?>
+						
 									</div>
 			
 								</div>
@@ -592,9 +633,12 @@
 			delivery_info['shipping_method_id'] = $('.delivery-rate-btn.active input').eq(0).val();
 		}
 		
-		if($('#deliveries_status').val()){
-			delivery_info['status'] = $('#deliveries_status').val();
-		}
+		delivery_info['status'] = $('#deliveries_status').val();
+	
+		delivery_info['category_id'] = $('#category_id').val();
+
+		delivery_info['duration'] = $('#duration').val();
+		
 		
 		return delivery_info;
 		

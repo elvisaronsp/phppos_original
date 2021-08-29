@@ -277,7 +277,32 @@ else
 								 <?php } ?>
 								 <strong><?php echo H($transaction_time) ?></strong>
 							</li>
-			            <li><span><?php echo lang('common_sale_id','',array(),TRUE).":"; ?></span><?php echo H($sale_id); ?><?php if($return_sale_id){echo ' ('.lang('sales_return').' '.($this->config->item('sale_prefix') ? $this->config->item('sale_prefix') : 'POS').' '.$return_sale_id.')';}?></li>
+						
+						
+						
+					    <li><span><?php echo lang('common_sale_id','',array(),TRUE).":"; ?></span><?php echo H($sale_id); ?><?php if($return_sale_id){echo ' ('.lang('sales_return').' '.($this->config->item('sale_prefix') ? $this->config->item('sale_prefix') : 'POS').' '.$return_sale_id.')';}?> 
+						
+						<?php
+							if (version_compare(PHP_VERSION, '7.2', '>='))
+							{
+								require_once (APPPATH."libraries/hashids/vendor/autoload.php");
+			
+								$hashids = new Hashids\Hashids(base_url());
+								$sms_id = $hashids->encode($sale_id_raw);
+								?>
+								
+					            <div class="hidden-print" id="open_print_url">
+									<?php echo anchor(site_url('r/'.$sms_id),lang('common_open').' '.$sale_id, array('target' => '_blank'));?> 
+								
+								<?php
+							}
+							?>
+						
+						
+						
+						
+						
+						</li>
 							<?php if (isset($deleted) && $deleted) {?>
 			            	<li><span class="text-danger" style="color: #df6c6e;"><strong><?php echo lang('sales_deleted_voided','',array(),TRUE); ?></strong></span></li>
 							<?php } ?>
@@ -401,7 +426,7 @@ else
 										<?php if(!empty($customer_address_1) || !empty($customer_address_2)){ ?><li><?php echo lang('common_address','',array(),TRUE); ?> : <?php echo H($customer_address_1. ' '.$customer_address_2); ?></li><?php } ?>
 										<?php if (!empty($customer_city)) { echo '<li>'.H($customer_city.' '.$customer_state.', '.$customer_zip).'</li>';} ?>
 										<?php if (!empty($customer_country)) { echo '<li>'.H($customer_country).'</li>';} ?>			
-										<?php if(!empty($customer_phone)){ ?><li><?php echo lang('common_phone_number','',array(),TRUE); ?> : <?php echo H($customer_phone); ?></li><?php } ?>
+										<?php if(!empty($customer_phone)){ ?><li style="font-weight: bold;"><?php echo lang('common_phone_number','',array(),TRUE); ?> : <?php echo H($customer_phone); ?></li><?php } ?>
 										<?php if (!$this->config->item('hide_email_on_receipts')) { ?>
 											<?php if(!empty($customer_email)){ ?><li><?php echo lang('common_email','',array(),TRUE); ?> : <?php echo H($customer_email); ?></li><?php } ?>
 										<?php } ?>
@@ -670,6 +695,7 @@ else
 													<?php } ?>
 													
 													
+													
 													<?php
 													if(count($item->modifier_items) > 0)
 													{
@@ -910,6 +936,21 @@ else
 						
 			     </div>					
 			    </div>
+				
+				<?php
+				$can_display_image = $this->config->item('show_images_on_receipt') && $item->main_image_id;
+				if ($can_display_image)
+				{
+				?>
+				<div class="invoice-desc">
+					<?php
+					
+					 echo img(array('width' => '40%','src' => $this->Appfile->get_url_for_file($item->main_image_id))); ?>
+				</div>
+				<?php
+				}
+				?>													
+				
 			    <?php } ?>
 					
 					<?php
@@ -1619,22 +1660,34 @@ else
 											 echo (str_replace(' ','<i></i> ',H($return_policy)));
 											  ?>
 			            </div>
-									
-			            <div id="receipt_type_label" style="display: none;" class="receipt_type_label invoice-policy">
+
+						<div id="receipt_type_label" style="display: none;" class="receipt_type_label invoice-policy">
 							<?php echo lang('sales_merchant_copy','',array(),TRUE); ?>
 						</div>
-			            <?php if (!$this->config->item('hide_barcode_on_sales_and_recv_receipt')) {?>
-							
-							<?php
-							if (!(isset($standalone) && $standalone))
-							{
-							?>
+
+						<?php if (!$this->config->item('hide_barcode_on_sales_and_recv_receipt')) {?>
+						<?php if (!(isset($standalone) && $standalone)){ ?>
 							<div id='barcode' class="invoice-policy">
-							<?php echo "<img src='".site_url('barcode/index/svg')."?barcode=$sale_id&text=$sale_id' alt=''/>"; ?>
+								<?php echo "<img src='".site_url('barcode/index/svg')."?barcode=$sale_id&text=$sale_id' alt=''/>"; ?>
 							</div>
-								<?php } ?>
+							<?php } ?>
 						<?php } ?>
-						
+
+			            <?php if ($this->config->item('show_qr_code_for_sale')) {?>
+						<?php  if (!(isset($standalone) && $standalone)){ ?>
+							<div id='qrcode' class="invoice-policy">
+								<?php
+								require_once (APPPATH."libraries/hashids/vendor/autoload.php");
+								
+								$hashids = new Hashids\Hashids(base_url());
+								$sms_id = $hashids->encode($sale_id_raw);
+								$sale_id_url = site_url('r/'.$sms_id);
+								?>
+								<?php echo "<img src='".site_url('qrcodegenerator/index?qrcode='.$sale_id_url)."' alt='$sale_id'/>"; ?>
+								<p style="font-size: 12px; font-family: 'themify';"> <?php echo $sale_id; ?> </p>
+							</div>
+							<?php } ?>
+						<?php } ?>
 						<?php 
 						$this->load->model('Price_rule');
 						$coupons = $this->Price_rule->get_coupons_for_receipt($total);
@@ -2095,6 +2148,7 @@ show_feedback('success', <?php echo json_encode(lang('sales_credit_card_processi
 <script>
 html2canvas(document.querySelector("#receipt_wrapper"),{height: $("#receipt_wrapper").height(),windowWidth: 280, onclone: function(doc)
 	{
+		doc.querySelector('#open_print_url').style.display = 'none';
 		doc.querySelector('#invoice-policy-return').style.display = 'none';
 		doc.querySelector('#invoice-policy-return-mobile').style.display = 'block';
 		

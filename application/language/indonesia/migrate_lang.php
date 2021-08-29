@@ -431,7 +431,47 @@ $lang['migrate_expenses_categories'] = 'Kategori Beban';
 $lang['migrate_permission_for_manage_expenses_categories'] = 'Izin Untuk Mengelola Kategori Pengeluaran';
 $lang['migrate_update_foreign_key_for_expenses_categories'] = 'Perbarui Kunci Asing Untuk Kategori Pengeluaran';
 
+$lang['migrate_delivery_categories'] = 'Kategori Pengiriman';
+$lang['migrate_permission_for_manage_delivery_categories'] = 'Izin Untuk Mengelola Kategori Pengiriman';
+$lang['migrate_add_category_id_to_phppos_sales_deliveries'] = 'Tambahkan Id Kategori Ke Pengiriman Penjualan Phppos';
+$lang['migrate_add_duration_to_phppos_sales_deliveries'] = 'Tambahkan Durasi Untuk Pengiriman Penjualan Phppos';
+$lang['migrate_allow_sales_id_nullable_in_sales_deliveries_table'] = 'Izinkan Sales Id Nullable Dalam Tabel Pengiriman Penjualan';
+$lang['migrate_delivery_items'] = 'Item Pengiriman';
+$lang['migrate_delivery_item_kits'] = 'Kit Barang Pengiriman';
+$lang['migrate_added_location_id_to_sales_deliveries_table'] = 'Menambahkan Id Lokasi Ke Tabel Pengiriman Penjualan';
+
+
 $lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'Izinkan Id Pesanan E-niaga Menjadi Lebih Besar';
 $lang['migrate_index_on_filename'] = 'Indeks Nama File';
+
+
+
+
+$lang['migrate_18_2_version'] = '18.2 Versi';
+
+$lang['migrate_add_delivery_type_column_to_salse_deliveries'] = 'Tambahkan Kolom Jenis Pengiriman ke Pengiriman Palsu';
+$lang['migrate_update_sales_deliveries_delivery_type'] = 'Perbarui Jenis Pengiriman Pengiriman Penjualan';
+
+$lang['migrate_18_2_version'] = '18.2 Versi';
+
 $lang['migrate_work_orders'] = 'Perintah Kerja';
+
+
+
+$lang['migrate_delivery_statuses'] = 'Status Pengiriman';
+$lang['migrate_update_existing_delivery_status_and_change_status_column_type_to_sales_deliveries'] = 'Perbarui Status Pengiriman Yang Ada Dan Ubah Jenis Kolom Status Menjadi Pengiriman Penjualan';
+$lang['migrate_update_location_in_sales_deliveries_from_sales_table'] = 'Perbarui Lokasi Dalam Pengiriman Penjualan Dari Tabel Penjualan';
+$lang['migrate_add_notify_by_columns_in_delivery_statuses_table'] = 'Tambahkan Beri Tahu Dengan Kolom Di Tabel Status Pengiriman';
+$lang['migrate_manage_delivery_statuses_permission'] = 'Kelola Izin Status Pengiriman';
+$lang['migrate_add_default_delivery_statuses'] = 'Tambahkan Status Pengiriman Default';
+$lang['migrate_serial_number_variations'] = 'Variasi Nomor Seri';
+
+
+$lang['migrate_import_ecommerce_orders_suspended_type'] = 'Impor Jenis Pesanan E-niaga yang Ditangguhkan';
+
+$lang['migrate_can_lookup_last_receipt_permission'] = 'Dapat Mencari Izin Tanda Terima Terakhir';
+
+$lang['migrate_permission_for_delete_suspended_receivings'] = 'Izin Untuk Menghapus Penerimaan yang Ditangguhkan';
+
+$lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = 'Perbaiki Utf8 General Ci Ke Utf8 Unicode Ci Untuk Status Perintah Kerja Phppos';
 ?>

@@ -271,6 +271,7 @@ $this->load->helper('demo');
 if (is_on_demo_host()) { ?>		
 	<script src="//phppointofsale.com/js/iframeResizer.contentWindow.min.js"></script>
 <?php } ?>
+
 </head>
 <body>
 	<div class="modal fade hidden-print" id="myModal" tabindex="-1" role="dialog" aria-hidden="true"></div>

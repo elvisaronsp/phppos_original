@@ -108,7 +108,7 @@ $lang['deliveries_successful_deleted'] = '您已成功删除';
 //Delivery(s)
 $lang['deliveries_one_or_multiple'] = '交付（S）';
 //Could not deleted selected deliveries
-$lang['deliveries_cannot_be_deleted'] = '无法删除所选交货';
+$lang['deliveries_cannot_be_deleted'] = '无法删除所选状态。';
 //Select Date
 $lang['deliveries_select_date'] = '选择日期';
 //Edit the Sale to change this value.
@@ -125,4 +125,29 @@ $lang['deliveries_confirm_undelete'] = '您确定要取消删除所选订单吗�
 
 $lang['deliveries_status_scheduled'] = '预定的';
 $lang['deliveries_status_not_scheduled'] = '未安排';
+$lang['deliveries_new'] = '新交付';
+$lang['deliveries_manage_without_sales_deliveries'] = '没有交货的情况下进行管理';
+$lang['deliveries_manage_with_sales_deliveries'] = '管理销售交货';
+$lang['deliveries_with_or_without_sales'] = '有/无销售交货';
+$lang['deliveries_with_sales'] = '随着销售';
+$lang['deliveries_without_sales'] = '没有销售';
+$lang['deliveries_status_shipped'] = '已出货';
+$lang['deliveries_status_delivered'] = '发表';
+$lang[''] = '';
+$lang['deliveries_select_status'] = '选择状态';
+$lang['deliveries_manage_statuses'] = '管理状态';
+$lang['deliveries_add_status'] = '添加状态';
+$lang['deliveries_edit_status'] = '编辑状态';
+$lang['deliveries_status_delete_confirmation'] = '您确定要删除此状态吗？';
+$lang['deliveries_status_successful_adding'] = '状态已成功添加/更新';
+$lang['deliveries_status_successful_error'] = '添加状态出错';
+$lang['deliveries_confirm_status_change'] = '您确定要更改此交货状态吗？';
+$lang['deliveries_delivery_status_update_message'] = '％s希望通知您，您的交货％s状态已更改为：％s。';
+$lang['deliveries_delivery_status_update'] = '交货状态更新';
+$lang['deliveries_successful_changed'] = '您已成功更改';
+$lang['deliveries_notify_customer_via_email'] = '通过电子邮件通知客户';
+$lang['deliveries_notify_customer_via_sms'] = '通过短信通知客户';
+$lang['deliveries_unable_to_add_item'] = '无法将项目添加到交货';
+$lang['deliveries_calendar_error_while_fetching_events'] = '撷取事件时发生错误！';
+$lang['deliveries_delivery_items'] = '交货项目';
 ?>

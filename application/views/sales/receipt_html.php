@@ -81,7 +81,7 @@ if (isset($error_message)) {
 
 <table width="100%">
 <tr>
-    <td colspan="2" valign="top" align="left" width="160">
+    <td colspan="2" valign="top" align="left" style="width:40%;">
         <!-- from address-->
         <?php if ($company_logo) { ?>
             <p class="invoice-logo">
@@ -104,7 +104,7 @@ if (isset($error_message)) {
         <?php } ?>
     </td>
 
-    <td colspan="2" valign="top" align="center" width="160">
+    <td colspan="2" valign="top" align="center" style="width:30%;">
         <!--  sales-->
 
         <p>
@@ -200,7 +200,7 @@ if (isset($error_message)) {
         ?>
     </td>
 
-    <td colspan="2" valign="top" align="right" width="160">
+    <td colspan="2" valign="top" align="right" style="width:30%;">
         <!-- to address-->
         <?php if (isset($customer)) { ?>
             <?php if (!$this->config->item('remove_customer_name_from_receipt')) { ?>
@@ -1195,6 +1195,18 @@ if(isset($signature_file_id) && $signature_file_id)
     </tr>
 <?php } ?>
 
+<?php if ($this->config->item('show_qr_code_for_sale')) {?>
+	<div id='qrcode' class="invoice-policy">
+	<?php
+	require_once (APPPATH."libraries/hashids/vendor/autoload.php");
+	
+	$hashids = new Hashids\Hashids(base_url());
+	$sms_id = $hashids->encode($sale_id_raw);
+	$sale_id_url = site_url('r/'.$sms_id);
+	?>
+	<?php echo "<img src='".site_url('qrcodegenerator/index?qrcode='.$sale_id_url)."' alt='$sale_id'/>"; ?>
+</div>
+<?php } ?>
 
         <?php
         $this->load->model('Price_rule');

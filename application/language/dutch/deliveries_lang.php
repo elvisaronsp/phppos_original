@@ -52,9 +52,9 @@ $lang['deliveries_calendars'] = 'kalenders';
 
 
 $lang['delivery_cancel_delivery'] = 'Aflevering annuleren';
-$lang['deliveries_successful_deleted'] = 'U bent succesvol verwijderd';
+$lang['deliveries_successful_deleted'] = 'Je bent succesvol verwijderd';
 $lang['deliveries_one_or_multiple'] = 'Delivery (s)';
-$lang['deliveries_cannot_be_deleted'] = 'Kon geselecteerde leveringen niet verwijderen';
+$lang['deliveries_cannot_be_deleted'] = 'Kan geselecteerde status niet verwijderen.';
 $lang['deliveries_select_date'] = 'Selecteer Datum';
 $lang['deliveries_edit_sale_tool_tip'] = 'Bewerk de Verkoop om deze waarde te wijzigen.';
 $lang['deliveries_shipping_address'] = 'Verzendingsadres';
@@ -68,4 +68,29 @@ $lang['deliveries_confirm_undelete'] = 'Weet u zeker dat u de geselecteerde best
 
 $lang['deliveries_status_scheduled'] = 'Gepland';
 $lang['deliveries_status_not_scheduled'] = 'Niet gepland';
+$lang['deliveries_new'] = 'Nieuwe levering';
+$lang['deliveries_manage_without_sales_deliveries'] = 'Beheer zonder verkoopleveringen';
+$lang['deliveries_manage_with_sales_deliveries'] = 'Beheer met verkoopleveringen';
+$lang['deliveries_with_or_without_sales'] = 'Leveringen met / zonder verkoop';
+$lang['deliveries_with_sales'] = 'Met verkoop';
+$lang['deliveries_without_sales'] = 'Zonder verkoop';
+$lang['deliveries_status_shipped'] = 'Verzonden';
+$lang['deliveries_status_delivered'] = 'Geleverd';
+$lang[''] = '';
+$lang['deliveries_select_status'] = 'Selecteer Status';
+$lang['deliveries_manage_statuses'] = 'Beheer statussen';
+$lang['deliveries_add_status'] = 'Status toevoegen';
+$lang['deliveries_edit_status'] = 'Status bewerken';
+$lang['deliveries_status_delete_confirmation'] = 'Weet u zeker dat u deze status wilt verwijderen?';
+$lang['deliveries_status_successful_adding'] = 'Status is succesvol toegevoegd / bijgewerkt';
+$lang['deliveries_status_successful_error'] = 'Er is een fout opgetreden bij het toevoegen van status';
+$lang['deliveries_confirm_status_change'] = 'Weet u zeker dat u de status van deze levering wilt wijzigen?';
+$lang['deliveries_delivery_status_update_message'] = '% s wil u informeren dat uw bezorgingsstatus% s is gewijzigd in:% s.';
+$lang['deliveries_delivery_status_update'] = 'Afleverstatusupdate';
+$lang['deliveries_successful_changed'] = 'Je bent succesvol veranderd';
+$lang['deliveries_notify_customer_via_email'] = 'Stel de klant via e-mail op de hoogte';
+$lang['deliveries_notify_customer_via_sms'] = 'Breng de klant op de hoogte via sms';
+$lang['deliveries_unable_to_add_item'] = 'Kan item niet toevoegen aan bezorging';
+$lang['deliveries_calendar_error_while_fetching_events'] = 'Er is een fout opgetreden bij het ophalen van evenementen!';
+$lang['deliveries_delivery_items'] = 'Levering Artikelen';
 ?>

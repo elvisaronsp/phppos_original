@@ -6,6 +6,7 @@ class Detailed_deliveries extends Report
 	{
 		parent::__construct();
 		$this->load->model('Tier');
+		$this->load->model('Delivery');
 	}
 	
 	public function getInputData()
@@ -28,11 +29,17 @@ class Detailed_deliveries extends Report
 			}
 			$specific_entity_data['specific_input_data'] = $employees;
 			
+			$dropdown_options = array('all'=>lang('common_all'));
+
+			foreach($this->Delivery->get_all_statuses() as $id => $row)
+			{
+				$dropdown_options[$id] = $row['name'];
+			}
 			
 			$input_params = array(
 				array('view' => 'date_range', 'with_time' => TRUE),
 				$specific_entity_data,
-				array('view' => 'dropdown_status'),
+				array('view' => 'dropdown_status', 'dropdown_options' => $dropdown_options),
 				array('view' => 'excel_export'),
 				array('view' => 'locations'),
 				array('view' => 'submit'),
@@ -57,7 +64,7 @@ class Detailed_deliveries extends Report
 		$report_data = $this->getData();
 		$tier_count = $this->Tier->count_all();
 		
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		$summary_data = array();
 		foreach($this->params['export_excel'] == 1 && isset($report_data['summary']) ? $report_data['summary']:$report_data as $key=>$row)
 		{
@@ -158,7 +165,7 @@ class Detailed_deliveries extends Report
 		$return = array();
 		
 		$return['summary'] = array();
-		$location_count = count(self::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		
 		$return['summary'][] = array('data'=>lang('reports_sale_id'), 'align'=> 'left');
 		if ($location_count > 1)
@@ -196,21 +203,21 @@ class Detailed_deliveries extends Report
 	
 	public function getData()
 	{		
-		$this->db->select('sales_deliveries.id as delivery_id, employee_person.full_name as delivery_employee,status,price_tiers.name as tier_name,locations.name as location_name, sales.sale_id, sale_time, date(sale_time) as sale_date, registers.name as register_name, total_quantity_purchased as items_purchased, CONCAT(sold_by_employee.first_name," ",sold_by_employee.last_name) as sold_by_employee, CONCAT(sold_by_employee.first_name," ",sold_by_employee.last_name) as sold_by_employee, CONCAT(employee.first_name," ",employee.last_name) as employee_name, customer.person_id as customer_id, CONCAT(customer.first_name," ",customer.last_name) as customer_name, customer_data.account_number as account_number,subtotal as subtotal, total as total, tax as tax, profit as profit, payment_type, sales_deliveries.comment', false);
-		$this->db->from('sales');
-		$this->db->join('sales_deliveries', 'sales.sale_id = sales_deliveries.sale_id');
-		$this->db->join('locations', 'sales.location_id = locations.location_id');
+		$this->db->select('sales_deliveries.id as delivery_id, employee_person.full_name as delivery_employee,status,price_tiers.name as tier_name, locations.name as location_name, sales.sale_id, sale_time, date(sale_time) as sale_date, registers.name as register_name, total_quantity_purchased as items_purchased, CONCAT(sold_by_employee.first_name," ",sold_by_employee.last_name) as sold_by_employee, CONCAT(sold_by_employee.first_name," ",sold_by_employee.last_name) as sold_by_employee, CONCAT(employee.first_name," ",employee.last_name) as employee_name, customer.person_id as customer_id, CONCAT(customer.first_name," ",customer.last_name) as customer_name, customer_data.account_number as account_number,subtotal as subtotal, total as total, tax as tax, profit as profit, payment_type, sales_deliveries.comment', false);
+		$this->db->from('sales_deliveries');
+		$this->db->join('sales', 'sales.sale_id = sales_deliveries.sale_id', 'left');
+		$this->db->join('locations', 'sales_deliveries.location_id = locations.location_id','left');
 		$this->db->join('registers', 'sales.register_id = registers.register_id', 'left');
 		$this->db->join('price_tiers', 'sales.tier_id = price_tiers.id', 'left');
-		$this->db->join('people as employee', 'sales.employee_id = employee.person_id');
+		$this->db->join('people as employee', 'sales.employee_id = employee.person_id','left');
 		$this->db->join('people as sold_by_employee', 'sales.sold_by_employee_id = sold_by_employee.person_id', 'left');
 		$this->db->join('people as customer', 'sales.customer_id = customer.person_id', 'left');
-			$this->db->join('people as employee_person', 'sales_deliveries.delivery_employee_person_id = employee_person.person_id', 'left');
+		$this->db->join('people as employee_person', 'sales_deliveries.delivery_employee_person_id = employee_person.person_id', 'left');
 		$this->db->join('customers as customer_data', 'sales.customer_id = customer_data.person_id', 'left');
 		
 		if ($this->params['employee_id'])
 		{
-			$this->db->where('delivery_employee_person_id ',$this->params['employee_id']);
+			$this->db->where('delivery_employee_person_id ', $this->params['employee_id']);
 		}
 		if ($this->params['deliveries_status'] != 'all')
 		{
@@ -219,11 +226,17 @@ class Detailed_deliveries extends Report
 		$this->db->group_start();
 		$this->delivery_time_where();
 		$this->db->group_end();
-		$this->db->where('sales.deleted', 0);
+
+		$this->db->group_start();
+			$this->db->where('sales.deleted', 0);
+			$this->db->or_where('sales_deliveries.sale_id', NULL);
+		$this->db->group_end();
+
+
 		$this->db->where('sales_deliveries.deleted', 0);
 		
 		$this->db->order_by('sale_time', ($this->config->item('report_sort_order')) ? $this->config->item('report_sort_order') : 'asc');
-		
+
 		//If we are exporting NOT exporting to excel make sure to use offset and limit
 		if (isset($this->params['export_excel']) && !$this->params['export_excel'])
 		{
@@ -269,13 +282,18 @@ class Detailed_deliveries extends Report
 
 	public function getTotalRows()
 	{
-		$this->db->from('sales');
-		$this->db->join('sales_deliveries', 'sales.sale_id = sales_deliveries.sale_id');
+		$this->db->from('sales_deliveries');
+		$this->db->join('sales', 'sales.sale_id = sales_deliveries.sale_id','left');
 		
 		$this->db->group_start();
 		$this->delivery_time_where();
 		$this->db->group_end();
+
+		$this->db->group_start();
 		$this->db->where('sales.deleted', 0);
+		$this->db->or_where('sales_deliveries.sale_id', NULL);
+		$this->db->group_end();
+		
 		$this->db->where('sales_deliveries.deleted', 0);
 		if ($this->params['employee_id'])
 		{

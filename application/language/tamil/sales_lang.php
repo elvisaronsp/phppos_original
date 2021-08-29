@@ -549,4 +549,5 @@ $lang['sales_note'] = 'குறிப்பு';
 $lang['sales_detailed_note'] = 'விரிவான குறிப்பு';
 $lang['sales_internal_note'] = 'உள் குறிப்பு';
 $lang['sales_delveried_to'] = 'வழங்கப்பட்டது';
+$lang['sales_view_receipt_on_web_page'] = 'வலைப்பக்கத்தில் ரசீதைக் காண்க';
 ?>

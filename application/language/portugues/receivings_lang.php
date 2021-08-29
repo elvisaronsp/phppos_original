@@ -117,4 +117,5 @@ $lang['receivings_show_signature_on_receiving_receipt'] = 'Mostrar assinatura ao
 $lang['receivings_out_of_stock'] = 'Um ou mais itens estarão em falta ao concluir esta transação';
 $lang['receivings_you_do_not_have_permission_to_complete_transfers'] = 'Você não tem permissão para concluir a transferência. Você precisará entrar em contato com o gerente para obter permissão';
 $lang['receivings_undelete_unsuccessful'] = 'Incapaz de deletar o recebimento';
+$lang['delete_suspended_receivings_confirmation'] = 'Tem certeza de que deseja excluir este (s) recebimento (s), esta ação não pode ser desfeita.';
 ?>

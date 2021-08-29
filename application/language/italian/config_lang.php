@@ -762,10 +762,42 @@ $lang['config_ecommerce_sync_running'] = 'La sincronizzazione e-commerce è ora 
 $lang['config_show_total_on_fulfillment'] = 'Mostra totale sul foglio di evasione';
 $lang['config_connect_shopify_in_app_store'] = 'Non sei connesso a Shopify. Puoi connetterti a Shopify nell\'App Store';
 $lang['config_override_signature_text'] = 'Sostituisci il testo della firma';
+
+$lang['config_delivery_color_based_on'] = 'Colore di consegna basato su';
+$lang['config_delivery_color_based_on_status'] = 'Stato';
+$lang['config_delivery_color_based_on_category'] = 'Categoria';
+
+
 $lang['config_update_cost_price_on_transfer'] = 'Aggiorna prezzo di costo al trasferimento';
+
+
+
 $lang['config_tip_preset_zero'] = 'Importo predefinito della mancia dello 0%';
+
+
+
+$lang['config_layaway_statement_message'] = 'Messaggio di istruzione Layaway';
+
+
 $lang['config_show_person_id_on_receipt'] = 'Mostra l\'ID persona al ricevimento';
+
+
+
+
+$lang['config_import_ecommerce_orders_suspended'] = 'Importa ordini e-commerce sospesi';
+
+$lang['config_show_images_on_receipt'] = 'Mostra immagini alla ricezione';
+
 $lang['config_disabled_fixed_discounts'] = 'Disattiva sconti fissi sull\'interfaccia di vendita';
+
+
+
 $lang['config_always_put_last_added_item_on_top_of_cart'] = 'Metti sempre l\'ultimo articolo aggiunto in cima al carrello';
+
+
+
 $lang['config_show_giftcards_even_if_0_balance'] = 'Mostra le carte regalo anche se a saldo zero';
+
+$lang['config_scale_5'] = 'Codice a barre incorporato peso';
+$lang['config_hide_description_on_suspended_sales'] = 'Nascondi la descrizione dell\'articolo sulle vendite sospese';
 ?>

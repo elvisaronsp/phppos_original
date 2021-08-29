@@ -410,7 +410,7 @@ function cache_item_and_item_kit_cart_info($cart_items)
 /*
 1#1 (item id 1 and variation number 1)
 UPC (item scanned as a UPC which gets parsed an finds item_id)
-*/
+*/ 
 function parse_item_scan_data($scan)
 {
 	$CI =& get_instance();
@@ -546,6 +546,13 @@ function parse_scale_data($scan)
 		$price_start_index = 6;
 		$price_end_index = 11;
 	}
+	elseif($scale_format == 'scale_5')
+	{
+		$number_start_index = 1;
+		$number_end_index = 5;
+		$quantity_start_index = 6;
+		$quantity_end_index = 11;
+	}
 	
 	$item_number = substr($scan,$number_start_index,($number_end_index+1) - $number_start_index);
 	
@@ -579,17 +586,33 @@ function parse_scale_data($scan)
 	$item_cost_price = $item_location_info->cost_price ? $item_location_info->cost_price : $item_info->cost_price;
 	
 	
-	$divide_by = $CI->config->item('scale_divide_by') ? $CI->config->item('scale_divide_by')  : 100;
-	$total_price = substr($scan,$price_start_index,($price_end_index+1) - $price_start_index)/$divide_by;
-	$sell_quantity = $total_price/$item_price;
-	$cost_quantity = $total_price/$item_cost_price;
+	if ($scale_format == 'scale_5')
+	{
+		$divide_by = $CI->config->item('scale_divide_by') ? $CI->config->item('scale_divide_by')  : 100;
+		
+		$total_quantity = substr($scan,$quantity_start_index,($quantity_end_index+1) - $quantity_start_index)/$divide_by;
+		$sell_quantity = $total_quantity;
+		$cost_quantity = $total_quantity;
+		
+		$return['sell_quantity'] = $sell_quantity;
+		$return['sell_price'] = $item_price;
 	
-	$return['sell_quantity'] = $sell_quantity;
-	$return['sell_price'] = $item_price;
+		$return['cost_quantity'] = $cost_quantity;
+		$return['cost_price'] = $item_cost_price;
+	}
+	else
+	{
+		$divide_by = $CI->config->item('scale_divide_by') ? $CI->config->item('scale_divide_by')  : 100;
+		$total_price = substr($scan,$price_start_index,($price_end_index+1) - $price_start_index)/$divide_by;
+		$sell_quantity = $total_price/$item_price;
+		$cost_quantity = $total_price/$item_cost_price;
 	
-	$return['cost_quantity'] = $cost_quantity;
-	$return['cost_price'] = $item_cost_price;
+		$return['sell_quantity'] = $sell_quantity;
+		$return['sell_price'] = $item_price;
 	
+		$return['cost_quantity'] = $cost_quantity;
+		$return['cost_price'] = $item_cost_price;
+	}
 	
 	return $return;
 	

@@ -109,4 +109,5 @@ $lang['receivings_show_signature_on_receiving_receipt'] = 'Tampilkan tanda tanga
 $lang['receivings_out_of_stock'] = 'Satu atau lebih item akan habis saat menyelesaikan transaksi ini';
 $lang['receivings_you_do_not_have_permission_to_complete_transfers'] = 'Anda tidak memiliki izin untuk menyelesaikan transfer. Anda perlu menghubungi manajer untuk mendapatkan izin';
 $lang['receivings_undelete_unsuccessful'] = 'Tidak dapat menghapus penerimaan';
+$lang['delete_suspended_receivings_confirmation'] = 'Apakah Anda yakin ingin menghapus penerima ini, tindakan ini tidak dapat diurungkan.';
 ?>

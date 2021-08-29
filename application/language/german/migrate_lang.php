@@ -431,7 +431,47 @@ $lang['migrate_expenses_categories'] = 'Ausgabenkategorien';
 $lang['migrate_permission_for_manage_expenses_categories'] = 'Berechtigung zum Verwalten von Ausgabenkategorien';
 $lang['migrate_update_foreign_key_for_expenses_categories'] = 'Aktualisieren Sie den Fremdschlüssel für Ausgabenkategorien';
 
+$lang['migrate_delivery_categories'] = 'Lieferkategorien';
+$lang['migrate_permission_for_manage_delivery_categories'] = 'Berechtigung zum Verwalten von Lieferkategorien';
+$lang['migrate_add_category_id_to_phppos_sales_deliveries'] = 'Hinzufügen einer Kategorie-ID zu Phppos Sales Deliveries';
+$lang['migrate_add_duration_to_phppos_sales_deliveries'] = 'Hinzufügen der Dauer zu Phppos-Verkaufslieferungen';
+$lang['migrate_allow_sales_id_nullable_in_sales_deliveries_table'] = 'Verkaufs-ID in der Tabelle "Verkaufslieferungen" auf Null setzen lassen';
+$lang['migrate_delivery_items'] = 'Liefergegenstände';
+$lang['migrate_delivery_item_kits'] = 'Liefergegenstand Kits';
+$lang['migrate_added_location_id_to_sales_deliveries_table'] = 'Standort-ID zur Tabelle "Verkaufslieferungen" hinzugefügt';
+
+
 $lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'Zulassen, dass die E-Commerce-Bestellnummer größer ist Int';
 $lang['migrate_index_on_filename'] = 'Index auf Dateiname';
+
+
+
+
+$lang['migrate_18_2_version'] = '18.2 Version';
+
+$lang['migrate_add_delivery_type_column_to_salse_deliveries'] = 'Spalte "Lieferart" zu "Salse Deliveries" hinzufügen';
+$lang['migrate_update_sales_deliveries_delivery_type'] = 'Verkaufslieferungen aktualisieren Lieferart';
+
+$lang['migrate_18_2_version'] = '18.2 Version';
+
 $lang['migrate_work_orders'] = 'Arbeitsanweisungen';
+
+
+
+$lang['migrate_delivery_statuses'] = 'Lieferstatus';
+$lang['migrate_update_existing_delivery_status_and_change_status_column_type_to_sales_deliveries'] = 'Aktualisieren Sie den vorhandenen Lieferstatus und ändern Sie den Spaltentyp "Status" in "Verkaufslieferungen"';
+$lang['migrate_update_location_in_sales_deliveries_from_sales_table'] = 'Standort in Verkaufslieferungen aus Verkaufstabelle aktualisieren';
+$lang['migrate_add_notify_by_columns_in_delivery_statuses_table'] = 'Hinzufügen einer Benachrichtigung nach Spalten in der Tabelle "Lieferstatus"';
+$lang['migrate_manage_delivery_statuses_permission'] = 'Berechtigung für Lieferstatus verwalten';
+$lang['migrate_add_default_delivery_statuses'] = 'Standardlieferzustände hinzufügen';
+$lang['migrate_serial_number_variations'] = 'Seriennummernvariationen';
+
+
+$lang['migrate_import_ecommerce_orders_suspended_type'] = 'Import E-Commerce-Bestellungen ausgesetzt Typ';
+
+$lang['migrate_can_lookup_last_receipt_permission'] = 'Kann die letzte Empfangsberechtigung nachschlagen Rec';
+
+$lang['migrate_permission_for_delete_suspended_receivings'] = 'Berechtigung zum Löschen ausgesetzter Empfangsbestätigungen';
+
+$lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = 'Fix Utf8 General Ci in Utf8 Unicode Ci für Phppos-Arbeitsauftragsstatus';
 ?>

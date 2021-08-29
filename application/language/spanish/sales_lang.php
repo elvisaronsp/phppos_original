@@ -60,7 +60,7 @@ $lang['sales_edit_sale'] = 'Editar venta';
 $lang['sales_successfully_deleted'] = 'La venta se ha eliminado de manera exitosa';
 $lang['sales_unsuccessfully_deleted'] = 'La venta no se ha eliminado de manera exitosa';
 $lang['sales_delete_entire_sale'] = 'Eliminar la venta completa';
-$lang['sales_delete_confirmation'] = '¿Está seguro que desea eliminar esta venta? Esta acción no se puede deshacer.';
+$lang['sales_delete_confirmation'] = '¿Está seguro de que desea eliminar esta venta? Esta acción no se puede deshacer.';
 
 $lang['sales_delete_successful'] = 'Ha eliminado una venta de manera exitosa';
 $lang['sales_delete_unsuccessful'] = 'La venta no se ha eliminado de manera exitosa';
@@ -374,4 +374,5 @@ $lang['sales_note'] = 'Nota';
 $lang['sales_detailed_note'] = 'Nota detallada';
 $lang['sales_internal_note'] = 'Nota interna';
 $lang['sales_delveried_to'] = 'Entregado a';
+$lang['sales_view_receipt_on_web_page'] = 'Ver recibo en la página web';
 ?>

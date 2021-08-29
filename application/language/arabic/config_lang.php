@@ -1050,10 +1050,42 @@ $lang['config_ecommerce_sync_running'] = 'تعمل مزامنة التجارة �
 $lang['config_show_total_on_fulfillment'] = 'إظهار الإجمالي في ورقة الاستيفاء';
 $lang['config_connect_shopify_in_app_store'] = 'أنت غير متصل بـ Shopify. يمكنك الاتصال بـ Shopify في متجر التطبيقات';
 $lang['config_override_signature_text'] = 'تجاوز نص التوقيع';
+
+$lang['config_delivery_color_based_on'] = 'لون التسليم على أساس';
+$lang['config_delivery_color_based_on_status'] = 'حالة';
+$lang['config_delivery_color_based_on_category'] = 'فئة';
+
+
 $lang['config_update_cost_price_on_transfer'] = 'تحديث سعر التكلفة عند التحويل';
+
+
+
 $lang['config_tip_preset_zero'] = 'مقدار الضبط المسبق لطرف 0٪';
+
+
+
+$lang['config_layaway_statement_message'] = 'رسالة بيان Layaway';
+
+
 $lang['config_show_person_id_on_receipt'] = 'إظهار هوية الشخص عند الاستلام';
+
+
+
+
+$lang['config_import_ecommerce_orders_suspended'] = 'تم تعليق أوامر استيراد التجارة الإلكترونية';
+
+$lang['config_show_images_on_receipt'] = 'إظهار الصور عند الاستلام';
+
 $lang['config_disabled_fixed_discounts'] = 'تعطيل الخصومات الثابتة على واجهة المبيعات';
+
+
+
 $lang['config_always_put_last_added_item_on_top_of_cart'] = 'ضع دائمًا آخر عنصر مضاف أعلى سلة التسوق';
+
+
+
 $lang['config_show_giftcards_even_if_0_balance'] = 'إظهار بطاقات الهدايا حتى لو لم يكن هناك رصيد';
+
+$lang['config_scale_5'] = 'وزن الباركود المضمّن';
+$lang['config_hide_description_on_suspended_sales'] = 'إخفاء وصف العنصر في المبيعات المعلقة';
 ?>

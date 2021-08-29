@@ -797,4 +797,7 @@ $lang['reports_only_count_store_account_payments'] = 'ஸ்டோர் கண�
 $lang['reports_generation_date'] = 'தலைமுறை தேதி';
 $lang['reports_non_taxable_customers'] = 'வரி விதிக்கப்படாத வாடிக்கையாளர்கள்';
 $lang['reports_summary_journal'] = 'சுருக்கம் பத்திரிகை அறிக்கை';
+$lang['reports_layaway_statements'] = 'லயவே அறிக்கைகள்';
+$lang['reports_payment'] = 'பணம் செலுத்துதல்';
+$lang['reports_due'] = 'காரணமாக';
 ?>

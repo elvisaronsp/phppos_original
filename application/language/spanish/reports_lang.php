@@ -506,6 +506,15 @@ $lang['reports_serial_number_history'] = 'Historial de números de serie';
 $lang['reports_daily_report'] = 'Reporte diario';
 $lang['reports_only_count_store_account_payments'] = 'Solo contar los pagos de la cuenta de la tienda';
 $lang['reports_generation_date'] = 'Fecha de generación';
+
 $lang['reports_non_taxable_customers'] = 'Clientes no sujetos a impuestos';
+
+
+$lang['reports_layaway_statements'] = 'Declaraciones de layaway';
+$lang['reports_payment'] = 'Pago';
+$lang['reports_due'] = 'Vencer';
+
+
 $lang['reports_summary_journal'] = 'Informe resumido del diario';
+
 ?>

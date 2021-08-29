@@ -52,9 +52,9 @@ $lang['deliveries_calendars'] = 'Calendarios';
 
 
 $lang['delivery_cancel_delivery'] = 'Cancelar la entrega';
-$lang['deliveries_successful_deleted'] = 'Ha eliminado correctamente';
+$lang['deliveries_successful_deleted'] = 'Has eliminado con éxito';
 $lang['deliveries_one_or_multiple'] = 'Entrega (s)';
-$lang['deliveries_cannot_be_deleted'] = 'No se han podido eliminar las entregas seleccionadas.';
+$lang['deliveries_cannot_be_deleted'] = 'No se pudo eliminar el estado seleccionado.';
 $lang['deliveries_select_date'] = 'Seleccione fecha';
 $lang['deliveries_edit_sale_tool_tip'] = 'Edite la venta para cambiar este valor.';
 $lang['deliveries_shipping_address'] = 'Dirección de Envío';
@@ -68,4 +68,29 @@ $lang['deliveries_confirm_undelete'] = '¿Estás seguro de que quieres recuperar
 
 $lang['deliveries_status_scheduled'] = 'Programado';
 $lang['deliveries_status_not_scheduled'] = 'No programada';
+$lang['deliveries_new'] = 'Nueva entrega';
+$lang['deliveries_manage_without_sales_deliveries'] = 'Gestionar sin ventas entregas';
+$lang['deliveries_manage_with_sales_deliveries'] = 'Gestionar con ventas entregas';
+$lang['deliveries_with_or_without_sales'] = 'Entregas con / sin ventas';
+$lang['deliveries_with_sales'] = 'Con Ventas';
+$lang['deliveries_without_sales'] = 'Sin ventas';
+$lang['deliveries_status_shipped'] = 'Enviado';
+$lang['deliveries_status_delivered'] = 'Entregado';
+$lang[''] = '';
+$lang['deliveries_select_status'] = 'Seleccionar estado';
+$lang['deliveries_manage_statuses'] = 'Administrar estados';
+$lang['deliveries_add_status'] = 'Agregar estado';
+$lang['deliveries_edit_status'] = 'Editar estado';
+$lang['deliveries_status_delete_confirmation'] = '¿Está seguro de que desea eliminar este estado?';
+$lang['deliveries_status_successful_adding'] = 'El estado se ha agregado / actualizado correctamente';
+$lang['deliveries_status_successful_error'] = 'Hubo un error al agregar el estado.';
+$lang['deliveries_confirm_status_change'] = '¿Está seguro de que desea cambiar el estado de esta entrega?';
+$lang['deliveries_delivery_status_update_message'] = '% s desea informarle que su estado de entrega% s ha cambiado a:% s.';
+$lang['deliveries_delivery_status_update'] = 'Actualización del estado de entrega';
+$lang['deliveries_successful_changed'] = 'Has cambiado con éxito';
+$lang['deliveries_notify_customer_via_email'] = 'Notificar al cliente por correo electrónico';
+$lang['deliveries_notify_customer_via_sms'] = 'Notificar al cliente por SMS';
+$lang['deliveries_unable_to_add_item'] = 'No se pudo agregar el artículo a la entrega';
+$lang['deliveries_calendar_error_while_fetching_events'] = '¡Hubo un error al recuperar eventos!';
+$lang['deliveries_delivery_items'] = 'Artículos de entrega';
 ?>

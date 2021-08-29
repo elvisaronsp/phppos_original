@@ -52,9 +52,9 @@ $lang['deliveries_calendars'] = 'Lịch';
 
 
 $lang['delivery_cancel_delivery'] = 'Hủy giao hàng';
-$lang['deliveries_successful_deleted'] = 'Bạn đã xóa giao hàng thành công';
+$lang['deliveries_successful_deleted'] = 'Bạn đã xóa thành công';
 $lang['deliveries_one_or_multiple'] = 'Giao hàng';
-$lang['deliveries_cannot_be_deleted'] = 'Không thể xóa giao hàng đã chọn';
+$lang['deliveries_cannot_be_deleted'] = 'Không thể xóa trạng thái đã chọn.';
 $lang['deliveries_select_date'] = 'Chọn ngày';
 $lang['deliveries_edit_sale_tool_tip'] = 'Chỉnh sửa đơn hàng để thay đổi giá trị này.';
 $lang['deliveries_shipping_address'] = 'Địa chỉ giao hàng';
@@ -67,4 +67,29 @@ $lang['deliveries_confirm_undelete'] = 'Bạn có chắc chắn muốn phục h�
 
 $lang['deliveries_status_scheduled'] = 'Lên kế hoạch';
 $lang['deliveries_status_not_scheduled'] = 'Không theo lịch trình';
+$lang['deliveries_new'] = 'Giao hàng mới';
+$lang['deliveries_manage_without_sales_deliveries'] = 'Quản lý mà không cần giao hàng bán hàng';
+$lang['deliveries_manage_with_sales_deliveries'] = 'Quản lý với Giao hàng Bán hàng';
+$lang['deliveries_with_or_without_sales'] = 'Giao hàng Có / Không có Bán hàng';
+$lang['deliveries_with_sales'] = 'Có bán hàng';
+$lang['deliveries_without_sales'] = 'Không có bán hàng';
+$lang['deliveries_status_shipped'] = 'Đã vận chuyển';
+$lang['deliveries_status_delivered'] = 'Đã giao hàng';
+$lang[''] = '';
+$lang['deliveries_select_status'] = 'Chọn trạng thái';
+$lang['deliveries_manage_statuses'] = 'Quản lý trạng thái';
+$lang['deliveries_add_status'] = 'Thêm trạng thái';
+$lang['deliveries_edit_status'] = 'Chỉnh sửa trạng thái';
+$lang['deliveries_status_delete_confirmation'] = 'Bạn có chắc chắn muốn xóa trạng thái này không?';
+$lang['deliveries_status_successful_adding'] = 'Trạng thái đã được thêm / cập nhật thành công';
+$lang['deliveries_status_successful_error'] = 'Đã xảy ra lỗi khi thêm trạng thái';
+$lang['deliveries_confirm_status_change'] = 'Bạn có chắc chắn muốn thay đổi trạng thái của giao hàng này không?';
+$lang['deliveries_delivery_status_update_message'] = '% s muốn thông báo cho bạn rằng trạng thái giao hàng% s của bạn đã thay đổi thành:% s.';
+$lang['deliveries_delivery_status_update'] = 'Cập nhật trạng thái giao hàng';
+$lang['deliveries_successful_changed'] = 'Bạn đã thay đổi thành công';
+$lang['deliveries_notify_customer_via_email'] = 'Thông báo cho khách hàng qua email';
+$lang['deliveries_notify_customer_via_sms'] = 'Thông báo cho khách hàng qua SMS';
+$lang['deliveries_unable_to_add_item'] = 'Không thể thêm mặt hàng vào giao hàng';
+$lang['deliveries_calendar_error_while_fetching_events'] = 'Đã xảy ra lỗi khi tìm nạp sự kiện!';
+$lang['deliveries_delivery_items'] = 'Các mặt hàng giao hàng';
 ?>

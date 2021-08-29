@@ -99,7 +99,9 @@
 							<th><?php echo lang('common_payments'); ?></th>
 							<th><?php echo lang('common_items_purchased'); ?></th>
 							<th><?php echo lang('common_recp'); ?></th>
-							<th><?php echo lang('common_clone'); ?></th>
+							<?php if (!$this->config->item('disable_sale_cloning')) { ?>
+								<th><?php echo lang('common_clone'); ?></th>
+							<?php } ?>
 							<th><?php echo lang('common_comment'); ?></th>
 						</tr>
 
@@ -110,7 +112,9 @@
 								<td><?php echo $sale['payment_type']; ?></td>
 								<td><?php echo to_quantity($sale['items_purchased']); ?></td>
 								<td><?php echo anchor('sales/receipt/' . $sale['sale_id'], lang('sales_receipt'), array('target' => '_blank')); ?></td>
-								<td><?php echo anchor('sales/clone_sale/' . $sale['sale_id'], lang('common_clone')); ?></td>
+								<?php if (!$this->config->item('disable_sale_cloning')) { ?>
+									<td><?php echo anchor('sales/clone_sale/' . $sale['sale_id'], lang('common_clone')); ?></td>
+								<?php } ?>
 								<td><?php echo $sale['comment']; ?></td>
 							</tr>
 						<?php } ?>

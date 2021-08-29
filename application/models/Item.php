@@ -418,6 +418,45 @@ class Item extends MY_Model
 		
 		return $result;
 	}
+
+	function get_all_item_by_supplier($supplier_id, $hide_out_of_stock_grid = FALSE, $offset=0, $limit = 14)
+	{
+		$location_id= $this->Employee->get_logged_in_employee_current_location_id();
+		
+		$items_table = $this->db->dbprefix('items');
+		$items_images_table = $this->db->dbprefix('item_images');
+		
+		if (!$hide_out_of_stock_grid)
+		{
+			$result = $this->db->query("
+			SELECT item_id, unit_price,name, image_id, size
+			FROM $items_table 
+			LEFT JOIN $items_images_table USING (item_id) 
+			WHERE deleted = 0 
+			and system_item = 0 
+			and $items_table.item_id NOT IN (SELECT item_id FROM phppos_grid_hidden_items WHERE location_id=$location_id) 
+			and $items_table.supplier_id = $supplier_id
+			GROUP BY item_id 
+			ORDER BY name LIMIT $offset, $limit");
+		}
+		else
+		{
+			$location_items_table = $this->db->dbprefix('location_items ');
+			$current_location=$this->Employee->get_logged_in_employee_current_location_id();
+			$result = $this->db->query("
+			SELECT i.item_id, i.unit_price, name,size, image_id 
+			FROM $items_table as i 
+			LEFT JOIN $items_images_table USING (item_id) 
+			LEFT JOIN $location_items_table as li ON i.item_id = li.item_id and li.location_id = $current_location
+			WHERE (quantity > 0 or quantity IS NULL or is_service = 1) 
+			and deleted = 0 
+			and system_item = 0 
+			and i.supplier_id = $supplier_id
+			and i.item_id NOT IN (SELECT item_id FROM phppos_grid_hidden_items WHERE location_id=$location_id) GROUP BY i.item_id ORDER BY name LIMIT $offset, $limit");
+		}
+		
+		return $result;
+	}
 	
 	function get_ecommerce_product_id($item_id)
 	{
@@ -854,7 +893,10 @@ class Item extends MY_Model
 		
 		if ($item_id_from_serial_number = $this->Item_serial_number->get_item_id($serial_number))
 		{
-			return $item_id_from_serial_number;
+			
+			$variation_id_from_serial_number = $this->Item_serial_number->get_variation_id($serial_number);
+			
+			return $item_id_from_serial_number. ($variation_id_from_serial_number ? '#'.$variation_id_from_serial_number : '');
 		}
 
 		return false;

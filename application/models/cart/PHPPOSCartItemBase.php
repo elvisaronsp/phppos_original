@@ -44,6 +44,8 @@ abstract class PHPPOSCartItemBase
 	
 	public $modifier_items = array();
 	
+	public $main_image_id;
+	
 	public function __construct(array $params = array())
 	{		 
 		foreach($params as $name=>$value)

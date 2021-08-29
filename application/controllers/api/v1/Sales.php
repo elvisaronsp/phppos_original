@@ -306,20 +306,7 @@ class Sales extends REST_Controller {
 			$this->_populate_custom_fields($sale_request,$this->cart);
 			
 			$this->cart->skip_webhook = isset($sale_request['skip_webhook']) && $sale_request['skip_webhook'] ? TRUE : FALSE;
-			
-			if ($this->cart->get_mode() != 'estimate' && $this->config->item('do_not_allow_out_of_stock_items_to_be_sold'))
-			{
-				foreach($this->cart->get_items() as $item)
-				{
-					if($item->out_of_stock())
-					{
-						$response = array('error' => lang('sales_one_or_more_out_of_stock_items'));
-						$this->response($response, REST_Controller::HTTP_PRECONDITION_FAILED);
-						return;
-					}	
-				}
-			}
-			
+						
 			$sale_id = $this->Sale->save($this->cart);
 			$response = $this->sale_id_to_array($sale_id);
 			$this->response($response, REST_Controller::HTTP_OK);

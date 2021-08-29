@@ -60,7 +60,7 @@ $lang['sales_edit_sale'] = 'mengedit Dijual';
 $lang['sales_successfully_deleted'] = 'Dijual berhasil dihapus';
 $lang['sales_unsuccessfully_deleted'] = 'Dijual berhasil dihapus';
 $lang['sales_delete_entire_sale'] = 'Hapus seluruh penjualan';
-$lang['sales_delete_confirmation'] = 'Apakah Anda yakin ingin menghapus penjualan ini, tindakan ini tidak dapat dibatalkan';
+$lang['sales_delete_confirmation'] = 'Yakin ingin menghapus obral ini, tindakan ini tidak dapat diurungkan.';
 
 $lang['sales_delete_successful'] = 'Anda telah berhasil dihapus penjualan';
 $lang['sales_delete_unsuccessful'] = 'Anda telah berhasil dihapus penjualan';
@@ -379,4 +379,5 @@ $lang['sales_note'] = 'Catatan';
 $lang['sales_detailed_note'] = 'Catatan Rinci';
 $lang['sales_internal_note'] = 'Catatan Internal';
 $lang['sales_delveried_to'] = 'Dikirim ke';
+$lang['sales_view_receipt_on_web_page'] = 'Lihat Tanda Terima Di Halaman Web';
 ?>

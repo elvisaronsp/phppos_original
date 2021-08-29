@@ -1021,19 +1021,42 @@ $lang['common_serialnumber_already_added'] = 'Die Seriennummer wurde bereits hin
 $lang['common_add_secondary_category'] = 'Sekundäre Kategorie hinzufügen';
 $lang['common_secondary_category'] = 'Sekundäre Kategorie';
 $lang['common_suspended_types'] = 'Angehaltene Typen';
+
+$lang['common_duration'] = 'Dauer';
+
 $lang['shopify_cron_job_entry'] = 'Shopify Cron Entry';
 $lang['item inventory changed in shopify'] = 'Artikelbestand in shopify geändert';
 $lang['common_recent_exports'] = 'Letzte Exporte';
 $lang['common_import_order'] = 'Importauftrag';
+
+
+
+
+$lang['shopfiy_not_paid'] = 'Sie haben Ihre Shopify-Abrechnung nicht aktiviert';
+
+
+
+
 $lang['shopify_not_paid'] = 'Sie haben Ihre Shopify-Abrechnung nicht aktiviert';
+
 $lang['common_color'] = 'Farbe';
 $lang['common_drag_and_drop_or_click'] = 'Ziehen und Ablegen oder Klicken';
 $lang['common_workorder'] = 'Arbeitsauftrag';
 $lang['common_item_being_repaired'] = 'Artikel wird repariert';
+
+
+
 $lang['work_orders_edit'] = 'Arbeitsauftrag bearbeiten';
 $lang['work_orders_delete'] = 'Arbeitsauftrag löschen';
 $lang['work_orders_search'] = 'Arbeitsaufträge suchen';
 $lang['work_orders_manage_statuses'] = 'Arbeitsauftragsstatus verwalten';
 $lang['common_shopify_access_token_error'] = 'Ihr Zugriffstoken ist abgelaufen und wir können keine Verbindung zur API herstellen. Bitte versuche es erneut.';
 $lang['common_ecommerce_item'] = 'E-Commerce-Artikel';
+$lang['config_show_qr_code_for_sale'] = 'QR-Code auf Verkaufsbeleg anzeigen';
+$lang['common_suppliers'] = 'Lieferanten';
+$lang['common_back_to_suppliers'] = 'Zurück zu den Lieferanten';
+
+$lang['common_change_status'] = 'Status ändern';
+$lang['common_please_select'] = 'Bitte auswählen';
+$lang['sales_can_lookup_last_receipt'] = 'Kann den letzten Beleg nachschlagen';
 ?>

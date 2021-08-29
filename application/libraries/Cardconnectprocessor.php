@@ -217,6 +217,7 @@ class Cardconnectprocessor extends Creditcardprocessor
 				);
 				
 				
+				$post_data['userFields']['predictedSaleId'] = $this->controller->Sale->get_next_sale_id();
 				
 				if (isset($prompt) && $prompt)
 				{

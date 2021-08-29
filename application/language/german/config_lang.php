@@ -756,10 +756,42 @@ $lang['config_ecommerce_sync_running'] = 'Die E-Commerce-Synchronisierung wird j
 $lang['config_show_total_on_fulfillment'] = 'Gesamtsumme auf Erfüllungsblatt anzeigen';
 $lang['config_connect_shopify_in_app_store'] = 'Sie sind nicht mit Shopify verbunden. Sie können im App Store eine Verbindung zu Shopify herstellen';
 $lang['config_override_signature_text'] = 'Signaturtext überschreiben';
+
+$lang['config_delivery_color_based_on'] = 'Lieferfarbe basierend auf';
+$lang['config_delivery_color_based_on_status'] = 'Status';
+$lang['config_delivery_color_based_on_category'] = 'Kategorie';
+
+
 $lang['config_update_cost_price_on_transfer'] = 'Aktualisieren Sie den Selbstkostenpreis bei Überweisung';
+
+
+
 $lang['config_tip_preset_zero'] = 'Tipp voreingestellter Betrag von 0%';
+
+
+
+$lang['config_layaway_statement_message'] = 'Layaway Statement Nachricht';
+
+
 $lang['config_show_person_id_on_receipt'] = 'Personen-ID nach Erhalt anzeigen';
+
+
+
+
+$lang['config_import_ecommerce_orders_suspended'] = 'Importieren von E-Commerce-Bestellungen ausgesetzt';
+
+$lang['config_show_images_on_receipt'] = 'Bilder nach Erhalt anzeigen';
+
 $lang['config_disabled_fixed_discounts'] = 'Deaktivieren Sie feste Rabatte auf der Verkaufsoberfläche';
+
+
+
 $lang['config_always_put_last_added_item_on_top_of_cart'] = 'Immer den zuletzt hinzugefügten Artikel oben in den Warenkorb legen';
+
+
+
 $lang['config_show_giftcards_even_if_0_balance'] = 'Geschenkkarten anzeigen, auch wenn kein Guthaben vorhanden ist';
+
+$lang['config_scale_5'] = 'Gewicht Eingebetteter Barcode';
+$lang['config_hide_description_on_suspended_sales'] = 'Artikelbeschreibung bei ausgesetzten Verkäufen ausblenden';
 ?>

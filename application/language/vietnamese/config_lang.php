@@ -879,10 +879,42 @@ $lang['config_ecommerce_sync_running'] = 'Đồng bộ hóa Thương mại Đi�
 $lang['config_show_total_on_fulfillment'] = 'Hiển thị Tổng số Trên Bảng Hoàn thành';
 $lang['config_connect_shopify_in_app_store'] = 'Bạn chưa kết nối với Shopify. Bạn có thể kết nối với Shopify trong App Store';
 $lang['config_override_signature_text'] = 'Ghi đè Văn bản Chữ ký';
+
+$lang['config_delivery_color_based_on'] = 'Màu giao hàng dựa trên';
+$lang['config_delivery_color_based_on_status'] = 'Trạng thái';
+$lang['config_delivery_color_based_on_category'] = 'thể loại';
+
+
 $lang['config_update_cost_price_on_transfer'] = 'Cập nhật giá chi phí khi chuyển nhượng';
+
+
+
 $lang['config_tip_preset_zero'] = 'Số tiền tip đặt trước là 0%';
+
+
+
+$lang['config_layaway_statement_message'] = 'Thông điệp Tuyên bố Layaway';
+
+
 $lang['config_show_person_id_on_receipt'] = 'Hiển thị ID cá nhân khi nhận';
+
+
+
+
+$lang['config_import_ecommerce_orders_suspended'] = 'Nhập đơn hàng thương mại điện tử bị tạm ngưng';
+
+$lang['config_show_images_on_receipt'] = 'Hiển thị hình ảnh trên biên nhận';
+
 $lang['config_disabled_fixed_discounts'] = 'Tắt giảm giá cố định trên giao diện bán hàng';
+
+
+
 $lang['config_always_put_last_added_item_on_top_of_cart'] = 'Luôn đặt mặt hàng được thêm cuối cùng lên đầu giỏ hàng';
+
+
+
 $lang['config_show_giftcards_even_if_0_balance'] = 'Hiển thị thẻ quà tặng ngay cả khi số dư bằng không';
+
+$lang['config_scale_5'] = 'Trọng lượng mã vạch nhúng';
+$lang['config_hide_description_on_suspended_sales'] = 'Ẩn mô tả mặt hàng khi bán hàng bị tạm ngừng';
 ?>

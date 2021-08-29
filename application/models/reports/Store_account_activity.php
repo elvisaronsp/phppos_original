@@ -19,7 +19,7 @@ class Store_account_activity extends Report
 		array('data'=>lang('reports_items'), 'align'=> 'left'),		
 		array('data'=>lang('reports_comment'), 'align'=> 'left'));
 		
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		
 		if ($location_count > 1)
 		{
@@ -55,7 +55,7 @@ class Store_account_activity extends Report
 	{
 		$this->setupDefaultPagination();
 		$report_data = $this->getData();
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 
 		foreach($report_data as $row)
 		{

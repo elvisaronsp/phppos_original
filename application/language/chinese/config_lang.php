@@ -1036,10 +1036,42 @@ $lang['config_ecommerce_sync_running'] = '电子商务同步现在在后台运�
 $lang['config_show_total_on_fulfillment'] = '在履行表上显示总计';
 $lang['config_connect_shopify_in_app_store'] = '您尚未连接到Shopify。您可以在App Store中连接到Shopify';
 $lang['config_override_signature_text'] = '覆盖签名文本';
+
+$lang['config_delivery_color_based_on'] = '投放颜色基于';
+$lang['config_delivery_color_based_on_status'] = '地位';
+$lang['config_delivery_color_based_on_category'] = '类别';
+
+
 $lang['config_update_cost_price_on_transfer'] = '转移时更新成本价';
+
+
+
 $lang['config_tip_preset_zero'] = '小费预设量为0％';
+
+
+
+$lang['config_layaway_statement_message'] = '散客声明消息';
+
+
 $lang['config_show_person_id_on_receipt'] = '在收据上显示人员ID';
+
+
+
+
+$lang['config_import_ecommerce_orders_suspended'] = '暂停导入电子商务订单';
+
+$lang['config_show_images_on_receipt'] = '在收据上显示图像';
+
 $lang['config_disabled_fixed_discounts'] = '在销售界面上禁用固定折扣';
+
+
+
 $lang['config_always_put_last_added_item_on_top_of_cart'] = '始终将最后添加的项目放在购物车顶部';
+
+
+
 $lang['config_show_giftcards_even_if_0_balance'] = '即使余额为零也显示礼品卡';
+
+$lang['config_scale_5'] = '重量嵌入条码';
+$lang['config_hide_description_on_suspended_sales'] = '隐藏暂停销售的项目描述';
 ?>

@@ -1019,19 +1019,42 @@ $lang['common_serialnumber_already_added'] = 'Ya se agregó el número de serie'
 $lang['common_add_secondary_category'] = 'Agregar categoría secundaria';
 $lang['common_secondary_category'] = 'Categoría secundaria';
 $lang['common_suspended_types'] = 'Tipos suspendidos';
+
+$lang['common_duration'] = 'Duración';
+
 $lang['shopify_cron_job_entry'] = 'Entrada de Shopify Cron';
 $lang['item inventory changed in shopify'] = 'El inventario de artículos cambió en Shopify';
 $lang['common_recent_exports'] = 'Exportaciones recientes';
 $lang['common_import_order'] = 'Orden de importación';
+
+
+
+
+$lang['shopfiy_not_paid'] = 'No has activado tu facturación de Shopify';
+
+
+
+
 $lang['shopify_not_paid'] = 'No has activado tu facturación de Shopify';
+
 $lang['common_color'] = 'Color';
 $lang['common_drag_and_drop_or_click'] = 'Arrastrar y soltar o hacer clic';
 $lang['common_workorder'] = 'Orden de trabajo';
 $lang['common_item_being_repaired'] = 'Artículo en reparación';
+
+
+
 $lang['work_orders_edit'] = 'Editar orden de trabajo';
 $lang['work_orders_delete'] = 'Eliminar orden de trabajo';
 $lang['work_orders_search'] = 'Buscar órdenes de trabajo';
 $lang['work_orders_manage_statuses'] = 'Administrar estados de órdenes de trabajo';
 $lang['common_shopify_access_token_error'] = 'Su token de acceso ha caducado y no podemos conectarnos a la API. Inténtalo de nuevo.';
 $lang['common_ecommerce_item'] = 'Artículo de comercio electrónico';
+$lang['config_show_qr_code_for_sale'] = 'Mostrar el código QR en el recibo de venta';
+$lang['common_suppliers'] = 'Proveedores';
+$lang['common_back_to_suppliers'] = 'Volver a proveedores';
+
+$lang['common_change_status'] = 'Cambiar Estado';
+$lang['common_please_select'] = 'Por favor seleccione';
+$lang['sales_can_lookup_last_receipt'] = 'Puede buscar el último recibo';
 ?>

@@ -478,7 +478,47 @@ $lang['migrate_permission_for_manage_expenses_categories'] = 'إذن إدارة 
 $lang['migrate_update_foregin_key_for_expenses_categories'] = 'تحديث مفتاح Foregin لفئات المصروفات';
 $lang['migrate_update_foreign_key_for_expenses_categories'] = 'تحديث المفتاح الخارجي لفئات المصروفات';
 
+$lang['migrate_delivery_categories'] = 'فئات التوصيل';
+$lang['migrate_permission_for_manage_delivery_categories'] = 'إذن لإدارة فئات التسليم';
+$lang['migrate_add_category_id_to_phppos_sales_deliveries'] = 'إضافة معرف الفئة إلى تسليم مبيعات Phppos';
+$lang['migrate_add_duration_to_phppos_sales_deliveries'] = 'أضف المدة إلى تسليم مبيعات Phppos';
+$lang['migrate_allow_sales_id_nullable_in_sales_deliveries_table'] = 'السماح بمعرف المبيعات Nullable في جدول تسليم المبيعات';
+$lang['migrate_delivery_items'] = 'عناصر التوصيل';
+$lang['migrate_delivery_item_kits'] = 'أطقم بند التسليم';
+$lang['migrate_added_location_id_to_sales_deliveries_table'] = 'تمت إضافة معرف الموقع إلى جدول تسليم المبيعات';
+
+
 $lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'السماح بأن يكون رقم تعريف طلب التجارة الإلكترونية أكبر';
 $lang['migrate_index_on_filename'] = 'فهرس على اسم الملف';
+
+
+
+
+$lang['migrate_18_2_version'] = '18.2 الإصدار';
+
+$lang['migrate_add_delivery_type_column_to_salse_deliveries'] = 'أضف عمود نوع التسليم إلى تسليمات ساليس';
+$lang['migrate_update_sales_deliveries_delivery_type'] = 'تحديث نوع تسليم تسليمات المبيعات';
+
+$lang['migrate_18_2_version'] = '18.2 الإصدار';
+
 $lang['migrate_work_orders'] = 'طلبات العمل';
+
+
+
+$lang['migrate_delivery_statuses'] = 'حالات التسليم';
+$lang['migrate_update_existing_delivery_status_and_change_status_column_type_to_sales_deliveries'] = 'تحديث حالة التسليم الحالية وتغيير نوع عمود الحالة إلى تسليمات المبيعات';
+$lang['migrate_update_location_in_sales_deliveries_from_sales_table'] = 'تحديث الموقع في تسليمات المبيعات من جدول المبيعات';
+$lang['migrate_add_notify_by_columns_in_delivery_statuses_table'] = 'إضافة إعلام بالأعمدة في جدول حالات التسليم';
+$lang['migrate_manage_delivery_statuses_permission'] = 'إدارة إذن حالات التسليم';
+$lang['migrate_add_default_delivery_statuses'] = 'أضف شروط التسليم الافتراضية';
+$lang['migrate_serial_number_variations'] = 'متغيرات الرقم التسلسلي';
+
+
+$lang['migrate_import_ecommerce_orders_suspended_type'] = 'نوع تعليق أوامر التجارة الإلكترونية للاستيراد';
+
+$lang['migrate_can_lookup_last_receipt_permission'] = 'يمكن البحث عن إذن الإيصال الأخير';
+
+$lang['migrate_permission_for_delete_suspended_receivings'] = 'إذن لحذف الاستلام المعلق';
+
+$lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = 'إصلاح Utf8 General Ci إلى Utf8 Unicode Ci لحالات طلب عمل Phppos';
 ?>

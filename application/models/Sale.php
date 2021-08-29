@@ -431,7 +431,7 @@ class Sale extends MY_Model
 		return FALSE;
 	}
 		
-	function _get_all_sale_payments($sale_ids)
+	function _get_all_sale_payments($sale_ids, $order_by=false)
 	{
 		$this->load->helper('text');
 		$return = array();
@@ -470,7 +470,12 @@ class Sale extends MY_Model
 			
 			$debit_payment_types = implode(',', array_map('add_quotes_and_escape', get_all_language_values_for_key('common_debit')));
 
-			$this->db->order_by("(payment_amount < 0) DESC, (".$this->db->dbprefix("sales_payments").".payment_type IN ($store_account_payment_types)) DESC,(".$this->db->dbprefix("sales_payments").".payment_type IN ($points_payment_types)) DESC, (SUBSTRING_INDEX(".$this->db->dbprefix("sales_payments").".payment_type,':',1) IN ($giftcard_payment_types)) DESC,"."(".$this->db->dbprefix("sales_payments").".payment_type IN ($check_payment_types)) DESC,"."(".$this->db->dbprefix("sales_payments").".payment_type IN ($credit_payment_types)) DESC,"."(".$this->db->dbprefix("sales_payments").".payment_type IN ($partial_credit_payment_types)) DESC,"."(".$this->db->dbprefix("sales_payments").".payment_type IN ($custom_payment_types)) DESC,"."(".$this->db->dbprefix("sales_payments").".payment_type IN ($cash_payment_types)) DESC,"."(".$this->db->dbprefix("sales_payments").".payment_type IN ($debit_payment_types)) DESC,payment_date");
+			if($order_by){
+				$this->db->order_by($order_by);
+			}else{
+				$this->db->order_by("(payment_amount < 0) DESC, (".$this->db->dbprefix("sales_payments").".payment_type IN ($store_account_payment_types)) DESC,(".$this->db->dbprefix("sales_payments").".payment_type IN ($points_payment_types)) DESC, (SUBSTRING_INDEX(".$this->db->dbprefix("sales_payments").".payment_type,':',1) IN ($giftcard_payment_types)) DESC,"."(".$this->db->dbprefix("sales_payments").".payment_type IN ($check_payment_types)) DESC,"."(".$this->db->dbprefix("sales_payments").".payment_type IN ($credit_payment_types)) DESC,"."(".$this->db->dbprefix("sales_payments").".payment_type IN ($partial_credit_payment_types)) DESC,"."(".$this->db->dbprefix("sales_payments").".payment_type IN ($custom_payment_types)) DESC,"."(".$this->db->dbprefix("sales_payments").".payment_type IN ($cash_payment_types)) DESC,"."(".$this->db->dbprefix("sales_payments").".payment_type IN ($debit_payment_types)) DESC,payment_date");
+			}
+			
 			
 			$result = $this->db->get()->result_array();
 			foreach($result as $row)
@@ -1510,7 +1515,7 @@ class Sale extends MY_Model
 				}
 				
 				//Only do stock check + inventory update if we are NOT an estimate
-				if (!$cart->is_ecommerce && $suspended < 2 || (!$cart->is_ecommerce && $this->Sale_types->can_remove_quantity($suspended)))
+				if (!$cart->is_ecommerce && $suspended < 2 || (!$cart->is_ecommerce && $this->Sale_types->can_remove_quantity($suspended)) || ($cart->is_ecommerce && $this->config->item('import_ecommerce_orders_suspended')))
 				{
 					$stock_recorder_check=false;
 					$out_of_stock_check=false;
@@ -1933,162 +1938,164 @@ class Sale extends MY_Model
 						$cur_item_variation_location_info = $this->Item_variation_location->get_info($item_kit_item->item_variation_id,$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id());
 						$reorder_level = ($cur_item_variation_location_info && $cur_item_variation_location_info->reorder_level) ? $cur_item_variation_location_info->reorder_level : $cur_item_variation_info->reorder_level;
 						
-						$stock_recorder_check=false;
-						$out_of_stock_check=false;
-						$email=false;
-						$message = '';
+						if (!$cart->is_ecommerce && $suspended < 2 || (!$cart->is_ecommerce && $this->Sale_types->can_remove_quantity($suspended)))
+						{
+							$stock_recorder_check=false;
+							$out_of_stock_check=false;
+							$email=false;
+							$message = '';
 						
 						
-						//checks if the quantity is greater than reorder level
-						if(!$cur_item_info->is_service && $cur_item_variation_location_info->quantity > $reorder_level)
-						{
-							$stock_recorder_check=true;
-						}
-				
-						//checks if the quantity is greater than 0
-						if(!$this->Location->get_info_for_key('stock_alerts_just_order_level',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()) && !$cur_item_info->is_service && $cur_item_variation_location_info->quantity > 0)
-						{
-							$out_of_stock_check=true;
-						}
-				
-						//Update stock quantity IF not a service 
-						if (!$cur_item_info->is_service)
-						{
-							$cur_item_variation_location_info->quantity = $cur_item_variation_location_info->quantity !== '' ? $cur_item_variation_location_info->quantity : 0;
-							$this->Item_variation_location->save_quantity($cur_item_variation_location_info->quantity - $item->quantity * $item_kit_item->quantity, $item_kit_item->item_variation_id,$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id());
-						}
-				
-						//Re-init $cur_item_variation_location_info after updating quantity
-						$cur_item_variation_location_info = $this->Item_variation_location->get_info($item_kit_item->item_variation_id,$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id());
-				
-						//checks if the quantity is out of stock
-						if($out_of_stock_check && $cur_item_variation_location_info->quantity <= 0)
-						{
-							$message= $cur_item_info->name.' '.$this->Item_variations->get_variation_name($item_kit_item->item_variation_id).' '.lang('sales_is_out_stock').' '.to_quantity($cur_item_variation_location_info->quantity);
-							if ($cur_item_info->supplier_id)
+							//checks if the quantity is greater than reorder level
+							if(!$cur_item_info->is_service && $cur_item_variation_location_info->quantity > $reorder_level)
 							{
-								$supplier = $this->Supplier->get_info($cur_item_info->supplier_id);
-								$message.="\n";
-								$message.= lang('common_supplier').": ". $supplier->company_name . ' ('.$supplier->first_name.' '.$supplier->last_name.')';
+								$stock_recorder_check=true;
 							}
-						
-							if ($cur_item_info->item_id)
+				
+							//checks if the quantity is greater than 0
+							if(!$this->Location->get_info_for_key('stock_alerts_just_order_level',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()) && !$cur_item_info->is_service && $cur_item_variation_location_info->quantity > 0)
 							{
-								$message.="\n";
-								$message.= lang('common_item_id').": ".$cur_item_info->item_id;
+								$out_of_stock_check=true;
 							}
+				
+							//Update stock quantity IF not a service 
+							if (!$cur_item_info->is_service)
+							{
+								$cur_item_variation_location_info->quantity = $cur_item_variation_location_info->quantity !== '' ? $cur_item_variation_location_info->quantity : 0;
+								$this->Item_variation_location->save_quantity($cur_item_variation_location_info->quantity - $item->quantity * $item_kit_item->quantity, $item_kit_item->item_variation_id,$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id());
+							}
+				
+							//Re-init $cur_item_variation_location_info after updating quantity
+							$cur_item_variation_location_info = $this->Item_variation_location->get_info($item_kit_item->item_variation_id,$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id());
+				
+							//checks if the quantity is out of stock
+							if($out_of_stock_check && $cur_item_variation_location_info->quantity <= 0)
+							{
+								$message= $cur_item_info->name.' '.$this->Item_variations->get_variation_name($item_kit_item->item_variation_id).' '.lang('sales_is_out_stock').' '.to_quantity($cur_item_variation_location_info->quantity);
+								if ($cur_item_info->supplier_id)
+								{
+									$supplier = $this->Supplier->get_info($cur_item_info->supplier_id);
+									$message.="\n";
+									$message.= lang('common_supplier').": ". $supplier->company_name . ' ('.$supplier->first_name.' '.$supplier->last_name.')';
+								}
 						
-							$message.="\n";
-							$message.= lang('common_cost_price').": ".to_currency($cur_item_info->cost_price);
+								if ($cur_item_info->item_id)
+								{
+									$message.="\n";
+									$message.= lang('common_item_id').": ".$cur_item_info->item_id;
+								}
+						
+								$message.="\n";
+								$message.= lang('common_cost_price').": ".to_currency($cur_item_info->cost_price);
 
-							if ($cur_item_location_info->cost_price)
-							{
-								$message.="\n";
-								$message.= lang('common_location').' '.lang('common_cost_price').": ".to_currency($cur_item_location_info->cost_price);
-							}
+								if ($cur_item_location_info->cost_price)
+								{
+									$message.="\n";
+									$message.= lang('common_location').' '.lang('common_cost_price').": ".to_currency($cur_item_location_info->cost_price);
+								}
 
-							if ($cur_item_info->item_number)
-							{
-								$message.="\n";
-								$message.= lang('common_item_number').": ".$cur_item_info->item_number;
-							}
+								if ($cur_item_info->item_number)
+								{
+									$message.="\n";
+									$message.= lang('common_item_number').": ".$cur_item_info->item_number;
+								}
 
-							if ($cur_item_info->product_id)
-							{
-								$message.="\n";
-								$message.= lang('common_product_id').": ".$cur_item_info->product_id;
-							}
+								if ($cur_item_info->product_id)
+								{
+									$message.="\n";
+									$message.= lang('common_product_id').": ".$cur_item_info->product_id;
+								}
 							
-							if ($cur_item_info->description)
-							{
-								$message.="\n";
-								$message.= lang('common_description').": ".$cur_item_info->description;
-							}
+								if ($cur_item_info->description)
+								{
+									$message.="\n";
+									$message.= lang('common_description').": ".$cur_item_info->description;
+								}
 							
-							$email=true;
+								$email=true;
 					
-						}	
-						//checks if the quantity hits reorder level 
-						else if($stock_recorder_check && ($cur_item_variation_location_info->quantity <= $reorder_level))
-						{
-							$message= $cur_item_info->name.' '.$this->Item_variations->get_variation_name($item_kit_item->item_variation_id).' '.lang('sales_hits_reorder_level').' '.to_quantity($cur_item_variation_location_info->quantity);
-							if ($cur_item_info->item_id)
+							}	
+							//checks if the quantity hits reorder level 
+							else if($stock_recorder_check && ($cur_item_variation_location_info->quantity <= $reorder_level))
 							{
-								$message.="\n";
-								$message.= lang('common_item_id').": ".$cur_item_info->item_id;
-							}
+								$message= $cur_item_info->name.' '.$this->Item_variations->get_variation_name($item_kit_item->item_variation_id).' '.lang('sales_hits_reorder_level').' '.to_quantity($cur_item_variation_location_info->quantity);
+								if ($cur_item_info->item_id)
+								{
+									$message.="\n";
+									$message.= lang('common_item_id').": ".$cur_item_info->item_id;
+								}
 
-							if ($cur_item_info->item_number)
-							{
-								$message.="\n";
-								$message.= lang('common_item_number').": ".$cur_item_info->item_number;
-							}
+								if ($cur_item_info->item_number)
+								{
+									$message.="\n";
+									$message.= lang('common_item_number').": ".$cur_item_info->item_number;
+								}
 
-							if ($cur_item_info->product_id)
-							{
-								$message.="\n";
-								$message.= lang('common_product_id').": ".$cur_item_info->product_id;
-							}
+								if ($cur_item_info->product_id)
+								{
+									$message.="\n";
+									$message.= lang('common_product_id').": ".$cur_item_info->product_id;
+								}
 							
-							if ($cur_item_info->description)
-							{
-								$message.="\n";
-								$message.= lang('common_description').": ".$cur_item_info->description;
-							}
+								if ($cur_item_info->description)
+								{
+									$message.="\n";
+									$message.= lang('common_description').": ".$cur_item_info->description;
+								}
 							
 						
-							$email=true;
-						}
-				
-						//send email 
-						if($this->Location->get_info_for_key('receive_stock_alert') && $email)
-						{			
-							$this->load->library('email');
-							$config = array();
-							$config['mailtype'] = 'text';				
-							$this->email->initialize($config);
-							$this->email->from($this->Location->get_info_for_key('email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()) ? $this->Location->get_info_for_key('email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()) : 'no-reply@mg.phppointofsale.com', $this->config->item('company'));
-							$this->email->to($this->Location->get_info_for_key('stock_alert_email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()) ? $this->Location->get_info_for_key('stock_alert_email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()) : $this->Location->get_info_for_key('email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id())); 
-							
-							if($this->Location->get_info_for_key('cc_email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()))
-							{
-								$this->email->cc($this->Location->get_info_for_key('cc_email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()));
+								$email=true;
 							}
 				
-							if($this->Location->get_info_for_key('bcc_email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()))
-							{
-								$this->email->bcc($this->Location->get_info_for_key('bcc_email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()));
-							}
+							//send email 
+							if($this->Location->get_info_for_key('receive_stock_alert') && $email)
+							{			
+								$this->load->library('email');
+								$config = array();
+								$config['mailtype'] = 'text';				
+								$this->email->initialize($config);
+								$this->email->from($this->Location->get_info_for_key('email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()) ? $this->Location->get_info_for_key('email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()) : 'no-reply@mg.phppointofsale.com', $this->config->item('company'));
+								$this->email->to($this->Location->get_info_for_key('stock_alert_email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()) ? $this->Location->get_info_for_key('stock_alert_email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()) : $this->Location->get_info_for_key('email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id())); 
 							
-							if ($this->Location->count_all() > 1)
-							{
-								$message.="\n\n".lang("common_location").': '.$this->Location->get_info_for_key('name',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id());
-							}
+								if($this->Location->get_info_for_key('cc_email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()))
+								{
+									$this->email->cc($this->Location->get_info_for_key('cc_email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()));
+								}
+				
+								if($this->Location->get_info_for_key('bcc_email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()))
+								{
+									$this->email->bcc($this->Location->get_info_for_key('bcc_email',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id()));
+								}
+							
+								if ($this->Location->count_all() > 1)
+								{
+									$message.="\n\n".lang("common_location").': '.$this->Location->get_info_for_key('name',$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id());
+								}
 						
-							$this->email->subject(lang('sales_stock_alert_item_name').' '.$this->Item->get_info($item_kit_item->item_id)->name.' '.$this->Item_variations->get_variation_name($item_kit_item->item_variation_id));
-							$this->email->message($message);	
-							$this->email->send();
-						}
+								$this->email->subject(lang('sales_stock_alert_item_name').' '.$this->Item->get_info($item_kit_item->item_id)->name.' '.$this->Item_variations->get_variation_name($item_kit_item->item_variation_id));
+								$this->email->message($message);	
+								$this->email->send();
+							}
 					
-						if (!$cur_item_info->is_service)
-						{
-							$qty_buy = -$item->quantity * $item_kit_item->quantity;
-							$sale_remarks =$this->config->item('sale_prefix').' '.$sale_id;
+							if (!$cur_item_info->is_service)
+							{
+								$qty_buy = -$item->quantity * $item_kit_item->quantity;
+								$sale_remarks =$this->config->item('sale_prefix').' '.$sale_id;
 
-							$inv_data = array
-							(
-								'trans_date'=>date('Y-m-d H:i:s'),
-								'trans_items'=>$item_kit_item->item_id,
-								'trans_user'=>$employee_id,
-								'trans_comment'=>$sale_remarks,
-								'trans_inventory'=>$qty_buy,
-								'location_id' => $cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id(),
-								'item_variation_id' => $item_kit_item->item_variation_id,
-								'trans_current_quantity' => $cur_item_variation_location_info->quantity, 
-							);
-							$this->Inventory->insert($inv_data);
+								$inv_data = array
+								(
+									'trans_date'=>date('Y-m-d H:i:s'),
+									'trans_items'=>$item_kit_item->item_id,
+									'trans_user'=>$employee_id,
+									'trans_comment'=>$sale_remarks,
+									'trans_inventory'=>$qty_buy,
+									'location_id' => $cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id(),
+									'item_variation_id' => $item_kit_item->item_variation_id,
+									'trans_current_quantity' => $cur_item_variation_location_info->quantity, 
+								);
+								$this->Inventory->insert($inv_data);
+							}
 						}
-
 					}
 					else
 					{
@@ -2339,6 +2346,7 @@ class Sale extends MY_Model
 			}
 			if($this->Person->save($delivery_person_info,$person_id))
 			{
+				$delivery_info['location_id'] = $cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id();
 				$delivery_info['sale_id'] = $sale_id;
 				$delivery_info['shipping_address_person_id'] = $person_id ? $person_id : $delivery_person_info['person_id'];
 
@@ -2362,24 +2370,14 @@ class Sale extends MY_Model
 				{
 					$delivery_info['shipping_zone_id'] = NULL;
 				}
-				
-				/*
-				if((isset($delivery_info['estimated_shipping_date']) && $delivery_info['estimated_shipping_date']) || (isset($delivery_info['estimated_delivery_date']) && $delivery_info['estimated_delivery_date']))
-				{
-					$delivery_info['status'] = 'scheduled';
-				}
-				else
-				{
-					$delivery_info['status'] = 'not_scheduled';
-				}
-				*/
-				
-				if(isset($delivery_info['status'])){
+								
+				if(isset($delivery_info['status']) && $delivery_info['status']){
 					$delivery_info['status'] = $delivery_info['status'];
 				}else{
-					$delivery_info['status'] = 'not_scheduled';
+					$delivery_info['status'] = NULL;
 				}
 				
+				$delivery_info['delivery_type'] = 'with_sales';
 				$this->Delivery->save($delivery_info);
 			}
 		
@@ -3231,7 +3229,7 @@ class Sale extends MY_Model
 		return $this->db->get()->row()->value;
 	}
 	
-	function get_all_suspended($suspended_types = NULL, $customer_id=null)
+	function get_all_suspended($suspended_types = NULL, $customer_id=null, $params=null)
 	{				
 		
 		if ($suspended_types === NULL)
@@ -3247,11 +3245,12 @@ class Sale extends MY_Model
 		
 		$location_id = $this->Employee->get_logged_in_employee_current_location_id();		
 		
-		$this->db->select('customers.*,people.*,sale_types.name as sale_type_name,sales.*');
+		$this->db->select('customers.*,people.*,sale_types.name as sale_type_name,sales.*,locations.name as location_name');
 		$this->db->from('sales');
 		$this->db->join('sale_types', 'sale_types.id = sales.suspended', 'left');
 		$this->db->join('customers', 'sales.customer_id = customers.person_id', 'left');
 		$this->db->join('people', 'customers.person_id = people.person_id', 'left');
+		$this->db->join('locations', 'sales.location_id = locations.location_id', 'left');
 		$this->db->where('sales.deleted', 0);
 		$this->db->where_in('suspended', $suspended_types);
 		$this->db->where('sales.location_id', $location_id);
@@ -3260,7 +3259,14 @@ class Sale extends MY_Model
 			$this->db->where('sales.customer_id', $customer_id);
 		}
 
-		$this->db->order_by('sale_id');
+		if($params){
+			$this->db->where('sale_time >=', $params['start_date']);
+			$this->db->where('sale_time <=', $params['end_date']. ' 23:59:59');
+			$this->db->order_by('sale_time');
+		}else{
+			$this->db->order_by('sale_id');
+		}
+
 		$sales = $this->db->get()->result_array();
 				
 		$sale_ids = array();
@@ -3270,19 +3276,25 @@ class Sale extends MY_Model
 			$sale_ids[] = $sale['sale_id'];
 		}
 		
-		$all_payments_for_sales = $this->_get_all_sale_payments($sale_ids);	
+		$all_payments_for_sales = $this->_get_all_sale_payments($sale_ids, "payment_date");	
 				
 		for($k=0;$k<count($sales);$k++)
 		{
 			$item_names = array();
-			$this->db->select('name');
+			$this->db->select('name, sales_items.description');
 			$this->db->from('items');
 			$this->db->join('sales_items', 'sales_items.item_id = items.item_id');
 			$this->db->where('sale_id', $sales[$k]['sale_id']);
 		
 			foreach($this->db->get()->result_array() as $row)
 			{
-				$item_names[] = $row['name'];
+				$item_name_and_desc = $row['name'];
+
+				if ($row['description'] && !$this->config->item('hide_description_on_suspended_sales'))
+				{
+					$item_name_and_desc .= ' - '.$row['description'];
+				}
+				$item_names[] = $item_name_and_desc;
 			}
 			
 			$this->db->select('name');
@@ -3301,12 +3313,13 @@ class Sale extends MY_Model
 			
 			
 			$sales[$k]['last_payment_date'] = lang('common_none');			
-			$sale_total = $this->get_sale_total($sales[$k]['sale_id']);		
+			$sale_total = $sales[$k]['total'];	
 			$amount_paid = 0;
 			$sale_id = $sales[$k]['sale_id'];
 						
 			$payment_data = array();
-			
+			$sales[$k]['all_payments'] = array();
+
 			if (isset($all_payments_for_sales[$sale_id]))
 			{
 				$total_sale_balance = $sale_total;		
@@ -3337,11 +3350,13 @@ class Sale extends MY_Model
 					
 					$sales[$k]['last_payment_date'] = date(get_date_format().' '.get_time_format(), strtotime($payment_row['payment_date']));		
 				}
+
+				$sales[$k]['all_payments'] = $all_payments_for_sales[$sale_id];	
 			}
 			
 			$sales[$k]['sale_total'] = $sale_total;
-			$sales[$k]['amount_due'] = $sale_total - $amount_paid;
 			$sales[$k]['amount_paid'] = $amount_paid;
+			$sales[$k]['amount_due'] = $sale_total - $amount_paid;
 		}
 		
 		return $sales;

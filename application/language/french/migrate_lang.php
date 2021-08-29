@@ -431,7 +431,47 @@ $lang['migrate_expenses_categories'] = 'Catégories de dépenses';
 $lang['migrate_permission_for_manage_expenses_categories'] = 'Autorisation de gérer les catégories de dépenses';
 $lang['migrate_update_foreign_key_for_expenses_categories'] = 'Mettre à jour la clé étrangère pour les catégories de dépenses';
 
+$lang['migrate_delivery_categories'] = 'Catégories de livraison';
+$lang['migrate_permission_for_manage_delivery_categories'] = 'Autorisation de gérer les catégories de livraison';
+$lang['migrate_add_category_id_to_phppos_sales_deliveries'] = 'Ajouter un identifiant de catégorie aux livraisons de vente Phppos';
+$lang['migrate_add_duration_to_phppos_sales_deliveries'] = 'Ajouter une durée aux livraisons de vente Phppos';
+$lang['migrate_allow_sales_id_nullable_in_sales_deliveries_table'] = 'Autoriser l\'identifiant de vente nul dans le tableau des livraisons';
+$lang['migrate_delivery_items'] = 'Articles de livraison';
+$lang['migrate_delivery_item_kits'] = 'Kits d\'articles de livraison';
+$lang['migrate_added_location_id_to_sales_deliveries_table'] = 'ID de lieu ajouté au tableau des livraisons de vente';
+
+
 $lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = 'Autoriser l\'ID de commande de commerce électronique à être plus grand Int';
 $lang['migrate_index_on_filename'] = 'Index sur le nom de fichier';
+
+
+
+
+$lang['migrate_18_2_version'] = '18.2 Version';
+
+$lang['migrate_add_delivery_type_column_to_salse_deliveries'] = 'Ajouter une colonne de type de livraison pour vendre des livraisons';
+$lang['migrate_update_sales_deliveries_delivery_type'] = 'Mettre à jour le type de livraison des livraisons commerciales';
+
+$lang['migrate_18_2_version'] = '18.2 Version';
+
 $lang['migrate_work_orders'] = 'Bons de travail';
+
+
+
+$lang['migrate_delivery_statuses'] = 'Statuts de livraison';
+$lang['migrate_update_existing_delivery_status_and_change_status_column_type_to_sales_deliveries'] = 'Mettre à jour le statut de livraison existant et modifier le type de colonne Statut en livraisons de vente';
+$lang['migrate_update_location_in_sales_deliveries_from_sales_table'] = 'Mettre à jour l\'emplacement dans les livraisons de vente à partir de la table des ventes';
+$lang['migrate_add_notify_by_columns_in_delivery_statuses_table'] = 'Ajouter une notification par colonnes dans le tableau des statuts de livraison';
+$lang['migrate_manage_delivery_statuses_permission'] = 'Permission de gérer les statuts de livraison';
+$lang['migrate_add_default_delivery_statuses'] = 'Ajouter des conditions de livraison par défaut';
+$lang['migrate_serial_number_variations'] = 'Variations du numéro de série';
+
+
+$lang['migrate_import_ecommerce_orders_suspended_type'] = 'Importer le type de commandes de commerce électronique suspendu';
+
+$lang['migrate_can_lookup_last_receipt_permission'] = 'Peut rechercher l\'autorisation de dernier reçu';
+
+$lang['migrate_permission_for_delete_suspended_receivings'] = 'Autorisation de supprimer les réceptions suspendues';
+
+$lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = 'Correction d\'Utf8 General Ci à Utf8 Unicode Ci pour les statuts des bons de travail Phppos';
 ?>

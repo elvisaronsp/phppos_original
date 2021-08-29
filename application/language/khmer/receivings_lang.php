@@ -103,4 +103,5 @@ $lang['receivings_show_signature_on_receiving_receipt'] = 'បង្ហាញហ
 $lang['receivings_out_of_stock'] = 'ទំនិញមួយរឺច្រើននឹងអស់ពីស្តុកពេលបញ្ចប់ប្រតិបត្តិការនេះ';
 $lang['receivings_you_do_not_have_permission_to_complete_transfers'] = 'អ្នកមិនមានការអនុញ្ញាតដើម្បីបញ្ចប់ការផ្ទេរទេ។ អ្នកត្រូវទាក់ទងអ្នកគ្រប់គ្រងដើម្បីទទួលបានការអនុញ្ញាត';
 $lang['receivings_undelete_unsuccessful'] = 'មិនអាចលុបការទទួលបានទេ';
+$lang['delete_suspended_receivings_confirmation'] = 'តើអ្នកប្រាកដជាចង់លុបការទទួលនេះសកម្មភាពនេះមិនអាចធ្វើវិញបានទេ។';
 ?>

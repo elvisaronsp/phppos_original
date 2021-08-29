@@ -21,13 +21,13 @@ function get_orders_manage_table($orders,$controller)
 	{
 		$headers[] = array('label' => lang('common_edit'), 'sort_column' => '');
 	}
-	
+
 	foreach(array_values($columns_to_display) as $value)
 	{
+
 		$headers[] = H($value);
 	}
-	
-		
+
 	$table.='<thead><tr>';
 	$count = 0;
 	foreach($headers as $header)
@@ -78,8 +78,15 @@ function get_orders_manage_table_data_rows($orders,$controller)
 }
 
 function delivery_status($status)
-{
-	return lang('deliveries_'.$status);
+{	
+	if($status){
+		$CI =& get_instance();	
+
+		$status_info = $CI->Delivery->get_status_info($status);
+
+		return $CI->Delivery->get_status_name($status_info->name);
+	}
+	return '';
 }
 
 function get_order_data_row($order,$controller)
@@ -100,11 +107,18 @@ function get_order_data_row($order,$controller)
 		
 		if ($has_edit_permission && !$params['deleted'])
 		{
-			$table_data_row.='<td class="">'.anchor($controller_name."/view/$order->id/2", lang('common_edit'),array('class'=>' ','title'=>lang($controller_name.'_update'))).'</td>';		
+			$table_data_row.='<td class="">'.anchor($controller_name."/view/$order->id/2?redirect=deliveries", lang('common_edit'),array('class'=>' ','title'=>lang($controller_name.'_update'))).'</td>';		
 		}	
 		foreach($displayable_columns as $column_id => $column_values)
 		{
+			
 			$val = $order->{$column_id};
+
+			if($column_id == 'sale_id' && $val == ''){
+				$table_data_row.='<td></td>';
+				continue;
+			}
+
 			if (isset($column_values['format_function']))
 			{
 				if (isset($column_values['data_function']))
@@ -121,7 +135,12 @@ function get_order_data_row($order,$controller)
 				}
 				else
 				{
-					$val = $format_function($val);					
+					if($column_id == "status" && $CI->config->item('delivery_color_based_on') == "category" && $order->category_color){
+						$val = $format_function($val, $order->category_color);
+					}else{
+						$val = $format_function($val);
+					}
+									
 				}
 			}
 			
@@ -137,5 +156,27 @@ function get_order_data_row($order,$controller)
 	
 	$table_data_row.='</tr>';
 	return $table_data_row;
+}
+
+function delivery_category_badge($category)
+{
+	if($category){
+		$CI =& get_instance();	
+
+		$cat_info = $CI->Delivery->get_category_info($category);
+		return '<div class="badge badge-work_order" style="background-color:'.$cat_info->color.'">'.$cat_info->name.'</div>';
+	}
+	return '';
+	
+}
+function delivery_status_badge($status)
+{
+	if($status){
+		$CI =& get_instance();	
+
+		$status_info = $CI->Delivery->get_status_info($status);
+		return '<div class="badge badge-work_order" style="background-color:'.$status_info->color.'">'.$CI->Delivery->get_status_name($status_info->name).'</div>';
+	}
+	return '';
 }
 ?>

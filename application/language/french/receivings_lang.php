@@ -118,4 +118,5 @@ $lang['receivings_show_signature_on_receiving_receipt'] = 'Afficher la signature
 $lang['receivings_out_of_stock'] = 'Un ou plusieurs articles seront en rupture de stock lors de la réalisation de cette transaction';
 $lang['receivings_you_do_not_have_permission_to_complete_transfers'] = 'Vous n\'êtes pas autorisé à terminer le transfert. Vous devrez contacter le responsable pour obtenir la permission';
 $lang['receivings_undelete_unsuccessful'] = 'Impossible de supprimer la réception';
+$lang['delete_suspended_receivings_confirmation'] = 'Êtes-vous sûr de vouloir supprimer cette ou ces réception(s), cette action ne peut pas être annulée.';
 ?>

@@ -140,4 +140,5 @@ $lang['module_deleted_locations'] = 'Điểm bán hàng đã Xóa';
 $lang['module_work_orders'] = 'Đơn hàng làm việc';
 $lang['module_work_orders_desc'] = 'Đơn hàng làm việc';
 $lang['module_manage_statuses'] = 'Quản lý trạng thái';
+$lang['module_action_delete_suspended_receiving'] = 'Xóa nhận bị tạm dừng';
 ?>

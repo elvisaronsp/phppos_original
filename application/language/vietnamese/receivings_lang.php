@@ -191,4 +191,5 @@ $lang['receivings_show_signature_on_receiving_receipt'] = 'Hiển thị chữ k�
 $lang['receivings_out_of_stock'] = 'Một hoặc nhiều mặt hàng sẽ hết hàng khi hoàn tất giao dịch này';
 $lang['receivings_you_do_not_have_permission_to_complete_transfers'] = 'Bạn không được phép hoàn tất quá trình chuyển. Bạn cần liên hệ với người quản lý để xin phép';
 $lang['receivings_undelete_unsuccessful'] = 'Không thể xóa nhận';
+$lang['delete_suspended_receivings_confirmation'] = 'Bạn có chắc chắn muốn xóa (các) nhận này không, không thể hoàn tác hành động này.';
 ?>

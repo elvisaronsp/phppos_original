@@ -494,7 +494,47 @@ $lang['migrate_expenses_categories'] = '费用类别';
 $lang['migrate_permission_for_manage_expenses_categories'] = '权限管理费用类别';
 $lang['migrate_update_foreign_key_for_expenses_categories'] = '更新费用类别的外键';
 
+$lang['migrate_delivery_categories'] = '交货类别';
+$lang['migrate_permission_for_manage_delivery_categories'] = '允许管理交货类别';
+$lang['migrate_add_category_id_to_phppos_sales_deliveries'] = '将类别ID添加到Phppos销售交货中';
+$lang['migrate_add_duration_to_phppos_sales_deliveries'] = '将持续时间添加到Phppos销售交货中';
+$lang['migrate_allow_sales_id_nullable_in_sales_deliveries_table'] = '在销售交货表中允许销售ID为空';
+$lang['migrate_delivery_items'] = '交货项目';
+$lang['migrate_delivery_item_kits'] = '交付物品套件';
+$lang['migrate_added_location_id_to_sales_deliveries_table'] = '在销售交货表中添加了位置ID';
+
+
 $lang['migrate_allow_ecommerce_order_id_to_be_larger_int'] = '允许电子商务订单ID更大的整数';
 $lang['migrate_index_on_filename'] = '文件名索引';
+
+
+
+
+$lang['migrate_18_2_version'] = '18.2版本';
+
+$lang['migrate_add_delivery_type_column_to_salse_deliveries'] = '将交货类型列添加到销售交货中';
+$lang['migrate_update_sales_deliveries_delivery_type'] = '更新销售交货交货类型';
+
+$lang['migrate_18_2_version'] = '18.2版本';
+
 $lang['migrate_work_orders'] = '工作订单';
+
+
+
+$lang['migrate_delivery_statuses'] = '交货状态';
+$lang['migrate_update_existing_delivery_status_and_change_status_column_type_to_sales_deliveries'] = '更新现有交货状态并将状态列类型更改为销售交货';
+$lang['migrate_update_location_in_sales_deliveries_from_sales_table'] = '从销售表更新销售交货中的位置';
+$lang['migrate_add_notify_by_columns_in_delivery_statuses_table'] = '在传递状态表中添加按列通知';
+$lang['migrate_manage_delivery_statuses_permission'] = '管理交货状态权限';
+$lang['migrate_add_default_delivery_statuses'] = '添加默认交货状态';
+$lang['migrate_serial_number_variations'] = '序列号变化';
+
+
+$lang['migrate_import_ecommerce_orders_suspended_type'] = '导入电子商务订单的暂停类型';
+
+$lang['migrate_can_lookup_last_receipt_permission'] = '可以查询上次收货权限';
+
+$lang['migrate_permission_for_delete_suspended_receivings'] = '删除暂停接收的权限';
+
+$lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = '将 Utf8 General Ci 修复为 Utf8 Unicode Ci 以获取 Phppos 工单状态';
 ?>

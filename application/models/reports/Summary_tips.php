@@ -21,6 +21,7 @@ class Summary_tips extends Report
 			
 			$input_params = array(
 				array('view' => 'date_range', 'with_time' => TRUE),
+				array('view' => 'dropdown','dropdown_label' =>lang('reports_employee_type'),'dropdown_name' => 'employee_type','dropdown_options' =>array( 'sale_person' => lang('reports_sale_person'), 'logged_in_employee' => lang('common_logged_in_employee')),'dropdown_selected_value' => 'sale_person'),				
 				array('view' => 'excel_export'),
 				array('view' => 'locations'),
 				array('view' => 'submit'),
@@ -98,18 +99,22 @@ class Summary_tips extends Report
 	
 	public function getData()
 	{		
+		
+		$employee_column = isset($this->params['employee_type']) && $this->params['employee_type'] == 'logged_in_employee' ? 'employee_id' : 'sold_by_employee_id';
+		
 		$location_ids = self::get_selected_location_ids();
 		
 		$this->db->select("people.full_name as employee,sum(tip) as tip,sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax, sum(profit) as profit", false);
 		$this->db->from('sales');
-		$this->db->join('people','people.person_id = sales.employee_id','left');
+		$this->db->join('people',"people.person_id = sales.$employee_column",'left');
 		$this->sale_time_where();
 		$this->db->where('sales.deleted', 0);
 		$this->db->where_in('sales.location_id', $location_ids);
 		
-		$this->db->group_by('employee_id', TRUE);
+		$this->db->group_by($employee_column, TRUE);
 		$this->db->order_by('sale_time', ($this->config->item('report_sort_order')) ? $this->config->item('report_sort_order') : 'asc');
 		
+				
 		//If we are exporting NOT exporting to excel make sure to use offset and limit
 		if (isset($this->params['export_excel']) && !$this->params['export_excel'])
 		{

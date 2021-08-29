@@ -52,9 +52,9 @@ $lang['deliveries_calendars'] = 'Kalender';
 
 
 $lang['delivery_cancel_delivery'] = 'Batal Pengiriman';
-$lang['deliveries_successful_deleted'] = 'Anda telah berhasil dihapus';
+$lang['deliveries_successful_deleted'] = 'Anda berhasil menghapus';
 $lang['deliveries_one_or_multiple'] = 'Pengiriman (s)';
-$lang['deliveries_cannot_be_deleted'] = 'Tidak dapat menghapus pengiriman yang dipilih';
+$lang['deliveries_cannot_be_deleted'] = 'Tidak dapat menghapus status yang dipilih.';
 $lang['deliveries_select_date'] = 'Pilih Tanggal';
 $lang['deliveries_edit_sale_tool_tip'] = 'Edit Penjualan untuk mengubah nilai ini.';
 $lang['deliveries_shipping_address'] = 'Alamat Pengiriman';
@@ -68,4 +68,29 @@ $lang['deliveries_confirm_undelete'] = 'Yakin ingin membatalkan penghapusan pesa
 
 $lang['deliveries_status_scheduled'] = 'Dijadwalkan';
 $lang['deliveries_status_not_scheduled'] = 'Tidak Dijadwalkan';
+$lang['deliveries_new'] = 'Pengiriman Baru';
+$lang['deliveries_manage_without_sales_deliveries'] = 'Kelola Tanpa Pengiriman Penjualan';
+$lang['deliveries_manage_with_sales_deliveries'] = 'Kelola Dengan Pengiriman Penjualan';
+$lang['deliveries_with_or_without_sales'] = 'Pengiriman Dengan / Tanpa Penjualan';
+$lang['deliveries_with_sales'] = 'Dengan Penjualan';
+$lang['deliveries_without_sales'] = 'Tanpa Penjualan';
+$lang['deliveries_status_shipped'] = 'Dikirim';
+$lang['deliveries_status_delivered'] = 'Terkirim';
+$lang[''] = '';
+$lang['deliveries_select_status'] = 'Pilih Status';
+$lang['deliveries_manage_statuses'] = 'Kelola Status';
+$lang['deliveries_add_status'] = 'Tambahkan Status';
+$lang['deliveries_edit_status'] = 'Edit Status';
+$lang['deliveries_status_delete_confirmation'] = 'Anda yakin ingin menghapus status ini?';
+$lang['deliveries_status_successful_adding'] = 'Status telah berhasil ditambahkan / diperbarui';
+$lang['deliveries_status_successful_error'] = 'Terjadi kesalahan saat menambahkan status';
+$lang['deliveries_confirm_status_change'] = 'Apakah Anda yakin ingin mengubah status pengiriman ini?';
+$lang['deliveries_delivery_status_update_message'] = '% s ingin memberitahu Anda bahwa status pengiriman% s Anda telah berubah menjadi:% s.';
+$lang['deliveries_delivery_status_update'] = 'Pembaruan Status Pengiriman';
+$lang['deliveries_successful_changed'] = 'Anda telah berhasil berubah';
+$lang['deliveries_notify_customer_via_email'] = 'Beri Tahu Pelanggan Melalui Email';
+$lang['deliveries_notify_customer_via_sms'] = 'Beri Tahu Pelanggan Melalui SMS';
+$lang['deliveries_unable_to_add_item'] = 'Tidak dapat menambahkan item ke pengiriman';
+$lang['deliveries_calendar_error_while_fetching_events'] = 'Terjadi kesalahan saat mengambil acara!';
+$lang['deliveries_delivery_items'] = 'Item Pengiriman';
 ?>

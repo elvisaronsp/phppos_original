@@ -1116,6 +1116,49 @@ function create_breadcrumb()
 		}
 		
   	}
+	elseif($ci->uri->segment(1) == 'work_orders')
+	{
+		$params = $ci->session->userdata('work_orders_search_data') ? $ci->session->userdata('work_orders_search_data') : array('deleted' => 0);
+		
+		if ($ci->uri->segment(2) == NULL) //Main page
+		{
+			if($params['deleted'])
+			{
+				$work_orders_home_link =create_current_page_url(lang('module_deleted_work_orders'));
+			}
+			else
+			{
+				$work_orders_home_link =create_current_page_url(lang('module_work_orders'));
+			}
+		}
+		else
+		{
+			
+			$work_orders_home_link = '<a tabindex = "-1" href="'.site_url('work_orders').'">'.lang('module_work_orders').'</a>';
+		}
+		
+		$return.=$work_orders_home_link;
+
+		if($ci->uri->segment(2) == 'custom_fields')
+		{
+			$return.=create_current_page_url(lang('common_custom_field_config'));
+		}
+		else if($ci->uri->segment(2) == 'print_work_order')
+		{
+			$return.=create_current_page_url(lang('work_orders_print_work_order'));
+		}
+		else if($ci->uri->segment(2) == 'print_service_tag' || $ci->uri->segment(2) == 'raw_print_service_tag')
+		{
+			$return.=create_current_page_url(lang('work_orders_print_service_tag'));
+		}
+		else if ($ci->uri->segment(2)=='view')
+		{
+			$return.=create_current_page_url(lang('common_edit'));
+		}
+		
+		
+	
+	}
   	return $return;
 }
 

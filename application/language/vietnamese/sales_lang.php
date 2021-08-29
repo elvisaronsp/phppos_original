@@ -76,7 +76,7 @@ $lang['sales_change_sale'] = 'Thay đổi bán hàng';
 //Delete entire sale
 $lang['sales_delete_entire_sale'] = 'Xóa toàn bộ bán hàng';
 //Are you sure you want to delete this sale, this action cannot be undone
-$lang['sales_delete_confirmation'] = 'Bạn có chắc chắn muốn xóa bán hàng này, hành động này không thể được hoàn tác';
+$lang['sales_delete_confirmation'] = 'Bạn có chắc chắn muốn xóa (các) ưu đãi này không, không thể hoàn tác hành động này.';
 //You have successfully deleted a sale
 $lang['sales_delete_successful'] = 'Bạn xóa một bán hàng thành công';
 //You have unsuccessfully deleted a sale
@@ -517,4 +517,5 @@ $lang['sales_note'] = 'Ghi chú';
 $lang['sales_detailed_note'] = 'Ghi chú chi tiết';
 $lang['sales_internal_note'] = 'Ghi chú nội bộ';
 $lang['sales_delveried_to'] = 'Đã gửi đến';
+$lang['sales_view_receipt_on_web_page'] = 'Xem biên nhận trên trang web';
 ?>

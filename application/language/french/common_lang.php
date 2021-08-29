@@ -1026,19 +1026,42 @@ $lang['common_serialnumber_already_added'] = 'Le numéro de série a déjà ét�
 $lang['common_add_secondary_category'] = 'Ajouter une catégorie secondaire';
 $lang['common_secondary_category'] = 'Catégorie secondaire';
 $lang['common_suspended_types'] = 'Types suspendus';
+
+$lang['common_duration'] = 'Durée';
+
 $lang['shopify_cron_job_entry'] = 'Entrée Shopify Cron';
 $lang['item inventory changed in shopify'] = 'Inventaire des articles modifié dans shopify';
 $lang['common_recent_exports'] = 'Exportations récentes';
 $lang['common_import_order'] = 'Commande d\'importation';
+
+
+
+
+$lang['shopfiy_not_paid'] = 'Vous n\'avez pas activé votre facturation Shopify';
+
+
+
+
 $lang['shopify_not_paid'] = 'Vous n\'avez pas activé votre facturation Shopify';
+
 $lang['common_color'] = 'Couleur';
 $lang['common_drag_and_drop_or_click'] = 'Glisser-déposer ou cliquer';
 $lang['common_workorder'] = 'Demande de service';
 $lang['common_item_being_repaired'] = 'Objet en cours de réparation';
+
+
+
 $lang['work_orders_edit'] = 'Modifier l\'ordre de travail';
 $lang['work_orders_delete'] = 'Supprimer un bon de travail';
 $lang['work_orders_search'] = 'Rechercher des bons de travail';
 $lang['work_orders_manage_statuses'] = 'Gérer les statuts des bons de travail';
 $lang['common_shopify_access_token_error'] = 'Votre jeton d\'accès a expiré et nous ne pouvons pas nous connecter à l\'API. Veuillez réessayer.';
 $lang['common_ecommerce_item'] = 'Article de commerce électronique';
+$lang['config_show_qr_code_for_sale'] = 'Afficher le code QR sur le reçu de vente';
+$lang['common_suppliers'] = 'Fournisseurs';
+$lang['common_back_to_suppliers'] = 'Retour aux fournisseurs';
+
+$lang['common_change_status'] = 'Changer de statut';
+$lang['common_please_select'] = 'Veuillez sélectionner';
+$lang['sales_can_lookup_last_receipt'] = 'Peut rechercher le dernier reçu';
 ?>

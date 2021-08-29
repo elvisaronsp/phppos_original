@@ -1947,6 +1947,7 @@ html {
 .side-bar .menu-parent {
   overflow-x: hidden;
   padding-top: 70px;
+  height: 100vh;
 }
 .left-bar .menu-parent > li,
 .side-bar .menu-parent > li {
@@ -3109,7 +3110,8 @@ td .form-control.selectize-control {
     /*display: none;	*/
   }
   .wrapper.mini-bar .left-bar .admin-logo .logo-holder .logo {
-    width: 70px;
+    width: 31px;
+    margin-top: 7%;
   }
   .wrapper.mini-bar .left-bar .admin-logo a.menu-bar {
     width: 90px;

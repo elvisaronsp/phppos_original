@@ -13,7 +13,7 @@ class Detailed_inventory_count_report extends Report
 		$return = array();
 		
 		$return['summary'] = array();
-		$location_count = count(self::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 	
 		if ($location_count > 1)
 		{
@@ -75,7 +75,7 @@ class Detailed_inventory_count_report extends Report
 
 		$summary_data = array();
 		$details_data = array();
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		
 		foreach($report_data['summary'] as $key=>$row)
 		{

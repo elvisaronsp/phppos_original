@@ -1028,19 +1028,42 @@ $lang['common_serialnumber_already_added'] = 'O número de série já foi adicio
 $lang['common_add_secondary_category'] = 'Adicionar categoria secundária';
 $lang['common_secondary_category'] = 'Categoria Secundária';
 $lang['common_suspended_types'] = 'Tipos Suspensos';
+
+$lang['common_duration'] = 'Duração';
+
 $lang['shopify_cron_job_entry'] = 'Shopify Cron Entry';
 $lang['item inventory changed in shopify'] = 'Estoque de item alterado no shopify';
 $lang['common_recent_exports'] = 'Exportações Recentes';
 $lang['common_import_order'] = 'Ordem de Importação';
+
+
+
+
+$lang['shopfiy_not_paid'] = 'Você não ativou seu faturamento do Shopify';
+
+
+
+
 $lang['shopify_not_paid'] = 'Você não ativou seu faturamento do Shopify';
+
 $lang['common_color'] = 'Cor';
 $lang['common_drag_and_drop_or_click'] = 'Arrastar e soltar ou clicar';
 $lang['common_workorder'] = 'Ordem de Serviço';
 $lang['common_item_being_repaired'] = 'Item sendo reparado';
+
+
+
 $lang['work_orders_edit'] = 'Editar Ordem de Serviço';
 $lang['work_orders_delete'] = 'Excluir ordem de serviço';
 $lang['work_orders_search'] = 'Pesquisar ordens de serviço';
 $lang['work_orders_manage_statuses'] = 'Gerenciar status de ordens de serviço';
 $lang['common_shopify_access_token_error'] = 'Seu token de acesso expirou e não podemos nos conectar à API. Por favor, tente novamente.';
 $lang['common_ecommerce_item'] = 'Item de comércio eletrônico';
+$lang['config_show_qr_code_for_sale'] = 'Mostrar o código QR no recibo de venda';
+$lang['common_suppliers'] = 'Fornecedores';
+$lang['common_back_to_suppliers'] = 'Voltar para fornecedores';
+
+$lang['common_change_status'] = 'Alterar status';
+$lang['common_please_select'] = 'Por favor selecione';
+$lang['sales_can_lookup_last_receipt'] = 'Pode pesquisar o último recibo';
 ?>

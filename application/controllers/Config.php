@@ -620,6 +620,7 @@ class Config extends Secure_area
 		'do_not_treat_service_items_as_virtual' => $this->input->post('do_not_treat_service_items_as_virtual') ? 1 : 0,
 		'hide_latest_updates_in_header' => $this->input->post('hide_latest_updates_in_header') ? 1 : 0,
 		'prompt_amount_for_cash_sale' => $this->input->post('prompt_amount_for_cash_sale') ? 1 : 0,
+		'show_qr_code_for_sale' => $this->input->post('show_qr_code_for_sale') ? 1 : 0,
 		'do_not_allow_items_to_go_out_of_stock_when_transfering' => $this->input->post('do_not_allow_items_to_go_out_of_stock_when_transfering') ? 1: 0,
 		'show_tags_on_fulfillment_sheet' => $this->input->post('show_tags_on_fulfillment_sheet') ? 1 : 0,
 		'automatically_sms_receipt' => $this->input->post('automatically_sms_receipt') ? 1 : 0,
@@ -629,11 +630,16 @@ class Config extends Secure_area
 		'auto_sync_offline_sales' => $this->input->post('auto_sync_offline_sales') ? 1 : 0,
 		'show_total_on_fulfillment' => $this->input->post('show_total_on_fulfillment') ? 1 : 0,
 		'override_signature_text' => $this->input->post('override_signature_text'),
+		'delivery_color_based_on' => $this->input->post('delivery_color_based_on'),
 		'update_cost_price_on_transfer' => $this->input->post('update_cost_price_on_transfer') ? 1 : 0,
 		'tip_preset_zero' => $this->input->post('tip_preset_zero') ? 1 : 0,
+		'layaway_statement_message' => $this->input->post('layaway_statement_message'),
 		'show_person_id_on_receipt' => $this->input->post('show_person_id_on_receipt') ? 1 : 0,
+		'import_ecommerce_orders_suspended' => $this->input->post('import_ecommerce_orders_suspended') ? 1 : 0,
+		'show_images_on_receipt' => $this->input->post('show_images_on_receipt') ? 1 : 0,
 		'disabled_fixed_discounts' => $this->input->post('disabled_fixed_discounts') ? 1 : 0,
 		'always_put_last_added_item_on_top_of_cart' => $this->input->post('always_put_last_added_item_on_top_of_cart') ? 1 : 0,
+		'hide_description_on_suspended_sales' => $this->input->post('hide_description_on_suspended_sales') ? 1 : 0,
 	);
 
 	//Old way of doing taxes; we handle this case

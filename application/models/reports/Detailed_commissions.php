@@ -85,7 +85,7 @@ class Detailed_commissions extends Report
 		$end_date = $this->params['end_date'];
 		$summary_data = array();
 		$details_data = array();
-		$location_count = count(Report::get_selected_location_ids());			
+		$location_count = $this->Location->count_all();			
 
 		foreach(isset($export_excel) == 1 && isset($report_data['summary']) ? $report_data['summary']:$report_data as $key=>$row)
 		{
@@ -172,7 +172,7 @@ class Detailed_commissions extends Report
 		$return = array();
 		
 		$return['summary'] = array();
-		$location_count = count(self::get_selected_location_ids());		
+		$location_count = $this->Location->count_all();		
 		$return['summary'][] = array('data'=>lang('reports_sale_id'), 'align'=> 'left');
 		
 		if ($location_count > 1)

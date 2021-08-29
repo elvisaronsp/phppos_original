@@ -763,10 +763,42 @@ $lang['config_ecommerce_sync_running'] = 'Sinkronisasi E-Commerce sekarang berja
 $lang['config_show_total_on_fulfillment'] = 'Tunjukkan Total Pada Lembar Pemenuhan';
 $lang['config_connect_shopify_in_app_store'] = 'Anda tidak terhubung ke Shopify. Anda dapat terhubung ke Shopify di App Store';
 $lang['config_override_signature_text'] = 'Timpa Teks Tanda Tangan';
+
+$lang['config_delivery_color_based_on'] = 'Warna Pengiriman Berdasarkan';
+$lang['config_delivery_color_based_on_status'] = 'Status';
+$lang['config_delivery_color_based_on_category'] = 'Kategori';
+
+
 $lang['config_update_cost_price_on_transfer'] = 'Perbarui Biaya Harga Saat Transfer';
+
+
+
 $lang['config_tip_preset_zero'] = 'Tip jumlah preset 0%';
+
+
+
+$lang['config_layaway_statement_message'] = 'Pesan Pernyataan Layaway';
+
+
 $lang['config_show_person_id_on_receipt'] = 'Tunjukkan ID Orang pada tanda terima';
+
+
+
+
+$lang['config_import_ecommerce_orders_suspended'] = 'Impor Pesanan E-Niaga Ditangguhkan';
+
+$lang['config_show_images_on_receipt'] = 'Tunjukkan Gambar di Tanda Terima';
+
 $lang['config_disabled_fixed_discounts'] = 'Nonaktifkan Diskon Tetap Pada Antarmuka Penjualan';
+
+
+
 $lang['config_always_put_last_added_item_on_top_of_cart'] = 'Selalu letakkan item yang terakhir ditambahkan di atas troli';
+
+
+
 $lang['config_show_giftcards_even_if_0_balance'] = 'Tunjukkan kartu Hadiah meskipun saldo nol';
+
+$lang['config_scale_5'] = 'Kode Batang Tertanam Berat';
+$lang['config_hide_description_on_suspended_sales'] = 'Sembunyikan Deskripsi Item Pada Penjualan yang Ditangguhkan';
 ?>

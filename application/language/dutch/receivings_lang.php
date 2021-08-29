@@ -117,4 +117,5 @@ $lang['receivings_show_signature_on_receiving_receipt'] = 'Toon handtekening op 
 $lang['receivings_out_of_stock'] = 'Een of meer artikelen zijn niet op voorraad bij het voltooien van deze transactie';
 $lang['receivings_you_do_not_have_permission_to_complete_transfers'] = 'U heeft geen toestemming om de overdracht te voltooien. U moet contact opnemen met de manager om toestemming te krijgen';
 $lang['receivings_undelete_unsuccessful'] = 'Kan ontvangst niet verwijderen';
+$lang['delete_suspended_receivings_confirmation'] = 'Weet u zeker dat u deze ontvangst(en) wilt verwijderen, dan kan deze actie niet ongedaan worden gemaakt.';
 ?>

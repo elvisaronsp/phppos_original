@@ -138,63 +138,63 @@
 		});
 	});
 
-$(document).on('click', ".delete_category",function()
-{
-	var category_id = $(this).data('category_id');
-	if (category_id)
+	$(document).on('click', ".delete_category",function()
 	{
-		bootbox.confirm(<?php echo json_encode(lang('items_category_delete_confirmation')); ?>, function(result)
+		var category_id = $(this).data('category_id');
+		if (category_id)
 		{
-			if(result)
+			bootbox.confirm(<?php echo json_encode(lang('items_category_delete_confirmation')); ?>, function(result)
 			{
-				$.post('<?php echo site_url("items/delete_category");?>', {category_id : category_id},function(response) {
+				if(result)
+				{
+					$.post('<?php echo site_url("items/delete_category");?>', {category_id : category_id},function(response) {
 
-					show_feedback(response.success ? 'success' : 'error', response.message,response.success ? <?php echo json_encode(lang('common_success')); ?> : <?php echo json_encode(lang('common_error')); ?>);
+						show_feedback(response.success ? 'success' : 'error', response.message,response.success ? <?php echo json_encode(lang('common_success')); ?> : <?php echo json_encode(lang('common_error')); ?>);
 
-					//Refresh tree if success
-					if (response.success)
-					{
-						$('#category_tree').load("<?php echo site_url("items/get_category_tree_list"); ?>");
-					}
-				}, "json");
-			}
-		});
-	}
-});
+						//Refresh tree if success
+						if (response.success)
+						{
+							$('#category_tree').load("<?php echo site_url("items/get_category_tree_list"); ?>");
+						}
+					}, "json");
+				}
+			});
+		}
+	});
 
-$(document).on('click', ".hide_from_grid",function()
-{
-	var category_id = $(this).data('category_id');
-	if (category_id)
+	$(document).on('click', ".hide_from_grid",function()
 	{
-		$.post('<?php echo site_url("items/save_category");?>'+'/'+category_id, {hide_from_grid: $(this).prop('checked') ? 1 : 0},function(response) {
-			show_feedback(response.success ? 'success' : 'error', response.message,response.success ? <?php echo json_encode(lang('common_success')); ?> : <?php echo json_encode(lang('common_error')); ?>);
-			//Refresh tree if success
-			if (response.success)
-			{
-				$('#category_tree').load("<?php echo site_url("items/get_category_tree_list"); ?>");
-			}
-		}, "json");
-	}
+		var category_id = $(this).data('category_id');
+		if (category_id)
+		{
+			$.post('<?php echo site_url("items/save_category");?>'+'/'+category_id, {hide_from_grid: $(this).prop('checked') ? 1 : 0},function(response) {
+				show_feedback(response.success ? 'success' : 'error', response.message,response.success ? <?php echo json_encode(lang('common_success')); ?> : <?php echo json_encode(lang('common_error')); ?>);
+				//Refresh tree if success
+				if (response.success)
+				{
+					$('#category_tree').load("<?php echo site_url("items/get_category_tree_list"); ?>");
+				}
+			}, "json");
+		}
 
-});
+	});
 
-$(document).on('click', ".exclude_from_e_commerce",function()
-{
-	var category_id = $(this).data('category_id');
-	if (category_id)
+	$(document).on('click', ".exclude_from_e_commerce",function()
 	{
-		$.post('<?php echo site_url("items/save_category");?>'+'/'+category_id, {exclude_from_e_commerce: $(this).prop('checked') ? 1 : 0},function(response) {
-			show_feedback(response.success ? 'success' : 'error', response.message,response.success ? <?php echo json_encode(lang('common_success')); ?> : <?php echo json_encode(lang('common_error')); ?>);
-			//Refresh tree if success
-			if (response.success)
-			{
-				$('#category_tree').load("<?php echo site_url("items/get_category_tree_list"); ?>");
-			}
-		}, "json");
-	}
+		var category_id = $(this).data('category_id');
+		if (category_id)
+		{
+			$.post('<?php echo site_url("items/save_category");?>'+'/'+category_id, {exclude_from_e_commerce: $(this).prop('checked') ? 1 : 0},function(response) {
+				show_feedback(response.success ? 'success' : 'error', response.message,response.success ? <?php echo json_encode(lang('common_success')); ?> : <?php echo json_encode(lang('common_error')); ?>);
+				//Refresh tree if success
+				if (response.success)
+				{
+					$('#category_tree').load("<?php echo site_url("items/get_category_tree_list"); ?>");
+				}
+			}, "json");
+		}
 
-});
+	});
 
 </script>
 <?php $this->load->view('partial/footer'); ?>

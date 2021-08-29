@@ -1492,19 +1492,42 @@ $lang['common_serialnumber_already_added'] = '序列號已經添加';
 $lang['common_add_secondary_category'] = '添加二級類別';
 $lang['common_secondary_category'] = '次要類別';
 $lang['common_suspended_types'] = '懸浮類型';
+
+$lang['common_duration'] = '持續時間';
+
 $lang['shopify_cron_job_entry'] = 'Shopify Cron Entry';
 $lang['item inventory changed in shopify'] = 'shopify中的商品庫存已更改';
 $lang['common_recent_exports'] = '最近出口';
 $lang['common_import_order'] = '進口訂單';
+
+
+
+
+$lang['shopfiy_not_paid'] = '您尚未激活Shopify帳單';
+
+
+
+
 $lang['shopify_not_paid'] = '您尚未激活Shopify帳單';
+
 $lang['common_color'] = '顏色';
 $lang['common_drag_and_drop_or_click'] = '拖放或單擊';
 $lang['common_workorder'] = '工作指示';
 $lang['common_item_being_repaired'] = '維修中的物品';
+
+
+
 $lang['work_orders_edit'] = '編輯工單';
 $lang['work_orders_delete'] = '刪除工單';
 $lang['work_orders_search'] = '搜索工單';
 $lang['work_orders_manage_statuses'] = '管理工單狀態';
 $lang['common_shopify_access_token_error'] = '您的訪問令牌已過期，我們無法連接到API。請再試一遍。';
 $lang['common_ecommerce_item'] = '電子商務項目';
+$lang['config_show_qr_code_for_sale'] = '在銷售收據上顯示二維碼';
+$lang['common_suppliers'] = '供應商';
+$lang['common_back_to_suppliers'] = '回到供應商';
+
+$lang['common_change_status'] = '變更狀態';
+$lang['common_please_select'] = '請選擇';
+$lang['sales_can_lookup_last_receipt'] = '可以查詢上次收據';
 ?>

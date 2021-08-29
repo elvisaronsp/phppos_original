@@ -94,4 +94,5 @@ $lang['appointments_edit'] = 'Editar citas';
 $lang['module_work_orders'] = 'Órdenes de trabajo';
 $lang['module_work_orders_desc'] = 'Órdenes de trabajo';
 $lang['module_manage_statuses'] = 'Administrar estados';
+$lang['module_action_delete_suspended_receiving'] = 'Eliminar recepción suspendida';
 ?>

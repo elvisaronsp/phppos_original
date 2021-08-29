@@ -82,4 +82,5 @@ $lang['appointments_edit'] = 'Termine bearbeiten';
 $lang['module_work_orders'] = 'Arbeitsanweisungen';
 $lang['module_work_orders_desc'] = 'Arbeitsanweisungen';
 $lang['module_manage_statuses'] = 'Status verwalten';
+$lang['module_action_delete_suspended_receiving'] = 'Gesperrten Empfang löschen';
 ?>

@@ -78,29 +78,49 @@ class Delivery extends MY_Model
 		
 		$location_id = $location_id_override ? $location_id_override : $this->Employee->get_logged_in_employee_current_location_id();
 		
-		$this->db->select('customer_sales_person.company_name as company_name,GROUP_CONCAT(DISTINCT '.$this->db->dbprefix('items').'.name,": ",FLOOR('.$this->db->dbprefix('sales_items').'.quantity_purchased)  SEPARATOR "<br /> ") as items, GROUP_CONCAT(DISTINCT '.$this->db->dbprefix('item_kits').'.name,": ",FLOOR('.$this->db->dbprefix('sales_item_kits').'.quantity_purchased)  SEPARATOR "<br /> ") as item_kits, sales.comment as sale_comment,sales.location_id as location_id,shipping_zones.name as shipping_zone_name, sales_deliveries.*,
+		$this->db->select('customer_sales_person.company_name as company_name');
+		$this->db->select('IFNULL(GROUP_CONCAT(DISTINCT '.$this->db->dbprefix('items').'.name,": ",FLOOR('.$this->db->dbprefix('sales_items').'.quantity_purchased)  SEPARATOR "<br /> "), GROUP_CONCAT(DISTINCT item_temp.name,": ",FLOOR('.$this->db->dbprefix('delivery_items').'.quantity)  SEPARATOR "<br /> ")) as items');
+		$this->db->select('IFNULL(GROUP_CONCAT(DISTINCT '.$this->db->dbprefix('item_kits').'.name,": ",FLOOR('.$this->db->dbprefix('sales_item_kits').'.quantity_purchased)  SEPARATOR "<br /> "), GROUP_CONCAT(DISTINCT item_kit_temp.name,": ",FLOOR('.$this->db->dbprefix('delivery_item_kits').'.quantity)  SEPARATOR "<br /> ")) as item_kits');
+
+		$this->db->select('sales.comment as sale_comment,sales_deliveries.location_id as location_id,shipping_zones.name as shipping_zone_name, sales_deliveries.*,
 		CONCAT(customer_person.address_1, " ", customer_person.address_2, " ", customer_person.city, " ", customer_person.state, " ", customer_person.zip, " ", customer_person.country) as full_address,
 		customer_person.*,
 		employee_person.full_name as delivery_employee,
 		shipping_methods.name as `shipping_method_name`,
-		shipping_providers.name as `shipping_provider_name`');
+		shipping_providers.name as `shipping_provider_name`, locations.name as `location_name`,
+		delivery_categories.name as category, delivery_categories.color as category_color
+		');
 		$this->db->from('sales_deliveries');
-		$this->db->join('sales', 'sales.sale_id = sales_deliveries.sale_id');
+
+		$this->db->join('sales', 'sales.sale_id = sales_deliveries.sale_id','left');
+
+		$this->db->join('delivery_categories', 'delivery_categories.id = sales_deliveries.category_id','left');
+
 		$this->db->join('sales_items', 'sales.sale_id = sales_items.sale_id', 'left');
 		$this->db->join('sales_item_kits', 'sales.sale_id = sales_item_kits.sale_id', 'left');
-		$this->db->join('items', 'sales_items.item_id = items.item_id and system_item = 0','left');
+
+		$this->db->join('items', 'sales_items.item_id = items.item_id and items.system_item = 0','left');
 		$this->db->join('item_kits', 'sales_item_kits.item_kit_id = item_kits.item_kit_id','left');
+
+		$this->db->join('delivery_items', 'sales_deliveries.id = delivery_items.delivery_id', 'left');
+		$this->db->join('delivery_item_kits', 'sales_deliveries.id = delivery_item_kits.delivery_id', 'left');
+
+		$this->db->join('items as item_temp','delivery_items.item_id = item_temp.item_id and item_temp.system_item = 0', 'left');
+		$this->db->join('item_kits as item_kit_temp', 'delivery_item_kits.item_kit_id = item_kit_temp.item_kit_id', 'left');
+
 		$this->db->join('shipping_zones', 'shipping_zones.id = sales_deliveries.shipping_zone_id','left');
 		$this->db->join('people as customer_person', 'sales_deliveries.shipping_address_person_id = customer_person.person_id');
 		$this->db->join('people as employee_person', 'sales_deliveries.delivery_employee_person_id = employee_person.person_id', 'left');
 		$this->db->join('customers as customer_sales_person', 'sales.customer_id = customer_sales_person.person_id', 'left');
 		$this->db->join('shipping_methods', 'sales_deliveries.shipping_method_id = shipping_methods.id','left');
 		$this->db->join('shipping_providers', 'shipping_methods.shipping_provider_id = shipping_providers.id','left');
-				
+		$this->db->join('locations', 'sales_deliveries.location_id = locations.location_id','left');
+
 		if ($search)
 		{
 			$this->db->where("(
 			tracking_number LIKE '".$this->db->escape_like_str($search)."%' or
+			delivery_categories.name LIKE '".$this->db->escape_like_str($search)."%' or
 			shipping_zones.name LIKE '".$this->db->escape_like_str($search)."%' or
 			customer_person.first_name LIKE '".$this->db->escape_like_str($search)."%' or
 			employee_person.last_name LIKE '".$this->db->escape_like_str($search)."%' or
@@ -125,8 +145,9 @@ class Delivery extends MY_Model
 		
 		if(isset($filters) && count($filters) > 0)
 		{
+			
 			$this->db->group_start();
-		
+
 			if (isset($filters['is_pickup']))
 			{
 				$this->db->where_in('is_pickup', $filters['is_pickup']);
@@ -135,6 +156,11 @@ class Delivery extends MY_Model
 			if (isset($filters['status']))
 			{
 				$this->db->where_in('status', $filters['status']);
+			}
+
+			if (isset($filters['category']))
+			{
+				$this->db->where_in('sales_deliveries.category_id', $filters['category']);
 			}
 			
 			if(isset($filters['shipping_start']))
@@ -156,15 +182,40 @@ class Delivery extends MY_Model
 			{
 				$this->db->where('estimated_delivery_or_pickup_date <=', date('Y-m-d H:i:s',strtotime($filters['delivery_end'])));
 			}
-		
+
+			if(isset($filters['locations']))
+			{
+				$this->db->group_start();
+					$this->db->where_in('sales_deliveries.location_id', $filters['locations']);
+					$this->db->or_where_in('sales.location_id', $filters['locations']);
+				$this->db->group_end();
+			}else{
+				$this->db->group_start();
+					$this->db->where('sales_deliveries.location_id', $location_id);
+					$this->db->or_where('sales.location_id', $location_id);
+				$this->db->group_end();
+			}
+
+			if(isset($filters['deliveries_with_or_without_sales'])){
+				$this->db->where_in('sales_deliveries.delivery_type', $filters['deliveries_with_or_without_sales']);
+			}
+			
+			$this->db->group_end();
+		}else{
+			$this->db->group_start();
+				$this->db->where('sales_deliveries.location_id', $location_id);
+				$this->db->or_where('sales.location_id', $location_id);
 			$this->db->group_end();
 		}
-		
-		$this->db->where('sales.location_id',$location_id);
-		$this->db->where('sales.deleted',0);
-		$this->db->where('sales_deliveries.deleted',$deleted);
-		
-		$this->db->group_by('sales.sale_id');
+
+		$this->db->group_start();
+			$this->db->where('sales.deleted', 0);
+			$this->db->or_where('sales_deliveries.sale_id', NULL);
+		$this->db->group_end();
+
+		$this->db->where('sales_deliveries.deleted', $deleted);
+
+		$this->db->group_by('sales_deliveries.id');
 		
 		if (!$this->config->item('speed_up_search_queries'))
 		{
@@ -173,8 +224,7 @@ class Delivery extends MY_Model
 		
 		$this->db->limit($limit);
 		$this->db->offset($offset);
-		
-		
+	
 	 return $this->db->get();
 		 
 	}
@@ -187,28 +237,49 @@ class Delivery extends MY_Model
 		}
 		$location_id = $location_id_override ? $location_id_override : $this->Employee->get_logged_in_employee_current_location_id();
 		
-		$this->db->select('GROUP_CONCAT(DISTINCT '.$this->db->dbprefix('items').'.name,": ",FLOOR('.$this->db->dbprefix('sales_items').'.quantity_purchased)  SEPARATOR "<br /> ") as items, GROUP_CONCAT(DISTINCT '.$this->db->dbprefix('item_kits').'.name,": ",FLOOR('.$this->db->dbprefix('sales_item_kits').'.quantity_purchased)  SEPARATOR "<br /> ") as item_kits, sales.comment as sale_comment,sales.location_id as location_id,shipping_zones.name as shipping_zone_name, sales_deliveries.*,
+		$this->db->select('customer_sales_person.company_name as company_name');
+		$this->db->select('IFNULL(GROUP_CONCAT(DISTINCT '.$this->db->dbprefix('items').'.name,": ",FLOOR('.$this->db->dbprefix('sales_items').'.quantity_purchased)  SEPARATOR "<br /> "), GROUP_CONCAT(DISTINCT item_temp.name,": ",FLOOR('.$this->db->dbprefix('delivery_items').'.quantity)  SEPARATOR "<br /> ")) as items');
+		$this->db->select('IFNULL(GROUP_CONCAT(DISTINCT '.$this->db->dbprefix('item_kits').'.name,": ",FLOOR('.$this->db->dbprefix('sales_item_kits').'.quantity_purchased)  SEPARATOR "<br /> "), GROUP_CONCAT(DISTINCT item_kit_temp.name,": ",FLOOR('.$this->db->dbprefix('delivery_item_kits').'.quantity)  SEPARATOR "<br /> ")) as item_kits');
+
+		$this->db->select('sales.comment as sale_comment, shipping_zones.name as shipping_zone_name, sales_deliveries.*,
 		CONCAT(customer_person.address_1, " ", customer_person.address_2, " ", customer_person.city, " ", customer_person.state, " ", customer_person.zip, " ", customer_person.country) as full_address,
 		customer_person.*,
 		employee_person.full_name as delivery_employee,
 		shipping_methods.name as `shipping_method_name`,
-		shipping_providers.name as `shipping_provider_name`');
+		shipping_providers.name as `shipping_provider_name`, locations.name as `location_name`,
+		delivery_categories.name as category, delivery_categories.color as category_color
+		');
 		$this->db->from('sales_deliveries');
-		$this->db->join('sales', 'sales.sale_id = sales_deliveries.sale_id');
+
+		$this->db->join('sales', 'sales.sale_id = sales_deliveries.sale_id','left');
+
+		$this->db->join('delivery_categories', 'delivery_categories.id = sales_deliveries.category_id','left');
+
 		$this->db->join('sales_items', 'sales.sale_id = sales_items.sale_id', 'left');
 		$this->db->join('sales_item_kits', 'sales.sale_id = sales_item_kits.sale_id', 'left');
-		$this->db->join('items', 'sales_items.item_id = items.item_id and system_item = 0','left');
+
+		$this->db->join('items', 'sales_items.item_id = items.item_id and items.system_item = 0','left');
 		$this->db->join('item_kits', 'sales_item_kits.item_kit_id = item_kits.item_kit_id','left');
+
+		$this->db->join('delivery_items', 'sales_deliveries.id = delivery_items.delivery_id', 'left');
+		$this->db->join('delivery_item_kits', 'sales_deliveries.id = delivery_item_kits.delivery_id', 'left');
+
+		$this->db->join('items as item_temp','delivery_items.item_id = item_temp.item_id and item_temp.system_item = 0', 'left');
+		$this->db->join('item_kits as item_kit_temp', 'delivery_item_kits.item_kit_id = item_kit_temp.item_kit_id', 'left');
+
 		$this->db->join('shipping_zones', 'shipping_zones.id = sales_deliveries.shipping_zone_id','left');
 		$this->db->join('people as customer_person', 'sales_deliveries.shipping_address_person_id = customer_person.person_id');
 		$this->db->join('people as employee_person', 'sales_deliveries.delivery_employee_person_id = employee_person.person_id', 'left');
+		$this->db->join('customers as customer_sales_person', 'sales.customer_id = customer_sales_person.person_id', 'left');
 		$this->db->join('shipping_methods', 'sales_deliveries.shipping_method_id = shipping_methods.id','left');
 		$this->db->join('shipping_providers', 'shipping_methods.shipping_provider_id = shipping_providers.id','left');
+		$this->db->join('locations', 'sales_deliveries.location_id = locations.location_id','left');
 				
 		if ($search)
 		{
 			$this->db->where("(
 			tracking_number LIKE '".$this->db->escape_like_str($search)."%' or
+			delivery_categories.name LIKE '".$this->db->escape_like_str($search)."%' or
 			shipping_zones.name LIKE '".$this->db->escape_like_str($search)."%' or
 			customer_person.first_name LIKE '".$this->db->escape_like_str($search)."%' or
 			employee_person.last_name LIKE '".$this->db->escape_like_str($search)."%' or
@@ -233,8 +304,9 @@ class Delivery extends MY_Model
 		
 		if(isset($filters) && count($filters) > 0)
 		{
+			
 			$this->db->group_start();
-		
+			$this->db->where("1=1");
 			if (isset($filters['is_pickup']))
 			{
 				$this->db->where_in('is_pickup', $filters['is_pickup']);
@@ -243,6 +315,11 @@ class Delivery extends MY_Model
 			if (isset($filters['status']))
 			{
 				$this->db->where_in('status', $filters['status']);
+			}
+
+			if (isset($filters['category']))
+			{
+				$this->db->where_in('sales_deliveries.category_id', $filters['category']);
 			}
 			
 			if(isset($filters['shipping_start']))
@@ -264,19 +341,43 @@ class Delivery extends MY_Model
 			{
 				$this->db->where('estimated_delivery_or_pickup_date <=', date('Y-m-d H:i:s',strtotime($filters['delivery_end'])));
 			}
-		
+
+			if(isset($filters['locations']))
+			{
+				$this->db->group_start();
+					$this->db->where_in('sales_deliveries.location_id', $filters['locations']);
+					$this->db->or_where_in('sales.location_id', $filters['locations']);
+				$this->db->group_end();
+			}else{
+				$this->db->group_start();
+					$this->db->where('sales_deliveries.location_id', $location_id);
+					$this->db->or_where('sales.location_id', $location_id);
+				$this->db->group_end();
+			}
+
+			if(isset($filters['deliveries_with_or_without_sales'])){
+				$this->db->where_in('sales_deliveries.delivery_type', $filters['deliveries_with_or_without_sales']);
+			}
+			
+			$this->db->group_end();
+		}else{
+			$this->db->group_start();
+				$this->db->where('sales_deliveries.location_id', $location_id);
+				$this->db->or_where('sales.location_id', $location_id);
 			$this->db->group_end();
 		}
 		
+		$this->db->group_start();
+			$this->db->where('sales.deleted', 0);
+			$this->db->or_where('sales_deliveries.sale_id', NULL);
+		$this->db->group_end();
+
+		$this->db->where('sales_deliveries.deleted', $deleted);
 		
-		$this->db->where('location_id',$location_id);
-		$this->db->where('sales.deleted',0);
-		$this->db->where('sales_deliveries.deleted',$deleted);
-		$this->db->group_by('sales.sale_id');
-		
+		$this->db->group_by('sales_deliveries.id');
+
 		$this->db->limit($limit);
-		
-		
+
 		return $this->db->count_all_results();
 	}
 	
@@ -539,17 +640,29 @@ class Delivery extends MY_Model
 		CONCAT(address_1, " ", address_2, " ", city, " ", state, " ", zip, " ", country) as full_address,
 		people.*,
 		shipping_methods.name as `shipping_method_name`,
-		shipping_providers.name as `shipping_provider_name`');
+		shipping_providers.name as `shipping_provider_name`,
+		delivery_categories.name as category, delivery_categories.color as category_color
+		');
 		$this->db->from('sales_deliveries');
+		$this->db->join('delivery_categories', 'delivery_categories.id = sales_deliveries.category_id','left');
 		$this->db->join('shipping_zones', 'shipping_zones.id = sales_deliveries.shipping_zone_id','left');
-		$this->db->join('sales', 'sales.sale_id = sales_deliveries.sale_id');
+		$this->db->join('sales', 'sales.sale_id = sales_deliveries.sale_id','left');
 		$this->db->join('people', 'sales_deliveries.shipping_address_person_id = people.person_id');
 		$this->db->join('shipping_methods', 'sales_deliveries.shipping_method_id = shipping_methods.id','left');
 		$this->db->join('shipping_providers', 'shipping_methods.shipping_provider_id = shipping_providers.id','left');
 		$this->db->where($col. ' >= ',$start_date);
 		$this->db->where($col. ' <= ',$end_date.' 23:59:59');
-		$this->db->where('location_id',$location_id);
-		$this->db->where('sales.deleted',0);
+
+		$this->db->group_start();
+			$this->db->where('sales_deliveries.location_id', $location_id);
+			$this->db->or_where('sales.location_id', $location_id);
+		$this->db->group_end();
+
+		$this->db->group_start();
+			$this->db->where('sales.deleted', 0);
+			$this->db->or_where('sales_deliveries.sale_id', NULL);
+		$this->db->group_end();
+
 		$this->db->where('sales_deliveries.deleted',$deleted);
 		$this->db->order_by($col);
 		return $this->db->get();
@@ -564,31 +677,46 @@ class Delivery extends MY_Model
 		}
 		
 		$location_id = $location_id_override ? $location_id_override : $this->Employee->get_logged_in_employee_current_location_id();
-		$this->db->select('customer_sales_person.company_name as company_name,GROUP_CONCAT(DISTINCT '.$this->db->dbprefix('items').'.name,": ",FLOOR('.$this->db->dbprefix('sales_items').'.quantity_purchased)  SEPARATOR "<br /> ") as items, GROUP_CONCAT(DISTINCT '.$this->db->dbprefix('item_kits').'.name,": ",FLOOR('.$this->db->dbprefix('sales_item_kits').'.quantity_purchased)  SEPARATOR "<br /> ") as item_kits, sales.comment as sale_comment,sales.location_id as location_id,shipping_zones.name as shipping_zone_name, sales_deliveries.*,
+		$this->db->select('customer_sales_person.company_name as company_name');
+		$this->db->select('IFNULL(GROUP_CONCAT(DISTINCT '.$this->db->dbprefix('items').'.name,": ",FLOOR('.$this->db->dbprefix('sales_items').'.quantity_purchased)  SEPARATOR "<br /> "), GROUP_CONCAT(DISTINCT item_temp.name,": ",FLOOR('.$this->db->dbprefix('delivery_items').'.quantity)  SEPARATOR "<br /> ")) as items');
+		$this->db->select('IFNULL(GROUP_CONCAT(DISTINCT '.$this->db->dbprefix('item_kits').'.name,": ",FLOOR('.$this->db->dbprefix('sales_item_kits').'.quantity_purchased)  SEPARATOR "<br /> "), GROUP_CONCAT(DISTINCT item_kit_temp.name,": ",FLOOR('.$this->db->dbprefix('delivery_item_kits').'.quantity)  SEPARATOR "<br /> ")) as item_kits');
+
+		$this->db->select('sales.comment as sale_comment,sales_deliveries.location_id as location_id,shipping_zones.name as shipping_zone_name, sales_deliveries.*,
 		CONCAT(customer_person.address_1, " ", customer_person.address_2, " ", customer_person.city, " ", customer_person.state, " ", customer_person.zip, " ", customer_person.country) as full_address,
 		customer_person.*,
 		employee_person.full_name as delivery_employee,
 		shipping_methods.name as `shipping_method_name`,
-		shipping_providers.name as `shipping_provider_name`, locations.name as `location_name`');
+		shipping_providers.name as `shipping_provider_name`, locations.name as `location_name`,
+		delivery_categories.name as category, delivery_categories.color as category_color
+		');
 		$this->db->from('sales_deliveries');
-		$this->db->join('sales', 'sales.sale_id = sales_deliveries.sale_id');
+
+		$this->db->join('delivery_categories', 'delivery_categories.id = sales_deliveries.category_id','left');
+
+		$this->db->join('sales', 'sales.sale_id = sales_deliveries.sale_id','left');
+
 		$this->db->join('sales_items', 'sales.sale_id = sales_items.sale_id', 'left');
 		$this->db->join('sales_item_kits', 'sales.sale_id = sales_item_kits.sale_id', 'left');
-		$this->db->join('items', 'sales_items.item_id = items.item_id and system_item = 0','left');
+
+		$this->db->join('items', 'sales_items.item_id = items.item_id and items.system_item = 0','left');
 		$this->db->join('item_kits', 'sales_item_kits.item_kit_id = item_kits.item_kit_id','left');
+
+		$this->db->join('delivery_items', 'sales_deliveries.id = delivery_items.delivery_id', 'left');
+		$this->db->join('delivery_item_kits', 'sales_deliveries.id = delivery_item_kits.delivery_id', 'left');
+
+		$this->db->join('items as item_temp','delivery_items.item_id = item_temp.item_id and item_temp.system_item = 0', 'left');
+		$this->db->join('item_kits as item_kit_temp', 'delivery_item_kits.item_kit_id = item_kit_temp.item_kit_id', 'left');
+
 		$this->db->join('shipping_zones', 'shipping_zones.id = sales_deliveries.shipping_zone_id','left');
 		$this->db->join('people as customer_person', 'sales_deliveries.shipping_address_person_id = customer_person.person_id');
 		$this->db->join('people as employee_person', 'sales_deliveries.delivery_employee_person_id = employee_person.person_id', 'left');
 		$this->db->join('customers as customer_sales_person', 'sales.customer_id = customer_sales_person.person_id', 'left');
 		$this->db->join('shipping_methods', 'sales_deliveries.shipping_method_id = shipping_methods.id','left');
 		$this->db->join('shipping_providers', 'shipping_methods.shipping_provider_id = shipping_providers.id','left');
-		$this->db->join('locations', 'sales.location_id = locations.location_id','left');
+		$this->db->join('locations', 'sales_deliveries.location_id = locations.location_id','left');
 		
-		if(isset($filters) && count($filters) > 0)
-		{
-			
+		if(isset($filters) && count($filters) > 0){
 			$this->db->group_start();
-		
 			if (isset($filters['is_pickup']))
 			{
 				$this->db->where_in('is_pickup', $filters['is_pickup']);
@@ -597,6 +725,11 @@ class Delivery extends MY_Model
 			if (isset($filters['status']))
 			{
 				$this->db->where_in('status', $filters['status']);
+			}
+
+			if (isset($filters['category']))
+			{
+				$this->db->where_in('sales_deliveries.category_id', $filters['category']);
 			}
 			
 			if(isset($filters['shipping_start']))
@@ -621,20 +754,38 @@ class Delivery extends MY_Model
 
 			if(isset($filters['locations']))
 			{
-				$this->db->where_in('sales.location_id', $filters['locations']);
+				$this->db->group_start();
+					$this->db->where_in('sales_deliveries.location_id', $filters['locations']);
+					$this->db->or_where_in('sales.location_id', $filters['locations']);
+				$this->db->group_end();
 			}else{
-				$this->db->where('sales.location_id', $location_id);
+				$this->db->group_start();
+					$this->db->where('sales_deliveries.location_id', $location_id);
+					$this->db->or_where('sales.location_id', $location_id);
+				$this->db->group_end();
+			}
+
+			if(isset($filters['deliveries_with_or_without_sales'])){
+				$this->db->where_in('sales_deliveries.delivery_type', $filters['deliveries_with_or_without_sales']);
 			}
 			
 			$this->db->group_end();
 		}else{
-			$this->db->where('sales.location_id', $location_id);
+			$this->db->group_start();
+				$this->db->where('sales_deliveries.location_id', $location_id);
+				$this->db->or_where('sales.location_id', $location_id);
+			$this->db->group_end();
 		}
 
+		$this->db->group_start();
+			$this->db->where('sales.deleted', 0);
+			$this->db->or_where('sales_deliveries.sale_id', NULL);
+		$this->db->group_end();
 
-		$this->db->where('sales.deleted',0);
-		$this->db->group_by('sales.sale_id');
-		$this->db->where('sales_deliveries.deleted',$deleted);
+		$this->db->where('sales_deliveries.deleted', $deleted);
+
+		$this->db->group_by('sales_deliveries.id');
+
 		if(!$this->config->item('speed_up_search_queries'))
 		{
 			$this->db->order_by($col, $order);
@@ -642,10 +793,11 @@ class Delivery extends MY_Model
 		
 		$this->db->limit($limit, $offset);
  	 $return = $this->db->get();
+	  
  	 return $return;
 	}
 	
-	function count_all($deleted=0,$location_id_override = NULL)
+	function count_all($deleted=0, $location_id_override = NULL)
 	{
 		if (!$deleted)
 		{
@@ -655,10 +807,20 @@ class Delivery extends MY_Model
 		$location_id = $location_id_override ? $location_id_override : $this->Employee->get_logged_in_employee_current_location_id();
 		
 		$this->db->from('sales_deliveries');
-		$this->db->join('sales', 'sales.sale_id = sales_deliveries.sale_id');
-		$this->db->where('location_id',$location_id);
-		$this->db->where('sales.deleted',0);
+		$this->db->join('sales', 'sales.sale_id = sales_deliveries.sale_id','left');
+
+		$this->db->group_start();
+			$this->db->where('sales_deliveries.location_id', $location_id);
+			$this->db->or_where('sales.location_id', $location_id);
+		$this->db->group_end();
+
+		$this->db->group_start();
+			$this->db->where('sales.deleted', 0);
+			$this->db->or_where('sales_deliveries.sale_id', NULL);
+		$this->db->group_end();
+
 		$this->db->where('sales_deliveries.deleted',$deleted);
+		
 		return $this->db->count_all_results();
 	}
 	
@@ -674,7 +836,7 @@ class Delivery extends MY_Model
 	/*
 	Inserts or updates a delivery
 	*/
-	function save(&$delivery_data, $delivery_id = false)
+	function save(&$delivery_data, $delivery_id = false, $delivery_items = false)
 	{		
 		//If we are overwriting a delivery make sure sale is gone
 		if (isset($delivery_data['sale_id']))
@@ -687,11 +849,19 @@ class Delivery extends MY_Model
 			if($this->db->replace('sales_deliveries',$delivery_data))
 			{
 				$delivery_data['id'] = $this->db->insert_id();
+				if($delivery_items){
+					$this->save_items($delivery_items, $delivery_data['id']);
+				}
 				return true;
 			}
 			
 			return false;
 		}
+
+		if($delivery_items){
+			$this->save_items($delivery_items, $delivery_id);
+		}
+		
 
 		$this->db->where('id', $delivery_id);
 		return $this->db->update('sales_deliveries', $delivery_data);
@@ -774,19 +944,20 @@ class Delivery extends MY_Model
 			'shipping_provider_name' =>            array('sort_column' => 'shipping_providers.name', 'label' => lang('deliveries_shipping_provider')),
 			'shipping_zone_name' =>            		 array('sort_column' => 'shipping_zone_name', 'label' => lang('delivery_shipping_zone')),
 			'tracking_number' =>                   array('sort_column' => 'sales_deliveries.tracking_number', 'label' => lang('deliveries_tracking_number')),
-			'status' =>                            array('sort_column' => 'sales_deliveries.status', 'label' => lang('common_status'), 'format_function' => 'delivery_status'),
+			'status' =>                            array('sort_column' => 'sales_deliveries.status', 'label' => lang('common_status'), 'format_function' => 'delivery_status_badge', 'html' => TRUE),
 			'comment' =>                           array('sort_column' => 'sales_deliveries.comment', 'label' => lang('common_comment')),
 			'sale_comment' =>                      array('sort_column' => 'sales.comment', 'label' => lang('deliveries_sale_comment')),
 			'items' =>                     				 array('sort_column' => '', 'label' => lang('reports_items'), 'html' => TRUE),
 			'item_kits' =>                     		 array('sort_column' => '', 'label' => lang('module_item_kits'), 'html' => TRUE),
 			'delivery_employee' =>       					 array('sort_column' => 'employee_person.last_name', 'label' => lang('deliveries_delivery_employee')),
 			'location_name' =>       					 array('sort_column' => 'phppos_locations.name', 'label' => lang('common_location')),
+			'category_id' 								=> array('sort_column' => 'delivery_categories.id','label' => lang('common_category'), 'format_function' => 'delivery_category_badge', 'html' => TRUE),
 		);
 	}
 	
 	function get_default_columns()
 	{
-		return array('sale_id','status','first_name','last_name', 'full_address','delivery_employee');
+		return array('sale_id','status','first_name','last_name', 'full_address','delivery_employee', 'category_id');
 	}
 	
 	function update_status_bulk($ids,$status)
@@ -819,5 +990,261 @@ class Delivery extends MY_Model
 		
 		return $status;
 	}
+
+	function get_delivery_fields(){
+		return $this->db->list_fields('sales_deliveries');
+	}
+
+	function save_items($delivery_items, $delivery_id){
+		$this->db->where('delivery_id', $delivery_id);
+		$this->db->delete('delivery_items');
+
+		$this->db->where('delivery_id', $delivery_id);
+		$this->db->delete('delivery_item_kits');
+
+		foreach($delivery_items as $k => $v){
+			if($v['item_kit_id']){
+				$this->db->insert('delivery_item_kits', array(
+					'delivery_id' => $delivery_id,
+					'item_kit_id' => $v['item_kit_id'],
+					'quantity' => $v['quantity']
+				));
+			}else{
+				$this->db->insert('delivery_items', array(
+					'delivery_id' => $delivery_id,
+					'item_id' => $v['item_id'],
+					'item_variation_id' => ($v['item_variation_id']) ? $v['item_variation_id'] : NULL,
+					'quantity' => $v['quantity']
+				));
+			}
+		}
+	}
 	
+	function get_delivery_items($delivery_id)
+	{
+		$this->db->select("delivery_items.*, items.name, categories.name as category");
+		$this->db->from("delivery_items");
+		$this->db->join('items', 'items.item_id = delivery_items.item_id');
+		$this->db->join('categories', 'categories.id = items.category_id', 'left');
+		$this->db->where(array("delivery_id" => $delivery_id));
+		return $this->db->get();
+	}
+
+	function get_delivery_item_kits($delivery_id)
+	{
+		$this->db->select("delivery_item_kits.*, item_kits.name, categories.name as category");
+		$this->db->from("delivery_item_kits");
+		$this->db->join('item_kits', 'item_kits.item_kit_id = delivery_item_kits.item_kit_id');
+		$this->db->join('categories', 'categories.id = item_kits.category_id', 'left');
+		$this->db->where(array("delivery_id" => $delivery_id));
+		return $this->db->get();
+	}
+
+	function update_event($delivery_id, $start_date, $date_field, $duration){
+		if($date_field == 'sale_time'){
+			$sale_id = $this->db->get_where('sales_deliveries', array('id' => $delivery_id))->row('sale_id');
+			$this->db->where(array('sale_id' => $sale_id));
+			$this->db->update('sales', array(
+				'sale_time' => date('Y-m-d H:i:s', strtotime($start_date))
+			));
+
+			$this->db->where(array('id' => $delivery_id));
+			$this->db->update('sales_deliveries', array(
+				'duration' => $duration
+			));
+		}else{
+			$this->db->where(array('id' => $delivery_id));
+			$this->db->update('sales_deliveries', array(
+				$date_field => date('Y-m-d H:i:s', strtotime($start_date)),
+				'duration' => $duration
+			));
+		}
+
+		return true;
+	}
+	
+	function get_category_info($category_id, $can_cache = FALSE)
+	{
+		if ($can_cache)
+		{
+			static $cache = array();
+
+			if (isset($cache[$category_id]))
+			{
+				return $cache[$category_id];
+			}
+		}
+		else
+		{
+			$cache = array();
+		}
+		
+		$this->db->from('delivery_categories');	
+		$this->db->where('id',$category_id);
+		$query = $this->db->get();
+
+		if($query->num_rows()==1)
+		{
+			$cache[$category_id] = $query->row();
+			return $cache[$category_id];
+		}
+		else
+		{
+			$man_obj = new stdclass();
+	
+			$fields = $this->db->list_fields('delivery_categories');
+	
+			foreach ($fields as $field)
+			{
+				$man_obj->$field='';
+			}
+	
+			return $man_obj;
+		}
+	}
+
+	function get_all_statuses($limit=10000, $offset=0, $col='id',$order='asc')
+	{
+		$this->db->from('delivery_statuses');
+		$this->db->order_by($col, $order);
+		
+		
+		$this->db->limit($limit);
+		$this->db->offset($offset);
+		
+		$return = array();
+		
+		foreach($this->db->get()->result_array() as $result)
+		{
+			$return[$result['id']] = array('name' => $this->get_status_name($result['name']), 'description' => $result['description'], 'notify_by_email' => $result['notify_by_email'], 'notify_by_sms' => $result['notify_by_sms'], 'color' => $result['color']);
+		}
+		
+		return $return;
+	}
+
+	function get_all_categories($limit=10000, $offset=0, $col='id',$order='asc')
+	{
+		$this->db->from('delivery_categories');
+		$this->db->order_by($col, $order);
+		
+		
+		$this->db->limit($limit);
+		$this->db->offset($offset);
+		
+		$return = array();
+		
+		foreach($this->db->get()->result_array() as $result)
+		{
+			$return[$result['id']] = array('name' => $result['name'], 'color' => $result['color']);
+		}
+		
+		return $return;
+	}
+
+	
+
+	function get_status_name($status_string)
+	{
+		if (strpos($status_string,'lang:') !== FALSE)
+		{
+			return lang(str_replace('lang:','',$status_string));
+		}
+		return $status_string;
+	}
+
+	function get_status_info($status_id, $can_cache = FALSE)
+	{
+		if ($can_cache)
+		{
+			static $cache = array();
+		
+			if (isset($cache[$status_id]))
+			{
+				return $cache[$status_id];
+			}
+		}
+		else
+		{
+			$cache = array();
+		}
+				
+		$this->db->from('delivery_statuses');	
+		$this->db->where('id',$status_id);
+		$query = $this->db->get();
+		
+		if($query->num_rows()==1)
+		{
+			$cache[$status_id] = $query->row();
+			return $cache[$status_id];
+		}
+		else
+		{
+			$man_obj = new stdclass();
+			
+			$fields = $this->db->list_fields('delivery_statuses');
+			
+			foreach ($fields as $field)
+			{
+				$man_obj->$field='';
+			}
+			
+			return $man_obj;
+		}
+	}
+
+	function get_status_id_by_name($status_name)
+	{
+		$this->db->from('delivery_statuses');
+		$this->db->group_start();
+		$this->db->where('name', $status_name);
+		$this->db->or_where('name', $this->get_status_name($status_name));
+		$this->db->group_end();
+		$query = $this->db->get();
+
+		if($query->num_rows()==1)
+		{
+			$row = $query->row();
+			return $row->id;
+		}
+		
+		return FALSE;
+		
+	}
+
+	function status_exists( $status_id )
+	{
+		$this->db->from('delivery_statuses');
+		$this->db->where('id',$status_id);
+		$query = $this->db->get();
+
+		return ($query->num_rows()==1);
+	}
+
+	function status_save(&$status_data,$status_id=false)
+	{
+		if (!$status_id or !$this->status_exists($status_id))
+		{
+			if($this->db->insert('delivery_statuses',$status_data))
+			{
+				$status_data['id']=$this->db->insert_id();
+				return true;
+			}
+			return false;
+		}
+
+		$this->db->where('id', $status_id);
+		return $this->db->update('delivery_statuses',$status_data);
+	}
+
+	function delete_status($status_id)
+	{
+		$this->db->where('id', $status_id);
+		return $this->db->delete('delivery_statuses');
+	}
+
+	function change_status($id, $status){
+		$this->db->where('id', $id);
+		return $this->db->update('sales_deliveries', array('status' => $status));
+	}
+
 }

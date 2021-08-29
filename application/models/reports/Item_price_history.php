@@ -39,7 +39,7 @@ class Item_price_history extends Report
 	
 	function getOutputData()
 	{
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		
 		$subtitle = date(get_date_format(), strtotime($this->params['start_date'])) .'-'.date(get_date_format(), strtotime($this->params['end_date']));
 
@@ -90,7 +90,7 @@ class Item_price_history extends Report
 	
 	public function getDataColumns()
 	{
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		
 		$columns = array();
 		

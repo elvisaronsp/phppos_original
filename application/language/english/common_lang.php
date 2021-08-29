@@ -1032,19 +1032,42 @@ $lang['common_serialnumber_already_added'] = 'The serial number has already been
 $lang['common_add_secondary_category'] = 'Add Secondary Category';
 $lang['common_secondary_category'] = 'Secondary Category';
 $lang['common_suspended_types'] = 'Suspended Types';
+
+$lang['common_duration'] = 'Duration';
+
 $lang['shopify_cron_job_entry'] = 'Shopify Cron Entry';
 $lang['item inventory changed in shopify'] = 'Item inventory changed in shopify';
 $lang['common_recent_exports'] = 'Recent Exports';
 $lang['common_import_order'] = 'Import Order';
+
+
+
+
+$lang['shopfiy_not_paid'] = 'You have not activated your Shopify Billing';
+
+
+
+
 $lang['shopify_not_paid'] = 'You have not activated your Shopify Billing';
+
 $lang['common_color'] = 'Color';
 $lang['common_drag_and_drop_or_click'] = 'Drag and Drop Or Click';
 $lang['common_workorder'] = 'Work Order';
 $lang['common_item_being_repaired'] = 'Item Being Repaired';
+
+
+
 $lang['work_orders_edit'] = 'Edit Work Order';
 $lang['work_orders_delete'] = 'Delete Work Order';
 $lang['work_orders_search'] = 'Search Work Orders';
 $lang['work_orders_manage_statuses'] = 'Manage Work Orders Statuses';
 $lang['common_shopify_access_token_error'] = 'Your access token has expired and we are unable to connect to API. Please try again.';
 $lang['common_ecommerce_item'] = 'Ecommerce Item';
+$lang['config_show_qr_code_for_sale'] = 'Show QR code on sale receipt';
+$lang['common_suppliers'] = 'Suppliers';
+$lang['common_back_to_suppliers'] = 'Back to suppliers';
+
+$lang['common_change_status'] = 'Change Status';
+$lang['common_please_select'] = 'Please Select';
+$lang['sales_can_lookup_last_receipt'] = 'Can Lookup Last Receipt';
 ?>

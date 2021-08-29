@@ -12,7 +12,7 @@ class Inventory_expire_summary extends Report
 		
 		$columns = array();
 		
-		$location_count = count(self::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 	
 		if ($location_count > 1)
 		{
@@ -72,7 +72,7 @@ class Inventory_expire_summary extends Report
 		$this->load->model('Category');
 		$tabular_data = array();
 		$report_data = $this->getData();
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		
 		foreach($report_data as $row)
 		{

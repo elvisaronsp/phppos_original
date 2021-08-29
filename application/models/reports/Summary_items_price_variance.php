@@ -11,6 +11,7 @@ class Summary_items_price_variance extends Report
 	{		
 		$columns = array();
 		
+		$columns[] = array('data'=>lang('common_item_id'), 'align'=> 'left');
 		$columns[] = array('data'=>lang('common_item'), 'align'=> 'left');
 		$columns[] = array('data'=>lang('common_item_number'), 'align'=> 'left');
 		$columns[] = array('data'=>lang('common_product_id'), 'align'=> 'left');
@@ -65,6 +66,7 @@ class Summary_items_price_variance extends Report
 		{
 			$data_row = array();
 			
+			$data_row[] = array('data'=>$row['item_id'], 'align' => 'left');
 			$data_row[] = array('data'=>$row['name'], 'align' => 'left');
 			$data_row[] = array('data'=>$row['item_number'], 'align' => 'left');
 			$data_row[] = array('data'=>$row['product_id'], 'align' => 'left');

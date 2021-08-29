@@ -523,11 +523,13 @@ class Customers extends Person_controller
 				
 				if (isset($_FILES['files']))
 				{
+					$this->load->model('Appfile');
 					for($k=0; $k<count($_FILES['files']['name']); $k++)
-					{				
-			   	 	$this->load->model('Appfile');
-				    $file_id = $this->Appfile->save($_FILES['files']['name'][$k], file_get_contents($_FILES['files']['tmp_name'][$k]));
-			  		$this->Person->add_file($customer_id==-1 ? $customer_data['person_id'] : $customer_id, $file_id);
+					{
+						if($_FILES['files']['tmp_name'][$k]){				
+			   	 			$file_id = $this->Appfile->save($_FILES['files']['name'][$k], file_get_contents($_FILES['files']['tmp_name'][$k]));
+			  				$this->Person->add_file($customer_id==-1 ? $customer_data['person_id'] : $customer_id, $file_id);
+						}
 					}
 				}				
 		}

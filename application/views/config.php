@@ -831,6 +831,19 @@ $this->load->helper('update');
 						<label for="do_not_tax_service_items_for_deliveries"><span></span></label>
 					</div>
 				</div>
+
+				<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_orders_deliveries')) ?>">	
+					<?php echo form_label(lang('config_delivery_color_based_on').':', 'delivery_color_based_on',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+					<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php
+							$color_options = array(
+								'status' => lang('config_delivery_color_based_on_status'),
+								'category' => lang('config_delivery_color_based_on_category')
+							);
+						 	echo form_dropdown('delivery_color_based_on', $color_options, $this->config->item('delivery_color_based_on'),'class="form-control" id="delivery_color_based_on"');
+						?>
+					</div>
+				</div>
 					
 				<div class="form-group no-padding-right" data-keyword="<?php echo H(lang('config_keyword_orders_deliveries')) ?>">	
 					<?php echo form_label(lang('config_shipping_providers').':', '',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
@@ -1654,6 +1667,7 @@ $this->load->helper('update');
 							<?php echo form_dropdown('default_type_for_grid', array(
 								'categories'  => lang('reports_categories'), 
 								'tags'  => lang('common_tags'),
+								'suppliers'  => lang('common_suppliers'),
 								'favorites'  => lang('common_favorite'),
 							),
 							$this->config->item('default_type_for_grid'), 'class="form-control" id="default_type_for_grid"');
@@ -1864,7 +1878,17 @@ $this->load->helper('update');
 							<label for="prompt_amount_for_cash_sale"><span></span></label>
 						</div>
 					</div>
-
+					<div class="form-group" data-keyword="<?php echo H(lang('config_show_qr_code_for_sale')) ?>" >
+					<?php echo form_label(lang('config_show_qr_code_for_sale').':', 'show_qr_code_for_sale',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'show_qr_code_for_sale',
+							'id'=>'show_qr_code_for_sale',
+							'value'=>'show_qr_code_for_sale',
+							'checked'=>$this->config->item('show_qr_code_for_sale')));?>
+							<label for="show_qr_code_for_sale"><span></span></label>
+						</div>
+					</div>
 
 				</div>
 			</div>
@@ -2005,8 +2029,21 @@ $this->load->helper('update');
 							'checked'=>$this->config->item('show_receipt_after_suspending_sale')));?>
 							<label for="show_receipt_after_suspending_sale"><span></span></label>
 						</div>
-					</div>					
-					
+					</div>
+
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_suspended_layaways')) ?>">	
+					<?php echo form_label(lang('config_layaway_statement_message').':', 'layaway_statement_message',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_textarea(array(
+							'name'=>'layaway_statement_message',
+							'id'=>'layaway_statement_message',
+							'class'=>'form-control text-area',
+							'rows'=>'4',
+							'cols'=>'30',
+							'value'=>$this->config->item('layaway_statement_message')));?>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
@@ -2054,6 +2091,20 @@ $this->load->helper('update');
 							<label for="show_item_id_on_receipt"><span></span></label>
 						</div>
 					</div>
+					
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">	
+						<?php echo form_label(lang('config_show_images_on_receipt').':', 'show_images_on_receipt',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'show_images_on_receipt',
+							'id'=>'show_images_on_receipt',
+							'value'=>'show_images_on_receipt',
+							'checked'=>$this->config->item('show_images_on_receipt')));?>
+							<label for="show_images_on_receipt"><span></span></label>
+						</div>
+					</div>
+					
+					
 					
 					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">	
 						<?php echo form_label(lang('config_show_person_id_on_receipt').':', 'show_person_id_on_receipt',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
@@ -2325,6 +2376,20 @@ $this->load->helper('update');
 							<label for="hide_description_on_sales_and_recv"><span></span></label>
 						</div>
 					</div>
+					
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">	
+						<?php echo form_label(lang('config_hide_description_on_suspended_sales').':', 'hide_description_on_suspended_sales',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'hide_description_on_suspended_sales',
+							'id'=>'hide_description_on_suspended_sales',
+							'value'=>'hide_description_on_suspended_sales',
+							'checked'=>$this->config->item('hide_description_on_suspended_sales')));?>
+							<label for="hide_description_on_suspended_sales"><span></span></label>
+						</div>
+					</div>
+					
+					
 					
 					
 					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">	
@@ -2901,6 +2966,7 @@ $this->load->helper('update');
 							'scale_2'  => lang('config_scale_2'),
 							'scale_3'    => lang('config_scale_3'),
 							'scale_4'    => lang('config_scale_4'),
+							'scale_5'    => lang('config_scale_5'),
 							),
 							$this->config->item('scale_format'), 'class="form-control" id="scale_format"')
 							?>
@@ -4542,7 +4608,18 @@ $this->load->helper('update');
 							</div>
 						</div>
 						
-
+						<div class="form-group" data-keyword="<?php echo H(lang('config_ecommerce_settings_info')) ?>">	
+						<?php echo form_label(lang('config_import_ecommerce_orders_suspended').':', 'import_ecommerce_orders_suspended',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+							<div class="col-sm-9 col-md-9 col-lg-10">
+							<?php echo form_checkbox(array(
+								'name'=>'import_ecommerce_orders_suspended',
+								'id'=>'import_ecommerce_orders_suspended',
+								'value'=>'1',
+								'checked'=>$this->config->item('import_ecommerce_orders_suspended')));?>
+								<label for="import_ecommerce_orders_suspended"><span></span></label>
+							</div>
+						</div>
+						
 									
 						<div class="form-group" data-keyword="<?php echo H(lang('config_ecommerce_settings_info')) ?>">	
 						<?php echo form_label(lang('config_new_items_are_ecommerce_by_default').':', 'new_items_are_ecommerce_by_default',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>

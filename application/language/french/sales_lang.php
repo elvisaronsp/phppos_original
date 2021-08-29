@@ -61,7 +61,7 @@ $lang['sales_edit_sale'] = 'Modifier vente';
 $lang['sales_successfully_deleted'] = 'Vente suprimée avec succes';
 $lang['sales_unsuccessfully_deleted'] = 'Impossible d\'effacer la vente';
 $lang['sales_delete_entire_sale'] = 'Effacer toute la vente'; 
-$lang['sales_delete_confirmation'] = 'Êtes-vous sûr de vouloir supprimer cette vente, cette action ne peut être annulée'; 
+$lang['sales_delete_confirmation'] = 'Voulez-vous vraiment supprimer cette (ces) vente (s), cette action ne peut pas être annulée.'; 
 
 $lang['sales_delete_successful'] = 'Vous avez supprimé avec succès une vente'; 
 $lang['sales_delete_unsuccessful'] = 'Impossible d\'effacer cette vente'; 
@@ -386,4 +386,5 @@ $lang['sales_note'] = 'Remarque';
 $lang['sales_detailed_note'] = 'Note détaillée';
 $lang['sales_internal_note'] = 'Note interne';
 $lang['sales_delveried_to'] = 'Livré à';
+$lang['sales_view_receipt_on_web_page'] = 'Afficher le reçu sur la page Web';
 ?>

@@ -12,6 +12,7 @@ trait saleTrait
 		$response['sale_id'] = $sale_id;
 		$response['sale_time'] = date(get_date_format().' '.get_time_format(), strtotime($sale_info['sale_time']));
 		$response['location_id'] = $sale_info['location_id'];
+		$response['rule_id'] = $sale_info['rule_id'];
 		$response['points_used'] = to_quantity($sale_info['points_used']);
 		$response['points_gained'] = to_quantity($sale_info['points_gained']);
 		$response['employee_id'] = $sale_info['employee_id'];

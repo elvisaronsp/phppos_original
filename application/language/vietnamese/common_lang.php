@@ -1381,19 +1381,42 @@ $lang['common_serialnumber_already_added'] = 'Số sê-ri đã được thêm v�
 $lang['common_add_secondary_category'] = 'Thêm danh mục phụ';
 $lang['common_secondary_category'] = 'Danh mục phụ';
 $lang['common_suspended_types'] = 'Các loại bị treo';
+
+$lang['common_duration'] = 'Thời lượng';
+
 $lang['shopify_cron_job_entry'] = 'Shopify Cron Entry';
 $lang['item inventory changed in shopify'] = 'Đã thay đổi hàng tồn kho trong shopify';
 $lang['common_recent_exports'] = 'Xuất khẩu gần đây';
 $lang['common_import_order'] = 'Nhập đơn hàng';
+
+
+
+
+$lang['shopfiy_not_paid'] = 'Bạn chưa kích hoạt Shopify Billing của mình';
+
+
+
+
 $lang['shopify_not_paid'] = 'Bạn chưa kích hoạt Shopify Billing của mình';
+
 $lang['common_color'] = 'Màu sắc';
 $lang['common_drag_and_drop_or_click'] = 'Kéo và thả hoặc nhấp';
 $lang['common_workorder'] = 'Trình tự công việc';
 $lang['common_item_being_repaired'] = 'Mục đang được sửa chữa';
+
+
+
 $lang['work_orders_edit'] = 'Chỉnh sửa Thứ tự Công việc';
 $lang['work_orders_delete'] = 'Xóa lệnh làm việc';
 $lang['work_orders_search'] = 'Tìm kiếm đơn hàng công việc';
 $lang['work_orders_manage_statuses'] = 'Quản lý trạng thái đơn đặt hàng công việc';
 $lang['common_shopify_access_token_error'] = 'Mã thông báo truy cập của bạn đã hết hạn và chúng tôi không thể kết nối với API. Vui lòng thử lại.';
 $lang['common_ecommerce_item'] = 'Mục thương mại điện tử';
+$lang['config_show_qr_code_for_sale'] = 'Hiển thị mã QR trên biên lai bán hàng';
+$lang['common_suppliers'] = 'Các nhà cung cấp';
+$lang['common_back_to_suppliers'] = 'Quay lại nhà cung cấp';
+
+$lang['common_change_status'] = 'Thay đổi trạng thái';
+$lang['common_please_select'] = 'Vui lòng chọn';
+$lang['sales_can_lookup_last_receipt'] = 'Có thể tra cứu biên nhận cuối cùng';
 ?>

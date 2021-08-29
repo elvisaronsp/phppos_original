@@ -360,20 +360,24 @@
 
 									<?php
 									$choices = explode('|', $this->Employee->get_custom_field($k, 'choices'));
-									$select_options = array();
+									$select_options = array('' => lang('common_please_select'));
 									foreach ($choices as $choice) {
 										$select_options[$choice] = $choice;
 									}
 									echo form_dropdown("custom_field_${k}_value", $select_options, $person_info->{"custom_field_${k}_value"}, 'class="form-control" '.$required_text); ?>
 
 								<?php } elseif ($this->Employee->get_custom_field($k, 'type') == 'image') {
-									echo form_input(array(
-										'name' => "custom_field_${k}_value",
-										'id' => "custom_field_${k}_value",
-										'type' => 'file',
-										'class' => "custom_field_${k}_value" . ' form-control',
-										($required ? $required_text : $required_text) => ($required ? $required_text : $required_text)
-									));
+										echo form_input(
+											array(
+												'name'=>"custom_field_${k}_value",
+												'id'=>"custom_field_${k}_value",
+												'type' => 'file',
+												'class'=>"custom_field_${k}_value".' form-control',
+												'accept'=>".png,.jpg,.jpeg,.gif"
+											),
+											NULL,
+											$person_info->{"custom_field_${k}_value"} ? "" : $required_text
+										);
 
 									if ($person_info->{"custom_field_${k}_value"}) {
 										echo "<img width='30%' src='" . app_file_url($person_info->{"custom_field_${k}_value"}) . "' />";
@@ -382,13 +386,16 @@
 								?>
 								<?php
 								} elseif ($this->Employee->get_custom_field($k, 'type') == 'file') {
-									echo form_input(array(
-										'name' => "custom_field_${k}_value",
-										'id' => "custom_field_${k}_value",
-										'type' => 'file',
-										'class' => "custom_field_${k}_value" . ' form-control',
-										($required ? $required_text : $required_text) => ($required ? $required_text : $required_text)
-									));
+									echo form_input(
+										array(
+										  'name'=>"custom_field_${k}_value",
+										  'id'=>"custom_field_${k}_value",
+										  'type' => 'file',
+										  'class'=>"custom_field_${k}_value".' form-control'
+										),
+									  NULL,
+									  $person_info->{"custom_field_${k}_value"} ? "" : $required_text
+								  	);
 
 									if ($person_info->{"custom_field_${k}_value"}) {
 										echo anchor('employees/download/' . $person_info->{"custom_field_${k}_value"}, $this->Appfile->get_file_info($person_info->{"custom_field_${k}_value"})->file_name, array('target' => '_blank'));
@@ -879,7 +886,13 @@
 					$custom_field = $this->Employee->get_custom_field($k);
 					if($custom_field !== FALSE) {
 						if( $this->Employee->get_custom_field($k,'required') && in_array($current_location, $this->Employee->get_custom_field($k,'locations'))){
-							echo "custom_field_${k}_value: 'required',\n";
+							if(($this->Employee->get_custom_field($k,'type') == 'file' || $this->Employee->get_custom_field($k,'type') == 'image') && !$person_info->{"custom_field_${k}_value"}){
+								echo "custom_field_${k}_value: 'required',\n";
+							}
+							
+							if(($this->Employee->get_custom_field($k,'type') != 'file' && $this->Employee->get_custom_field($k,'type') != 'image')){
+								echo "custom_field_${k}_value: 'required',\n";
+							}
 						}
 					}
 				}
@@ -922,8 +935,15 @@
 					$custom_field = $this->Employee->get_custom_field($k);
 					if($custom_field !== FALSE) {
 						if( $this->Employee->get_custom_field($k,'required') && in_array($current_location, $this->Employee->get_custom_field($k,'locations'))){
-							$error_message = json_encode($custom_field." ".lang('is_required'));
-							echo "custom_field_${k}_value: $error_message,\n";
+							if(($this->Employee->get_custom_field($k,'type') == 'file' || $this->Employee->get_custom_field($k,'type') == 'image') && !$person_info->{"custom_field_${k}_value"}){
+								$error_message = json_encode($custom_field." ".lang('is_required'));
+								echo "custom_field_${k}_value: $error_message,\n";
+							}
+
+							if(($this->Employee->get_custom_field($k,'type') != 'file' && $this->Employee->get_custom_field($k,'type') != 'image')){
+								$error_message = json_encode($custom_field." ".lang('is_required'));
+								echo "custom_field_${k}_value: $error_message,\n";
+							}
 						}
 					}
 				}

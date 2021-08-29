@@ -1006,7 +1006,7 @@ class Items extends REST_Controller {
 				$this->load->model('Item_serial_number');
 				if (!empty($item_request['serial_numbers']))
 				{
-					$this->Item_serial_number->save($item_data['item_id'], array_column($item_request['serial_numbers'],'serial_number'), array_column($item_request['serial_numbers'],'cost_price'), array_column($item_request['serial_numbers'],'unit_price'));
+					$this->Item_serial_number->save($item_data['item_id'], array_column($item_request['serial_numbers'],'serial_number'), array_column($item_request['serial_numbers'],'cost_price'), array_column($item_request['serial_numbers'],'unit_price'), array_column($item_request['serial_numbers'],'variation_id'));
 				}
 				else
 				{
@@ -1132,7 +1132,7 @@ class Items extends REST_Controller {
 						$this->load->model('Item_serial_number');
 						if (!empty($value))
 						{
-							$this->Item_serial_number->save($item_id, array_column($value,'serial_number'), array_column($value,'cost_price'), array_column($value,'unit_price'));
+							$this->Item_serial_number->save($item_id, array_column($value,'serial_number'), array_column($value,'cost_price'), array_column($value,'unit_price'), array_column($value,'variation_id'));
 						}
 						else
 						{

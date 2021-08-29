@@ -782,10 +782,42 @@ $lang['config_ecommerce_sync_running'] = 'The E-Commerce sync is now running in 
 $lang['config_show_total_on_fulfillment'] = 'Show Total On Fulfillment Sheet';
 $lang['config_connect_shopify_in_app_store'] = 'You are not connected to Shopify. You can connect to Shopify in App Store';
 $lang['config_override_signature_text'] = 'Override Signature Text';
+
+$lang['config_delivery_color_based_on'] = 'Delivery Color Based On';
+$lang['config_delivery_color_based_on_status'] = 'Status';
+$lang['config_delivery_color_based_on_category'] = 'Category';
+
+
 $lang['config_update_cost_price_on_transfer'] = 'Update Cost Price On Transfer';
+
+
+
 $lang['config_tip_preset_zero'] = 'Tip preset amount of 0%';
+
+
+
+$lang['config_layaway_statement_message'] = 'Layaway Statement Message';
+
+
 $lang['config_show_person_id_on_receipt'] = 'Show Person ID on receipt';
+
+
+
+
+$lang['config_import_ecommerce_orders_suspended'] = 'Import E-Commerce Orders Suspended';
+
+$lang['config_show_images_on_receipt'] = 'Show Images on Receipt';
+
 $lang['config_disabled_fixed_discounts'] = 'Disable Fixed Discounts On Sales Interface';
+
+
+
 $lang['config_always_put_last_added_item_on_top_of_cart'] = 'Always put last added item on top of cart';
+
+
+
 $lang['config_show_giftcards_even_if_0_balance'] = 'Show Gift cards even if zero balance';
+
+$lang['config_scale_5'] = 'Weight Embedded Barcode';
+$lang['config_hide_description_on_suspended_sales'] = 'Hide Item Description On Suspended Sales';
 ?>

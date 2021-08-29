@@ -25,7 +25,7 @@ class Detailed_expenses extends Report
 		, array('data'=>lang('common_expenses_note'), 'align'=> 'left')
 		);
 	
-		$location_count = count(self::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 
 		if ($location_count > 1)
 		{
@@ -64,7 +64,7 @@ class Detailed_expenses extends Report
 		$this->load->model('Category');
 		$tabular_data = array();
 		$report_data = $this->getData();
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 	
 		foreach($report_data as $row)
 		{

@@ -724,6 +724,15 @@ $lang['reports_serial_number_history'] = 'Lịch sử số sê-ri';
 $lang['reports_daily_report'] = 'Báo cáo hàng ngày';
 $lang['reports_only_count_store_account_payments'] = 'Chỉ tính các khoản thanh toán tài khoản cửa hàng';
 $lang['reports_generation_date'] = 'Ngày tạo';
+
 $lang['reports_non_taxable_customers'] = 'Khách hàng không chịu thuế';
+
+
+$lang['reports_layaway_statements'] = 'Tuyên bố của Layaway';
+$lang['reports_payment'] = 'Thanh toán';
+$lang['reports_due'] = 'Đến hạn';
+
+
 $lang['reports_summary_journal'] = 'Báo cáo Tạp chí Tóm tắt';
+
 ?>

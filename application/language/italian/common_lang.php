@@ -1024,19 +1024,42 @@ $lang['common_serialnumber_already_added'] = 'Il numero di serie è già stato a
 $lang['common_add_secondary_category'] = 'Aggiungi categoria secondaria';
 $lang['common_secondary_category'] = 'Categoria secondaria';
 $lang['common_suspended_types'] = 'Tipi sospesi';
+
+$lang['common_duration'] = 'Durata';
+
 $lang['shopify_cron_job_entry'] = 'Entrata Cron di Shopify';
 $lang['item inventory changed in shopify'] = 'Inventario degli articoli modificato in Shopify';
 $lang['common_recent_exports'] = 'Esportazioni recenti';
 $lang['common_import_order'] = 'Ordine di importazione';
+
+
+
+
+$lang['shopfiy_not_paid'] = 'Non hai attivato la fatturazione Shopify';
+
+
+
+
 $lang['shopify_not_paid'] = 'Non hai attivato la fatturazione Shopify';
+
 $lang['common_color'] = 'Colore';
 $lang['common_drag_and_drop_or_click'] = 'Trascina e rilascia o fai clic';
 $lang['common_workorder'] = 'Ordine di lavoro';
 $lang['common_item_being_repaired'] = 'Articolo in riparazione';
+
+
+
 $lang['work_orders_edit'] = 'Modifica ordine di lavoro';
 $lang['work_orders_delete'] = 'Elimina ordine di lavoro';
 $lang['work_orders_search'] = 'Cerca ordini di lavoro';
 $lang['work_orders_manage_statuses'] = 'Gestisci gli stati degli ordini di lavoro';
 $lang['common_shopify_access_token_error'] = 'Il tuo token di accesso è scaduto e non siamo in grado di connetterci all\'API. Per favore riprova.';
 $lang['common_ecommerce_item'] = 'Articolo e-commerce';
+$lang['config_show_qr_code_for_sale'] = 'Mostra il codice QR sulla ricevuta di vendita';
+$lang['common_suppliers'] = 'Fornitori';
+$lang['common_back_to_suppliers'] = 'Torna ai fornitori';
+
+$lang['common_change_status'] = 'Cambiare stato';
+$lang['common_please_select'] = 'Si prega di selezionare';
+$lang['sales_can_lookup_last_receipt'] = 'Può cercare l\'ultima ricevuta';
 ?>

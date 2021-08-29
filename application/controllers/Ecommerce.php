@@ -74,7 +74,7 @@ class Ecommerce extends MY_Controller
 			{
 				$this->Appconfig->save('shopify_oauth_token',$access_token);
 
-				$ch = curl_init("https://" . $shop.'/admin/api/2021-01/locations.json');  
+				$ch = curl_init("https://" . $shop.'/admin/api/2021-04/locations.json');  
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);   
 				//Don't verify ssl...just in case a server doesn't have the ability to verify
 				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);

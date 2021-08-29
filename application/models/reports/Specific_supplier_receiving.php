@@ -13,7 +13,7 @@ class Specific_supplier_receiving extends Report
 		$return = array();
 		
 		$return['summary'] = array();
-		$location_count = count(self::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		
 		$return['summary'][] = array('data'=>lang('reports_receiving_id'), 'align'=> 'left');
 		
@@ -84,7 +84,7 @@ class Specific_supplier_receiving extends Report
 
 		$summary_data = array();
 		$details_data = array();
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 
 		foreach(isset($this->params['export_excel']) == 1 && isset($report_data['summary']) ? $report_data['summary']:$report_data as $key=>$row)
 		{			

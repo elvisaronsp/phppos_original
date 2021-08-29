@@ -113,7 +113,7 @@ class Detailed_transfers extends Report
 		$end_date = $this->params['end_date'];
 		$summary_data = array();
 		$details_data = array();
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		
 		
 		foreach(isset($export_excel) == 1 && isset($report_data['summary']) ? $report_data['summary']:$report_data as $key=>$row)

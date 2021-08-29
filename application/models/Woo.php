@@ -1551,6 +1551,18 @@ class Woo extends Ecom
 		$customer_id = $this->save_woo_customer_from_order($order);
 		$sales_totals = $this->get_sale_totals($order);
 		$sale_id = $this->get_sale_id_for_ecommerce_order_id($woo_id);
+		
+		//If we are importing orders suspended we don't want to overwrite this after 1st import so we don't break edits
+		if ($sale_id && $this->config->item('import_ecommerce_orders_suspended'))
+		{
+			return;
+		}
+		
+		if (!$sale_id && $this->config->item('import_ecommerce_orders_suspended'))
+		{	
+			$sales_data['suspended'] = $this->config->item('ecommerce_suspended_sale_type_id');
+		}
+		
 		$sales_data['employee_id'] = 1;
 		
 		if ($this->config->item('ecommerce_only_sync_completed_orders'))
@@ -1571,7 +1583,7 @@ class Woo extends Ecom
 		$sales_data['profit'] = $this->convert_currency_value($sales_totals['profit'], $exchange_rate);
 		$sales_data['total_quantity_purchased'] = $sales_totals['total_quantity_purchased'];
 		$sales_data['comment'] = 'WooCommerce #'.$woo_id;
-      if ($order['currency'] !== $this->config->item('currency_code')) {
+      if ($order['currency'] !== $this->config->item('currency_code') && $exchange_rate != 1) {
 		   $sales_data['comment'] .= ' (converted from ' . $order['currency'] . ' at exchange rate ' . $exchange_rate . ')';
       }
 		$sales_data['ecommerce_order_id'] = $woo_id;
@@ -1945,7 +1957,7 @@ class Woo extends Ecom
 		$data = array(
 			'sale_id' => $sale_id,
 			'shipping_address_person_id' => $customer_id,
-			'status' => in_array($order['status'],array('completed','cancelled','refunded','failed','trash')) ? 'shipped' : 'not_scheduled',
+			'status' => NULL,
 			'actual_shipping_date' =>$actual_shipping_date,
 			'estimated_shipping_date' =>$estimated_shipping_date,
 		);

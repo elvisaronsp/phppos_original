@@ -98,4 +98,5 @@ $lang['appointments_edit'] = 'Edit Appointments';
 $lang['module_work_orders'] = 'Work Orders';
 $lang['module_work_orders_desc'] = 'Work Orders';
 $lang['module_manage_statuses'] = 'Manage Statuses';
+$lang['module_action_delete_suspended_receiving'] = 'Delete Suspended Receiving';
 ?>

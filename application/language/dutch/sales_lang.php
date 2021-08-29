@@ -64,7 +64,7 @@ $lang['sales_successfully_deleted'] = 'Verkoop succesvol verwijderd';
 $lang['sales_unsuccessfully_deleted'] = 'Verkoop zonder succes verwijderd';
 $lang['sales_change_sale'] = 'Bewerk verkoop';
 $lang['sales_delete_entire_sale'] = 'Verwijder gehele verkoop';
-$lang['sales_delete_confirmation'] = 'Bent u zeker dat u deze verkoop wilt verwijderen, deze actie kan niet ongedaan gemaakt worden';
+$lang['sales_delete_confirmation'] = 'Weet u zeker dat u deze verkoop (en) wilt verwijderen, deze actie kan niet ongedaan worden gemaakt.';
 
 $lang['sales_delete_successful'] = 'Je hebt met succes een verkoop verwijderd';
 $lang['sales_delete_unsuccessful'] = 'Verkoop verwijderen is mislukt';
@@ -385,4 +385,5 @@ $lang['sales_note'] = 'Notitie';
 $lang['sales_detailed_note'] = 'Gedetailleerde opmerking';
 $lang['sales_internal_note'] = 'Interne opmerking';
 $lang['sales_delveried_to'] = 'Bezorgd bij';
+$lang['sales_view_receipt_on_web_page'] = 'Ontvangstbewijs op webpagina bekijken';
 ?>

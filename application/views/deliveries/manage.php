@@ -23,7 +23,7 @@
 			} else {
 				$(this).attr("disabled",false);
 			}
-    });
+    	});
 								
 		$("#config_filters").ajaxSubmit({
 			success:function(response)
@@ -155,15 +155,6 @@
 			enable_delete(<?php echo json_encode(lang($controller_name."_confirm_undelete"));?>,<?php echo json_encode(lang($controller_name."_none_selected"));?>);
 		<?php } ?>
 	});
-	
-  $(document).on("click", '.status_change', function(e) {
-			e.preventDefault();
-			var row_ids = get_selected_values();
-			$.post($(this).attr('href'), { 'ids[]': row_ids },function(response)
-			{
-				reload_delivery_table();
-			});
-	});
 </script>
 
 
@@ -190,34 +181,27 @@
 			<a href="#" class="btn btn-lg btn-clear-selection btn-warning"><span class="ion-close-circled"></span> <?php echo lang('common_clear_selection'); ?></a>		
 	<?php } ?>
 	
-	<?php if ($this->Employee->has_module_action_permission($controller_name, 'edit', $this->Employee->get_logged_in_employee_info()->person_id)) {?>
-	
+	<?php if ($this->Employee->has_module_action_permission($controller_name, 'edit', $this->Employee->get_logged_in_employee_info()->person_id)) {
+
+		$statuses = array('' => lang('common_change_status'));
+
+		foreach($delivery_statuses as $status_id => $status){
+			$statuses[$status_id] = $status['name'];
+		}
+
+		echo form_dropdown('change_status', $statuses, '', 'class="form-control change_delivery_status" id="change_status"'); 
+	?>
+
+
 	<div class="piluku-dropdown btn-group">
-	<button type="button" class="btn  btn-lg btn-success btn-more dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-		<span class="visible-xs ion-android-more-vertical"></span>
-		<span class="hidden-xs"><span class="ion-android-arrow-down"></span> <?php echo lang('common_status'); ?></span>
-	</button>
-	<ul class="dropdown-menu" role="menu">
-		
-			<?php			
-			$statuses = array(
-			'not_scheduled' => lang('deliveries_not_scheduled'),
-			'scheduled' => lang('deliveries_scheduled'),
-			'shipped' => lang('deliveries_shipped'),
-			'delivered' => lang('deliveries_delivered'),
-			
-			);
-			?>
-			
-			<?php foreach($statuses as $status_key=>$status_text) { ?>
-			<li>
-				<?php echo anchor("$controller_name/set_status/$status_key",
-						'<span class="ion-android-checkmark-circle"></span> '.'<span>'.$status_text.'</span>',
-						array('class'=>'btn btn-lg status_change','title'=>$status_text)); ?>
-				
-			</li>
-		<?php } ?>
-	</ul>
+		<ul class="dropdown-menu" role="menu">
+				<?php //foreach($delivery_statuses as $status_key=>$status_text) { ?>
+				<li>
+					<?php //echo anchor("$controller_name/set_status/$status_key", '<span class="ion-android-checkmark-circle"></span> '.'<span>'.$status_text['name'].'</span>', array('class'=>'btn btn-lg status_change','title'=>$status_text['name'])); ?>
+					
+				</li>
+			<?php //} ?>
+		</ul>
 	</div>
 	
 	<?php } ?>
@@ -243,6 +227,13 @@
 				<div class="pull-right-btn">
 					<!-- right buttons-->
 					
+					<?php if ($this->Employee->has_module_action_permission($controller_name, 'add_update', $this->Employee->get_logged_in_employee_info()->person_id) && !$deleted) {?>
+					<?php echo anchor("$controller_name/view/-1/",
+						'<span class="ion-plus"> '.lang($controller_name.'_new').'</span>',
+						array('id' => 'new-person-btn', 'class'=>'btn btn-primary btn-lg hidden-sm hidden-xs', 'title'=>lang($controller_name.'_new')));
+					}	
+					?>
+
 					
 					<div class="piluku-dropdown btn-group">
 					<button type="button" class="btn btn-more dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -286,7 +277,25 @@
 									<?php echo anchor("$controller_name/toggle_show_deleted/1", '<span class="ion-trash-a"> '.lang($controller_name."_manage_deleted").'</span>',
 										array('class'=>'toggle_deleted','title'=> lang($controller_name."_manage_deleted"))); ?>
 							</li>
-						<?php }?>
+						<?php } ?>
+
+
+						<?php if ($this->Employee->has_module_action_permission($controller_name, 'manage_categories', $this->Employee->get_logged_in_employee_info()->person_id)) {?>
+						<li>
+							<?php echo anchor("$controller_name/manage_categories?redirect=deliveries",
+							'<span class="ion-ios-folder-outline"> ' . lang("items_manage_categories").'</span>',
+							array('class'=>'', 'title'=>lang('items_manage_categories')));
+							?>
+						</li>
+						<?php } ?>
+
+						<?php if ($this->Employee->has_module_action_permission($controller_name, 'manage_statuses', $this->Employee->get_logged_in_employee_info()->person_id)) {?>				
+							<li>
+								<?php echo anchor("$controller_name/manage_statuses?redirect=deliveries",'<span class="ion-settings"> '.lang('module_manage_statuses').'</span>',
+									array('class'=>'manage_statuses','title'=>lang('module_manage_statuses'))); ?>
+							</li>
+						<?php } ?>
+
 					</ul>
 					</div>
 					<?php } ?>
@@ -341,12 +350,21 @@
 									<span class="panel">
 									<li data-toggle="collapse" data-target="#status_container" data-parent="#filter_dropdown" class="dropdown-header filter-header"><i class="plus-minus expand-collapse-icon glyphicon glyphicon-plus"></i> <?php echo lang('deliveries_status'); ?> :</li>
 									<li id="status_container" class="collapse in">
-										<a class="filter_action"><input name="status[]" type="checkbox" class="columns" id="not_scheduled" value="not_scheduled" <?php echo (isset($filters['status']) && in_array('not_scheduled', $filters['status'])) ? 'checked="checked"' : '' ?>><label class="filterable_column_name" for="Pending"><span></span><?php echo lang('deliveries_not_scheduled'); ?></label></a>
-										<a class="filter_action"><input name="status[]" type="checkbox" class="columns" id="scheduled" value="scheduled" <?php echo (isset($filters['status']) && in_array('scheduled', $filters['status'])) ? 'checked="checked"' : '' ?>><label class="filterable_column_name" for="Processing"><span></span><?php echo lang('deliveries_scheduled'); ?></label></a>
-										<a class="filter_action"><input name="status[]" type="checkbox" class="columns" id="shipped" value="shipped" <?php echo (isset($filters['status']) && in_array('shipped', $filters['status'])) ? 'checked="checked"' : '' ?>><label class="filterable_column_name" for="Completed"><span></span><?php echo lang('deliveries_shipped'); ?></label></a>
-										<a class="filter_action"><input name="status[]" type="checkbox" class="columns" id="delivered" value="delivered" <?php echo (isset($filters['status']) && in_array('delivered', $filters['status'])) ? 'checked="checked"' : '' ?>><label class="filterable_column_name" for="Completed"><span></span><?php echo lang('deliveries_delivered'); ?></label></a>
+										<?php foreach($delivery_statuses as $id => $row) {?>
+											<a class="filter_action"><input name="status[]" type="checkbox" class="columns" id="status_id_<?php echo $id;?>" value="<?php echo $id;?>" <?php echo (isset($filters['status']) && in_array($id, $filters['status'])) ? 'checked="checked"' : '' ?>><label class="filterable_column_name" for="status_id_<?php echo $id;?>"><span></span><?php echo $row['name']; ?></label></a>
+										<?php } ?>
 									</li>
 									</span>
+
+									<span class="panel">
+									<li data-toggle="collapse" data-target="#category_container" data-parent="#filter_dropdown" class="dropdown-header filter-header"><i class="plus-minus expand-collapse-icon glyphicon glyphicon-plus"></i> <?php echo lang('common_category'); ?> :</li>
+									<li id="category_container" class="collapse">
+										<?php foreach($delivery_categories as $id => $row) {?>
+											<a class="filter_action"><input name="category[]" type="checkbox" class="columns" id="category_id_<?php echo $id;?>" value="<?php echo $id;?>" <?php echo (isset($filters['category']) && in_array($id, $filters['category'])) ? 'checked="checked"' : '' ?>><label class="filterable_column_name" for="category_id_<?php echo $id;?>"><span></span><?php echo $row['name']; ?></label></a>
+										<?php } ?>
+									</li>
+									</span>
+
 									<span class="panel">
 									<li data-toggle="collapse" data-target="#in_store_pickup" data-parent="#filter_dropdown" class="dropdown-header filter-header"><i class="plus-minus expand-collapse-icon glyphicon glyphicon-plus"></i> <?php echo lang('deliveries_instore_pickup'); ?> :</li>
 									<li id="in_store_pickup" class="collapse">
@@ -438,9 +456,18 @@
 									</li>
 								</span>
 								<?php } ?>
+
+								<span class="panel">
+									<li data-toggle="collapse" data-target="#deliveries_with_or_without_sales" data-parent="#filter_dropdown" class="dropdown-header filter-header"><i class="plus-minus expand-collapse-icon glyphicon glyphicon-plus"></i> <?php echo lang('deliveries_with_or_without_sales'); ?> :</li>
+									<li id="deliveries_with_or_without_sales" class="collapse">
+										<a class="filter_action"><input name="deliveries_with_or_without_sales[]" type="checkbox" class="columns" id="deliveries_with_sales" value="with_sales" <?php echo (isset($filters['deliveries_with_or_without_sales']) && in_array('with_sales',$filters['deliveries_with_or_without_sales'])) ? 'checked="checked"' : '' ?>><label class="filterable_column_name" for="deliveries_with_sales"><span></span><?php echo lang('deliveries_with_sales'); ?></label></a>
+										<a class="filter_action"><input name="deliveries_with_or_without_sales[]" type="checkbox" class="columns" id="deliveries_without_sales" value="without_sales" <?php echo (isset($filters['deliveries_with_or_without_sales']) &&  in_array('without_sales',$filters['deliveries_with_or_without_sales'])) ? 'checked="checked"' : '' ?>><label class="filterable_column_name" for="deliveries_without_sales"><span></span><?php echo lang('deliveries_without_sales'); ?></label></a>
+									</li>
+									</span>
+
 							</ul>
 						</div>
-						<script>
+						<script type="text/javascript">
 							date_time_picker_inline_linked($('#shipping_start'), $('#shipping_end'), JS_DATE_FORMAT+ " "+JS_TIME_FORMAT, date_time_callback);
 							date_time_picker_inline_linked($('#delivery_start'), $('#delivery_end'), JS_DATE_FORMAT+ " "+JS_TIME_FORMAT, date_time_callback);
 							
@@ -515,6 +542,13 @@
 		</div>
 	</div>
 </div>
+
+<div class="spinner" id="grid-loader" style="display:none;">
+	<div class="rect1"></div>
+	<div class="rect2"></div>
+	<div class="rect3"></div>
+</div>
+
 <script type="text/javascript">
 	$(document).ready(function() 
 	{
@@ -524,9 +558,48 @@
 
 		<?php if ($this->session->flashdata('error')) { ?>
 		show_feedback('error', <?php echo json_encode($this->session->flashdata('error')); ?>, <?php echo json_encode(lang('common_error')); ?>);
-		<?php } ?>				
+		<?php } ?>	
+		
+		
+		$("#change_status").change(function(){
+			var status = $(this).val();
+			if(status != ''){
+				bootbox.confirm(<?php echo json_encode(lang($controller_name."_confirm_status_change"));?>, function(result)
+				{
+					if (result)
+					{
+						$('#grid-loader').show();
+						event.preventDefault();
+						var selected = get_selected_values();
+						
+						$.post('<?php echo site_url("$controller_name/change_status/");?>', {delivery_ids : selected, status:status},function(response) {
+							$('#grid-loader').hide();
+							show_feedback(response.success ? 'success' : 'error', response.message,response.success ? <?php echo json_encode(lang('common_success')); ?> : <?php echo json_encode(lang('common_error')); ?>);
+
+							//Refresh tree if success
+							if (response.success)
+							{
+								reload_delivery_table();
+								//setTimeout(function(){location.href = location.href;},800);
+							}
+						}, "json");
+					}
+				});
+			}
+
+		});
 	});
 </script>
+
+<style>
+.change_delivery_status{
+	display:inline !important;
+	width:10% !important;
+}
+#grid-loader{
+	top:0px;
+}
+</style>
 	
 <?php $this->load->view("partial/footer"); ?>
 

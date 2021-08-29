@@ -145,4 +145,5 @@ $lang['appointments_edit'] = '编辑约会';
 $lang['module_work_orders'] = '工作订单';
 $lang['module_work_orders_desc'] = '工作订单';
 $lang['module_manage_statuses'] = '管理状态';
+$lang['module_action_delete_suspended_receiving'] = '删除暂停接收';
 ?>

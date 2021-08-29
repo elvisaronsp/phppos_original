@@ -122,4 +122,5 @@ $lang['receivings_show_signature_on_receiving_receipt'] = 'Mostrar firma al reci
 $lang['receivings_out_of_stock'] = 'Uno o más artículos estarán agotados al completar esta transacción';
 $lang['receivings_you_do_not_have_permission_to_complete_transfers'] = 'No tienes permiso para completar la transferencia. Deberá ponerse en contacto con el administrador para obtener permiso';
 $lang['receivings_undelete_unsuccessful'] = 'No se pudo borrar la recepción';
+$lang['delete_suspended_receivings_confirmation'] = '¿Está seguro de que desea eliminar estos receptores? Esta acción no se puede deshacer.';
 ?>

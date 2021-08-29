@@ -11,7 +11,7 @@ class Detailed_inventory extends Report
 	{				
 		$columns = array(array('data'=>lang('common_item_id'), 'align'=> 'left'), array('data'=>lang('reports_date'), 'align' => 'left'), array('data'=>lang('reports_item_name'), 'align' => 'left'), array('data'=>lang('common_customer'), 'align' => 'left'), array('data'=>lang('common_employee'), 'align' => 'left'), array('data'=>lang('common_category'), 'align'=>'left'), array('data'=>lang('common_item_number'), 'align' => 'left'), array('data'=>lang('common_product_id'), 'align' => 'left'),array('data'=>lang('common_size'), 'align'=> 'right'), array('data'=>lang('common_items_in_out_qty'), 'align' => 'left'),array('data'=>lang('common_items_inventory_comments'), 'align' => 'left'));
 		
-		$location_count = count(self::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		
 		if ($location_count > 1)
 		{
@@ -59,7 +59,7 @@ class Detailed_inventory extends Report
 		$this->setupDefaultPagination();
 		$tabular_data = array();
 		$report_data = $this->getData();
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		
 		foreach($report_data as $row)
 		{

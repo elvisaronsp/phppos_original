@@ -41,7 +41,7 @@ function get_css_files()
 		array('path' =>'assets/css/dropzone.min.css'),
 		array('path' =>'assets/css/owl.carousel.min.css'),
 		array('path' =>'assets/css/owl.theme.default.min.css'),
-		
+		array('path' =>'assets/css/fullcalendar.min.css'),
 
 	);
 	
@@ -128,8 +128,8 @@ function get_js_files()
 			array('path' => 'assets/js/pouchdb.find.js'),
 			array('path' => 'assets/js/dropzone.min.js'),
 			array('path' => 'assets/js/owl.carousel.min.js'),
-			
-			
+			array('path' => 'assets/js/fullcalendar.min.js'),
+			array('path' => 'assets/js/locales-all.min.js'),
 		);
 	}
 

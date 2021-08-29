@@ -154,6 +154,16 @@ class Receiving extends MY_Model
 			$receivings_data["custom_field_${k}_value"] = $this->cart->{"custom_field_${k}_value"};
 		}
 		
+				
+		if($receiving_id)
+		{
+			$receivings_data['receiving_time']=$before_save_receiving_info->receiving_time;
+		}
+		else
+		{
+			$receivings_data['receiving_time'] = date('Y-m-d H:i:s');
+		}
+		
 			
 		$recv_profit = 0;
 		//Run these queries as a transaction, we want to make sure we do all or nothing
@@ -166,10 +176,6 @@ class Receiving extends MY_Model
 			{
 				$receivings_data['receiving_time']=date('Y-m-d H:i:s', strtotime($change_cart_date));
 			}
-		}
-		else
-		{
-			$receivings_data['receiving_time'] = date('Y-m-d H:i:s');			
 		}
 		
 		$store_account_payment_amount = 0;

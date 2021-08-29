@@ -13,7 +13,7 @@ class Specific_supplier_summary extends Report
 		$return = array();
 		
 		$return['summary'] = array();
-		$location_count = count(self::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		
     $return['summary'][] = array('data'=>lang('reports_inventory_number'), 'align'=> 'left');
 		if ($location_count > 1)
@@ -90,7 +90,7 @@ class Specific_supplier_summary extends Report
 
 		$summary_data = array();
 		$details_data = array();
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 
 		foreach($report_data['summary'] as $key=>$row)
 		{			

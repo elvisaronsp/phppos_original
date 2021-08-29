@@ -92,9 +92,9 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 |
 */
 define('NUMBER_OF_PEOPLE_CUSTOM_FIELDS',10);
-define('APPLICATION_VERSION', '18.1');
-define('ASSET_TIMESTAMP', '1617804740');
-define('BUILD_TIMESTAMP', '1628020580');
+define('APPLICATION_VERSION', '18.2');
+define('ASSET_TIMESTAMP', '1629853848');
+define('BUILD_TIMESTAMP', '1630093086');
 
 /*
 |--------------------------------------------------------------------------

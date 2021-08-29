@@ -508,6 +508,15 @@ $lang['reports_serial_number_history'] = 'Sejarah Nomor Seri';
 $lang['reports_daily_report'] = 'Laporan harian';
 $lang['reports_only_count_store_account_payments'] = 'Hitung hanya pembayaran akun toko';
 $lang['reports_generation_date'] = 'Tanggal Pembangkitan';
+
 $lang['reports_non_taxable_customers'] = 'Nasabah Tidak Kena Pajak';
+
+
+$lang['reports_layaway_statements'] = 'Pernyataan Layaway';
+$lang['reports_payment'] = 'Pembayaran';
+$lang['reports_due'] = 'Jatuh tempo';
+
+
 $lang['reports_summary_journal'] = 'Ringkasan Jurnal laporan';
+
 ?>

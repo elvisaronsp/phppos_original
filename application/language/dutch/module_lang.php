@@ -95,4 +95,5 @@ $lang['appointments_edit'] = 'Bewerk afspraken';
 $lang['module_work_orders'] = 'Werkorders';
 $lang['module_work_orders_desc'] = 'Werkorders';
 $lang['module_manage_statuses'] = 'Beheer statussen';
+$lang['module_action_delete_suspended_receiving'] = 'Uitgestelde ontvangst verwijderen';
 ?>

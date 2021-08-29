@@ -41,7 +41,7 @@ class Detailed_damaged_items extends Report
 		$end_date = $this->params['end_date'];
 		$tabular_data = array();
 		
-		$location_count = count(self::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 	
 		
 		foreach($report_data as $row)
@@ -91,7 +91,7 @@ class Detailed_damaged_items extends Report
 	{
 		$columns = array();
 		
-		$location_count = count(self::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 	
 		if (!isset($this->params['show_summary_only']))
 		{

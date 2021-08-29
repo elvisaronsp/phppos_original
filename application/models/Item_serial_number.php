@@ -28,7 +28,7 @@ class Item_serial_number extends MY_Model
 		
 	}
 	
-	function save($item_id, $serial_numbers, $serial_number_cost_prices = array(), $serial_number_prices = array(),$serials_to_delete = FALSE)
+	function save($item_id, $serial_numbers, $serial_number_cost_prices = array(), $serial_number_prices = array(), $serial_number_variations = array(),$serials_to_delete = FALSE)
 	{
 		$this->db->trans_start();
 		
@@ -39,8 +39,14 @@ class Item_serial_number extends MY_Model
 		
 		if (empty($serial_number_cost_prices) || count($serial_number_cost_prices) != count($serial_number_cost_prices))
 		{
-			$serial_number_cost_prices = array_fill(0,count($serial_number_cost_prices),'');
+			$serial_number_cost_prices = array_fill(0,count($serial_numbers),'');
 		}
+		
+		if (empty($serial_number_variations) || count($serial_number_variations) != count($serial_number_variations))
+		{
+			$serial_number_variations = array_fill(0,count($serial_numbers),'');
+		}
+		
 		
 		
 		//If we do NOT have $serials_to_delete then delete all
@@ -65,6 +71,7 @@ class Item_serial_number extends MY_Model
 			{
 				$unit_price = $serial_number_prices[$k];
 				$cost_price = $serial_number_cost_prices[$k];
+				$variation_id = $serial_number_variations[$k];
 				
 				if($unit_price === '')
 				{
@@ -76,7 +83,13 @@ class Item_serial_number extends MY_Model
 					$cost_price = NULL;
 				}
 				
-				$this->add_serial($item_id, $serial_number,$cost_price, $unit_price);
+				if($variation_id === '')
+				{
+					$variation_id = NULL;
+				}
+				
+				
+				$this->add_serial($item_id, $serial_number,$cost_price, $unit_price,$variation_id);
 			}
 		}
 				
@@ -126,9 +139,9 @@ class Item_serial_number extends MY_Model
 		return $this->db->delete('items_serial_numbers', array('item_id' => $item_id, 'serial_number' => $serial_number));		
 	}
 	
-	function add_serial($item_id, $serial_number, $cost_price = NULL, $unit_price = NULL)
+	function add_serial($item_id, $serial_number, $cost_price = NULL, $unit_price = NULL,$variation_id = NULL)
 	{
-		return $this->db->replace('items_serial_numbers', array('item_id' => $item_id, 'serial_number' => $serial_number,'cost_price' => $cost_price, 'unit_price' => $unit_price));
+		return $this->db->replace('items_serial_numbers', array('item_id' => $item_id, 'serial_number' => $serial_number,'cost_price' => $cost_price, 'unit_price' => $unit_price,'variation_id' => $variation_id));
 	}
 	
 	function get_item_id($serial_number)
@@ -141,6 +154,21 @@ class Item_serial_number extends MY_Model
 		if($query->num_rows() >= 1)
 		{
 			return $query->row()->item_id;
+		}
+		
+		return FALSE;
+	}
+	
+	function get_variation_id($serial_number)
+	{
+		$this->db->from('items_serial_numbers');
+		$this->db->where('serial_number',$serial_number);
+
+		$query = $this->db->get();
+
+		if($query->num_rows() >= 1)
+		{
+			return $query->row()->variation_id;
 		}
 		
 		return FALSE;

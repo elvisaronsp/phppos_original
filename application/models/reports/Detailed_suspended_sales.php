@@ -11,7 +11,7 @@ class Detailed_suspended_sales extends Report
 	{
 		$return = array();
 		
-		$location_count = count(self::get_selected_location_ids());		
+		$location_count = $this->Location->count_all();		
 		
 		$return['summary'] = array();
 		$return['summary'][] = array('data'=>lang('reports_sale_id'), 'align'=> 'left');
@@ -98,7 +98,7 @@ class Detailed_suspended_sales extends Report
 		$summary_data = array();
 		$details_data = array();
 
-		$location_count = count(Report::get_selected_location_ids());
+		$location_count = $this->Location->count_all();
 		$export_excel = $this->params['export_excel'];
 		$start_date = $this->params['start_date'];
 		$end_date = $this->params['end_date'];
