@@ -301,9 +301,10 @@ function date_time_picker_field($field, format)
   $field.datetimepicker({stepping: 5,format: format, locale: LOCALE, ignoreReadonly: IS_MOBILE ? true : false});	
 }
 
-function mercury_emv_pad_reset(post_host, listener_port, reset_data,callback)
+function mercury_emv_pad_reset(post_host, listener_port, reset_data,callback,error_callback)
 {
-   callback = typeof callback !== 'undefined' ? callback : false;
+    callback = typeof callback !== 'undefined' ? callback : false;
+    error_callback = typeof error_callback !== 'undefined' ? error_callback : false;
 	delete $.ajaxSettings.headers["cache-control"]
  	$.ajax('http://'+post_host+':'+listener_port+'/method4',
  	{
@@ -334,9 +335,9 @@ function mercury_emv_pad_reset(post_host, listener_port, reset_data,callback)
  		},
    	error: function() 
 		{
-			if (callback)
+			if (error_callback)
 			{
-				callback();
+				error_callback();
 			}
    	}
  	});

@@ -805,7 +805,15 @@ class Work_orders extends Secure_area
 					$suggestions[$k]['category'] = $suggestions[$k]['subtitle'];
 				}
 			}
+		}		
+		
+		//Lookup by item id
+		if ($item_id = $this->Item->lookup_item_id($this->input->get('term'),array('item_number','item_variation_item_number','product_id','additional_item_numbers','serial_numbers')))
+		{
+			$item_info = $this->Item->get_info($item_id);
+			$suggestions[]=array('value'=> $item_id, 'label' => $item_info->name, 'image' =>  $item_info->main_image_id ?  app_file_url($item_info->main_image_id) : base_url()."assets/img/item.png", 'subtitle' => '');		
 		}
+		
 		echo json_encode(H($suggestions));
 	}
 

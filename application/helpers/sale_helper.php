@@ -17,7 +17,7 @@ function is_sale_integrated_cc_processing($cart)
 function is_sale_integrated_ebt_sale($cart)
 {
 	$CI =& get_instance();
-	return (is_ebt_sale($cart) && $CI->Location->get_info_for_key('enable_credit_card_processing') && $CI->Location->get_info_for_key('ebt_integrated') && $CI->Location->get_info_for_key('emv_merchant_id') );
+	return (is_ebt_sale($cart) && $CI->Location->get_info_for_key('enable_credit_card_processing') && $CI->Location->get_info_for_key('ebt_integrated') && ($CI->Location->get_info_for_key('emv_merchant_id') || $CI->Location->get_info_for_key('blockchyp_api_key')));
 }
 
 function is_ebt_sale($cart)

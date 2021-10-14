@@ -1652,4 +1652,29 @@ $lang['common_back_to_suppliers'] = 'رجوع إلى الموردين';
 $lang['common_change_status'] = 'تغيير الوضع';
 $lang['common_please_select'] = 'الرجاء التحديد';
 $lang['sales_can_lookup_last_receipt'] = 'يمكن البحث عن آخر إيصال';
+
+$lang['common_disable'] = 'إبطال';
+$lang['employees_acess_ip_range'] = 'نطاق الملكية الفكرية وصول الموظفين';
+$lang['common_cannot_access_with_ip'] = 'لا يمكنك الوصول إلى عنوان IP الخاص بك';
+$lang['common_filter'] = 'منقي';
+$lang['common_payment_type'] = 'نوع الدفع';
+$lang['sales_masked_card'] = 'بطاقة مقنعة';
+$lang['sales_void_return'] = 'باطل / رجوع';
+$lang['common_unknown'] = 'مجهول';
+$lang['common_void'] = 'فارغ';
+$lang['sales_cannot_void_transaction'] = 'لا يمكن إبطال المعاملة';
+$lang['sales_void_title'] = 'خيارات باطلة';
+$lang['sales_confirm_void'] = 'هل أنت متأكد أنك تريد إلغاء / حذف هذا البيع؟';
+$lang['sales_void_full_amount'] = 'المبلغ الكامل الباطل';
+$lang['sales_void_partial_amount'] = 'المبلغ الجزئي الباطل';
+$lang['sales_please_enter_refund_amount'] = 'الرجاء إدخال مبلغ الاسترداد';
+$lang['sales_success_void_transaction'] = 'لقد ألغيت الصفقة بنجاح';
+$lang['common_qty_name'] = 'أسماء الكمية';
+
+$lang['common_indicate_non_taxable_on_receipt'] = 'حدد غير خاضع للضريبة عند الاستلام';
+$lang['common_no_tax'] = 'لا ضرائب';
+
+$lang['common_view_edit_transaction_history'] = 'عرض / تحرير معاملات البطاقة';
+$lang['common_change_log'] = 'سجل التغيير';
+$lang['common_add_new_ip'] = 'إضافة IP جديد';
 ?>

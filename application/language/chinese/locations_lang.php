@@ -124,7 +124,7 @@ $lang['locations_net_e_pay_server'] = '网络电子支付服务器';
 //EMV Merchant ID / Terminal ID
 $lang['locations_emv_terminal_id'] = 'EMV商家ID /终端ID';
 //Terminal ID
-$lang['locations_terminal_id'] = '终端ID';
+$lang['locations_terminal_id'] = '终端标识';
 //EMV Device Override
 $lang['locations_secure_device_override_emv'] = 'EMV设备覆盖';
 //Non EMV Device Override
@@ -160,4 +160,8 @@ $lang['locations_previous_day'] = '前一天';
 $lang['locations_current_day'] = '当前日期';
 $lang['locations_auto_reports_day'] = '通过电子邮件发送报告的日期';
 $lang['locations_disable_confirmation_option_for_emv_credit_card'] = '处理信用卡时禁用金额确认';
+$lang['locations_blockchyp_api_key'] = 'coreCLEAR API 密钥';
+$lang['locations_blockchyp_bearer_token'] = 'coreCLEAR 承载令牌';
+$lang['locations_blockchyp_signing_key'] = 'coreCLEAR 签名密钥';
+$lang['locations_blockchyp_test_mode'] = 'coreCLEAR 测试模式';
 ?>

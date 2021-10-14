@@ -41,6 +41,7 @@
 
 $route['default_controller'] = "login";
 $route['404_override'] = '';
+$route['no_access_ip/(:any)'] = "no_access/ip_restriction/$1";
 $route['no_access/(:any)'] = "no_access/index/$1";
 $route['r/(:any)'] = "public_view/receipt/$1";
 

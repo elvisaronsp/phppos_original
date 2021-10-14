@@ -733,4 +733,9 @@ $lang['reports_due'] = '到期的';
 
 $lang['reports_summary_journal'] = '摘要期刊报告';
 
+$lang['reports_voided_returned_transactions'] = '作废/退回的交易';
+$lang['reports_transaction_voided'] = '交易 ID 无效';
+$lang['reports_transaction_voided_transacion_id'] = '无效的交易ID';
+$lang['reports_amount_returned'] = '作废/退回的金额';
+$lang['reports_voided_transactions'] = '无效交易';
 ?>

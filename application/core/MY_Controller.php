@@ -12,7 +12,11 @@ function force_http_if_needed()
 					$is_credit_card_processing = ($CI->uri->segment(1) == 'locations' || ($CI->Location->get_info_for_key('emv_merchant_id') && $CI->Location->get_info_for_key('com_port') && $CI->Location->get_info_for_key('listener_port')));
 					if ($is_credit_card_processing)
 					{
-						force_http();
+						//Force http if we are not Chrome 94 or newer (We can't do EMV via http anymore)
+						if (!($CI->agent->browser() == 'Chrome' && $CI->agent->version() >= 94))
+						{
+							force_http();
+						}
 					}
 				}
 		}
@@ -30,7 +34,7 @@ function force_https_if_needed()
 			if ($CI->db->table_exists('app_config') && $CI->db->table_exists('locations'))
 			{
 				$is_credit_card_processing = ($CI->uri->segment(1) == 'locations' || ($CI->Location->get_info_for_key('emv_merchant_id') && $CI->Location->get_info_for_key('com_port') && $CI->Location->get_info_for_key('listener_port')));
-				if (!$is_credit_card_processing)
+				if (!$is_credit_card_processing || $CI->Appconfig->get_do_not_force_http())
 				{
 					force_https();
 				}

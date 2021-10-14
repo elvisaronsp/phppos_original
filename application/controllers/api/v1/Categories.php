@@ -41,7 +41,7 @@ class Categories extends REST_Controller {
 					'name' => $categories['name'],
 					'color' => $categories['color'],
 					'image_id' => (int)$categories['image_id'],
-					'image_url' => $categories['image_id'] ? app_file_url($categories['image_id']) : NULL,
+					'image_url' => $categories['image_id'] ? secure_app_file_url($categories['image_id']) : NULL,
 					'hide_from_grid' => (boolean)$categories['hide_from_grid'],
 					'category_info_popup' => $categories['category_info_popup'],
 					
@@ -112,7 +112,7 @@ class Categories extends REST_Controller {
 						'color' => $category['color'],
 						'category_info_popup' => $category['category_info_popup'],						
 						'image_id' => (int)$category['image_id'],
-						'image_url' => $category['image_id'] ? app_file_url($category['image_id']) : NULL,
+						'image_url' => $category['image_id'] ? secure_app_file_url($category['image_id']) : NULL,
 						'hide_from_grid' => (boolean)$category['hide_from_grid'],
 					));
 				}

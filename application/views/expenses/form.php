@@ -149,7 +149,39 @@
 						);?>
 					</div>
 				</div>
-				
+
+				<div class="form-group">
+					<?php echo form_label(lang('common_upload_images').':', 'expense_image_id',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+					<div class="col-sm-9 col-md-9 col-lg-10">
+						<ul class="list-unstyled avatar-list">
+							<li>
+								<input type="file" name="expense_image_id" id="expense_image_id" class="filestyle" accept=".png,.jpg,.jpeg,.gif" >&nbsp;
+							</li>
+							<li>
+								<?php echo $expense_info->expense_image_id ? '<div id="avatar">'.img(array('style' => 'width: 60%','src' => app_file_url($expense_info->expense_image_id),'class'=>'img-polaroid img-polaroid-s')).'</div>' : '<div id="avatar">'.img(array('style' => 'width: 20%','src' => base_url().'assets/img/empty.png','class'=>'img-polaroid','id'=>'image_empty')).'</div>'; ?>
+							</li>		
+						</ul>
+					</div>
+				</div>
+
+				<?php if($expense_info->expense_image_id) {  ?>
+
+				<div class="form-group">
+					<?php echo form_label(lang('common_del_image').':', 'del_image',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+					<div class="col-sm-9 col-md-9 col-lg-10">
+					<?php echo form_checkbox(array(
+						'name'=>'del_image',
+						'id'=>'del_image',
+						'class'=>'delete-checkbox', 
+						'value'=>1
+					));
+					echo '<label for="del_image"><span></span></label> ';
+					?>
+					</div>
+				</div>
+
+				<?php }  ?>
+
 				<?php
 				//Only allow removal from register for NEW expenses
 				if ($this->config->item('track_payment_types') && !$expense_info->id)
@@ -170,20 +202,48 @@
 					</div>
 				<?php } ?>
 
+				<div class="panel panel-piluku">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							<i class="ion-folder"></i> 
+							<?php echo lang("common_files"); ?>
+						</h3>
+					</div>
+		
+					<?php if (count($files)) {?>
+					<ul class="list-group">
+						<?php foreach($files as $file){?>
+						<li class="list-group-item permission-action-item">
+							<?php echo anchor($controller_name.'/delete_file/'.$file->file_id,'<i class="icon ion-android-cancel text-danger" style="font-size: 120%"></i>', array('class' => 'delete_file'));?>	
+							<?php echo anchor($controller_name.'/download/'.$file->file_id,$file->file_name,array('target' => '_blank'));?>
+						</li>
+						<?php } ?>
+					</ul>
+					<?php } ?>
+					<h4 style="padding: 20px;"><?php echo lang('common_add_files');?></h4>
+					<?php for($k=1;$k<=5;$k++) { ?>
+						<div class="form-group"  style="padding-left: 10px;">
+				    	<?php echo form_label(lang('common_file').' '.$k.':', 'files_'.$k,array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+							<div class="col-sm-9 col-md-9 col-lg-10">
+						      	<div class="file-upload">
+								<input type="file" name="files[]" id="files_<?php echo $k; ?>" >
+								</div>
+							</div>
+						</div>
+					<?php } ?>
+				</div>
 
-				<?php echo form_hidden('redirect', $redirect_code); ?>
+			<?php echo form_hidden('redirect', $redirect_code); ?>
 
-<div class="form-actions pull-right">
-<?php
-echo form_submit(array(
-	'name'=>'submitf',
-	'id'=>'submitf',
-	'value'=>lang('common_save'),
-	'class'=>'btn btn-primary btn-lg submit_button floating-button btn-large')
-	);
-	?>
-
-	
+			<div class="form-actions pull-right">
+			<?php
+				echo form_submit(array(
+					'name'=>'submitf',
+					'id'=>'submitf',
+					'value'=>lang('common_save'),
+					'class'=>'btn btn-primary btn-lg submit_button floating-button btn-large')
+					);
+			?>
 			</div>
 		</div>
 	</div>
@@ -220,13 +280,16 @@ $(document).ready(function()
 		ignore: ':hidden:not([class~=selectized]),:hidden > .selectized, .selectize-control .selectize-input input',
 		submitHandler:function(form)
 		{
-$('#grid-loader').show();
+			$('#grid-loader').show();
 			if (submitting) return;
 			submitting = true;
 			$(form).ajaxSubmit({
+			error: function(data ) { 
+				console.log(data); 
+			},
 			success:function(response)
 			{
-$('#grid-loader').hide();
+				$('#grid-loader').hide();
 				submitting = false;
 				
 				show_feedback(response.success ? 'success' : 'error',response.message, response.success ? <?php echo json_encode(lang('common_success')); ?>  : <?php echo json_encode(lang('common_error')); ?>);
@@ -338,5 +401,23 @@ $("#categories_form").submit(function(event)
 	});
 });
 
+	$('#expense_image_id').imagePreview({ selector : '#avatar' }); // Custom preview container
+
+	$('.delete_file').click(function(e)
+	{
+		e.preventDefault();
+		var $link = $(this);
+		bootbox.confirm(<?php echo json_encode(lang('common_confirm_file_delete')); ?>, function(response)
+		{
+			if (response)
+			{
+				$.get($link.attr('href'), function()
+				{
+					$link.parent().fadeOut();
+				});
+			}
+		});
+		
+	});
 </script>
 <?php $this->load->view('partial/footer')?>

@@ -286,6 +286,7 @@ class Receivings extends Secure_area
 
 	function add()
 	{
+		$this->cart->sort_clean();
 		$this->cart->process_barcode_scan($this->input->post("item"));
 		$this->cart->save();
 		$this->_reload();
@@ -385,6 +386,8 @@ class Receivings extends Secure_area
 				$variable = $this->input->post("name");
 				$$variable = $this->input->post("value");
 				
+				$this->cart->sort_clean();
+
 				if ($item = $this->cart->get_item($line))
 				{
 					try
@@ -604,8 +607,12 @@ class Receivings extends Secure_area
 				if($this->config->item('enable_pdf_receipts')){
 					$receipt_data = $this->load->view("receivings/receipt_html", $data, true);
 					
-					$filename = 'receipt_'.$data['receiving_id'].'.pdf';
-			    $this->load->library("m_pdf");
+					if($this->config->item('receipt_download_filename_prefix')){
+						$filename = $this->config->item('receipt_download_filename_prefix').'_receipt_'.$data['receiving_id'].'.pdf';
+					}else{
+						$filename = 'receipt_'.$data['receiving_id'].'.pdf';
+					}
+			    	$this->load->library("m_pdf");
 					$pdf_content = $this->m_pdf->generate_pdf($receipt_data);
 				}
 					
@@ -648,8 +655,12 @@ class Receivings extends Secure_area
 			if($this->config->item('enable_pdf_receipts')){
 				$receipt_data = $this->load->view("receivings/receipt_html", $data, true);
 				
-				$filename = 'receipt_'.$data['receiving_id'].'.pdf';
-		    $this->load->library("m_pdf");
+				if($this->config->item('receipt_download_filename_prefix')){
+					$filename = $this->config->item('receipt_download_filename_prefix').'_receipt_'.$data['receiving_id'].'.pdf';
+				}else{
+					$filename = 'receipt_'.$data['receiving_id'].'.pdf';
+				}
+			    $this->load->library("m_pdf");
 				$pdf_content = $this->m_pdf->generate_pdf($receipt_data);
 			}
 			
@@ -743,8 +754,13 @@ class Receivings extends Secure_area
 			if($this->config->item('enable_pdf_receipts')){
 				$receipt_data = $this->load->view("receivings/receipt_html", $data, true);
 				
+			if($this->config->item('receipt_download_filename_prefix')){
+				$filename = $this->config->item('receipt_download_filename_prefix').'_receipt_'.$data['receiving_id'].'.pdf';
+			}else{
 				$filename = 'receipt_'.$data['receiving_id'].'.pdf';
-		    $this->load->library("m_pdf");
+			}
+
+			$this->load->library("m_pdf");
 				$pdf_content = $this->m_pdf->generate_pdf($receipt_data);
 			}
 			
@@ -818,8 +834,12 @@ class Receivings extends Secure_area
 		//pdf generate and attached for eamil
 		$receipt_data = $this->load->view("receivings/receipt_html", $data, true);
 		
-		$filename = 'receipt_'.$data['receiving_id'].'.pdf';
-    $this->load->library("m_pdf");
+		if($this->config->item('receipt_download_filename_prefix')){
+			$filename = $this->config->item('receipt_download_filename_prefix').'_receipt_'.$data['receiving_id'].'.pdf';
+		}else{
+			$filename = 'receipt_'.$data['receiving_id'].'.pdf';
+		}
+		$this->load->library("m_pdf");
 		$pdf_content = $this->m_pdf->generate_pdf($receipt_data,TRUE, $filename);
 	}
 	
@@ -888,8 +908,12 @@ class Receivings extends Secure_area
 				if($this->config->item('enable_pdf_receipts')){
 					$receipt_data = $this->load->view("receivings/receipt_html", $data, true);
 					
-					$filename = 'receipt_'.$data['receiving_id'].'.pdf';
-			    $this->load->library("m_pdf");
+					if($this->config->item('receipt_download_filename_prefix')){
+						$filename = $this->config->item('receipt_download_filename_prefix').'_receipt_'.$data['receiving_id'].'.pdf';
+					}else{
+						$filename = 'receipt_'.$data['receiving_id'].'.pdf';
+					}
+					$this->load->library("m_pdf");
 					$pdf_content = $this->m_pdf->generate_pdf($receipt_data);
 				}
 				
@@ -1711,7 +1735,7 @@ class Receivings extends Secure_area
 		{
 			$img_src = "";
 			if ($item->image_id != 'no_image' && trim($item->image_id) != '') {
-				$img_src = app_file_url($item->image_id);
+				$img_src = cacheable_app_file_url($item->image_id);
 			}
 			
 			
@@ -1774,7 +1798,7 @@ class Receivings extends Secure_area
 		{
 			$img_src = "";
 			if ($item->image_id != 'no_image' && trim($item->image_id) != '') {
-				$img_src = app_file_url($item->image_id);
+				$img_src = cacheable_app_file_url($item->image_id);
 			}
 
 			if (strpos($item->item_id, 'KIT') === 0)
@@ -1836,7 +1860,7 @@ class Receivings extends Secure_area
 		{
 			$img_src = "";
 			if ($item->image_id != 'no_image' && trim($item->image_id) != '') {
-				$img_src = app_file_url($item->image_id);
+				$img_src = cacheable_app_file_url($item->image_id);
 			}
 
 			$cur_item_info = $this->Item->get_info($item->item_id);
@@ -1906,7 +1930,7 @@ class Receivings extends Secure_area
 		{
 			$img_src = "";
 			if ($item->image_id != 'no_image' && trim($item->image_id) != '') {
-				$img_src = app_file_url($item->image_id);
+				$img_src = cacheable_app_file_url($item->image_id);
 			}
 		
 			$size = $item->size ? ' - '.$item->size : '';
@@ -1961,7 +1985,7 @@ class Receivings extends Secure_area
 			$img_src = "";
 			if ($variation['image']['image_id']) 
 			{
-				$img_src = app_file_url($variation['image']['image_id']);
+				$img_src = cacheable_app_file_url($variation['image']['image_id']);
 			}
 					
 			$cur_item_info = $this->Item->get_info($item_id);
@@ -2568,5 +2592,53 @@ class Receivings extends Secure_area
 		echo json_encode(array('file_id' => $image_file_id, 'file_timestamp' => $this->Appfile->get_file_timestamp($image_file_id)));
 	}
 
+	function sort()
+	{
+		$sort_column_1 = $this->input->post("sort_column");
+		$sort_column = "";
+		if($sort_column_1 == 'price'){
+			$sort_column = 'unit_price';
+		}else if($sort_column_1 == 'quantity'){
+			$sort_column = 'quantity';
+		}else if($sort_column_1 == 'name'){
+			$sort_column = 'name';
+		}else if($sort_column_1 == 'discount'){
+			$sort_column = 'discount';
+		}else if($sort_column_1 == 'total'){
+			$sort_column = 'total';
+		}
+
+		if($sort_column != ""){
+			$sort_type = $this->input->post("sort_type");
+			$this->cart->sort($sort_column, $sort_type);
+			$this->cart->save();
+		}else if($sort_column_1 == 'drag_drop'){
+			$drag_index = $this->input->post("drag_index");
+			$drop_index = $this->input->post("drop_index");
+			if($drag_index > -1 && $drop_index > -1 & $drag_index != $drop_index){
+				$this->cart->drag_drop($drag_index, $drop_index);
+				$this->cart->save();
+			}
+		}
+		$this->_reload();
+	}
+
+	function update_receivings_item_order(){
+		$list = $this->input->post("item_lines");
+
+		foreach($list as $item_line){
+			$item_id = $item_line['item_id'];
+			$receiving_id = $item_line['receiving_id'];
+			$item_class = $item_line['item_class'];
+			$line = $item_line['line'];
+			$this->Receiving->receiving_item_line_update($receiving_id, $item_id, $item_class, $line);
+		}
+
+		$result = array(
+			'state' => 1
+		);
+		echo json_encode($result);
+		exit;	
+	}
 }
 ?>

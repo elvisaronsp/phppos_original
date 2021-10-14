@@ -19,6 +19,8 @@ function get_all_platformly_segments()
 			curl_setopt($curl,CURLOPT_POSTFIELDS, $post_data);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); 
 			curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1); 
+			//Don't verify ssl...just in case a server doesn't have the ability to verify
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 			
 			curl_setopt($curl, CURLOPT_HTTPHEADER, array(
     		"content-type: application/x-www-form-urlencoded"

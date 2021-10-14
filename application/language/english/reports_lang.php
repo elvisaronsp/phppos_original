@@ -527,4 +527,9 @@ $lang['reports_due'] = 'Due';
 
 $lang['reports_summary_journal'] = 'Summary Journal report';
 
+$lang['reports_voided_returned_transactions'] = 'Voided/Returned Transactions';
+$lang['reports_transaction_voided'] = 'Transaction ID Voided';
+$lang['reports_transaction_voided_transacion_id'] = 'Transaction ID Of Void';
+$lang['reports_amount_returned'] = 'Amount Voided/Returned';
+$lang['reports_voided_transactions'] = 'Voided Transactions';
 ?>

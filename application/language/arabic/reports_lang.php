@@ -779,4 +779,9 @@ $lang['reports_due'] = 'بسبب';
 
 $lang['reports_summary_journal'] = 'تقرير موجز المجلة';
 
+$lang['reports_voided_returned_transactions'] = 'المعاملات المبطلة / المعادة';
+$lang['reports_transaction_voided'] = 'معرّف المعاملة ملغاة';
+$lang['reports_transaction_voided_transacion_id'] = 'معرف المعاملة باطل';
+$lang['reports_amount_returned'] = 'المبلغ الذي تم إلغاؤه / معاد';
+$lang['reports_voided_transactions'] = 'المعاملات المبطلة';
 ?>

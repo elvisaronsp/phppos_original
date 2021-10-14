@@ -298,6 +298,8 @@
 								<th><?php echo lang("common_items_in_out_qty"); ?></th>
 								<th><?php echo lang("common_qty_in_stock"); ?></th>
 								<th><?php echo lang("items_remarks"); ?></th>
+								<th><?php echo lang("common_qty_name"); ?></th>
+								<th><?php echo lang("common_quantity_units"); ?></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -320,8 +322,6 @@
 									$row['trans_comment'] = preg_replace('/RECV ([0-9]+)/', '<span class="receiving">'.anchor('receivings/receipt/$1', $row['trans_comment']).'</span>', $row['trans_comment']);
 									?>
 									<td>
-															
-										
 										<?php 
 										//Editable text
 										if ($this->Employee->has_module_action_permission('items', 'can_edit_inventory_comment', $this->Employee->get_logged_in_employee_info()->person_id) && $row['trans_comment'] == strip_tags($row['trans_comment']))
@@ -333,8 +333,10 @@
 											echo $row['trans_comment'];										
 										}
 										?>
-								
-								</td>
+									</td>
+
+									<td><?php echo $row['quantity_unit_name'];?></td>
+									<td><?php echo to_quantity($row['quantity_unit_quantity']);?></td>
 									
 								</tr>
 							<?php } ?>

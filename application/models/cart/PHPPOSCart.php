@@ -61,9 +61,12 @@ abstract class PHPPOSCart
 	
 	public $offset;
 	public $limit;
-	
+
+	public $sort_column;
+	public $sort_type;
+
 	public function __construct(array $params = array())
-	{		
+	{
 		self::setup_defaults();
 		
 		//params that get overwritten if any passed in
@@ -131,7 +134,10 @@ abstract class PHPPOSCart
 		$this->override_tax_class = NULL;
 		$this->skip_webhook = FALSE;
 		$this->offset = 0;
-			
+
+		$this->sort_column = NULL;
+		$this->sort_type = NULL;
+
 		$this->limit = $CI->config->item('number_of_items_per_page') ? (int)$CI->config->item('number_of_items_per_page') : 20;
 		
 		if (get_class($this) == 'PHPPOSCartSale' && $CI->config->item('collapse_sales_ui_by_default'))
@@ -1159,7 +1165,68 @@ abstract class PHPPOSCart
 		
 		return FALSE;
 	}
-			
+
 	abstract function get_previous_receipt_id();
 	abstract function process_barcode_scan($barcode_scan_data,$options = array());
+
+	//type asc, desc
+	public function sort($column, $type){
+
+		$this->sort_column = $column;
+		$this->sort_type = $type;
+
+		$items = $this->get_items();
+		/*
+		$sort_array_column = array_column($items, $column);
+		if($type == "desc"){
+			array_multisort($sort_array_column, SORT_DESC, $items);
+		}else if($type == 'asc'){
+			array_multisort($sort_array_column, SORT_ASC, $items);
+		}
+		*/
+
+		usort($items, array("PHPPOSCart", "cmp1"));
+
+		$this->cart_items = $items;
+	}
+
+	public function drag_drop($drag_index, $drop_index){
+		$items = $this->get_items();
+		$drag_item  = $items[$drag_index];
+		if($drag_index < $drop_index){
+			array_splice($items, $drag_index, 1);
+			array_splice($items, $drop_index-1, 0, [$drag_item]);
+		}else{
+			array_splice($items, $drag_index, 1);
+			array_splice($items, $drop_index, 0, [$drag_item]);
+		}
+		$this->cart_items = $items;
+		$this->sort_column = "";
+	}
+
+	public function cmp1($a, $b)
+	{
+		if($this->sort_column == "total"){
+			$a1 = $a->unit_price * $a->quantity - $a->unit_price * $a->quantity * $a->discount / 100;
+			$b1 = $b->unit_price * $b->quantity - $b->unit_price * $b->quantity * $b->discount / 100;
+		}else{
+			$a1 = $a->{$this->sort_column};
+			$b1 = $b->{$this->sort_column};
+		}
+		if ($a1 == $b1) {
+			return 0;
+		}
+		if($this->sort_type == 'desc')
+			return ($b1 < $a1) ? -1 : 1;
+		return ($a1 < $b1) ? -1 : 1;
+	}
+
+	public function sort_clean(){
+		$this->sort_column =NULL;
+		$this->sort_type =NULL;
+	}
+	public function sort_by_line(){
+		$line = array_column($this->cart_items, 'line');
+		array_multisort($line, SORT_ASC, $this->cart_items);
+	}
 }

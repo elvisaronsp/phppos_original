@@ -289,6 +289,7 @@ class Employees extends Person_controller
 		$data['person_info']->reason_inactive = '';
 		$data['person_info']->inactive = '';
 		$data['person_info']->termination_date = '';
+		$data['person_info']->allowed_ip_address = '';
 			
 		$data['redirect_code']=2;
 		$data['is_clone'] = TRUE;
@@ -347,6 +348,9 @@ class Employees extends Person_controller
 			'password'=>md5($this->input->post('password')),
 			'inactive'=>$this->input->post('inactive') && $employee_id != 1 ? 1 : 0,
 			'reason_inactive'=>$this->input->post('reason_inactive') ? $this->input->post('reason_inactive') : NULL,
+
+			'allowed_ip_address'=>$this->input->post('allowed_ip_address')?(count(explode(',', $this->input->post('allowed_ip_address'))) > 0 ? serialize(explode(',', $this->input->post('allowed_ip_address'))) : serialize(array())):serialize(array()),
+
 			'hire_date'=>$this->input->post('hire_date') ? date('Y-m-d', strtotime($this->input->post('hire_date'))) : NULL,
 			'employee_number'=>$this->input->post('employee_number') ? $this->input->post('employee_number') : NULL,
 			'birthday'=>$this->input->post('birthday') ? date('Y-m-d', strtotime($this->input->post('birthday'))) : NULL,
@@ -367,6 +371,7 @@ class Employees extends Person_controller
 				'username'=>$this->input->post('username'),
 				'inactive'=>$this->input->post('inactive') && $employee_id != 1 ? 1 : 0,
 				'reason_inactive'=>$this->input->post('reason_inactive') ? $this->input->post('reason_inactive') : NULL,
+				'allowed_ip_address'=>$this->input->post('allowed_ip_address')?(count(explode(',', $this->input->post('allowed_ip_address'))) > 0 ? serialize(explode(',', $this->input->post('allowed_ip_address'))) : serialize(array())):serialize(array()),
 				'hire_date'=>$this->input->post('hire_date') ? date('Y-m-d', strtotime($this->input->post('hire_date'))) : NULL,
 				'employee_number'=>$this->input->post('employee_number') ? $this->input->post('employee_number') : NULL,
 				'birthday'=>$this->input->post('birthday') ? date('Y-m-d', strtotime($this->input->post('birthday'))) : NULL,

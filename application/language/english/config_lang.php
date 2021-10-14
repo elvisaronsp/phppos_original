@@ -819,5 +819,35 @@ $lang['config_always_put_last_added_item_on_top_of_cart'] = 'Always put last add
 $lang['config_show_giftcards_even_if_0_balance'] = 'Show Gift cards even if zero balance';
 
 $lang['config_scale_5'] = 'Weight Embedded Barcode';
+
+$lang['config_disable_modules'] = 'Disable Modules';
+
 $lang['config_hide_description_on_suspended_sales'] = 'Hide Item Description On Suspended Sales';
+$lang['config_override_symbol_non_taxable'] = 'Override Symbol for Non Taxable';
+
+
+
+$lang['config_hide_categories_sales_grid'] = 'Hide Categories on Sales Grid';
+$lang['config_hide_tags_sales_grid'] = 'Hide Tags on Sales Grid';
+$lang['config_hide_favorites_sales_grid'] = 'Hide Favorites on Sales Grid';
+$lang['config_hide_categories_receivings_grid'] = 'Hide Categories on Receivings Grid';
+$lang['config_hide_tags_receivings_grid'] = 'Hide Tags on Receivings Grid';
+$lang['config_hide_suppliers_receivings_grid'] = 'Hide Suppliers on Receivings Grid';
+$lang['config_hide_favorites_receivings_grid'] = 'Hide Favorites on Receivings Grid';
+$lang['config_hide_suppliers_sales_grid'] = 'Hide Suppliers on Sales Grid';
+
+$lang['config_offline_mode_sync_period'] = 'Offline Mode Sync Cycle Time (Hour)';
+
+
+
+$lang['config_receipt_download_filename_prefix'] = 'Receipt Download Filename Prefix';
+$lang['config_remove_employee_lastname_from_receipt'] = 'Remove Employee Last Name From Receipt';
+$lang['config_override_symbol_taxes_summary_on_receipt'] = 'OVERRIDE SYMBOL FOR SHOW TAXABLE AND NON TAXABLE SUMMARY ON RECEIPT';
+
+$lang['config_show_images_on_receipt_width_percent'] = 'Max Width Of Item Images On Receipt (Percentage)';
+
+$lang['config_override_symbol_taxable_summary'] = 'Override Symbol for Taxable Summary On Receipt';
+$lang['config_override_symbol_non_taxable_summary'] = 'Override Symbol for Non Taxable Summary On Receipt';
+$lang['config_allow_drag_drop_recv'] = 'Allow Reorder on receiving screen';
+$lang['config_allow_drag_drop_sale'] = 'Allow Reorder on sale screen';
 ?>

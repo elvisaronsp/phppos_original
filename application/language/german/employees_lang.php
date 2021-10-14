@@ -78,4 +78,6 @@ $lang['employees_login_end_time'] = 'Erlaubt, sich Endzeit anzumelden';
 $lang['employees_login_start_time'] = 'Startzeit für Anmeldung zulässig';
 $lang['permission_templates'] = 'Berechtigungsvorlagen';
 $lang['update_all_employees_with_template_assinged'] = 'Aktualisieren Sie alle Mitarbeiter mit zugewiesener Vorlage';
+$lang['employees_enter_ip'] = 'Bitte IP oder IP-Bereich (CIDR) eingeben';
+$lang['employees_acess_ip_range'] = 'IP-Adressen, auf die Mitarbeiter zugreifen können';
 ?>

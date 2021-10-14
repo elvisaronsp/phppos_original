@@ -3110,8 +3110,7 @@ td .form-control.selectize-control {
     /*display: none;	*/
   }
   .wrapper.mini-bar .left-bar .admin-logo .logo-holder .logo {
-    width: 31px;
-    margin-top: 7%;
+    width: 70px;
   }
   .wrapper.mini-bar .left-bar .admin-logo a.menu-bar {
     width: 90px;
@@ -5151,4 +5150,23 @@ nav.navbar {
 }
 .list-style-none {
   list-style: none;
+}
+.dot {
+  visibility: hidden;
+  position: relative;
+  top: 7px;
+  height: 7px;
+  width: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot.red {
+  background-color: red;
+}
+.dot.green {
+  background-color: green;
+}
+.next-to-status {
+  float: right;
+  width: 95%;
 }

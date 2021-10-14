@@ -299,4 +299,15 @@ $lang['sales_detailed_note'] = 'កំណត់ចំណាំលម្អិត
 $lang['sales_internal_note'] = 'កំណត់សំគាល់ផ្ទៃក្នុង';
 $lang['sales_delveried_to'] = 'ប្រគល់ជូន';
 $lang['sales_view_receipt_on_web_page'] = 'មើលវិក័យប័ត្រនៅលើគេហទំព័រ';
+$lang['sales_view_edit_transaction_history'] = 'មើល/កែសម្រួលប្រតិបត្តិការកាត';
+$lang['sales_list_of_credit_transactions'] = 'បញ្ជីប្រតិបត្តិការកាតឥណទាន';
+$lang['sales_response_description'] = 'ការពិពណ៌នាការឆ្លើយតប';
+$lang['sales_card_holder'] = 'អ្នកកាន់កាត';
+$lang['sales_list_of_batches'] = 'បញ្ជីក្រុម';
+$lang['sales_batch_id'] = 'លេខសម្គាល់បាច់';
+$lang['sales_batches'] = 'ក្រុមកាត';
+$lang['sales_https_required_cc'] = 'ការតភ្ជាប់សុវត្ថិភាព https ឥឡូវនេះត្រូវការសម្រាប់ដំណើរការកាតឥណទាន។ ម៉ាស៊ីនមេរបស់អ្នកមិនគាំទ្រវាទេ។';
+$lang['sales_https_required_cc_redirect'] = 'ត្រូវការ https សម្រាប់ដំណើរការកាតឥណទាន។ តើអ្នកចង់ផ្ទុកការលក់ឡើងវិញនៅក្នុង https ហើយបន្ទាប់មកដំណើរការឡើងវិញទេ?';
+$lang['sales_credit_card_terminal_offline'] = 'ស្ថានីយកាតឥណទានរបស់អ្នកគឺក្រៅបណ្តាញសូមពិនិត្យមើលការតភ្ជាប់មុនពេលដំណើរការលក់';
+$lang['sales_credit_card_terminal_online'] = 'ស្ថានីយកាតឥណទានរបស់អ្នកគឺ ONLINE ហើយអាចដំណើរការប្រតិបត្តិការបាន';
 ?>

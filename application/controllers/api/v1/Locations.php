@@ -79,7 +79,7 @@ class Locations extends REST_Controller {
 					'default_tax_4_name' => $location->default_tax_4_name,
 					'default_tax_5_rate' => $location->default_tax_5_rate,
 					'default_tax_5_name' => $location->default_tax_5_name,
-					'company_logo' => $location->company_logo ? app_file_url($location->company_logo) : '',
+					'company_logo' => $location->company_logo ? secure_app_file_url($location->company_logo) : '',
 					'tax_id' => $location->tax_id,
 				);
 				

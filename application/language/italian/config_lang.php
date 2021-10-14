@@ -799,5 +799,35 @@ $lang['config_always_put_last_added_item_on_top_of_cart'] = 'Metti sempre l\'ult
 $lang['config_show_giftcards_even_if_0_balance'] = 'Mostra le carte regalo anche se a saldo zero';
 
 $lang['config_scale_5'] = 'Codice a barre incorporato peso';
+
+$lang['config_disable_modules'] = 'Disattiva moduli';
+
 $lang['config_hide_description_on_suspended_sales'] = 'Nascondi la descrizione dell\'articolo sulle vendite sospese';
+$lang['config_override_symbol_non_taxable'] = 'Simbolo di sostituzione per non imponibile';
+
+
+
+$lang['config_hide_categories_sales_grid'] = 'Nascondi categorie nella griglia di vendita';
+$lang['config_hide_tags_sales_grid'] = 'Nascondi tag nella griglia di vendita';
+$lang['config_hide_favorites_sales_grid'] = 'Nascondi preferiti nella griglia di vendita';
+$lang['config_hide_categories_receivings_grid'] = 'Nascondi categorie nella griglia di ricezione';
+$lang['config_hide_tags_receivings_grid'] = 'Nascondi tag nella griglia delle ricevute';
+$lang['config_hide_suppliers_receivings_grid'] = 'Nascondi fornitori nella griglia di ricezione';
+$lang['config_hide_favorites_receivings_grid'] = 'Nascondi Preferiti nella Griglia delle Ricezioni';
+$lang['config_hide_suppliers_sales_grid'] = 'Nascondi fornitori nella griglia di vendita';
+
+$lang['config_offline_mode_sync_period'] = 'Tempo del ciclo di sincronizzazione della modalità offline (ore)';
+
+
+
+$lang['config_receipt_download_filename_prefix'] = 'Ricevuta Scarica Prefisso nome file';
+$lang['config_remove_employee_lastname_from_receipt'] = 'Rimuovi il cognome del dipendente dalla ricevuta';
+$lang['config_override_symbol_taxes_summary_on_receipt'] = 'SIMBOLO DI OVERRIDE PER MOSTRARE RIEPILOGO IMPONIBILE E NON IMPONIBILE IN RICEVUTA';
+
+$lang['config_show_images_on_receipt_width_percent'] = 'Larghezza massima delle immagini dell\'articolo sulla ricevuta (percentuale)';
+
+$lang['config_override_symbol_taxable_summary'] = 'Sovrascrivi il simbolo per il riepilogo imponibile sullo scontrino';
+$lang['config_override_symbol_non_taxable_summary'] = 'Simbolo di sostituzione per riepilogo non imponibile sulla ricevuta';
+$lang['config_allow_drag_drop_recv'] = 'Consenti riordina alla ricezione dello schermo';
+$lang['config_allow_drag_drop_sale'] = 'Consenti riordina nella schermata di vendita';
 ?>

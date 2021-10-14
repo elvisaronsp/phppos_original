@@ -7,6 +7,31 @@ function current_url()
     return @$_SERVER['QUERY_STRING'] ? $url.'?'.$_SERVER['QUERY_STRING'] : $url;
 }
 
+function secure_app_file_url($file_id,$file_extension=false)
+{
+    $CI =& get_instance();
+  	$CI->load->model('Appfile');
+	$signature = $CI->Appfile->get_signature($file_id);
+	
+	if ($file_extension)
+	{
+		$app_file_info = $CI->Appfile->get_file_info($file_id);
+		return site_url('app_files/view_signed_url/'.$file_id.'/'.rawurlencode($app_file_info->file_name).'?timestamp='.strtotime($app_file_info->timestamp)."&signature=$signature");	
+	}
+	else
+	{
+  		return site_url('app_files/view_signed_url/'.$file_id.'?timestamp='.$CI->Appfile->get_file_timestamp($file_id)."&signature=$signature");	
+
+	}
+}
+
+function cacheable_app_file_url($file_id)
+{
+    $CI =& get_instance();
+  	$CI->load->model('Appfile');
+  	return site_url('app_files/view_cacheable/'.$file_id.'?timestamp='.$CI->Appfile->get_file_timestamp($file_id));	
+}
+
 function app_file_url($file_id)
 {
   $CI =& get_instance();
@@ -21,8 +46,9 @@ function file_id_to_image_thumb($file_id,$go_right=false)
 {
 	if ($file_id)
 	{
-  	$CI =& get_instance();
+  		$CI =& get_instance();
 		$CI->load->model('Appfile');
+		$signature = $CI->Appfile->get_signature($file_id);
 	
 		if ($go_right)
 		{
@@ -32,7 +58,7 @@ function file_id_to_image_thumb($file_id,$go_right=false)
 		{
 			$go_right = '';
 		}
-		$image = site_url('app_files/view/'.$file_id.'?timestamp='.$CI->Appfile->get_file_timestamp($file_id));
+		$image = site_url('app_files/view_signed_url/'.$file_id.'?timestamp='.$CI->Appfile->get_file_timestamp($file_id)."&signature=$signature");
 	
 		return "<a href='$image' class='rollover $go_right'><img src='$image' class='img-polaroid' width='120'></a>";
 	}
@@ -57,10 +83,7 @@ function file_id_to_download_link($file_id)
 
 function app_file_url_with_extension($file_id)
 {
-  $CI =& get_instance();
-	$CI->load->model('Appfile');
-	$app_file_info = $CI->Appfile->get_file_info($file_id);
-	return site_url('app_files/view/'.$file_id.'/'.rawurlencode($app_file_info->file_name).'?timestamp='.strtotime($app_file_info->timestamp));
+	return secure_app_file_url($file_id,TRUE);
 }
 
 function tel($number)

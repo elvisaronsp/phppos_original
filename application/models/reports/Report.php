@@ -665,6 +665,13 @@ Report::$reports = array(
 					'display' => 'tabular'
 					),
 				),
+				'voided_transactions' => array(
+					'model' => 'Voided_transactions',
+					'settings' => array(
+						'permission_action' => 'view_deleted_sales',
+						'display' => 'tabular'
+						),
+					),
 			
 				'summary_discounts' => array(
 					'model' => 'Summary_discounts',

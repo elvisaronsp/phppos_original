@@ -71,7 +71,7 @@ class Employees extends REST_Controller {
 					'default_register_id' => $default_register_id,
 					'always_require_password' => $employee->always_require_password ? true : false,
 					'not_required_to_clock_in' => $employee->not_required_to_clock_in ? true : false,
-					'image_url' => $employee->image_id ? app_file_url($employee->image_id) : '',
+					'image_url' => $employee->image_id ? secure_app_file_url($employee->image_id) : '',
 					'created_at' => $employee->create_date ? date(get_date_format().' '.get_time_format(), strtotime($employee->create_date)) : NULL,
 					'dark_mode' => $employee->dark_mode ? true : false,
 				);

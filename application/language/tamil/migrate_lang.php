@@ -534,7 +534,14 @@ $lang['migrate_import_ecommerce_orders_suspended_type'] = 'இறக்கும
 
 $lang['migrate_can_lookup_last_receipt_permission'] = 'கடைசி ரசீது அனுமதியைப் பார்க்க முடியும்';
 $lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = 'Phppos பணிநிலை நிலைகளுக்கு Utf8 General Ci to Utf8 Unicode Ci ஐ சரிசெய்யவும்';
+$lang['migrate_18_3_version'] = '18.3 பதிப்பு';
+
 $lang['migrate_manage_delivery_statuses_permission'] = 'விநியோக நிலை அனுமதியை நிர்வகிக்கவும்';
 $lang['migrate_add_default_delivery_statuses'] = 'இயல்புநிலை விநியோக நிலைகளைச் சேர்க்கவும்';
 $lang['migrate_permission_for_delete_suspended_receivings'] = 'இடைநீக்கம் செய்யப்பட்ட வரவுகளை நீக்குவதற்கான அனுமதி';
+$lang['migrate_add_expenses_files_table'] = 'செலவுக் கோப்புகள் அட்டவணையைச் சேர்க்கவும்';
+$lang['migrate_add_expenses_image_field'] = 'செலவுகள் பட புலம் சேர்க்கவும்';
+$lang['migrate_add_employee_ip_range'] = 'பணியாளர் ஐபி வரம்பைச் சேர்க்கவும்';
+$lang['migrate_coreclear'] = 'மையக்கரு';
+$lang['migrate_coreclear_void_logging'] = 'கோர்ஆக்ளியர் வெற்றிட பதிவு';
 ?>

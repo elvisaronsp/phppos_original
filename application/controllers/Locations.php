@@ -1,8 +1,14 @@
 <?php
 require_once ("Secure_area.php");
 require_once ("interfaces/Idata_controller.php");
+require_once (APPPATH."libraries/blockchyp/vendor/autoload.php");
+require_once (APPPATH."traits/creditcardProcessingTrait.php");
+
+use \BlockChyp\BlockChyp;
+
 class Locations extends Secure_area implements Idata_controller
 {
+	use creditcardProcessingTrait;
 	function __construct()
 	{
 		parent::__construct('locations');
@@ -252,6 +258,9 @@ class Locations extends Secure_area implements Idata_controller
 		$auth_url = (!defined("ENVIRONMENT") or ENVIRONMENT == 'development') ? 'http://phppointofsalestaging.com/allowed_stores.php?email='.rawurlencode($email): 'http://phppointofsale.com/allowed_stores.php?email='.rawurlencode($email);
 		
         $ch = curl_init(); 
+		//Don't verify ssl...just in case a server doesn't have the ability to verify
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		
         curl_setopt($ch, CURLOPT_URL, $auth_url); 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
         $authenticated_locations_count = (int)curl_exec($ch); 
@@ -414,6 +423,10 @@ class Locations extends Secure_area implements Idata_controller
 		'auto_reports_email_time' => $this->input->post('auto_reports_email_time'),
 		'auto_reports_day' => $this->input->post('auto_reports_day'),
 		'disable_confirmation_option_for_emv_credit_card' => $this->input->post('disable_confirmation_option_for_emv_credit_card') ? 1 : 0,
+		'blockchyp_api_key' => $this->input->post('blockchyp_api_key'),
+		'blockchyp_bearer_token' => $this->input->post('blockchyp_bearer_token'),
+		'blockchyp_signing_key' => $this->input->post('blockchyp_signing_key'),
+		'blockchyp_test_mode' => $this->input->post('blockchyp_test_mode') ? 1 : 0,
 	);
 	
 	
@@ -785,7 +798,6 @@ class Locations extends Secure_area implements Idata_controller
 		$params['offset'] = 0;
 		
 		$this->session->set_userdata("locations_search_data",$params);
-	}
-	
+	}	
 }
 ?>

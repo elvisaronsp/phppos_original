@@ -32,6 +32,12 @@ class Inventory extends MY_Model
 		$this->load->model('Item_variations');
 		//include deleted
 		$variations = $this->Item_variations->get_variations($item_id, true);
+		$quantity_unit_info = $this->Item->get_quantity_units($item_id);
+		if(count($quantity_unit_info) == 1) {
+			$quantity_unit_info = $quantity_unit_info[0];
+		} else{
+			$quantity_unit_info = null;
+		}
 				
 		$this->db->from('inventory');
 		$this->db->where('trans_items',$item_id);
@@ -58,6 +64,14 @@ class Inventory extends MY_Model
 			else
 			{
 				$row['variation']= '';
+			}
+
+			if($quantity_unit_info){
+				$row['quantity_unit_name'] = $quantity_unit_info->unit_name;
+				$row['quantity_unit_quantity'] = $quantity_unit_info->unit_quantity;
+			}else{
+				$row['quantity_unit_name'] = '';
+				$row['quantity_unit_quantity'] = '';
 			}
 		}
 		

@@ -521,4 +521,9 @@ $lang['reports_due'] = 'Dû';
 
 $lang['reports_summary_journal'] = 'Rapport de synthèse';
 
+$lang['reports_voided_returned_transactions'] = 'Transactions annulées/retournées';
+$lang['reports_transaction_voided'] = 'ID de transaction annulé';
+$lang['reports_transaction_voided_transacion_id'] = 'ID de transaction d\'annulation';
+$lang['reports_amount_returned'] = 'Montant annulé/retourné';
+$lang['reports_voided_transactions'] = 'Transactions annulées';
 ?>

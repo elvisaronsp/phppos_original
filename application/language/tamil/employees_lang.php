@@ -79,4 +79,6 @@ $lang['employees_login_start_time'] = 'தொடக்க நேரத்தை 
 $lang['permission_templates'] = 'அனுமதி வார்ப்புருக்கள்';
 //Update all Employees With Template Assigned
 $lang['update_all_employees_with_template_assinged'] = 'ஒதுக்கப்பட்ட வார்ப்புருவுடன் அனைத்து பணியாளர்களையும் புதுப்பிக்கவும்';
+$lang['employees_enter_ip'] = 'தயவுசெய்து ஐபி அல்லது ஐபி வரம்பை உள்ளிடவும் (சிஐடிஆர்)';
+$lang['employees_acess_ip_range'] = 'ஐபி முகவரிகள் ஊழியர் அணுகலாம்';
 ?>

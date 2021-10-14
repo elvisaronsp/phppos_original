@@ -387,4 +387,15 @@ $lang['sales_detailed_note'] = 'Note détaillée';
 $lang['sales_internal_note'] = 'Note interne';
 $lang['sales_delveried_to'] = 'Livré à';
 $lang['sales_view_receipt_on_web_page'] = 'Afficher le reçu sur la page Web';
+$lang['sales_view_edit_transaction_history'] = 'Afficher/Modifier les transactions par carte';
+$lang['sales_list_of_credit_transactions'] = 'Liste des transactions par carte de crédit';
+$lang['sales_response_description'] = 'Description de la réponse';
+$lang['sales_card_holder'] = 'Titulaire de la carte';
+$lang['sales_list_of_batches'] = 'Liste des lots';
+$lang['sales_batch_id'] = 'Identifiant du lot';
+$lang['sales_batches'] = 'Lots de cartes';
+$lang['sales_https_required_cc'] = 'Une connexion sécurisée https est désormais requise pour le traitement des cartes de crédit. Votre serveur ne supporte PAS cela.';
+$lang['sales_https_required_cc_redirect'] = 'https est requis pour le traitement des cartes de crédit. Souhaitez-vous recharger la vente en https puis retraiter ?';
+$lang['sales_credit_card_terminal_offline'] = 'Votre terminal de carte de crédit est HORS LIGNE, veuillez vérifier la connexion avant de traiter la vente';
+$lang['sales_credit_card_terminal_online'] = 'Votre terminal de carte de crédit est EN LIGNE et prêt à traiter les transactions';
 ?>

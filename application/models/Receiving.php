@@ -2083,8 +2083,16 @@ class Receiving extends MY_Model
 		return FALSE;
 		
 	}
-	
-	
+
+	function receiving_item_line_update($receiving_id,$item_id, $item_class,$line){
+		if($item_class=="item"){
+			$this->db->where('receiving_id', $receiving_id);
+			$this->db->where('item_id', $item_id);
+			$this->db->update('receivings_items',array('line'=>$line));
+		}else if($item_class="item_kit"){
+		}
+		return true;
+	}
 }
 
 ?>

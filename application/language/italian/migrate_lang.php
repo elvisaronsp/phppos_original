@@ -474,4 +474,10 @@ $lang['migrate_can_lookup_last_receipt_permission'] = 'Può cercare l\'ultima au
 $lang['migrate_permission_for_delete_suspended_receivings'] = 'Autorizzazione per l\'eliminazione delle ricevute sospese';
 
 $lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = 'Correggi Utf8 General Ci a Utf8 Unicode Ci per gli stati degli ordini di lavoro Phppos';
+$lang['migrate_18_3_version'] = '18.3 Versione';
+$lang['migrate_add_expenses_files_table'] = 'Aggiungi la tabella dei file delle spese';
+$lang['migrate_add_expenses_image_field'] = 'Aggiungi campo immagine spese';
+$lang['migrate_add_employee_ip_range'] = 'Aggiungi intervallo IP dipendente';
+$lang['migrate_coreclear'] = 'Coreclear';
+$lang['migrate_coreclear_void_logging'] = 'Registrazione del Vuoto Coreclear';
 ?>

@@ -430,7 +430,6 @@ $lang['common_previous_step'] = 'Paso anterior';
 $lang['common_complete_excel_import'] = 'Completar importación a Excel';
 $lang['common_complete_excel_import_directions'] = 'Haga clic en "Completa importación a Excel" para validar y completar la importación.';
 $lang['Complete Excel Import'] = '';
-$lang['n'] = 'common_complete_excel_import_directions';
 $lang['common_desktop'] = 'Escritorio';
 $lang['common_mobile'] = 'Móvil';
 $lang['confirmation_export_woocommerce_products'] = '¿Seguro que desea exportar los productos a WooCommerce?';
@@ -1057,4 +1056,29 @@ $lang['common_back_to_suppliers'] = 'Volver a proveedores';
 $lang['common_change_status'] = 'Cambiar Estado';
 $lang['common_please_select'] = 'Por favor seleccione';
 $lang['sales_can_lookup_last_receipt'] = 'Puede buscar el último recibo';
+
+$lang['common_disable'] = 'Desactivar';
+$lang['employees_acess_ip_range'] = 'Rango de IP de acceso de los empleados';
+$lang['common_cannot_access_with_ip'] = 'No puedes acceder con tu ip';
+$lang['common_filter'] = 'Filtrar';
+$lang['common_payment_type'] = 'Tipo de pago';
+$lang['sales_masked_card'] = 'Tarjeta enmascarada';
+$lang['sales_void_return'] = 'Anular / Retorno';
+$lang['common_unknown'] = 'Desconocido';
+$lang['common_void'] = 'Vacío';
+$lang['sales_cannot_void_transaction'] = 'No se puede anular la transacción';
+$lang['sales_void_title'] = 'Opciones nulas';
+$lang['sales_confirm_void'] = '¿Está seguro de que desea anular / eliminar esta venta?';
+$lang['sales_void_full_amount'] = 'Importe total anulado';
+$lang['sales_void_partial_amount'] = 'Importe parcial nulo';
+$lang['sales_please_enter_refund_amount'] = 'Ingrese el monto del reembolso';
+$lang['sales_success_void_transaction'] = 'Has anulado la transacción con éxito';
+$lang['common_qty_name'] = 'Nombres de cantidad';
+
+$lang['common_indicate_non_taxable_on_receipt'] = 'Indique no tributable al recibirlo';
+$lang['common_no_tax'] = 'SIN IMPUESTOS';
+
+$lang['common_view_edit_transaction_history'] = 'Ver / editar transacciones con tarjeta';
+$lang['common_change_log'] = 'Cambio de registro';
+$lang['common_add_new_ip'] = 'Agregar nueva IP';
 ?>

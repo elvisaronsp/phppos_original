@@ -524,4 +524,9 @@ $lang['reports_due'] = 'Ten gevolge';
 
 $lang['reports_summary_journal'] = 'Samenvattend journaalrapport';
 
+$lang['reports_voided_returned_transactions'] = 'Ongeldige/geretourneerde transacties';
+$lang['reports_transaction_voided'] = 'Transactie-ID ongeldig';
+$lang['reports_transaction_voided_transacion_id'] = 'Transactie-ID van ongeldig';
+$lang['reports_amount_returned'] = 'Bedrag geannuleerd/teruggegeven';
+$lang['reports_voided_transactions'] = 'Ongeldige transacties';
 ?>

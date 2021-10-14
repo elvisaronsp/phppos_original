@@ -157,7 +157,7 @@ class Items extends REST_Controller {
 				
 				foreach($this->Item->get_item_images($item->item_id) as $image)
 				{
-					$item_return['images'][] = array('image_url' => app_file_url($image['image_id']),'title' => $image['title'],'alt_text' => $image['alt_text'],'variation_id' => $image['item_variation_id']);
+					$item_return['images'][] = array('image_url' => secure_app_file_url($image['image_id']),'title' => $image['title'],'alt_text' => $image['alt_text'],'variation_id' => $image['item_variation_id']);
 				}
 				
 				$item_return['variations'] = array();

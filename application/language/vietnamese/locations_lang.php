@@ -162,4 +162,8 @@ $lang['locations_previous_day'] = 'Ngày trước';
 $lang['locations_current_day'] = 'Ngày hiện tại';
 $lang['locations_auto_reports_day'] = 'Ngày gửi báo cáo qua email cho';
 $lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'Tắt xác nhận số tiền khi xử lý thẻ tín dụng';
+$lang['locations_blockchyp_api_key'] = 'Khóa API coreCLEAR';
+$lang['locations_blockchyp_bearer_token'] = 'Mã thông báo mang coreCLEAR';
+$lang['locations_blockchyp_signing_key'] = 'Khóa ký coreCLEAR';
+$lang['locations_blockchyp_test_mode'] = 'Chế độ kiểm tra coreCLEAR';
 ?>

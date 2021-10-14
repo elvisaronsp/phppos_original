@@ -801,5 +801,35 @@ $lang['config_always_put_last_added_item_on_top_of_cart'] = 'Toujours mettre le 
 $lang['config_show_giftcards_even_if_0_balance'] = 'Afficher les cartes-cadeaux même si le solde est nul';
 
 $lang['config_scale_5'] = 'Code-barres intégré au poids';
+
+$lang['config_disable_modules'] = 'Désactiver les modules';
+
 $lang['config_hide_description_on_suspended_sales'] = 'Masquer la description de l\'article sur les ventes suspendues';
+$lang['config_override_symbol_non_taxable'] = 'Symbole de remplacement pour non imposable';
+
+
+
+$lang['config_hide_categories_sales_grid'] = 'Masquer les catégories sur la grille de vente';
+$lang['config_hide_tags_sales_grid'] = 'Masquer les balises sur la grille de vente';
+$lang['config_hide_favorites_sales_grid'] = 'Masquer les favoris sur la grille de vente';
+$lang['config_hide_categories_receivings_grid'] = 'Masquer les catégories dans la grille des réceptions';
+$lang['config_hide_tags_receivings_grid'] = 'Masquer les balises sur la grille des réceptions';
+$lang['config_hide_suppliers_receivings_grid'] = 'Masquer les fournisseurs dans la grille des réceptions';
+$lang['config_hide_favorites_receivings_grid'] = 'Masquer les favoris dans la grille de réception';
+$lang['config_hide_suppliers_sales_grid'] = 'Masquer les fournisseurs sur la grille de vente';
+
+$lang['config_offline_mode_sync_period'] = 'Temps de cycle de synchronisation en mode hors ligne (heure)';
+
+
+
+$lang['config_receipt_download_filename_prefix'] = 'Préfixe de nom de fichier de téléchargement de reçu';
+$lang['config_remove_employee_lastname_from_receipt'] = 'Supprimer le nom de l\'employé du reçu';
+$lang['config_override_symbol_taxes_summary_on_receipt'] = 'SYMBOLE DE DÉPLACEMENT POUR MONTRER LE RÉSUMÉ TAXABLE ET NON TAXABLE À LA RÉCEPTION';
+
+$lang['config_show_images_on_receipt_width_percent'] = 'Largeur maximale des images de l\'article à la réception (pourcentage)';
+
+$lang['config_override_symbol_taxable_summary'] = 'Symbole de remplacement pour le récapitulatif imposable à la réception';
+$lang['config_override_symbol_non_taxable_summary'] = 'Symbole de remplacement pour le récapitulatif non imposable à la réception';
+$lang['config_allow_drag_drop_recv'] = 'Autoriser la réorganisation sur l\'écran de réception';
+$lang['config_allow_drag_drop_sale'] = 'Autoriser la réorganisation sur l\'écran de vente';
 ?>

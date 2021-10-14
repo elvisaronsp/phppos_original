@@ -793,5 +793,35 @@ $lang['config_always_put_last_added_item_on_top_of_cart'] = 'Immer den zuletzt h
 $lang['config_show_giftcards_even_if_0_balance'] = 'Geschenkkarten anzeigen, auch wenn kein Guthaben vorhanden ist';
 
 $lang['config_scale_5'] = 'Gewicht Eingebetteter Barcode';
+
+$lang['config_disable_modules'] = 'Module deaktivieren';
+
 $lang['config_hide_description_on_suspended_sales'] = 'Artikelbeschreibung bei ausgesetzten Verkäufen ausblenden';
+$lang['config_override_symbol_non_taxable'] = 'Überschreibungssymbol für nicht steuerpflichtig';
+
+
+
+$lang['config_hide_categories_sales_grid'] = 'Kategorien im Verkaufsraster ausblenden';
+$lang['config_hide_tags_sales_grid'] = 'Tags im Verkaufsraster ausblenden';
+$lang['config_hide_favorites_sales_grid'] = 'Favoriten im Verkaufsraster ausblenden';
+$lang['config_hide_categories_receivings_grid'] = 'Kategorien im Empfangsraster ausblenden';
+$lang['config_hide_tags_receivings_grid'] = 'Tags im Eingangsraster ausblenden';
+$lang['config_hide_suppliers_receivings_grid'] = 'Lieferanten im Eingangsraster ausblenden';
+$lang['config_hide_favorites_receivings_grid'] = 'Favoriten im Empfangsraster ausblenden';
+$lang['config_hide_suppliers_sales_grid'] = 'Lieferanten im Verkaufsraster ausblenden';
+
+$lang['config_offline_mode_sync_period'] = 'Offline-Modus-Synchronisierungszykluszeit (Stunde)';
+
+
+
+$lang['config_receipt_download_filename_prefix'] = 'Dateinamenspräfix für Quittung herunterladen';
+$lang['config_remove_employee_lastname_from_receipt'] = 'Entfernen Sie den Nachnamen des Mitarbeiters aus der Quittung';
+$lang['config_override_symbol_taxes_summary_on_receipt'] = 'AUFHEBUNGSSYMBOL FÜR STEUERBARE UND NICHT STEUERBARE ZUSAMMENFASSUNG AUF DEM EMPFANG';
+
+$lang['config_show_images_on_receipt_width_percent'] = 'Maximale Breite von Artikelbildern beim Empfang (Prozentsatz)';
+
+$lang['config_override_symbol_taxable_summary'] = 'Symbol für steuerpflichtige Zusammenfassung beim Empfang überschreiben';
+$lang['config_override_symbol_non_taxable_summary'] = 'Symbol für nicht steuerpflichtige Zusammenfassung beim Empfang überschreiben';
+$lang['config_allow_drag_drop_recv'] = 'Neuordnung auf dem Empfangsbildschirm zulassen';
+$lang['config_allow_drag_drop_sale'] = 'Nachbestellung auf dem Verkaufsbildschirm zulassen';
 ?>

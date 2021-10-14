@@ -84,7 +84,7 @@ class Appointments extends REST_Controller {
 				$appointments_return['customer_credit_limit'] = (float)$customer->credit_limit;
 				$appointments_return['customer_disable_loyalty'] = (boolean)$customer->disable_loyalty;
 				$appointments_return['customer_points'] = (int)$customer->points;
-				$appointments_return['customer_image_url'] = $customer->image_id ? app_file_url($customer->image_id) : '';
+				$appointments_return['customer_image_url'] = $customer->image_id ? secure_app_file_url($customer->image_id) : '';
 				$appointments_return['customer_created_at'] = $customer->create_date ? date(get_date_format().' '.get_time_format(), strtotime($customer->create_date)) : NULL;
 				$appointments_return['customer_location_id'] = $customer->location_id ? (int)$customer->location_id : NULL;
 				

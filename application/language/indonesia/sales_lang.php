@@ -380,4 +380,15 @@ $lang['sales_detailed_note'] = 'Catatan Rinci';
 $lang['sales_internal_note'] = 'Catatan Internal';
 $lang['sales_delveried_to'] = 'Dikirim ke';
 $lang['sales_view_receipt_on_web_page'] = 'Lihat Tanda Terima Di Halaman Web';
+$lang['sales_view_edit_transaction_history'] = 'Lihat/Edit Transaksi Kartu';
+$lang['sales_list_of_credit_transactions'] = 'Daftar Transaksi Kartu Kredit';
+$lang['sales_response_description'] = 'Deskripsi Tanggapan';
+$lang['sales_card_holder'] = 'Pemegang Kartu';
+$lang['sales_list_of_batches'] = 'Daftar Batch';
+$lang['sales_batch_id'] = 'ID Batch';
+$lang['sales_batches'] = 'Batch Kartu';
+$lang['sales_https_required_cc'] = 'https koneksi aman sekarang diperlukan untuk pemrosesan kartu kredit. Server Anda TIDAK mendukung ini.';
+$lang['sales_https_required_cc_redirect'] = 'https diperlukan untuk pemrosesan kartu kredit. Apakah Anda ingin memuat ulang penjualan di https dan kemudian memproses ulang?';
+$lang['sales_credit_card_terminal_offline'] = 'Terminal kartu kredit Anda OFFLINE, harap periksa koneksi sebelum memproses penjualan';
+$lang['sales_credit_card_terminal_online'] = 'Terminal kartu kredit Anda ONLINE dan siap memproses transaksi';
 ?>

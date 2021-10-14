@@ -61,7 +61,7 @@ $lang["locations_no_locations_to_display"] = "ពុំ​មាន​ទីត�
 $lang["locations_net_e_pay_info"] = "កំណត់​តម្លៃ​នេះ ប្រសិនបើ​អ្នក​មិន​បាន​ដំឡើង net-e-pay នៅ​លើ​ម៉ាស៊ីន​នេះ";
 $lang["locations_net_e_pay_server"] = "ម៉ាស៊ីន​បម្រើ Net E-Pay (បង់ប្រាក់​លើ​បណ្ដាញ)";
 $lang["locations_emv_terminal_id"] = "ល.ស ពាណិជ្ជករ EMV/ល.ស ស្ថានីយ";
-$lang["locations_terminal_id"] = "ល.ស ស្ថានីយ";
+$lang["locations_terminal_id"] = "លេខសម្គាល់ស្ថានីយ";
 $lang["locations_secure_device_override_emv"] = "លុប​លើ​ឧបករណ៍ EMV";
 $lang["locations_secure_device_override_non_emv"] = "លុប​លើ​ឧបករណ៍​មិន​មែន EMV";
 $lang["locations_purchase_additional_locations"] = "ទិញ​ទីតាំង​បន្ថែម";
@@ -92,4 +92,8 @@ $lang['locations_previous_day'] = 'ថ្ងៃមុន';
 $lang['locations_current_day'] = 'ថ្ងៃបច្ចុប្បន្ន';
 $lang['locations_auto_reports_day'] = 'ថ្ងៃផ្ញើអ៊ីមែលសំរាប់របាយការណ៍';
 $lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'បិទការបញ្ជាក់ចំនួនទឹកប្រាក់នៅពេលដំណើរការកាតឥណទាន';
+$lang['locations_blockchyp_api_key'] = 'coreCLEAR API Key';
+$lang['locations_blockchyp_bearer_token'] = 'និមិត្តសញ្ញា coreCLEAR Bearer Token';
+$lang['locations_blockchyp_signing_key'] = 'កូនសោចុះហត្ថលេខា coreCLEAR';
+$lang['locations_blockchyp_test_mode'] = 'របៀបសាកល្បង coreCLEAR';
 ?>

@@ -36,7 +36,7 @@ trait receivingTrait
 		$response['supplier_override_default_tax'] = (boolean)$supplier->override_default_tax;
 		$response['supplier_tax_class_id'] = (int)$supplier->tax_class_id;
 		$response['supplier_balance'] = (float)$supplier->balance;
-		$response['supplier_image_url'] = $supplier->image_id ? app_file_url($supplier->image_id) : '';
+		$response['supplier_image_url'] = $supplier->image_id ? secure_app_file_url($supplier->image_id) : '';
 		$response['supplier_created_at'] = $supplier->create_date ? date(get_date_format().' '.get_time_format(), strtotime($supplier->create_date)) : NULL;
 		
 		

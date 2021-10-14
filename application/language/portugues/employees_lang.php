@@ -79,4 +79,6 @@ $lang['employees_login_end_time'] = 'Permitido fazer login no horário de térmi
 $lang['employees_login_start_time'] = 'Permitido Login Hora de Início';
 $lang['permission_templates'] = 'Modelos de permissão';
 $lang['update_all_employees_with_template_assinged'] = 'Atualizar todos os funcionários com o modelo atribuído';
+$lang['employees_enter_ip'] = 'Insira o IP ou intervalo de IP (CIDR)';
+$lang['employees_acess_ip_range'] = 'Endereços IP de onde o funcionário pode acessar';
 ?>

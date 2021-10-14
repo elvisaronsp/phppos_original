@@ -74,7 +74,7 @@ $lang['locations_net_e_pay_info'] = 'Apenas definir o valor se você não instal
 $lang['locations_net_e_pay_server'] = 'Net E-Pay Servidor';
 
 $lang['locations_emv_terminal_id'] = 'EMV Merchant ID / Terminal ID';
-$lang['locations_terminal_id'] = 'Terminal ID';
+$lang['locations_terminal_id'] = 'ID do Terminal';
 $lang['locations_secure_device_override_emv'] = 'EMV Override Dispositivo';
 $lang['locations_secure_device_override_non_emv'] = 'Não EMV Override Dispositivo';
 $lang['locations_purchase_additional_locations'] = 'Comprar locais adicionais';
@@ -105,4 +105,8 @@ $lang['locations_previous_day'] = 'Dia anterior';
 $lang['locations_current_day'] = 'Dia atual';
 $lang['locations_auto_reports_day'] = 'Dia para enviar relatório por e-mail para';
 $lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'Desativar confirmação de valor ao processar cartão de crédito';
+$lang['locations_blockchyp_api_key'] = 'Chave de API coreCLEAR';
+$lang['locations_blockchyp_bearer_token'] = 'coreCLEAR Bearer Token';
+$lang['locations_blockchyp_signing_key'] = 'Chave de Assinatura coreCLEAR';
+$lang['locations_blockchyp_test_mode'] = 'Modo de teste coreCLEAR';
 ?>

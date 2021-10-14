@@ -74,7 +74,7 @@ $lang['locations_net_e_pay_info'] = 'Hanya mengatur nilai jika Anda tidak mengin
 $lang['locations_net_e_pay_server'] = 'Net E-Pay Server';
 
 $lang['locations_emv_terminal_id'] = 'EMV Merchant ID / Terminal ID';
-$lang['locations_terminal_id'] = 'terminal ID';
+$lang['locations_terminal_id'] = 'ID Terminal';
 $lang['locations_secure_device_override_emv'] = 'EMV Perangkat Override';
 $lang['locations_secure_device_override_non_emv'] = 'Non EMV Perangkat Override';
 $lang['locations_purchase_additional_locations'] = 'Pembelian Lokasi Tambahan';
@@ -105,4 +105,8 @@ $lang['locations_previous_day'] = 'Hari sebelumnya';
 $lang['locations_current_day'] = 'Hari ini';
 $lang['locations_auto_reports_day'] = 'Laporan hari ke email untuk';
 $lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'Nonaktifkan Konfirmasi Jumlah saat memproses kartu kredit';
+$lang['locations_blockchyp_api_key'] = 'Kunci API coreCLEAR';
+$lang['locations_blockchyp_bearer_token'] = 'CoreCLEAR Bearer Token';
+$lang['locations_blockchyp_signing_key'] = 'kunci Penandatanganan intiCLEAR';
+$lang['locations_blockchyp_test_mode'] = 'Mode Uji coreCLEAR';
 ?>

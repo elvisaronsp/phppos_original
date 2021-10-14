@@ -58,53 +58,7 @@
 	<?php } ?>
 	<?php foreach(get_js_files() as $js_file) { ?>
 		<script src="<?php echo base_url().$js_file['path'].'?'.ASSET_TIMESTAMP;?>" type="text/javascript" charset="UTF-8"></script>
-	<?php } ?>
-	<?php  if(!$this->config->item('hide_latest_updates_in_header') && !is_on_demo_host()){ ?>
-	<script>!function(w,d,i,s){function l(){if(!d.getElementById(i)){var f=d.getElementsByTagName(s)[0],e=d.createElement(s);e.type="text/javascript",e.async=!0,e.src="https://canny.io/sdk.js",f.parentNode.insertBefore(e,f)}}if("function"!=typeof w.Canny){var c=function(){c.q.push(arguments)};c.q=[],w.Canny=c,"complete"===d.readyState?l():w.attachEvent?w.attachEvent("onload",l):w.addEventListener("load",l,!1)}}(window,document,"canny-jssdk","script");</script>
-	
-		<script>
-		Canny('identify', {
-		  appID: '5ec828546e620253608f0d9e',
-		  user: {
-		    email: <?php echo json_encode($this->Employee->get_logged_in_employee_info()->email);?>,
-		    name: <?php echo json_encode($this->Employee->get_logged_in_employee_info()->first_name.' '.$this->Employee->get_logged_in_employee_info()->last_name);?>,
-		    id: <?php echo json_encode(base_url().'|'.$this->Employee->get_logged_in_employee_info()->person_id); ?>
-		  },
-		});
-		
-		window.addEventListener('online', function()
-		{
-			$("#canny_feedback_container").show();
-		});
-		
-		window.addEventListener('offline', function()
-		{
-			$("#canny_feedback_container").hide();
-		});
-		
-		
-		//https://github.com/OwlCarousel2/OwlCarousel2/issues/1374
-		// Disabling bs transitions makes the modals show again:
-		// $.support.transition = false
-		// https://getbootstrap.com/docs/3.3/javascript/#transitions
-		
-		$.support.transition = false;
-		</script>
-	
-	<style>
-		/* These are the default badge styles */
-		.Canny_BadgeContainer .Canny_Badge {
-		  position: absolute;
-		  top: 8px;
-		  right: 2px;
-		  border-radius: 10px;
-		  background-color: red;
-		  padding: 5px;
-		  border: 1px solid white;
-		}
-	</style>
-	<?php } ?>
-	
+	<?php } ?>	
 	<script type="text/javascript">
 		
 		<?php
@@ -196,6 +150,12 @@
       '</button>';
 	  
  	  $.fn.editable.defaults.emptytext = <?php echo json_encode(lang('common_empty')); ?>;
+	//https://github.com/OwlCarousel2/OwlCarousel2/issues/1374
+	// Disabling bs transitions makes the modals show again:
+	// $.support.transition = false
+	// https://getbootstrap.com/docs/3.3/javascript/#transitions
+	// DO NOT REMOVE THIS
+	$.support.transition = false;
 		
 		$(document).ready(function()
 		{
@@ -304,14 +264,19 @@ if (is_on_demo_host()) { ?>
 						<i class="icon ti-dashboard"></i>
 						<span class="text"><?php echo lang('common_dashboard'); ?></span>
 					</a></li>
-				<?php foreach($allowed_modules->result() as $module) { ?>
-					<li <?php echo $module->module_id==$this->uri->segment(1)  ? 'class="active ' . $module->module_id . '"' : 'class="' . $module->module_id . '"'; ?>>
+				<?php
+				foreach($allowed_modules->result() as $module) { 
+				?>
+					<li <?php echo $module->module_id==$this->uri->segment(1)  ? 'class="active ' . $module->module_id . '"' : 'class="' . $module->module_id . '"'; ?>
+						<?php echo array_search($module->module_id, $disable_modules) === false ? '': 'style="display: none;"' ?>>
 						<a tabindex = "-1" href="<?php echo site_url("$module->module_id");?>"  class="waves-effect waves-light">
 							<i class="<?php echo $module->icon; ?>"></i>
 							<span class="text"><?php echo lang("module_".$module->module_id) ?></span>
 						</a>
 					</li>
-				<?php } ?>
+				<?php 
+				}
+				?>
 				<?php
 				if ($this->config->item('timeclock')) 
 				{
@@ -434,29 +399,6 @@ if (is_on_demo_host()) { ?>
 						</li>	
 						<?php } ?>
 							
-					<?php  if(!$this->config->item('hide_latest_updates_in_header') && !is_on_demo_host()){ ?>		
-							<li class="dropdown hidden-xs" id="canny_feedback_container">
-								<a class="hidden-xs" data-canny-changelog href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="ion-information icon-notification"></i></a>
-							</li>
-							
-							<script>
-							  Canny('initChangelog', {
-							    appID: '5ec828546e620253608f0d9e',
-							    position: 'bottom',
-							    align: 'right',
-							  });
-								
-								if (navigator.onLine)
-								{		
-									$("#canny_feedback_container").show();
-								}
-								else
-								{
-									$("#canny_feedback_container").hide();		
-								}
-								
-							</script>
-					<?php } ?>
 						<?php if ($this->Employee->has_module_permission('messages', $user_info->person_id)) {?>
 						
 							<li class="dropdown">
@@ -512,9 +454,16 @@ if (is_on_demo_host()) { ?>
 								</li>
 								
 								<?php } ?>
+								
+								<li>
+									<a tabindex = "-1" id="change_log_link" target="_blank" href="https://phppointofsale.com/whats_new.php"><i class="ion-flash"></i><span class="text"><?php echo lang('common_change_log'); ?></span></a>
+								</li>
+								
 								<li>
 									<a tabindex = "-1" id="switch_user" href="<?php echo site_url('login/switch_user/'.($this->uri->segment(1) == 'sales' ? '0' : '1'));  ?>" data-toggle="modal" data-target="#myModalDisableClose"><i class="ion-ios-toggle-outline"></i><span class="text"><?php echo lang('common_switch_user'); ?></span></a>
 								</li>
+								
+								
 								<?php if ($this->Employee->has_module_action_permission('employees','edit_profile',$this->Employee->get_logged_in_employee_info()->person_id)) {  ?>									
 								
 								<li>

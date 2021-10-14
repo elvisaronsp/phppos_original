@@ -332,6 +332,41 @@
 					}
 					?>
 
+
+					<?php
+					if($work_order_info->estimated_labor)
+					{
+					?>
+					
+					<div class="row">
+						<div class="col-md-4 col-sm-12 col-xs-12">
+							<?php
+							echo lang('work_orders_estimated_labor').': <strong>'.to_currency($work_order_info->estimated_labor).'</strong>';
+							?>
+						</div>
+					</div>
+					<?php
+					}
+					?>
+					
+					
+					<?php
+					if($work_order_info->estimated_parts)
+					{
+					?>
+					
+					<div class="row">
+						<div class="col-md-4 col-sm-12 col-xs-12">
+							<?php
+							echo lang('work_orders_estimated_parts').': <strong>'.to_currency($work_order_info->estimated_parts).'</strong>';
+							?>
+						</div>
+					</div>
+					<?php
+					}
+					?>
+					
+
 					<!-- invoice footer-->
 					<div class="row">
 						<div class="col-md-4 col-sm-12 col-xs-12">

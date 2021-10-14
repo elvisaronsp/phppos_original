@@ -34,6 +34,14 @@ class Sale extends MY_Model
 		}
 	}
 	
+	function get_receipt_signature($sale_id)
+	{
+		$secure_key = $this->Appconfig->get_secure_key();
+		$url = base_url();
+		return hash('sha1',$sale_id."|".$secure_key.'|'.$secure_key);
+	}
+	
+	
 	function is_sale_deleted($sale_id)
 	{
 		$query = $this->get_info($sale_id);
@@ -950,7 +958,7 @@ class Sale extends MY_Model
 		}
 		
 		//Only update balance + store account payments if we are NOT an estimate (suspended < 2)
-		if (!$cart->is_ecommerce && $suspended < 2)
+		if (((!$cart->is_ecommerce && $suspended < 2) || ($this->config->item('import_ecommerce_orders_suspended') && $suspended < 2)))
 		{
 	   	  //Update customer store account balance
 			  if($customer_id > 0 && $balance)
@@ -1032,7 +1040,7 @@ class Sale extends MY_Model
 		}
 		
 		//Loyalty systems
-		 if (!$cart->is_ecommerce && $suspended < 2 && $customer_id > 0 && $this->config->item('enable_customer_loyalty_system'))
+		 if (((!$cart->is_ecommerce && $suspended < 2) || ($this->config->item('import_ecommerce_orders_suspended') && $suspended < 2)) && $customer_id > 0 && $this->config->item('enable_customer_loyalty_system'))
 		 {
 		   $sales_data_loy = array();	 
 		   $customer_info = $this->Customer->get_info($customer_id);
@@ -1156,7 +1164,7 @@ class Sale extends MY_Model
  
 		 				
 		//Only update store account payments if we are NOT an estimate (suspended = 2)
-		if (!$cart->is_ecommerce && $suspended < 2)
+		if (((!$cart->is_ecommerce && $suspended < 2) || ($this->config->item('import_ecommerce_orders_suspended') && $suspended < 2)))
 		{
 			// Our customer switched from before; add special logic
 			if ($balance && $before_save_sale_info && $before_save_sale_info->customer_id && $before_save_sale_info->customer_id != $customer_id)
@@ -1236,7 +1244,7 @@ class Sale extends MY_Model
 		foreach($payments as $payment_id=>$payment)
 		{
 			//Only update giftcard payments if we are NOT an estimate (suspended = 2)
-			if (!$cart->is_ecommerce && $suspended < 2)
+			if (((!$cart->is_ecommerce && $suspended < 2) || ($this->config->item('import_ecommerce_orders_suspended') && $suspended < 2)))
 			{
 				if ( substr( $payment->payment_type, 0, strlen( lang('common_giftcard') ) ) == lang('common_giftcard') )
 				{
@@ -1471,7 +1479,7 @@ class Sale extends MY_Model
 				$this->db->insert('sales_items',$sales_items_data);
 				
 				//Only update giftcard payments if we are NOT an estimate (suspended = 2)
-				if (!$cart->is_ecommerce && $suspended < 2)
+				if (((!$cart->is_ecommerce && $suspended < 2) || ($this->config->item('import_ecommerce_orders_suspended') && $suspended < 2)))
 				{
 					
 					//create points from sale
@@ -1515,7 +1523,7 @@ class Sale extends MY_Model
 				}
 				
 				//Only do stock check + inventory update if we are NOT an estimate
-				if (!$cart->is_ecommerce && $suspended < 2 || (!$cart->is_ecommerce && $this->Sale_types->can_remove_quantity($suspended)) || ($cart->is_ecommerce && $this->config->item('import_ecommerce_orders_suspended')))
+				if (((!$cart->is_ecommerce && $suspended < 2) || ($this->config->item('import_ecommerce_orders_suspended') && $suspended < 2)) || (!$cart->is_ecommerce && $this->Sale_types->can_remove_quantity($suspended)) || ($cart->is_ecommerce && $this->config->item('import_ecommerce_orders_suspended')))
 				{
 					$stock_recorder_check=false;
 					$out_of_stock_check=false;
@@ -1938,7 +1946,7 @@ class Sale extends MY_Model
 						$cur_item_variation_location_info = $this->Item_variation_location->get_info($item_kit_item->item_variation_id,$cart->location_id ? $cart->location_id : $this->Employee->get_logged_in_employee_current_location_id());
 						$reorder_level = ($cur_item_variation_location_info && $cur_item_variation_location_info->reorder_level) ? $cur_item_variation_location_info->reorder_level : $cur_item_variation_info->reorder_level;
 						
-						if (!$cart->is_ecommerce && $suspended < 2 || (!$cart->is_ecommerce && $this->Sale_types->can_remove_quantity($suspended)))
+						if (((!$cart->is_ecommerce && $suspended < 2) || ($this->config->item('import_ecommerce_orders_suspended') && $suspended < 2)) || (!$cart->is_ecommerce && $this->Sale_types->can_remove_quantity($suspended)))
 						{
 							$stock_recorder_check=false;
 							$out_of_stock_check=false;
@@ -2102,7 +2110,7 @@ class Sale extends MY_Model
 						$reorder_level = ($cur_item_location_info && $cur_item_location_info->reorder_level !== NULL) ? $cur_item_location_info->reorder_level : $cur_item_info->reorder_level;
 					
 						//Only do stock check + inventory update if we are NOT an estimate
-						if (!$cart->is_ecommerce && $suspended < 2 || (!$cart->is_ecommerce && $this->Sale_types->can_remove_quantity($suspended)))
+						if (((!$cart->is_ecommerce && $suspended < 2) || ($this->config->item('import_ecommerce_orders_suspended') && $suspended < 2)) || (!$cart->is_ecommerce && $this->Sale_types->can_remove_quantity($suspended)))
 						{
 							$stock_recorder_check=false;
 							$out_of_stock_check=false;
@@ -3642,6 +3650,10 @@ class Sale extends MY_Model
 		{
 			$processor = 'card_connect';			
 		}
+		elseif($this->Location->get_info_for_key('credit_card_processor') == 'coreclear2')
+		{
+			$processor = 'coreclear2';
+		}
 		
 		if ($processor === FALSE)
 		{
@@ -3678,6 +3690,13 @@ class Sale extends MY_Model
 			elseif($processor == 'square')
 			{
 				return FALSE;
+			}
+			elseif($processor == 'coreclear2')
+			{
+				if (!$row['ref_no'])
+				{
+					return FALSE;
+				}
 			}
 		}
 		
@@ -3725,6 +3744,10 @@ class Sale extends MY_Model
 		{
 			$processor = 'card_connect';			
 		}
+		elseif($this->Location->get_info_for_key('credit_card_processor') == 'coreclear2')
+		{
+			$processor = 'coreclear2';
+		}
 		
 		if ($processor === FALSE)
 		{
@@ -3766,6 +3789,13 @@ class Sale extends MY_Model
 			elseif($processor == 'square')
 			{
 				return FALSE;
+			}
+			elseif($processor == 'coreclear2')
+			{
+				if (!$row['ref_no'])
+				{
+					return FALSE;
+				}
 			}
 		}
 		
@@ -3900,7 +3930,14 @@ class Sale extends MY_Model
 				
 				if($this->config->item('enable_ebt_payments')) 
 				{
-					$payment_options=array_merge($payment_options,	array(lang('common_ebt') => lang('common_ebt'),lang('common_ebt_cash') => lang('common_ebt_cash')));
+					if ($this->Location->get_info_for_key('credit_card_processor') == 'coreclear2')
+					{						
+						$payment_options=array_merge($payment_options,	array(lang('common_ebt') => lang('common_ebt')));
+					} 
+					else
+					{
+						$payment_options=array_merge($payment_options,	array(lang('common_ebt') => lang('common_ebt'),lang('common_ebt_cash') => lang('common_ebt_cash')));
+					}
 				}
 				
 				if ($this->config->item('enable_wic'))
@@ -4707,6 +4744,98 @@ class Sale extends MY_Model
 
 	}
 	
+	public function has_email_or_phone($sale_id,$email_or_phone)
+	{
+		if (!$email_or_phone)
+		{
+			return false;
+		}
+		
+		$this->db->from('sales');
+		$this->db->join('customers','sales.customer_id = customers.person_id');
+		$this->db->join('people','people.person_id=customers.person_id');
+		$this->db->where('sale_id',$sale_id);
+		$this->db->group_start();
+		$this->db->where('email',$email_or_phone);
+		
+		$phone_number = $this->db->escape(str_replace(array('(',')','-','+',' '),'',$email_or_phone));
+		$this->db->or_where("$phone_number = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(phone_number,'(',''),')',''),'-',''),'+',''),' ','')",NULL,FALSE);
+		$this->db->group_end();
+		$sale_count = $this->db->count_all_results();
+		return $sale_count ==1;
+		
+	}
+	
+	function get_sale_id_from_payment_ref_no($ref_no)
+	{
+		static $cache  = array();
+		
+		if (!is_array($ref_no) && isset($cache[$ref_no]))
+		{
+			return $cache[$ref_no];
+		}
+		
+		$this->db->select('sale_id,ref_no');
+		$this->db->from('sales_payments');
+		
+		if (is_array($ref_no))
+		{
+			//Make sure we at least set something in case we cannot find a match we still hit cache
+			foreach($ref_no as $tref_no)
+			{
+				$cache[$tref_no] = FALSE;
+			}
+			
+			
+			if (!empty($ref_no))
+			{
+				$this->db->group_start();
+				$ref_no_chunk = array_chunk($ref_no,25);
+				foreach($ref_no_chunk as $ref_nos)
+				{
+					$this->db->or_where_in('ref_no',$ref_nos);
+				}	
+				$this->db->group_end();
+			}
+			else
+			{
+				$this->db->where('1=2');
+			}
+			foreach($this->db->get()->result_array() as $result_row)
+			{
+				$cache[$result_row['ref_no']] = $result_row['sale_id'];
+			}
+			
+			return $cache; 
+		}
+		else
+		{
+			$this->db->where('ref_no',$ref_no);
+		}
+		$row = $this->db->get()->row_array();
+		
+		$cache[$ref_no] = FALSE;
+		
+		if (isset($row['sale_id']))
+		{
+			$cache[$ref_no] = $row['sale_id'];
+			
+		}
+		return $cache[$ref_no];
+		
+	}
 
+	function sale_item_line_update($sale_id,$item_id, $item_class,$line){
+		if($item_class=="item"){
+			$this->db->where('sale_id', $sale_id);
+			$this->db->where('item_id', $item_id);
+			$this->db->update('sales_items',array('line'=>$line));
+		}else if($item_class="item_kit"){
+			$this->db->where('sale_id', $sale_id);
+			$this->db->where('item_kit_id', $item_id);
+			$this->db->update('sales_item_kits',array('line'=>$line));
+		}
+		return true;
+	}	
 }
 ?>

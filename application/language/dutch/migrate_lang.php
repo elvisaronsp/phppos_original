@@ -474,4 +474,10 @@ $lang['migrate_can_lookup_last_receipt_permission'] = 'Kan laatste ontvangstbewi
 $lang['migrate_permission_for_delete_suspended_receivings'] = 'Toestemming voor het verwijderen van opgeschorte ontvangsten';
 
 $lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = 'Fix Utf8 General Ci naar Utf8 Unicode Ci voor Phppos-werkorderstatussen';
+$lang['migrate_18_3_version'] = '18.3 Versie';
+$lang['migrate_add_expenses_files_table'] = 'Tabel met onkostenbestanden toevoegen';
+$lang['migrate_add_expenses_image_field'] = 'Afbeeldingsveld Uitgaven toevoegen';
+$lang['migrate_add_employee_ip_range'] = 'IP-bereik werknemer toevoegen';
+$lang['migrate_coreclear'] = 'Coreclear';
+$lang['migrate_coreclear_void_logging'] = 'Coreclear Void Logging';
 ?>

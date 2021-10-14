@@ -136,7 +136,7 @@ class Item_kits extends REST_Controller {
 				
 				foreach($this->Item_kit->get_item_kit_images($item_kit->item_kit_id) as $image)
 				{
-					$item_kit_return['images'][] = array('image_url' => app_file_url($image['image_id']),'title' => $image['title'],'alt_text' => $image['alt_text']);
+					$item_kit_return['images'][] = array('image_url' => secure_app_file_url($image['image_id']),'title' => $image['title'],'alt_text' => $image['alt_text']);
 				}
 				
 				

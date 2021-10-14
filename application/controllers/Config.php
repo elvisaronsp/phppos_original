@@ -68,9 +68,11 @@ class Config extends Secure_area
 			$tiers_dropdown[$tier['id']]=$tier['name'];
 		}
 
-
 		// Code to get chart of accounts ends
-		
+        $logged_employee_id = $this->Employee->get_logged_in_employee_info()->person_id;
+        $data['logged_in_employee_id'] = $logged_employee_id;
+		$data['all_modules'] = $this->Module->get_all_modules();
+
 		$data['store_locations']=$locations_dropdown;
 		$data['online_price_tiers']=$tiers_dropdown;
 		
@@ -155,9 +157,9 @@ class Config extends Secure_area
 		{
 			$data['zones'][] = array('text' => $shipping_zone['name'], 'val' => $shipping_zone['id']);
 		}
-		
-    $data['item_lookup_order'] = unserialize($this->config->item('item_lookup_order'));
-		
+
+		$data['item_lookup_order'] = unserialize($this->config->item('item_lookup_order'));
+
 		$this->load->model('Sale_types');
 		$data['sale_types'] = $this->Sale_types->get_all();
 		
@@ -341,6 +343,8 @@ class Config extends Secure_area
 			
 			//TEST HTTPS connection by sending https request to keep_alive in home controller
       $ch = curl_init(); 
+	//Don't verify ssl...just in case a server doesn't have the ability to verify
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
       curl_setopt($ch, CURLOPT_URL, $testing_url); 
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT ,3); 
@@ -353,9 +357,10 @@ class Config extends Secure_area
 			}
 			
 		}
-		
+
 		$valid_languages = str_replace(DIRECTORY_SEPARATOR,'',directory_map(APPPATH.'language/', 1));
 		$batch_save_data=array(
+		'disable_modules'=> !is_on_demo_host() && $this->input->post('disable_modules') ? serialize($this->input->post('disable_modules')) : serialize(array()),
 		'company'=>$this->input->post('company'),
 		'qb_export_start_date'=>$this->input->post('export_start_date'),
 		'sale_prefix'=>$this->input->post('sale_prefix') ? $this->input->post('sale_prefix') : 'POS',
@@ -528,10 +533,13 @@ class Config extends Secure_area
 		'do_not_tax_service_items_for_deliveries' => $this->input->post('do_not_tax_service_items_for_deliveries') ? 1 : 0,
 		'do_not_show_closing' => $this->input->post('do_not_show_closing') ? 1 : 0,
 		'indicate_taxable_on_receipt' => $this->input->post('indicate_taxable_on_receipt') ? 1 : 0,
+		'indicate_non_taxable_on_receipt' => $this->input->post('indicate_non_taxable_on_receipt') ? 1 : 0,
+		'override_symbol_non_taxable' => $this->input->post('override_symbol_non_taxable'),
 		'paypal_me' => $this->input->post('paypal_me'),
 		'show_barcode_company_name' => $this->input->post('show_barcode_company_name') ? 1 : 0,
 		'sku_sync_field' => $this->input->post('sku_sync_field'),
 		'overwrite_existing_items_on_excel_import' => $this->input->post('overwrite_existing_items_on_excel_import') ? 1 : 0,
+		'remove_employee_lastname_from_receipt' => $this->input->post('remove_employee_lastname_from_receipt') ? 1 : 0,
 		'remove_employee_from_receipt' => $this->input->post('remove_employee_from_receipt') ? 1 : 0,
 		'hide_name_on_barcodes' => $this->input->post('hide_name_on_barcodes') ? 1 : 0,
 		'new_items_are_ecommerce_by_default' => $this->input->post('new_items_are_ecommerce_by_default') ? 1 : 0,		
@@ -595,6 +603,8 @@ class Config extends Secure_area
 		'hide_expire_dashboard' => $this->input->post('hide_expire_dashboard') ? 1 : 0,
 		'hide_images_in_grid' => $this->input->post('hide_images_in_grid') ? 1 : 0,
 		'taxes_summary_on_receipt' => $this->input->post('taxes_summary_on_receipt') ? 1 : 0,
+		'override_symbol_taxable_summary' => $this->input->post('override_symbol_taxable_summary'),
+		'override_symbol_non_taxable_summary' => $this->input->post('override_symbol_non_taxable_summary'),
 		'taxes_summary_details_on_receipt' => $this->input->post('taxes_summary_details_on_receipt') ? 1 : 0,
 		'collapse_sales_ui_by_default' => $this->input->post('collapse_sales_ui_by_default') ? 1 : 0,
 		'collapse_recv_ui_by_default' => $this->input->post('collapse_recv_ui_by_default') ? 1 : 0,
@@ -618,18 +628,27 @@ class Config extends Secure_area
 		'dont_recalculate_cost_price_when_unsuspending_estimates' => $this->input->post('dont_recalculate_cost_price_when_unsuspending_estimates') ? 1 : 0,
 		'show_signature_on_receiving_receipt' => $this->input->post('show_signature_on_receiving_receipt') ? 1 : 0,
 		'do_not_treat_service_items_as_virtual' => $this->input->post('do_not_treat_service_items_as_virtual') ? 1 : 0,
-		'hide_latest_updates_in_header' => $this->input->post('hide_latest_updates_in_header') ? 1 : 0,
 		'prompt_amount_for_cash_sale' => $this->input->post('prompt_amount_for_cash_sale') ? 1 : 0,
 		'show_qr_code_for_sale' => $this->input->post('show_qr_code_for_sale') ? 1 : 0,
+		'hide_categories_sales_grid' => $this->input->post('hide_categories_sales_grid') ? 1 : 0,
+		'hide_tags_sales_grid' => $this->input->post('hide_tags_sales_grid') ? 1 : 0,
+		'hide_suppliers_sales_grid' => $this->input->post('hide_suppliers_sales_grid') ? 1 : 0,
+		'hide_favorites_sales_grid' => $this->input->post('hide_favorites_sales_grid') ? 1 : 0,
 		'do_not_allow_items_to_go_out_of_stock_when_transfering' => $this->input->post('do_not_allow_items_to_go_out_of_stock_when_transfering') ? 1: 0,
 		'show_tags_on_fulfillment_sheet' => $this->input->post('show_tags_on_fulfillment_sheet') ? 1 : 0,
 		'automatically_sms_receipt' => $this->input->post('automatically_sms_receipt') ? 1 : 0,
 		'items_per_search_suggestions'=>$this->input->post('items_per_search_suggestions'),
 		'shopify_shop' => $this->input->post('shopify_shop'),
 		'offline_mode' => $this->input->post('offline_mode') ? 1: 0,
+		'offline_mode_sync_period' => $this->input->post('offline_mode_sync_period') ? $this->input->post('offline_mode_sync_period') : 24,
 		'auto_sync_offline_sales' => $this->input->post('auto_sync_offline_sales') ? 1 : 0,
 		'show_total_on_fulfillment' => $this->input->post('show_total_on_fulfillment') ? 1 : 0,
 		'override_signature_text' => $this->input->post('override_signature_text'),
+		'receipt_download_filename_prefix' => $this->input->post('receipt_download_filename_prefix'),
+		'hide_categories_receivings_grid' => $this->input->post('hide_categories_receivings_grid') ? 1 : 0,
+		'hide_tags_receivings_grid' => $this->input->post('hide_tags_receivings_grid') ? 1 : 0,
+		'hide_suppliers_receivings_grid' => $this->input->post('hide_suppliers_receivings_grid') ? 1 : 0,
+		'hide_favorites_receivings_grid' => $this->input->post('hide_favorites_receivings_grid') ? 1 : 0,
 		'delivery_color_based_on' => $this->input->post('delivery_color_based_on'),
 		'update_cost_price_on_transfer' => $this->input->post('update_cost_price_on_transfer') ? 1 : 0,
 		'tip_preset_zero' => $this->input->post('tip_preset_zero') ? 1 : 0,
@@ -637,9 +656,12 @@ class Config extends Secure_area
 		'show_person_id_on_receipt' => $this->input->post('show_person_id_on_receipt') ? 1 : 0,
 		'import_ecommerce_orders_suspended' => $this->input->post('import_ecommerce_orders_suspended') ? 1 : 0,
 		'show_images_on_receipt' => $this->input->post('show_images_on_receipt') ? 1 : 0,
+		'show_images_on_receipt_width_percent' => $this->input->post('show_images_on_receipt_width_percent')?$this->input->post('show_images_on_receipt_width_percent'):25,
 		'disabled_fixed_discounts' => $this->input->post('disabled_fixed_discounts') ? 1 : 0,
 		'always_put_last_added_item_on_top_of_cart' => $this->input->post('always_put_last_added_item_on_top_of_cart') ? 1 : 0,
 		'hide_description_on_suspended_sales' => $this->input->post('hide_description_on_suspended_sales') ? 1 : 0,
+		'allow_drag_drop_sale' => $this->input->post('allow_drag_drop_sale') ? 1 : 0,
+		'allow_drag_drop_recv' => $this->input->post('allow_drag_drop_recv') ? 1 : 0,
 	);
 
 	//Old way of doing taxes; we handle this case

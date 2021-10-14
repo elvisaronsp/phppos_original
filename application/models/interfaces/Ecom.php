@@ -464,7 +464,14 @@ abstract class Ecom extends MY_Model
 	function get_item_quantity($item_id)
 	{
 		$this->load->model('Item_location');
-		return $this->Item_location->get_location_quantity($item_id, $this->ecommerce_store_location);
+		$return = 0;
+		
+		foreach ($this->ecommerce_store_locations as $location_id)
+		{
+			$return+= $this->Item_location->get_location_quantity($item_id, $location_id);
+		}
+		
+		return $return;
 	}
 		
 	/*
@@ -473,7 +480,14 @@ abstract class Ecom extends MY_Model
 	function get_item_variation_quantity($variation_id)
 	{
 		$this->load->model('Item_variation_location');
-		return $this->Item_variation_location->get_location_quantity($variation_id,$this->ecommerce_store_location);
+		$return = 0;
+		
+		foreach ($this->ecommerce_store_locations as $location_id)
+		{
+			$return+=$this->Item_variation_location->get_location_quantity($variation_id,$location_id);
+		}
+		
+		return $return;
 	}
 	
 	function get_all_item_images_for_ecommerce_with_main_image_1st($item_id)

@@ -521,4 +521,10 @@ $lang['migrate_can_lookup_last_receipt_permission'] = 'يمكن البحث عن 
 $lang['migrate_permission_for_delete_suspended_receivings'] = 'إذن لحذف الاستلام المعلق';
 
 $lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = 'إصلاح Utf8 General Ci إلى Utf8 Unicode Ci لحالات طلب عمل Phppos';
+$lang['migrate_18_3_version'] = '18.3 الإصدار';
+$lang['migrate_add_expenses_files_table'] = 'إضافة جدول ملفات المصاريف';
+$lang['migrate_add_expenses_image_field'] = 'إضافة حقل صورة المصاريف';
+$lang['migrate_add_employee_ip_range'] = 'أضف نطاق IP الخاص بالموظف';
+$lang['migrate_coreclear'] = 'كوريكلير';
+$lang['migrate_coreclear_void_logging'] = 'Coreclear Void Logging';
 ?>

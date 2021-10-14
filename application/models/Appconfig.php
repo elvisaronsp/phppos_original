@@ -226,7 +226,7 @@ class Appconfig extends MY_Model
 	{
 		if ($this->config->item('company_logo'))
 		{
-			return app_file_url($this->get('company_logo'));
+			return secure_app_file_url($this->get('company_logo'));
 		}
 		return  base_url().'assets/img/header_logo.png';
 	}
@@ -485,6 +485,26 @@ class Appconfig extends MY_Model
 			}
 		}
 		return $damaged_reason_options;
+	}
+	
+	function get_secure_key()
+	{
+		if ($this->exists('phppos_secure_key'))
+		{
+			return $this->get('phppos_secure_key');
+		}
+		
+		if (function_exists('openssl_random_pseudo_bytes'))
+		{
+			$secure_key = bin2hex(openssl_random_pseudo_bytes(16));
+		}
+		else
+		{
+			$secure_key = md5(rand());
+		}
+		
+		$this->save('phppos_secure_key',$secure_key);	
+		return $secure_key;
 	}
 	
 }	

@@ -2,10 +2,12 @@
 require_once ("Secure_area.php");
 require_once (APPPATH."models/cart/PHPPOSCartSale.php");
 require_once (APPPATH."traits/taxOverrideTrait.php");
+require_once (APPPATH."traits/creditcardProcessingTrait.php");
 
 class Sales extends Secure_area
 {
 	use taxOverrideTrait;
+	use creditcardProcessingTrait;
 	
 	public $cart;
 	public $view_data = array();
@@ -997,6 +999,7 @@ class Sales extends Secure_area
 		$barcode_scan_data = $this->input->post("item");
 		$quantity = $this->input->post("quantity");
 		
+		$this->cart->sort_clean();
 		if($this->cart->is_valid_receipt($barcode_scan_data) && $this->cart->get_mode()=='sale')
 		{
 			$this->_edit_or_suspend_sale($barcode_scan_data);
@@ -1154,6 +1157,7 @@ class Sales extends Secure_area
 		
 		//Do edit fist... we can revert at the end if we aren't allowed to edit
 		$item = $this->cart->get_item($line);
+		$this->cart->sort_clean();
 		
 		if(!$item)
 		{
@@ -1467,178 +1471,7 @@ class Sales extends Secure_area
 		$this->cart->save();
 		$this->_reload();
 	}
-	
-	function _get_cc_processor()
-	{
-		if (!$this->Location->get_info_for_key('enable_credit_card_processing'))
-		{
-			return false;
-		}
-										
-		//If we have setup Mercury....or if it is not set then default to Mercury
-		if ($this->Location->get_info_for_key('credit_card_processor') == 'mercury' || !$this->Location->get_info_for_key('credit_card_processor'))
-		{
-			$registers = $this->Register->get_all();
-			$register = $registers->row_array();
-		
-			if (!$this->Employee->get_logged_in_employee_current_register_id() && isset($register['register_id']))
-			{
-				$this->Employee->set_employee_current_register_id($register['register_id']);
-			}
 			
-			$current_register_id = $this->Employee->get_logged_in_employee_current_register_id();
-			$register_info = $this->Register->get_info($current_register_id);
-			
-			//IP Tran; supports all platforms
-			if($register_info->iptran_device_id)
-			{
-				require_once(APPPATH.'libraries/Mercuryemvtranscloudprocessor.php');
-				$credit_card_processor = new Mercuryemvtranscloudprocessor($this);
-				return $credit_card_processor;
-			}
-			
-			//Mobile always uses hosted checkout as we do NOT have mobile support for EMV
-			if ($this->agent->is_mobile())
-			{
-				require_once (APPPATH.'libraries/Mercuryhostedcheckoutprocessor.php');
-				$credit_card_processor = new Mercuryhostedcheckoutprocessor($this);	
-				return $credit_card_processor;
-			}
-		
-			//EMV
-			if ($this->Location->get_info_for_key('emv_merchant_id') && $this->Location->get_info_for_key('com_port') && $this->Location->get_info_for_key('listener_port'))
-			{
-				require_once (APPPATH.'libraries/Mercuryemvusbprocessor.php');
-				$credit_card_processor = new Mercuryemvusbprocessor($this);
-				return $credit_card_processor;
-			}
-			else //Default hosted checkout
-			{
-				require_once (APPPATH.'libraries/Mercuryhostedcheckoutprocessor.php');
-				$credit_card_processor = new Mercuryhostedcheckoutprocessor($this);
-				return $credit_card_processor;
-			}
-		}
-		elseif ($this->Location->get_info_for_key('credit_card_processor') == 'card_connect')
-		{
-			$registers = $this->Register->get_all();
-			$register = $registers->row_array();
-		
-			if (!$this->Employee->get_logged_in_employee_current_register_id() && isset($register['register_id']))
-			{
-				$this->Employee->set_employee_current_register_id($register['register_id']);
-			}
-			
-			$current_register_id = $this->Employee->get_logged_in_employee_current_register_id();
-			$register_info = $this->Register->get_info($current_register_id);
-			
-			require_once(APPPATH.'libraries/Cardconnectprocessor.php');
-			$credit_card_processor = new Cardconnectprocessor($this);	
-			return $credit_card_processor;			
-		}
-		elseif ($this->Location->get_info_for_key('credit_card_processor') == 'heartland')
-		{
-			$registers = $this->Register->get_all();
-			$register = $registers->row_array();
-		
-			if (!$this->Employee->get_logged_in_employee_current_register_id() && isset($register['register_id']))
-			{
-				$this->Employee->set_employee_current_register_id($register['register_id']);
-			}
-			
-			$current_register_id = $this->Employee->get_logged_in_employee_current_register_id();
-			$register_info = $this->Register->get_info($current_register_id);
-			
-			//IP Tran; supports all platforms
-			if($register_info->iptran_device_id)
-			{
-				require_once(APPPATH.'libraries/Heartlandemvtranscloudprocessor.php');
-				$credit_card_processor = new Heartlandemvtranscloudprocessor($this);
-				return $credit_card_processor;
-			}
-			
-			require_once (APPPATH.'libraries/Heartlandemvusbprocessor.php');
-			$credit_card_processor = new Heartlandemvusbprocessor($this);
-			return $credit_card_processor;			
-		}
-		elseif ($this->Location->get_info_for_key('credit_card_processor') == 'evo')
-		{
-			$registers = $this->Register->get_all();
-			$register = $registers->row_array();
-		
-			if (!$this->Employee->get_logged_in_employee_current_register_id() && isset($register['register_id']))
-			{
-				$this->Employee->set_employee_current_register_id($register['register_id']);
-			}
-			
-			$current_register_id = $this->Employee->get_logged_in_employee_current_register_id();
-			$register_info = $this->Register->get_info($current_register_id);
-			
-			require_once (APPPATH.'libraries/Evoemvusbprocessor.php');
-			$credit_card_processor = new Evoemvusbprocessor($this);
-			return $credit_card_processor;			
-		}
-		elseif ($this->Location->get_info_for_key('credit_card_processor') == 'worldpay')
-		{
-			$registers = $this->Register->get_all();
-			$register = $registers->row_array();
-		
-			if (!$this->Employee->get_logged_in_employee_current_register_id() && isset($register['register_id']))
-			{
-				$this->Employee->set_employee_current_register_id($register['register_id']);
-			}
-			
-			$current_register_id = $this->Employee->get_logged_in_employee_current_register_id();
-			$register_info = $this->Register->get_info($current_register_id);
-			
-			require_once (APPPATH.'libraries/Worldpayemvusbprocessor.php');
-			$credit_card_processor = new Worldpayemvusbprocessor($this);
-			return $credit_card_processor;			
-		}
-		elseif ($this->Location->get_info_for_key('credit_card_processor') == 'firstdata')
-		{
-			$registers = $this->Register->get_all();
-			$register = $registers->row_array();
-		
-			if (!$this->Employee->get_logged_in_employee_current_register_id() && isset($register['register_id']))
-			{
-				$this->Employee->set_employee_current_register_id($register['register_id']);
-			}
-			
-			$current_register_id = $this->Employee->get_logged_in_employee_current_register_id();
-			$register_info = $this->Register->get_info($current_register_id);
-			
-			require_once (APPPATH.'libraries/Firstdataemvusbprocessor.php');
-			$credit_card_processor = new Firstdataemvusbprocessor($this);
-			return $credit_card_processor;			
-		}
-		elseif ($this->Location->get_info_for_key('credit_card_processor') == 'stripe')
-		{
-			require_once (APPPATH.'libraries/Stripeprocessor.php');
-			$credit_card_processor = new Stripeprocessor($this);
-			return $credit_card_processor;
-		}
-		elseif ($this->Location->get_info_for_key('credit_card_processor') == 'braintree')
-		{
-			require_once (APPPATH.'libraries/Braintreeprocessor.php');
-			$credit_card_processor = new Braintreeprocessor($this);
-			return $credit_card_processor;
-		}
-		elseif ($this->Location->get_info_for_key('credit_card_processor') == 'other_usb')
-		{
-			require_once (APPPATH.'libraries/Otheremvusbprocessor.php');
-			$credit_card_processor = new Otheremvusbprocessor($this);
-			return $credit_card_processor;
-		}
-		elseif ($this->Location->get_info_for_key('credit_card_processor') == 'square')
-		{
-			require_once (APPPATH.'libraries/Squareprocessor.php');
-			$credit_card_processor = new Squareprocessor($this);
-			return $credit_card_processor;
-		}
-		return false;
-	}
-		
 	function start_cc_processing()
 	{
 		if ($this->config->item('test_mode'))
@@ -1679,6 +1512,22 @@ class Sales extends Secure_area
 			}
 		}		
 	}
+	
+	public function start_cc_processing_coreclear2()
+	{
+		$credit_card_processor = $this->_get_cc_processor();
+		
+		if ($credit_card_processor)
+		{
+			$credit_card_processor->do_start_cc_processing();
+		}
+		else
+		{
+			$this->_reload(array('error' => lang('sales_credit_card_processing_is_down')), false);
+			return;
+		}
+	}
+	
 	
 	public function start_cc_processing_card_connect()
 	{
@@ -1954,6 +1803,7 @@ class Sales extends Secure_area
 		}
 
 		$data['employee']=$emp_info->first_name.' '.$emp_info->last_name.($sold_by_employee_id && $sold_by_employee_id != $employee_id ? '/'. $sale_emp_info->first_name.' '.$sale_emp_info->last_name: '');
+		$data['employee_firstname']=$emp_info->first_name.($sold_by_employee_id && $sold_by_employee_id != $employee_id ? '/'. $sale_emp_info->first_name: '');
 		$data['ref_no'] = '';
 		$data['auth_code'] = '';
 		$data['discount_exists'] = $this->_does_discount_exists($data['cart_items']);
@@ -2169,8 +2019,12 @@ class Sales extends Secure_area
 			if($this->config->item('enable_pdf_receipts')){
 				$receipt_data = $this->load->view("sales/receipt_html", $data, true);
 				
-				$filename = 'receipt_'.$sale_id_raw.'.pdf';
-		    $this->load->library("m_pdf");
+				if($this->config->item('receipt_download_filename_prefix')){
+					$filename = $this->config->item('receipt_download_filename_prefix').'_receipt_'.$sale_id_raw.'.pdf';
+				}else{
+					$filename = 'receipt_'.$sale_id_raw.'.pdf';
+				}
+				$this->load->library("m_pdf");
 				$pdf_content = $this->m_pdf->generate_pdf($receipt_data);
 			}
 			
@@ -2213,10 +2067,14 @@ class Sales extends Secure_area
 			if($this->config->item('enable_pdf_receipts')){
 				$receipt_data = $this->load->view("sales/receipt_html", $data, true);
 				
-				$filename = 'receipt_'.$sale_id_raw.'.pdf';
-		    $this->load->library("m_pdf");
-				$pdf_content = $this->m_pdf->generate_pdf($receipt_data);
-			}
+				if($this->config->item('receipt_download_filename_prefix')){
+					$filename = $this->config->item('receipt_download_filename_prefix').'_receipt_'.$sale_id_raw.'.pdf';
+				}else{
+					$filename = 'receipt_'.$sale_id_raw.'.pdf';
+				}
+				$this->load->library("m_pdf");
+					$pdf_content = $this->m_pdf->generate_pdf($receipt_data);
+				}
 			
 			$this->load->library('email');
 			$config['mailtype'] = 'html';
@@ -2306,6 +2164,7 @@ class Sales extends Secure_area
 		$data['payment_type']=$sale_info['payment_type'];
 		$data['amount_change']=$receipt_cart->get_amount_due_round($sale_id) * -1;
 		$data['employee']=$emp_info->first_name.' '.$emp_info->last_name.($sold_by_employee_id && $sold_by_employee_id != $sale_info['employee_id'] ? '/'. $sale_emp_info->first_name.' '.$sale_emp_info->last_name: '');
+		$data['employee_firstname']=$emp_info->first_name.($sold_by_employee_id && $sold_by_employee_id != $sale_info['employee_id'] ? '/'. $sale_emp_info->first_name: '');
 		
 		$data['ref_no'] = $sale_info['cc_ref_no'];
 		$data['auth_code'] = $sale_info['auth_code'];
@@ -2356,8 +2215,13 @@ class Sales extends Secure_area
 		
 		$data['signature_file_id'] = $sale_info['signature_image_id'];
 		$receipt_data = $this->load->view("sales/receipt_html", $data, true);
-		$filename = 'receipt_'.$sale_id.'.pdf';
-    $this->load->library("m_pdf");
+		if($this->config->item('receipt_download_filename_prefix')){
+			$filename = $this->config->item('receipt_download_filename_prefix').'_receipt_'.$sale_id.'.pdf';
+		}else{
+			$filename = 'receipt_'.$sale_id.'.pdf';
+		}
+
+		$this->load->library("m_pdf");
 		$pdf_content = $this->m_pdf->generate_pdf($receipt_data,TRUE, $filename);
 		
 	}
@@ -2400,7 +2264,8 @@ class Sales extends Secure_area
 		$data['payment_type']=$sale_info['payment_type'];
 		$data['amount_change']=$receipt_cart->get_amount_due_round($sale_id) * -1;
 		$data['employee']=$emp_info->first_name.' '.$emp_info->last_name.($sold_by_employee_id && $sold_by_employee_id != $sale_info['employee_id'] ? '/'. $sale_emp_info->first_name.' '.$sale_emp_info->last_name: '');
-		
+		$data['employee_firstname']=$emp_info->first_name.($sold_by_employee_id && $sold_by_employee_id != $sale_info['employee_id'] ? '/'. $sale_emp_info->first_name: '');
+
 		$data['ref_no'] = $sale_info['cc_ref_no'];
 		$data['auth_code'] = $sale_info['auth_code'];
 		
@@ -2471,7 +2336,11 @@ class Sales extends Secure_area
 				$data['signature_file_id'] = $sale_info['signature_image_id'];
 				$receipt_data = $this->load->view("sales/receipt_html", $data, true);
 				
-				$filename = 'receipt_'.$sale_id.'.pdf';
+				if($this->config->item('receipt_download_filename_prefix')){
+					$filename = $this->config->item('receipt_download_filename_prefix').'_receipt_'.$sale_id.'.pdf';
+				}else{
+					$filename = 'receipt_'.$sale_id.'.pdf';
+				}
 		    $this->load->library("m_pdf");
 				$pdf_content = $this->m_pdf->generate_pdf($receipt_data);
 								
@@ -2509,7 +2378,7 @@ class Sales extends Secure_area
 			die();
 		}
 	}
-	
+
 	function receipt($sale_id)
 	{
 		$receipt_cart = PHPPOSCartSale::get_instance_from_sale_id($sale_id);
@@ -2546,6 +2415,7 @@ class Sales extends Secure_area
 		$data['payment_type']=$sale_info['payment_type'];
 		$data['amount_change']=$receipt_cart->get_amount_due() * -1;
 		$data['employee']=$emp_info->first_name.' '.$emp_info->last_name.($sold_by_employee_id && $sold_by_employee_id != $sale_info['employee_id'] ? '/'. $sale_emp_info->first_name.' '.$sale_emp_info->last_name: '');
+		$data['employee_firstname']=$emp_info->first_name.($sold_by_employee_id && $sold_by_employee_id != $sale_info['employee_id'] ? '/'. $sale_emp_info->first_name: '');
 		$data['ref_no'] = $sale_info['cc_ref_no'];
 		$data['auth_code'] = $sale_info['auth_code'];
 		$data['discount_exists'] = $this->_does_discount_exists($data['cart_items']);
@@ -2731,7 +2601,7 @@ class Sales extends Secure_area
 			{
 				$cc_processor_class_name = strtoupper(get_class($credit_card_processor));
 				$cc_processor_parent_class_name = strtoupper(get_parent_class($credit_card_processor));
-				if ($cc_processor_class_name == 'CARDCONNECTPROCESSOR' || $cc_processor_class_name == 'MERCURYHOSTEDCHECKOUTPROCESSOR' || $cc_processor_parent_class_name == 'DATACAPTRANSCLOUDPROCESSOR' || $cc_processor_class_name=='STRIPEPROCESSOR' || $cc_processor_class_name=='BRAINTREEPROCESSOR')
+				if ($cc_processor_class_name == 'CARDCONNECTPROCESSOR' || $cc_processor_class_name == 'MERCURYHOSTEDCHECKOUTPROCESSOR' || $cc_processor_parent_class_name == 'DATACAPTRANSCLOUDPROCESSOR' || $cc_processor_class_name=='STRIPEPROCESSOR' || $cc_processor_class_name=='BRAINTREEPROCESSOR' || $cc_processor_class_name=='CORECLEARBLOCKCHYPPROCESSOR')
 				{
 					if ($this->input->post('sales_void_and_refund_credit_card'))
 					{
@@ -3222,6 +3092,13 @@ class Sales extends Secure_area
 			}
 		}						
 
+ 		$credit_card_processor = $this->_get_cc_processor();
+
+		if ($credit_card_processor && method_exists($credit_card_processor, 'update_transaction_display'))
+		{
+			$data['update_transaction_display'] = TRUE;
+		}
+
   	if ($is_ajax)
 		{
 			$this->load->view("sales/register",$data);
@@ -3236,6 +3113,18 @@ class Sales extends Secure_area
 			{
 				$this->load->view("sales/register_initial",$data);
 			}
+		}
+		
+	}
+	
+	function update_transaction_display()
+	{
+		session_write_close();
+ 		$credit_card_processor = $this->_get_cc_processor();
+
+		if ($credit_card_processor && method_exists($credit_card_processor, 'update_transaction_display'))
+		{
+			$credit_card_processor->update_transaction_display($this->cart);
 		}
 		
 	}
@@ -3848,7 +3737,7 @@ class Sales extends Secure_area
 		{
 			$img_src = "";
 			if ($item->image_id != 'no_image' && trim($item->image_id) != '') {
-				$img_src = app_file_url($item->image_id);
+				$img_src = cacheable_app_file_url($item->image_id);
 			}
 			
 			$size = $item->size ? ' - '.$item->size : '';
@@ -3900,7 +3789,7 @@ class Sales extends Secure_area
 			$img_src = "";
 			if ($variation['image']['image_id']) 
 			{
-				$img_src = app_file_url($variation['image']['image_id']);
+				$img_src = cacheable_app_file_url($variation['image']['image_id']);
 			}
 					
 			$cur_item_info = $this->Item->get_info($item_id);
@@ -4051,7 +3940,7 @@ class Sales extends Secure_area
 		{
 			$img_src = "";
 			if ($item->image_id != 'no_image' && trim($item->image_id) != '') {
-				$img_src = app_file_url($item->image_id);
+				$img_src = cacheable_app_file_url($item->image_id);
 			}
 
 			if (strpos($item->item_id, 'KIT') === 0)
@@ -4109,7 +3998,7 @@ class Sales extends Secure_area
 			
 			$img_src = "";
 			if ($item->image_id != 'no_image' && trim($item->image_id) != '') {
-				$img_src = app_file_url($item->image_id);
+				$img_src = cacheable_app_file_url($item->image_id);
 			}
 
 			if (strpos($item->item_id, 'KIT') === 0)
@@ -4166,7 +4055,7 @@ class Sales extends Secure_area
 		{
 			$img_src = "";
 			if ($item->image_id != 'no_image' && trim($item->image_id) != '') {
-				$img_src = app_file_url($item->image_id);
+				$img_src = cacheable_app_file_url($item->image_id);
 			}
 
 			$price_to_use = $this->Item->get_sale_price(array('item_id' => $item->item_id));	
@@ -5330,5 +5219,328 @@ class Sales extends Secure_area
 			}
 			echo json_encode(array('success' => TRUE,'sale_ids' => $sale_ids));
 		}
+		
+		function view_transaction_history()
+		{
+			$this->check_action_permission('view_edit_transaction_history');
+			$credit_card_processor = $this->_get_cc_processor();
+
+			if (!$credit_card_processor || !method_exists($credit_card_processor,'get_transaction_history'))
+			{
+				$this->_reload(array('error' => lang('sales_credit_card_processing_is_down')), false);
+				return;
+			}
+		
+			$start_date = $this->input->get('start_date');
+			$end_date = $this->input->get('end_date');
+			$params = [
+				'startDate' => date('c',strtotime($start_date ? $start_date : '-2 days')),
+				'endDate' => date('c',strtotime($end_date ? $end_date : '+1 day')),
+			    'maxResults' => 50,
+				'startIndex' => 0,
+			];
+		
+			$all_transactions = array();
+		
+			$transactions = $credit_card_processor->get_transaction_history($params);
+			$all_transactions = array_merge($all_transactions,$transactions['transactions']);
+			$total_transactions = $transactions['totalResultCount'];
+		
+			$total_pages = ceil($total_transactions/$params['maxResults']);
+			for($startIndex=$params['maxResults'];$startIndex<$params['maxResults']*$total_pages;$startIndex+=$params['maxResults'])
+			{
+				$params['startIndex'] = $startIndex;
+				$transactions = $credit_card_processor->get_transaction_history($params);
+				$all_transactions = array_merge($all_transactions,$transactions['transactions']);
+			
+			}
+		
+			$all_transaction_ids = array_column($all_transactions,'transactionId');
+		
+			//This will pre-warm cache so we don't make a ton of database queries
+			$this->Sale->get_sale_id_from_payment_ref_no($all_transaction_ids);
+			$data = array(
+				'start_date' => date(get_date_format(),strtotime($start_date ? $start_date : '-2 days')),
+				'end_date' => date(get_date_format(),strtotime($start_date ? $end_date : '+1 day')),
+				'transactions' => $all_transactions,
+				'length_dropdown' => range($params['maxResults'], $total_pages*$params['maxResults'],10)
+			);
+		
+				
+			$this->load->view('sales/blockchyp_transaction_history',$data);		
+		}
+		
+		function batches()
+		{
+			$credit_card_processor = $this->_get_cc_processor();
+
+			if ($credit_card_processor)
+			{
+				$cc_processor_class_name = strtoupper(get_class($credit_card_processor));
+			}
+		
+			$is_core_clear_processor =  strpos(strtoupper($this->Location->get_info_for_key('credit_card_processor')), 'CORE') !== false;
+			if (!$credit_card_processor || !$is_core_clear_processor)
+			{
+				$this->load->view('coreclear/coreclear_info');
+				return;
+			}
+		
+			if ($cc_processor_class_name != 'CORECLEARBLOCKCHYPPROCESSOR')
+			{
+				$this->load->view('coreclear/coreclear_transaction_history_not_supported');
+				return;
+			}
+		
+			$start_date = $this->input->get('start_date');
+			$end_date = $this->input->get('end_date');
+			$params = [
+				'startDate' => date('c',strtotime($start_date ? $start_date : '-10 days')),
+				'endDate' => date('c',strtotime($end_date ? $end_date : '+1 day')),
+			    'maxResults' => 50,
+				'startIndex' => 0,
+			];
+		
+			$all_batches = array();
+		
+			$batches = $credit_card_processor->get_batch_history($params);
+			$all_batches = array_merge($all_batches,$batches['batches']);
+			$total_batches = $batches['totalResultCount'];
+		
+			$total_pages = ceil($total_batches/$params['maxResults']);
+			for($startIndex=$params['maxResults'];$startIndex<$params['maxResults']*$total_pages;$startIndex+=$params['maxResults'])
+			{
+				$params['startIndex'] = $startIndex;
+				$batches = $credit_card_processor->get_batch_history($params);
+				$all_batches = array_merge($all_batches,$batches['batches']);
+			
+			}
+				
+			$data = array(
+				'start_date' => date(get_date_format(),strtotime($start_date ? $start_date : '-10 days')),
+				'end_date' => date(get_date_format(),strtotime($start_date ? $end_date : '+1 day')),
+				'batches' => $all_batches,
+				'length_dropdown' => range($params['maxResults'], $total_pages*$params['maxResults'],10)
+			);
+		
+				
+			$this->load->view('sales/blockchyp_batch_history',$data);		
+		}
+	
+	
+		function batch_details()
+		{
+			$credit_card_processor = $this->_get_cc_processor();
+
+			if ($credit_card_processor)
+			{
+				$cc_processor_class_name = strtoupper(get_class($credit_card_processor));
+			}
+		
+			$is_core_clear_processor =  strpos(strtoupper($this->Location->get_info_for_key('credit_card_processor')), 'CORE') !== false;
+			if (!$credit_card_processor || !$is_core_clear_processor)
+			{
+				$this->load->view('coreclear/coreclear_info');
+				return;
+			}
+		
+			if ($cc_processor_class_name != 'CORECLEARBLOCKCHYPPROCESSOR')
+			{
+				$this->load->view('sales/coreclear_transaction_history_not_supported');
+				return;
+			}
+		
+			echo json_encode($credit_card_processor->get_batch_details(array('batchId' => $this->input->post('batch_id'))));
+		}
+	
+		function get_transastions_for_batch()
+		{
+			$credit_card_processor = $this->_get_cc_processor();
+
+			if ($credit_card_processor)
+			{
+				$cc_processor_class_name = strtoupper(get_class($credit_card_processor));
+			}
+		
+			$is_core_clear_processor =  strpos(strtoupper($this->Location->get_info_for_key('credit_card_processor')), 'CORE') !== false;
+			if (!$credit_card_processor || !$is_core_clear_processor)
+			{
+				$this->load->view('coreclear/coreclear_info');
+				return;
+			}
+		
+			if ($cc_processor_class_name != 'CORECLEARBLOCKCHYPPROCESSOR')
+			{
+				$this->load->view('coreclear/coreclear_transaction_history_not_supported');
+				return;
+			}
+		
+			$batch_id = $this->input->post('batch_id');
+		
+			$params = [
+				'batchId' => $batch_id,
+			    'maxResults' => 50,
+				'startIndex' => 0,
+			];
+		
+			$headers = array(
+			array('data'=>lang('common_date'), 'align'=> 'left'),
+			array('data'=>lang('common_id'), 'align'=> 'left'),
+			array('data'=>lang('common_sale_id'), 'align'=> 'left'),
+			array('data'=>lang('common_approved'), 'align'=> 'left'),
+			array('data'=>lang('sales_response_description'), 'align'=> 'left'),
+			array('data'=>lang('sales_card_holder'), 'align'=> 'left'),
+			array('data'=>lang('common_amount'), 'align'=> 'left'),
+			array('data'=>lang('sales_transaction_type'), 'align'=> 'left'),
+			array('data'=>lang('sales_entry_method'), 'align'=> 'left'),
+			array('data'=>lang('common_payment_type'), 'align'=> 'left'),
+			array('data'=>lang('sales_masked_card'), 'align'=> 'left'),
+			);
+		
+		
+			$all_transactions = array();
+	
+			$transactions = $credit_card_processor->get_transaction_history($params);
+			$all_transactions = array_merge($all_transactions,$transactions['transactions']);
+			$total_transactions = $transactions['totalResultCount'];
+	
+			$total_pages = ceil($total_transactions/$params['maxResults']);
+			for($startIndex=$params['maxResults'];$startIndex<$params['maxResults']*$total_pages;$startIndex+=$params['maxResults'])
+			{
+				$params['startIndex'] = $startIndex;
+				$transactions = $credit_card_processor->get_transaction_history($params);
+				$all_transactions = array_merge($all_transactions,$transactions['transactions']);
+			}
+	
+			$all_transaction_ids = array_column($all_transactions,'transactionId');
+	
+			//This will pre-warm cache so we don't make a ton of database queries
+			$this->Sale->get_sale_id_from_payment_ref_no($all_transaction_ids);
+		
+			$details_data = array();
+		
+			foreach($all_transactions as $transaction)
+			{
+				$details_data_row = array();
+				$details_data_row[] = array('data'=> date(get_date_format().' '.get_time_format(),strtotime($transaction['timestamp'])), 'align'=>'left');
+				$details_data_row[] = array('data'=> $transaction['transactionId'],'align'=>'left');
+			
+				if ($sale_id = $this->Sale->get_sale_id_from_payment_ref_no($transaction['transactionId']))
+				{
+					$details_data_row[] = array('data'=> anchor('sales/receipt/'.$sale_id,$this->config->item('sale_prefix').' '.$sale_id, array('target' => '_blank')), 'align'=>'left');
+				}
+				else
+				{
+					$details_data_row[] = array('data'=> lang('common_unknown'), 'align'=>'left');
+				}
+				$details_data_row[] = array('data'=> $transaction['approved'] ? lang('common_yes') : lang('common_no'), 'align'=>'left');
+				$details_data_row[] = array('data'=> $transaction['responseDescription'], 'align'=>'left');
+				$details_data_row[] = array('data'=> $transaction['cardHolder'], 'align'=>'left');
+				$details_data_row[] = array('data'=> to_currency(make_currency_no_money($transaction['authorizedAmount'])), 'align'=>'left');
+				$details_data_row[] = array('data'=> $transaction['transactionType'], 'align'=>'left');
+				$details_data_row[] = array('data'=> $transaction['entryMethod'], 'align'=>'left');
+				$details_data_row[] = array('data'=> $transaction['paymentType'], 'align'=>'left');
+				$details_data_row[] = array('data'=> $transaction['maskedPan'], 'align'=>'left');
+			
+				$details_data[] = $details_data_row;
+			
+			}
+		
+		
+			$data=array(
+			"headers" => $headers,
+			"details_data" => $details_data
+			);
+		
+			echo json_encode($data);
+		}
+		
+	
+		function void_return_by_transaction_id($transactionId)
+		{
+			$this->check_action_permission('view_edit_transaction_history');
+			$credit_card_processor = $this->_get_cc_processor();
+
+			if (!$credit_card_processor || !method_exists($credit_card_processor,'void_return_transaction_by_id'))
+			{
+				$this->_reload(array('error' => lang('sales_credit_card_processing_is_down')), false);
+				return;
+			}
+		
+			$start_date=$this->input->post('start_date');
+			$end_date=$this->input->post('end_date');
+			$amount = $this->input->post('amount');
+			if ($response = $credit_card_processor->void_return_transaction_by_id($transactionId,$amount))
+			{
+				$sale_id = $this->input->post('sale_id');
+				$this->load->model('Processing_logging');
+				$log_data = array(
+					'return_time' => date('Y-m-d H:i:s'),
+					'employee_id' => $this->Employee->get_logged_in_employee_info()->person_id,
+					'orig_voided_processor_transaction_id' => $transactionId,
+					'voided_processor_transaction_id' => $response['transactionId'],
+					'amount' => $response['authorizedAmount'],
+					'sale_id' => $sale_id ? $sale_id : NULL,
+				);	
+			
+				$this->Processing_logging->insert_log($log_data);
+			
+				$success = rawurlencode(lang('sales_success_void_transaction').' '.$transactionId);
+				redirect("sales/view_transaction_history?success=$success&start_date=$start_date&end_date=$end_date");
+			}
+			else
+			{
+				$error = rawurlencode(lang('sales_cannot_void_transaction').' '.$transactionId);
+				redirect("sales/view_transaction_history?error=$error&start_date=$start_date&end_date=$end_date");
+			}
+		}
+
+	function sort()
+	{
+		$sort_column_1 = $this->input->post("sort_column");
+		$sort_column = "";
+		if($sort_column_1 == 'price'){
+			$sort_column = 'unit_price';
+		}else if($sort_column_1 == 'quantity'){
+			$sort_column = 'quantity';
+		}else if($sort_column_1 == 'name'){
+			$sort_column = 'name';
+		}else if($sort_column_1 == 'discount'){
+			$sort_column = 'discount';
+		}else if($sort_column_1 == 'total'){
+			$sort_column = 'total';
+		}
+
+		if($sort_column != ""){
+			$sort_type = $this->input->post("sort_type");
+			$this->cart->sort($sort_column, $sort_type);
+			$this->cart->save();
+		}else if($sort_column_1 == 'drag_drop'){
+			$drag_index = $this->input->post("drag_index");
+			$drop_index = $this->input->post("drop_index");
+			if($drag_index > -1 && $drop_index > -1 & $drag_index != $drop_index){
+				$this->cart->drag_drop($drag_index, $drop_index);
+				$this->cart->save();
+			}
+		}
+		$this->_reload();
+  }
+    function update_sales_item_order(){
+		$list = $this->input->post("item_lines");
+
+		foreach($list as $item_line){
+			$item_id = $item_line['item_id'];
+			$sale_id = $item_line['sale_id'];
+			$item_class = $item_line['item_class'];
+			$line = $item_line['line'];
+			$this->Sale->sale_item_line_update($sale_id, $item_id, $item_class, $line);
+		}
+
+		$result = array(
+			'state' => 1
+		);
+		echo json_encode($result);
+		exit;
+	}
 }
 ?>

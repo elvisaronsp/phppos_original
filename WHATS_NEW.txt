@@ -1,14 +1,1 @@
-18.2 Release!
-
-Whats new:
-* Improved delivery section with a new calendar view. Now also have categories and custom statuses. Can now also email/SMS customer when delivery status changes
-* Added Layaway statements report
-* Added View Receipt On Web Page to receipt link. This allows a standalone link to be e-mailed or sent
-* Added store config option to import e-commerce order suspended
-* Added store config option Show Images on Receipt
-* Serial numbers can be tied to a variation
-* Added supplier option to item grid
-* Added predicted sale id to CardConnect
-* Added Weight Embedded Barcodes
-* Added permission Can lookup last receipt
-* Bulk delete suspended sales & Receivings
+See https://phppointofsale.com/whats_new.php

@@ -156,8 +156,16 @@ class Public_view extends MY_Controller
 		}
 		
 		$data['standalone'] = TRUE;
-		$this->load->view("sales/receipt",$data);
-		
+		$sig_auth = isset($_GET['signature']) && $_GET['signature'] == $this->Sale->get_receipt_signature($sale_id);
+		$authenticated = $this->Sale->has_email_or_phone($sale_id,$this->input->post('email_phone'));
+		if ($sig_auth || $authenticated)
+		{
+			$this->load->view("sales/receipt",$data);
+		}
+		else
+		{
+			$this->load->view("sales/receipt_auth",$data);
+		}
 	}
 }
 ?>

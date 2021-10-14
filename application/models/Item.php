@@ -4409,6 +4409,6 @@ SQL;
 	{
 		$this->db->where('id',$sec_category_id);
 		$this->db->delete('items_secondary_categories');
-	}
+	}	
 }
 ?>

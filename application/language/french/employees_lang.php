@@ -81,4 +81,6 @@ $lang['employees_login_end_time'] = 'Autorisé à se connecter à l\'heure de fi
 $lang['employees_login_start_time'] = 'Autorisé à se connecter à l\'heure de début';
 $lang['permission_templates'] = 'Modèles d\'autorisation';
 $lang['update_all_employees_with_template_assinged'] = 'Mettre à jour tous les employés avec un modèle attribué';
+$lang['employees_enter_ip'] = 'Veuillez saisir l\'adresse IP ou la plage IP (CIDR)';
+$lang['employees_acess_ip_range'] = 'Adresses IP auxquelles l\'employé peut accéder';
 ?>

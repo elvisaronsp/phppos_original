@@ -75,4 +75,6 @@ $lang['employees_login_end_time'] = 'يسمح لتسجيل الدخول وقت �
 $lang['employees_login_start_time'] = 'يسمح لتسجيل الدخول وقت البدء';
 $lang['permission_templates'] = 'قوالب الأذونات';
 $lang['update_all_employees_with_template_assinged'] = 'تحديث جميع الموظفين الذين تم تعيين النموذج لهم';
+$lang['employees_enter_ip'] = 'الرجاء إدخال IP أو نطاق IP (CIDR)';
+$lang['employees_acess_ip_range'] = 'عناوين IP التي يمكن للموظفين الوصول إليها من';
 ?>

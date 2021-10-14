@@ -527,4 +527,9 @@ $lang['reports_due'] = 'Devido';
 
 $lang['reports_summary_journal'] = 'Relatório resumido do diário';
 
+$lang['reports_voided_returned_transactions'] = 'Transações anuladas / devolvidas';
+$lang['reports_transaction_voided'] = 'ID da transação anulada';
+$lang['reports_transaction_voided_transacion_id'] = 'ID da transação anulada';
+$lang['reports_amount_returned'] = 'Quantidade anulada / devolvida';
+$lang['reports_voided_transactions'] = 'Transações Anuladas';
 ?>

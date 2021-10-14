@@ -104,4 +104,8 @@ $lang['locations_previous_day'] = 'Vorheriger tag';
 $lang['locations_current_day'] = 'Heutige Tag';
 $lang['locations_auto_reports_day'] = 'Tag zum E-Mail-Bericht für';
 $lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'Deaktivieren Sie die Betragsbestätigung bei der Verarbeitung der Kreditkarte';
+$lang['locations_blockchyp_api_key'] = 'coreCLEAR API-Schlüssel';
+$lang['locations_blockchyp_bearer_token'] = 'coreCLEAR Inhaber-Token';
+$lang['locations_blockchyp_signing_key'] = 'coreCLEAR-Signaturschlüssel';
+$lang['locations_blockchyp_test_mode'] = 'coreCLEAR Testmodus';
 ?>

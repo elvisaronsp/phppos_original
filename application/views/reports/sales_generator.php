@@ -132,7 +132,7 @@ $(document).on('change', ".selectField", function(){
 	else 
 	{
 		field.parent().parent().children("td.condition").children(".selectCondition").removeAttr("disabled");	
-		if ($(this).val() == 2 || $(this).val() == 7 || $(this).val() == 10 || $(this).val() == 12 || $(this).val() == 16 || ($(this).val() >= 19 && $(this).val() <= 28)) 
+		if ($(this).val() == 2 || $(this).val() == 7 || $(this).val() == 29 || $(this).val() == 10 || $(this).val() == 12 || $(this).val() == 16 || ($(this).val() >= 19 && $(this).val() <= 28)) 
 		{
 			field.parent().parent().children("td.value").append(sInput);		
 		} 
@@ -178,7 +178,7 @@ function disableConditions(elm, q) {
 	var allowed1 = ['1', '2','16','17'];
 	var allowed2 = ['7', '8', '9'];
 	var allowed3 = ['10', '11'];
-	var allowed4 = ['1', '2', '7', '8', '9'];
+	var allowed4 = ['1', '2', '7', '8', '9','29'];
 	var allowed5 = ['1'];
 	var disabled = elm.parent().parent().children("td.condition").children(".selectCondition");
 	

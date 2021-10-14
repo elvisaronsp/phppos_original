@@ -295,7 +295,7 @@ body,html
 		overflow-x: hidden;
 		padding-top: @logobarheight+10;
 		height: 100vh;
-		>li
+		>li 
 		{	
 			&.active, &:hover 
 			{
@@ -1744,8 +1744,7 @@ and (max-width : 1366px) {
 					/*display: none;	*/
 					.logo
 					{
-						width: 31px;
-						margin-top: 7%;
+						width: @minibarwidth - 20px;
 					}
 				}
 				a.menu-bar
@@ -4311,4 +4310,29 @@ nav.navbar  {
 
 .list-style-none{
   list-style: none;
+}
+
+.dot
+{
+	visibility: hidden;
+	position: relative;
+    top:7px;
+    height: 7px;
+    width: 7px;
+    border-radius: 50%;
+    display: inline-block;
+	
+}
+.dot.red {
+    background-color: red;
+}
+
+.dot.green { 
+   background-color: green;
+}
+
+.next-to-status
+{
+	float: right;
+	width:95%;
 }

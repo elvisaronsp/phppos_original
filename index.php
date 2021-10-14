@@ -103,6 +103,7 @@ if (is_on_phppos_host() && is_on_api_url())
  * NOTE: If you change these, also change the error_reporting() code below
  */
 define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'production');
+
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

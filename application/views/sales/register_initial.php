@@ -11,10 +11,18 @@
 
 				<div class="text-center">
 					<div id="grid_selection" class="btn-group" role="group">
+						<?php if($this->config->item('hide_categories_sales_grid') != 1 ){ ?>
 						<a href="javascript:void(0);" class="<?php echo $this->config->item('default_type_for_grid') == 'categories' || !$this->config->item('default_type_for_grid') ? 'btn active' : ''; ?> btn btn-grid" id="by_category"><?php echo lang('reports_categories') ?></a>
+						<?php }
+						if($this->config->item('hide_tags_sales_grid') != 1 ){ ?>
 						<a href="javascript:void(0);" class="<?php echo $this->config->item('default_type_for_grid') == 'tags' ? 'btn active' : ''; ?> btn btn-grid" id="by_tag"><?php echo lang('common_tags') ?></a>
+						<?php }
+						if($this->config->item('hide_suppliers_sales_grid') != 1 ){ ?>
 						<a href="javascript:void(0);" class="<?php echo $this->config->item('default_type_for_grid') == 'suppliers' ? 'btn active' : ''; ?> btn btn-grid" id="by_supplier"><?php echo lang('common_suppliers') ?></a>
+						<?php }
+						if($this->config->item('hide_favorites_sales_grid') != 1 ){ ?>
 						<a href="javascript:void(0);" class="<?php echo $this->config->item('default_type_for_grid') == 'favorites' ? 'btn active' : ''; ?> btn btn-grid" id="by_favorite"><?php echo lang('common_favorite') ?></a>
+						<?php }?>
 					</div>
 				</div>
 
@@ -618,13 +626,21 @@
 
 
 		<?php if ($this->config->item('default_type_for_grid') == 'tags') {  ?>
-			loadTags();
+			<?php if($this->config->item('hide_tags_sales_grid') != 1 ){ ?>
+				loadTags();
+			<?php } ?>
 		<?php } else if ($this->config->item('default_type_for_grid') == 'favorites') { ?>
-			loadFavoriteItems(0);
+			<?php if($this->config->item('hide_favorites_sales_grid') != 1 ){ ?>
+				loadFavoriteItems(0);
+			<?php } ?>
 		<?php } else if ($this->config->item('default_type_for_grid') == 'suppliers') { ?>
-			loadSuppliers();
+			<?php if($this->config->item('hide_suppliers_sales_grid') != 1 ){ ?>
+				loadSuppliers();
+			<?php } ?>
 		<?php } else { ?>
-			loadTopCategories();
+			<?php if($this->config->item('hide_categories_sales_grid') != 1 ){ ?>
+				loadTopCategories();
+			<?php } ?>
 		<?php	} ?>
 	});
 
@@ -715,6 +731,35 @@
 		echo "show_feedback('warning', " . json_encode($this->session->flashdata('error_if_total_is_zero')) . ", " . json_encode(lang('common_warning')) . ",  {timeOut: 10000}  );";
 	}
 
+	?>
+	
+	<?php 
+	if ($this->Location->get_info_for_key('enable_credit_card_processing') && $this->Location->get_info_for_key('blockchyp_api_key')) 
+	{
+	?>
+		function update_blockchyp_terminal_status()
+		{
+			var register_id = <?php echo json_encode($this->Employee->get_logged_in_employee_current_register_id()); ?>;
+		
+			$.getJSON(SITE_URL+'/sales/get_blockchyp_terminal_status?register_id='+encodeURIComponent(register_id), function(terminal_status)
+			{
+				if(terminal_status.online)
+				{
+					$("#terminal_status_online").show().delay(10000).fadeOut();
+					$("#terminal_status_offline").hide();
+				}
+				else
+				{
+					$("#terminal_status_offline").show().delay(10000).fadeOut();
+					$("#terminal_status_online").hide();
+				}
+			});
+	
+		}	
+
+		update_blockchyp_terminal_status();
+	<?php
+	}	
 	?>
 </script>
 

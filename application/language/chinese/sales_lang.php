@@ -537,4 +537,15 @@ $lang['sales_detailed_note'] = '详细说明';
 $lang['sales_internal_note'] = '内部说明';
 $lang['sales_delveried_to'] = '送到了（送去了';
 $lang['sales_view_receipt_on_web_page'] = '在网页上查看收据';
+$lang['sales_view_edit_transaction_history'] = '查看/编辑卡交易';
+$lang['sales_list_of_credit_transactions'] = '信用卡交易清单';
+$lang['sales_response_description'] = '响应说明';
+$lang['sales_card_holder'] = '持卡人';
+$lang['sales_list_of_batches'] = '批次清单';
+$lang['sales_batch_id'] = '批号';
+$lang['sales_batches'] = '卡片批次';
+$lang['sales_https_required_cc'] = '信用卡处理现在需要 https 安全连接。您的服务器不支持此功能。';
+$lang['sales_https_required_cc_redirect'] = '信用卡处理需要 https。您想在 https 中重新加载销售然后重新处理吗？';
+$lang['sales_credit_card_terminal_offline'] = '您的信用卡终端处于离线状态，请在处理销售前检查连接';
+$lang['sales_credit_card_terminal_online'] = '您的信用卡终端在线并准备好处理交易';
 ?>

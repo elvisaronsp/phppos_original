@@ -1419,4 +1419,29 @@ $lang['common_back_to_suppliers'] = 'Quay lại nhà cung cấp';
 $lang['common_change_status'] = 'Thay đổi trạng thái';
 $lang['common_please_select'] = 'Vui lòng chọn';
 $lang['sales_can_lookup_last_receipt'] = 'Có thể tra cứu biên nhận cuối cùng';
+
+$lang['common_disable'] = 'Vô hiệu';
+$lang['employees_acess_ip_range'] = 'Nhân viên Truy cập Dải IP';
+$lang['common_cannot_access_with_ip'] = 'Bạn không thể truy cập bằng ip của mình';
+$lang['common_filter'] = 'Lọc';
+$lang['common_payment_type'] = 'Hình thức thanh toán';
+$lang['sales_masked_card'] = 'Thẻ đeo mặt nạ';
+$lang['sales_void_return'] = 'Void / Return';
+$lang['common_unknown'] = 'không xác định';
+$lang['common_void'] = 'Hư không';
+$lang['sales_cannot_void_transaction'] = 'Không thể bỏ sót giao dịch';
+$lang['sales_void_title'] = 'Tùy chọn Void';
+$lang['sales_confirm_void'] = 'Bạn có chắc chắn muốn hủy bỏ / xóa chương trình giảm giá này không?';
+$lang['sales_void_full_amount'] = 'Số tiền Void đầy đủ';
+$lang['sales_void_partial_amount'] = 'Số tiền một phần Void';
+$lang['sales_please_enter_refund_amount'] = 'Vui lòng nhập số tiền hoàn lại';
+$lang['sales_success_void_transaction'] = 'Bạn đã hủy bỏ giao dịch thành công';
+$lang['common_qty_name'] = 'Tên số lượng';
+
+$lang['common_indicate_non_taxable_on_receipt'] = 'Cho biết không chịu thuế trên biên lai';
+$lang['common_no_tax'] = 'KHÔNG THUẾ';
+
+$lang['common_view_edit_transaction_history'] = 'Xem / Chỉnh sửa Giao dịch Thẻ';
+$lang['common_change_log'] = 'Thay đổi nhật ký';
+$lang['common_add_new_ip'] = 'Thêm IP mới';
 ?>

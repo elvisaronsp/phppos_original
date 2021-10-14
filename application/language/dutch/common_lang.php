@@ -428,7 +428,6 @@ $lang['common_previous_step'] = 'Vorige stap';
 $lang['common_complete_excel_import'] = 'Compleet Excel importeren';
 $lang['common_complete_excel_import_directions'] = 'Klik op "Complete Excel importeren" te valideren en te voltooien de import.';
 $lang['Complete Excel Import'] = '';
-$lang['n'] = 'common_complete_excel_import_directions';
 $lang['common_desktop'] = 'Desktop';
 $lang['common_mobile'] = 'mobiel';
 $lang['confirmation_export_woocommerce_products'] = 'Bent u zeker dat u de producten te exporteren naar WooCommerce?';
@@ -1059,4 +1058,29 @@ $lang['common_back_to_suppliers'] = 'Terug naar leveranciers';
 $lang['common_change_status'] = 'Verander status';
 $lang['common_please_select'] = 'Selecteer alstublieft';
 $lang['sales_can_lookup_last_receipt'] = 'Kan laatste bon opzoeken Look';
+
+$lang['common_disable'] = 'Uitzetten';
+$lang['employees_acess_ip_range'] = 'Werknemers hebben toegang tot IP-bereik';
+$lang['common_cannot_access_with_ip'] = 'Je hebt geen toegang met je ip';
+$lang['common_filter'] = 'Filter';
+$lang['common_payment_type'] = 'Betalingswijze';
+$lang['sales_masked_card'] = 'Gemaskerde kaart';
+$lang['sales_void_return'] = 'Nietig/Terugkeer';
+$lang['common_unknown'] = 'Onbekend';
+$lang['common_void'] = 'Leegte';
+$lang['sales_cannot_void_transaction'] = 'Kan transactie niet annuleren';
+$lang['sales_void_title'] = 'Opties voor ongeldig maken';
+$lang['sales_confirm_void'] = 'Weet u zeker dat u deze verkoop ongedaan wilt maken/verwijderen?';
+$lang['sales_void_full_amount'] = 'Volledig bedrag ongeldig maken';
+$lang['sales_void_partial_amount'] = 'Gedeeltelijk bedrag ongeldig maken';
+$lang['sales_please_enter_refund_amount'] = 'Voer het restitutiebedrag in';
+$lang['sales_success_void_transaction'] = 'U heeft de transactie met succes geannuleerd';
+$lang['common_qty_name'] = 'Hoeveelheidsnamen';
+
+$lang['common_indicate_non_taxable_on_receipt'] = 'Niet belastbaar aangeven bij ontvangst';
+$lang['common_no_tax'] = 'GEEN BELASTING';
+
+$lang['common_view_edit_transaction_history'] = 'Kaarttransacties bekijken/bewerken';
+$lang['common_change_log'] = 'Logboek wijzigen';
+$lang['common_add_new_ip'] = 'Nieuw IP toevoegen';
 ?>

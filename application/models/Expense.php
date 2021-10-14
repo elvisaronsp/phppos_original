@@ -64,10 +64,9 @@ class Expense extends MY_Model {
             return $query->row();
         } else {
             //Get empty base parent object, as $supplier_id is NOT an supplier
-            $fields = array('id','location_id','category_id','expense_type','expense_description','expense_reason','expense_date','expense_amount','expense_tax','expense_note','employee_id','approved_employee_id','deleted','expense_payment_type');
-						
-						
-            $expense_obj = new stdClass;
+            $fields = array('id','location_id','category_id','expense_type','expense_description','expense_reason','expense_date','expense_amount','expense_tax','expense_note','employee_id','approved_employee_id','deleted','expense_payment_type', 'expense_image_id');
+
+			$expense_obj = new stdClass;
             //Get all the fields from Expenses table
             //append those fields to base parent object, we we have a complete empty object
             foreach ($fields as $field) {
@@ -320,6 +319,38 @@ class Expense extends MY_Model {
         return $this->db->update('expenses', array('deleted' => 0));
 	}
 	
+    /*
+      Gets expense attached files
+     */
 
+	function get_files($expense_id)
+	{
+		$this->db->select('expenses_files.*,app_files.file_name');
+		$this->db->from('expenses_files');
+		$this->db->join('app_files','app_files.file_id = expenses_files.file_id');
+		$this->db->where('expense_id',$expense_id);
+		$this->db->order_by('expenses_files.id');
+		return $this->db->get();
+	}
+
+	function update_image($file_id,$expense_id)
+	{
+		$this->db->set('expense_image_id',$file_id);
+		$this->db->where('id',$expense_id);
+		return $this->db->update('expenses');
+	}
+
+	function add_file($expense_id,$file_id)
+	{
+		$this->db->insert('expenses_files', array('file_id' => $file_id, 'expense_id' => $expense_id));
+	}
+
+	function delete_file($file_id)
+	{
+		$this->db->where('file_id',$file_id);
+		$this->db->delete('expenses_files');
+		$this->load->model('Appfile');
+		return $this->Appfile->delete($file_id);
+	}
 }
 ?>

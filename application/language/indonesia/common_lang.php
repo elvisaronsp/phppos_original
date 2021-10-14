@@ -431,7 +431,6 @@ $lang['common_previous_step'] = 'Langkah sebelumnya';
 $lang['common_complete_excel_import'] = 'Lengkap Excel Impor';
 $lang['common_complete_excel_import_directions'] = 'Klik "Complete Excel Impor" untuk memvalidasi dan menyelesaikan impor.';
 $lang['Complete Excel Import'] = '';
-$lang['n'] = 'common_complete_excel_import_directions';
 $lang['common_desktop'] = 'Desktop';
 $lang['common_mobile'] = 'mobil';
 $lang['confirmation_export_woocommerce_products'] = 'Apakah Anda yakin ingin mengekspor produk ke woocommerce?';
@@ -1069,4 +1068,29 @@ $lang['common_back_to_suppliers'] = 'Kembali ke pemasok';
 $lang['common_change_status'] = 'Merubah status';
 $lang['common_please_select'] = 'Silahkan pilih';
 $lang['sales_can_lookup_last_receipt'] = 'Dapat Mencari Tanda Terima Terakhir';
+
+$lang['common_disable'] = 'Cacat';
+$lang['employees_acess_ip_range'] = 'Rentang IP Akses Karyawan';
+$lang['common_cannot_access_with_ip'] = 'Anda tidak dapat mengakses dengan ip Anda';
+$lang['common_filter'] = 'Saring';
+$lang['common_payment_type'] = 'Tipe pembayaran';
+$lang['sales_masked_card'] = 'Kartu Bertopeng';
+$lang['sales_void_return'] = 'Batal/Kembali';
+$lang['common_unknown'] = 'Tidak dikenal';
+$lang['common_void'] = 'Ruang kosong';
+$lang['sales_cannot_void_transaction'] = 'Tidak Dapat Membatalkan Transaksi';
+$lang['sales_void_title'] = 'Opsi Batal';
+$lang['sales_confirm_void'] = 'Apakah Anda yakin ingin membatalkan/menghapus obral ini?';
+$lang['sales_void_full_amount'] = 'Batal Jumlah Penuh';
+$lang['sales_void_partial_amount'] = 'Membatalkan Jumlah Sebagian';
+$lang['sales_please_enter_refund_amount'] = 'Silakan Masukkan Jumlah Pengembalian Dana';
+$lang['sales_success_void_transaction'] = 'Anda telah berhasil membatalkan transaksi';
+$lang['common_qty_name'] = 'Nama Kuantitas';
+
+$lang['common_indicate_non_taxable_on_receipt'] = 'Cantumkan Tidak Kena Pajak Pada Tanda Terima';
+$lang['common_no_tax'] = 'TANPA PAJAK';
+
+$lang['common_view_edit_transaction_history'] = 'Lihat/Edit Transaksi Kartu';
+$lang['common_change_log'] = 'Ubah Log';
+$lang['common_add_new_ip'] = 'Tambahkan IP baru';
 ?>

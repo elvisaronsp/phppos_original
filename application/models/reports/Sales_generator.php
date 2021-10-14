@@ -28,7 +28,7 @@ class Sales_generator extends Report
 		$return = array();
 		
 		$return['summary'] = array();
-		$location_count = $this->Location->count_all();
+		$location_count = count(Report::get_selected_location_ids());			
 			
 		$return['summary'][] = array('data'=>lang('reports_sale_id'), 'align'=> 'left');
 	

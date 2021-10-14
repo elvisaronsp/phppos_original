@@ -49,4 +49,6 @@ $lang['employees_login_end_time'] = 'Allowed To Login End Time';
 $lang['employees_login_start_time'] = 'Allowed To Login Start Time';
 $lang['permission_templates'] = 'Permission Templates';
 $lang['update_all_employees_with_template_assinged'] = 'Update all Employees With Template Assigned';
+$lang['employees_enter_ip'] = 'Please input IP or IP range(CIDR)';
+$lang['employees_acess_ip_range'] = 'IP Addresses Employee Can Access From';
 ?>

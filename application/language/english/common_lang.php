@@ -1070,4 +1070,29 @@ $lang['common_back_to_suppliers'] = 'Back to suppliers';
 $lang['common_change_status'] = 'Change Status';
 $lang['common_please_select'] = 'Please Select';
 $lang['sales_can_lookup_last_receipt'] = 'Can Lookup Last Receipt';
+
+$lang['common_disable'] = 'Disable';
+$lang['employees_acess_ip_range'] = 'Employees Acess IP Range';
+$lang['common_cannot_access_with_ip'] = 'You can not access with your ip';
+$lang['common_filter'] = 'Filter';
+$lang['common_payment_type'] = 'Payment Type';
+$lang['sales_masked_card'] = 'Masked Card';
+$lang['sales_void_return'] = 'Void/Return';
+$lang['common_unknown'] = 'Unknown';
+$lang['common_void'] = 'Void';
+$lang['sales_cannot_void_transaction'] = 'Cannot Void Transaction';
+$lang['sales_void_title'] = 'Void Options';
+$lang['sales_confirm_void'] = 'Are you sure you want to void/delete this sale?';
+$lang['sales_void_full_amount'] = 'Void Full Amount';
+$lang['sales_void_partial_amount'] = 'Void Partial Amount';
+$lang['sales_please_enter_refund_amount'] = 'Please Enter Refund Amount';
+$lang['sales_success_void_transaction'] = 'You have voided transaction successfully';
+$lang['common_qty_name'] = 'Quantity Names';
+
+$lang['common_indicate_non_taxable_on_receipt'] = 'Indicate Non Taxable On Receipt';
+$lang['common_no_tax'] = 'NO TAX';
+
+$lang['common_view_edit_transaction_history'] = 'View/Edit Card Transactions';
+$lang['common_change_log'] = 'Change Log';
+$lang['common_add_new_ip'] = 'Add new IP';
 ?>

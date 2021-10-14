@@ -354,6 +354,13 @@
 				
 				<div class="list-group deleted-sales hidden">
 					<a href="<?php echo site_url('reports/generate/deleted_sales');?>" class="list-group-item"><i class="icon ti-calendar"></i> <?php echo lang('reports_detailed_reports'); ?></a>
+					<?php
+					if ($this->Location->get_info_for_key('enable_credit_card_processing') && $this->Location->get_info_for_key('credit_card_processor') == 'coreclear2')
+					{
+					?>
+						<a href="<?php echo site_url('reports/generate/voided_transactions');?>" class="list-group-item"><i class="icon ti-calendar"></i> <?php echo lang('reports_voided_transactions'); ?></a>
+					<?php } ?>
+					
 				</div>
 				
 				<div class="list-group deliveries hidden">
@@ -550,6 +557,12 @@
 				<div class="list-group closeout hidden">
 					<a href="<?php echo site_url('reports/generate/closeout');?>" class="list-group-item"><i class="icon ti-receipt"></i> <?php echo lang('reports_summary_reports'); ?></a>
 					<a href="<?php echo site_url('reports/generate/closeout_condensed');?>" class="list-group-item"><i class="icon ti-receipt"></i> <?php echo lang('reports_condensed_summary'); ?></a>
+					
+					<?php if ($cc_processor_class_name == 'CORECLEARBLOCKCHYPPROCESSOR' && $this->Employee->has_module_action_permission('sales', 'view_edit_transaction_history', $this->Employee->get_logged_in_employee_info()->person_id)) {?>				
+						<a href="<?php echo site_url('sales/view_transaction_history');?>" class="list-group-item"><i class="ion-card"></i> <?php echo lang('sales_view_edit_transaction_history'); ?></a>
+						<a href="<?php echo site_url('sales/batches');?>" class="list-group-item"><i class="icon ti-receipt"></i> <?php echo lang('sales_batches'); ?></a>
+					<?php } ?>
+					
 				</div>
 				
 				<div class="list-group tags hidden">

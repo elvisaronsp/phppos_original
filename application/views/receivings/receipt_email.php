@@ -369,11 +369,8 @@ a {
 														$this->load->helper('file');
 														if ($company_logo)
 														{
-															$file = $this->Appfile->get($company_logo);
-															$base64_file_data = base64_encode($file->file_data);
-															$mime = get_mime_by_extension($file->file_name);
 															?>
-															<img style="width:100px;" src="data:<?php echo $mime ?>;base64,<?php echo $base64_file_data ?>" />
+															<img style="width:100px;" src="<?php echo secure_app_file_url($company_logo); ?>" />
 													<?php
 														}
 													?>

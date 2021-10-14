@@ -1073,5 +1073,35 @@ $lang['config_always_put_last_added_item_on_top_of_cart'] = '始终将最后添�
 $lang['config_show_giftcards_even_if_0_balance'] = '即使余额为零也显示礼品卡';
 
 $lang['config_scale_5'] = '重量嵌入条码';
+
+$lang['config_disable_modules'] = '禁用模块';
+
 $lang['config_hide_description_on_suspended_sales'] = '隐藏暂停销售的项目描述';
+$lang['config_override_symbol_non_taxable'] = '覆盖非应税符号';
+
+
+
+$lang['config_hide_categories_sales_grid'] = '在销售网格上隐藏类别';
+$lang['config_hide_tags_sales_grid'] = '隐藏销售网格上的标签';
+$lang['config_hide_favorites_sales_grid'] = '在销售网格上隐藏收藏夹';
+$lang['config_hide_categories_receivings_grid'] = '在接收网格上隐藏类别';
+$lang['config_hide_tags_receivings_grid'] = '隐藏接收网格上的标签';
+$lang['config_hide_suppliers_receivings_grid'] = '在接收网格上隐藏供应商';
+$lang['config_hide_favorites_receivings_grid'] = '在接收网格上隐藏收藏夹';
+$lang['config_hide_suppliers_sales_grid'] = '在销售网格上隐藏供应商';
+
+$lang['config_offline_mode_sync_period'] = '离线模式同步周期时间（小时）';
+
+
+
+$lang['config_receipt_download_filename_prefix'] = '收据下载文件名前缀';
+$lang['config_remove_employee_lastname_from_receipt'] = '从收据中删除员工姓氏';
+$lang['config_override_symbol_taxes_summary_on_receipt'] = '在收据上显示应税和非应税摘要的覆盖符号';
+
+$lang['config_show_images_on_receipt_width_percent'] = '收据上物品图像的最大宽度（百分比）';
+
+$lang['config_override_symbol_taxable_summary'] = '收据上应税汇总的覆盖符号';
+$lang['config_override_symbol_non_taxable_summary'] = '收据上的非应税汇总的覆盖符号';
+$lang['config_allow_drag_drop_recv'] = '允许在接收屏幕上重新排序';
+$lang['config_allow_drag_drop_sale'] = '允许在销售屏幕上重新订购';
 ?>

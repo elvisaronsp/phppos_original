@@ -169,7 +169,7 @@
 }
 .invoice-table-content {
   padding-bottom: 2px;
-  border-bottom: 1px dashed #000000;
+  border-bottom: 1px solid #000000;
   margin-bottom: 2px;
 }
 .invoice-table-content .category-heading {
@@ -247,7 +247,7 @@ canvas.signature {
 @media print, screen and (max-width: 768px) {
   .invoice-address {
     text-align: center;
-    border-bottom: 2px dashed #000;
+    border-bottom: 2px solid #000;
     padding-bottom: 2px;
     margin-bottom: 2px;
   }
@@ -263,7 +263,7 @@ canvas.signature {
     text-align: center;
   }
   .invoice-detail {
-    border-bottom: 2px dashed #000;
+    border-bottom: 2px solid #000;
     padding-bottom: 2px;
     margin-bottom: 2px;
   }
@@ -403,7 +403,7 @@ canvas.signature {
     margin-bottom: 3px;
   }
   .invoice-table-content:last-child {
-    border-bottom: 1px dashed #000;
+    border-bottom: 1px solid #000;
   }
   .invoice-table-content .invoice-content {
     color: #000;

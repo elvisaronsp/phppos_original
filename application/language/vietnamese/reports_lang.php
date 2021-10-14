@@ -735,4 +735,9 @@ $lang['reports_due'] = 'Đến hạn';
 
 $lang['reports_summary_journal'] = 'Báo cáo Tạp chí Tóm tắt';
 
+$lang['reports_voided_returned_transactions'] = 'Giao dịch bị hủy bỏ / bị trả lại';
+$lang['reports_transaction_voided'] = 'ID giao dịch bị vô hiệu hóa';
+$lang['reports_transaction_voided_transacion_id'] = 'ID giao dịch của Void';
+$lang['reports_amount_returned'] = 'Số tiền đã thanh toán / trả lại';
+$lang['reports_voided_transactions'] = 'Giao dịch đã hủy bỏ';
 ?>

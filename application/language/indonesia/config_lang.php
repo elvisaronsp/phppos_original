@@ -800,5 +800,35 @@ $lang['config_always_put_last_added_item_on_top_of_cart'] = 'Selalu letakkan ite
 $lang['config_show_giftcards_even_if_0_balance'] = 'Tunjukkan kartu Hadiah meskipun saldo nol';
 
 $lang['config_scale_5'] = 'Kode Batang Tertanam Berat';
+
+$lang['config_disable_modules'] = 'Nonaktifkan Modul';
+
 $lang['config_hide_description_on_suspended_sales'] = 'Sembunyikan Deskripsi Item Pada Penjualan yang Ditangguhkan';
+$lang['config_override_symbol_non_taxable'] = 'Ganti Simbol untuk Tidak Kena Pajak';
+
+
+
+$lang['config_hide_categories_sales_grid'] = 'Sembunyikan Kategori di Kotak Penjualan';
+$lang['config_hide_tags_sales_grid'] = 'Sembunyikan Tag di Kotak Penjualan';
+$lang['config_hide_favorites_sales_grid'] = 'Sembunyikan Favorit di Kotak Penjualan';
+$lang['config_hide_categories_receivings_grid'] = 'Sembunyikan Kategori di Kotak Penerimaan';
+$lang['config_hide_tags_receivings_grid'] = 'Sembunyikan Tag di Kotak Penerimaan';
+$lang['config_hide_suppliers_receivings_grid'] = 'Sembunyikan Pemasok di Kotak Penerimaan';
+$lang['config_hide_favorites_receivings_grid'] = 'Sembunyikan Favorit di Kotak Penerimaan';
+$lang['config_hide_suppliers_sales_grid'] = 'Sembunyikan Pemasok di Kotak Penjualan';
+
+$lang['config_offline_mode_sync_period'] = 'Waktu Siklus Sinkronisasi Mode Offline (Jam)';
+
+
+
+$lang['config_receipt_download_filename_prefix'] = 'Tanda Terima Unduhan Nama File Awalan';
+$lang['config_remove_employee_lastname_from_receipt'] = 'Hapus Nama Belakang Karyawan Dari Tanda Terima';
+$lang['config_override_symbol_taxes_summary_on_receipt'] = 'OVERRIDE SIMBOL UNTUK MENUNJUKKAN RINGKASAN KENA PAJAK DAN TIDAK PAJAK PADA PENERIMAAN';
+
+$lang['config_show_images_on_receipt_width_percent'] = 'Lebar Maksimal Gambar Barang Pada Tanda Terima (Persentase)';
+
+$lang['config_override_symbol_taxable_summary'] = 'Ganti Simbol untuk Ringkasan Kena Pajak Pada Tanda Terima';
+$lang['config_override_symbol_non_taxable_summary'] = 'Ganti Simbol untuk Ringkasan Tidak Kena Pajak Pada Tanda Terima';
+$lang['config_allow_drag_drop_recv'] = 'Izinkan Susun Ulang di layar penerima';
+$lang['config_allow_drag_drop_sale'] = 'Izinkan Pesan Ulang di layar obral';
 ?>

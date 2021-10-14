@@ -376,4 +376,15 @@ $lang['sales_detailed_note'] = 'Detaillierte Anmerkung';
 $lang['sales_internal_note'] = 'Interner Hinweis';
 $lang['sales_delveried_to'] = 'Geliefert an';
 $lang['sales_view_receipt_on_web_page'] = 'Quittung auf der Webseite anzeigen';
+$lang['sales_view_edit_transaction_history'] = 'Kartentransaktionen anzeigen/bearbeiten';
+$lang['sales_list_of_credit_transactions'] = 'Liste der Kreditkartentransaktionen';
+$lang['sales_response_description'] = 'Antwortbeschreibung';
+$lang['sales_card_holder'] = 'Kartenhalter';
+$lang['sales_list_of_batches'] = 'Liste der Chargen';
+$lang['sales_batch_id'] = 'Batch-ID';
+$lang['sales_batches'] = 'Kartenstapel';
+$lang['sales_https_required_cc'] = 'Für die Kreditkartenverarbeitung ist jetzt eine sichere https-Verbindung erforderlich. Ihr Server unterstützt dies NICHT.';
+$lang['sales_https_required_cc_redirect'] = 'Für die Kreditkartenverarbeitung ist https erforderlich. Möchten Sie den Verkauf in https neu laden und dann erneut verarbeiten?';
+$lang['sales_credit_card_terminal_offline'] = 'Ihr Kreditkartenterminal ist OFFLINE Bitte überprüfen Sie die Verbindung, bevor Sie den Verkauf bearbeiten';
+$lang['sales_credit_card_terminal_online'] = 'Ihr Kreditkartenterminal ist ONLINE und bereit, Transaktionen abzuwickeln';
 ?>

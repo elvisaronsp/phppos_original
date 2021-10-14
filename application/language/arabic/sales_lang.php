@@ -541,4 +541,15 @@ $lang['sales_detailed_note'] = 'ملاحظة مفصلة';
 $lang['sales_internal_note'] = 'مذكرة داخلية';
 $lang['sales_delveried_to'] = 'سلمت ل';
 $lang['sales_view_receipt_on_web_page'] = 'عرض الإيصال على صفحة ويب';
+$lang['sales_view_edit_transaction_history'] = 'عرض / تحرير معاملات البطاقة';
+$lang['sales_list_of_credit_transactions'] = 'قائمة معاملات بطاقة الائتمان';
+$lang['sales_response_description'] = 'وصف الاستجابة';
+$lang['sales_card_holder'] = 'حامل البطاقة';
+$lang['sales_list_of_batches'] = 'قائمة الدُفعات';
+$lang['sales_batch_id'] = 'معرف الدفعة';
+$lang['sales_batches'] = 'دفعات البطاقة';
+$lang['sales_https_required_cc'] = 'https الاتصال الآمن مطلوب الآن لمعالجة بطاقة الائتمان. الخادم الخاص بك لا يدعم هذا.';
+$lang['sales_https_required_cc_redirect'] = 'https مطلوب لمعالجة بطاقة الائتمان. هل ترغب في إعادة تحميل البيع في https ثم إعادة المعالجة؟';
+$lang['sales_credit_card_terminal_offline'] = 'محطة بطاقة الائتمان الخاصة بك في وضع عدم الاتصال ، يرجى التحقق من الاتصال قبل معالجة البيع';
+$lang['sales_credit_card_terminal_online'] = 'محطة بطاقة الائتمان الخاصة بك على الإنترنت وجاهزة لمعالجة المعاملات';
 ?>

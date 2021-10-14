@@ -83,7 +83,7 @@ class Customers extends REST_Controller {
 					'points' => (int)$customer->points,
 					'amount_to_spend_for_next_point' => (float)$this->_amount_to_spend_for_next_point($customer->current_spend_for_points),
 					'remaining_sales_before_discount' => (float)$this->_remaining_sales_before_discount($customer->current_sales_for_discount),
-					'image_url' => $customer->image_id ? app_file_url($customer->image_id) : '',
+					'image_url' => $customer->image_id ? secure_app_file_url($customer->image_id) : '',
 					'created_at' => $customer->create_date ? date(get_date_format().' '.get_time_format(), strtotime($customer->create_date)) : NULL,
 					'location_id' => $customer->location_id ? (int)$customer->location_id : NULL,
 					'customer_info_popup' => $customer->customer_info_popup ? $customer->customer_info_popup : NULL,

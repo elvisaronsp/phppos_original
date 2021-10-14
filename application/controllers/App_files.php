@@ -6,11 +6,48 @@ class App_files extends MY_Controller
 		parent::__construct();	
 	}
 	
+	function view_signed_url($file_id,$extra_file_name = FALSE)
+	{
+		$this->load->model('Appfile');
+		
+		$signature = $this->input->get('signature');
+		
+		if ($signature == $this->Appfile->get_signature($file_id))
+		{
+			$this->_output_file($file_id);
+		}
+		else
+		{
+		    header("HTTP/1.1 401 Unauthorized");
+		    exit;
+		}
+	}
+	
+	//We have a seperate url for this so we can cache with cloudflare, it is the same as view
+	function view_cacheable($file_id,$extra_file_name = FALSE)
+	{
+		$this->view($file_id,$extra_file_name);
+	}
+	
 	//$extra_file_name can be used for SEO purposes but is not acutally used in function
 	function view($file_id,$extra_file_name = FALSE)
 	{ 
+		$this->load->model('Appfile');
+		
 		//cast to index in case we have extension
 		$file_id = (int)$file_id;
+		
+		if (!$this->Employee->is_logged_in())
+		{
+		    header("HTTP/1.1 401 Unauthorized");
+		    exit;
+		}
+		
+		$this->_output_file($file_id);
+	}
+	
+	private function _output_file($file_id)
+	{
 		//Don't allow images to cause hangups with session
 		session_write_close();
 		$this->load->model('Appfile');

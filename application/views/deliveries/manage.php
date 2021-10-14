@@ -248,6 +248,22 @@
 										array('class'=>'toggle_deleted visible-xs','title'=> lang($controller_name."_manage_deleted"))); ?>
 							</li>
 						<?php }?>
+
+						<?php if ($this->Employee->has_module_action_permission($controller_name, 'manage_categories', $this->Employee->get_logged_in_employee_info()->person_id)) {?>
+						<li>
+							<?php echo anchor("$controller_name/manage_categories?redirect=deliveries",
+							'<span class="ion-ios-folder-outline"> ' . lang("items_manage_categories").'</span>',
+							array('class'=>'visible-xs', 'title'=>lang('items_manage_categories')));
+							?>
+						</li>
+						<?php } ?>
+
+						<?php if ($this->Employee->has_module_action_permission($controller_name, 'manage_statuses', $this->Employee->get_logged_in_employee_info()->person_id)) {?>				
+							<li>
+								<?php echo anchor("$controller_name/manage_statuses?redirect=deliveries",'<span class="ion-settings"> '.lang('module_manage_statuses').'</span>',
+									array('class'=>'manage_statuses visible-xs','title'=>lang('module_manage_statuses'))); ?>
+							</li>
+						<?php } ?>
 						
 						<?php foreach($date_fields as $date_field_choice_value => $date_field_choice_display) { ?>
 								<li>

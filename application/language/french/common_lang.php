@@ -433,7 +433,6 @@ $lang['common_previous_step'] = 'Étape précédente';
 $lang['common_complete_excel_import'] = 'Complete Excel Importation';
 $lang['common_complete_excel_import_directions'] = 'Cliquez sur "Complete Excel Importer" pour valider et terminer l\'importation.';
 $lang['Complete Excel Import'] = '';
-$lang['n'] = 'common_complete_excel_import_directions';
 $lang['common_desktop'] = 'bureau';
 $lang['common_mobile'] = 'Mobile';
 $lang['confirmation_export_woocommerce_products'] = 'Etes-vous sûr que vous voulez exporter les produits à WooCommerce?';
@@ -1064,4 +1063,29 @@ $lang['common_back_to_suppliers'] = 'Retour aux fournisseurs';
 $lang['common_change_status'] = 'Changer de statut';
 $lang['common_please_select'] = 'Veuillez sélectionner';
 $lang['sales_can_lookup_last_receipt'] = 'Peut rechercher le dernier reçu';
+
+$lang['common_disable'] = 'Désactiver';
+$lang['employees_acess_ip_range'] = 'Les employés ont accès à la plage IP';
+$lang['common_cannot_access_with_ip'] = 'Vous ne pouvez pas accéder avec votre ip';
+$lang['common_filter'] = 'Filtre';
+$lang['common_payment_type'] = 'Type de paiement';
+$lang['sales_masked_card'] = 'Carte masquée';
+$lang['sales_void_return'] = 'Annuler/Retour';
+$lang['common_unknown'] = 'Inconnu';
+$lang['common_void'] = 'Annuler';
+$lang['sales_cannot_void_transaction'] = 'Impossible d\'annuler la transaction';
+$lang['sales_void_title'] = 'Options d\'annulation';
+$lang['sales_confirm_void'] = 'Voulez-vous vraiment annuler/supprimer cette vente ?';
+$lang['sales_void_full_amount'] = 'Annuler le montant total';
+$lang['sales_void_partial_amount'] = 'Montant partiel annulé';
+$lang['sales_please_enter_refund_amount'] = 'Veuillez saisir le montant du remboursement';
+$lang['sales_success_void_transaction'] = 'Vous avez annulé la transaction avec succès';
+$lang['common_qty_name'] = 'Noms de quantité';
+
+$lang['common_indicate_non_taxable_on_receipt'] = 'Indiquer non imposable à la réception';
+$lang['common_no_tax'] = 'PAS DE TAXES';
+
+$lang['common_view_edit_transaction_history'] = 'Afficher/Modifier les transactions par carte';
+$lang['common_change_log'] = 'Journal des modifications';
+$lang['common_add_new_ip'] = 'Ajouter une nouvelle IP';
 ?>

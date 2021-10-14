@@ -523,4 +523,9 @@ $lang['reports_due'] = 'Dovuto';
 
 $lang['reports_summary_journal'] = 'Rapporto di riepilogo del diario Journal';
 
+$lang['reports_voided_returned_transactions'] = 'Transazioni annullate/restituite';
+$lang['reports_transaction_voided'] = 'ID transazione annullato';
+$lang['reports_transaction_voided_transacion_id'] = 'ID transazione di Void';
+$lang['reports_amount_returned'] = 'Importo annullato/restituito';
+$lang['reports_voided_transactions'] = 'Transazioni annullate';
 ?>

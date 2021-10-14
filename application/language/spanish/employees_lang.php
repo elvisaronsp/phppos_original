@@ -79,4 +79,6 @@ $lang['employees_login_end_time'] = 'Permitido iniciar sesión Hora de finalizac
 $lang['employees_login_start_time'] = 'Permitido iniciar sesión Hora de inicio';
 $lang['permission_templates'] = 'Plantillas de permisos';
 $lang['update_all_employees_with_template_assinged'] = 'Actualizar todos los empleados con plantilla asignada';
+$lang['employees_enter_ip'] = 'Ingrese IP o rango de IP (CIDR)';
+$lang['employees_acess_ip_range'] = 'Direcciones IP desde las que el empleado puede acceder';
 ?>

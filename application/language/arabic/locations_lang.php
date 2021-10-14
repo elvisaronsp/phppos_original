@@ -167,4 +167,8 @@ $lang['locations_previous_day'] = 'اليوم السابق';
 $lang['locations_current_day'] = 'اليوم الحالي';
 $lang['locations_auto_reports_day'] = 'يوم لإرسال تقرير بالبريد الإلكتروني عن';
 $lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'تعطيل تأكيد المبلغ عند معالجة بطاقة الائتمان';
+$lang['locations_blockchyp_api_key'] = 'مفتاح واجهة برمجة تطبيقات coreCLEAR';
+$lang['locations_blockchyp_bearer_token'] = 'coreCLEAR حامل الرمز المميز';
+$lang['locations_blockchyp_signing_key'] = 'مفتاح توقيع coreCLEAR';
+$lang['locations_blockchyp_test_mode'] = 'وضع اختبار coreCLEAR';
 ?>

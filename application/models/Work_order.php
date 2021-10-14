@@ -772,6 +772,7 @@ class Work_order extends CI_Model
 		$work_order_data = array(
 			'sale_id'=>$sale_id,
 			'status' => $status_id,
+			'estimated_labor' => $item_info->unit_price,
 		);
 		$this->Work_order->save($work_order_data);
 		$work_order_id = $this->db->insert_id();

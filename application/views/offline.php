@@ -549,9 +549,15 @@
 	}
 	
 	
-	var db_customers = new PouchDB('phppos_customers',{revs_limit: 1});
-	var db_items = new PouchDB('phppos_items',{revs_limit: 1});
-	
+	try
+	{
+		var db_customers = new PouchDB('phppos_customers',{revs_limit: 1});
+		var db_items = new PouchDB('phppos_items',{revs_limit: 1});
+	}
+	catch(exception_var)
+	{
+		
+	}
 	$(document).on('click','.delete_saved_sale', function(event)
 	{
 		event.preventDefault();

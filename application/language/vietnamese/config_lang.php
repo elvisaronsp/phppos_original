@@ -916,5 +916,35 @@ $lang['config_always_put_last_added_item_on_top_of_cart'] = 'Luôn đặt mặt 
 $lang['config_show_giftcards_even_if_0_balance'] = 'Hiển thị thẻ quà tặng ngay cả khi số dư bằng không';
 
 $lang['config_scale_5'] = 'Trọng lượng mã vạch nhúng';
+
+$lang['config_disable_modules'] = 'Tắt mô-đun';
+
 $lang['config_hide_description_on_suspended_sales'] = 'Ẩn mô tả mặt hàng khi bán hàng bị tạm ngừng';
+$lang['config_override_symbol_non_taxable'] = 'Ghi đè biểu tượng cho Không chịu thuế';
+
+
+
+$lang['config_hide_categories_sales_grid'] = 'Ẩn danh mục trên lưới bán hàng';
+$lang['config_hide_tags_sales_grid'] = 'Ẩn thẻ trên lưới bán hàng';
+$lang['config_hide_suppliers_sales_grid'] = 'Ẩn nhà cung cấp trên lưới bán hàng';
+$lang['config_hide_favorites_sales_grid'] = 'Ẩn Mục ưa thích trên Lưới bán hàng';
+$lang['config_hide_categories_receivings_grid'] = 'Ẩn danh mục trên lưới nhận';
+$lang['config_hide_tags_receivings_grid'] = 'Ẩn thẻ trên lưới nhận';
+$lang['config_hide_suppliers_receivings_grid'] = 'Ẩn nhà cung cấp trên lưới tiếp nhận';
+$lang['config_hide_favorites_receivings_grid'] = 'Ẩn Mục ưa thích trên Lưới nhận';
+
+$lang['config_offline_mode_sync_period'] = 'Thời gian chu kỳ đồng bộ hóa chế độ ngoại tuyến (Giờ)';
+
+
+
+$lang['config_receipt_download_filename_prefix'] = 'Biên nhận Tải xuống Tiền tố tên tệp';
+$lang['config_remove_employee_lastname_from_receipt'] = 'Xóa họ của nhân viên khỏi biên nhận';
+$lang['config_override_symbol_taxes_summary_on_receipt'] = 'BIỂU TƯỢNG NỔI BẬT ĐỂ HIỂN THỊ TÓM TẮT CÓ THUẾ VÀ KHÔNG CÓ THUẾ KHI NHẬN';
+
+$lang['config_show_images_on_receipt_width_percent'] = 'Chiều rộng tối đa của hình ảnh mặt hàng trên biên nhận (Phần trăm)';
+
+$lang['config_override_symbol_taxable_summary'] = 'Ghi đè ký hiệu cho phần tóm tắt tính thuế trên biên lai';
+$lang['config_override_symbol_non_taxable_summary'] = 'Ghi đè ký hiệu cho phần tóm tắt không chịu thuế trên biên lai';
+$lang['config_allow_drag_drop_recv'] = 'Cho phép sắp xếp lại trên màn hình nhận';
+$lang['config_allow_drag_drop_sale'] = 'Cho phép Đặt hàng lại trên màn hình giảm giá';
 ?>

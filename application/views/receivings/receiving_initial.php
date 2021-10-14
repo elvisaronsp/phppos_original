@@ -11,10 +11,18 @@
 
 				<div class="text-center">
 					<div id="grid_selection" class="btn-group" role="group">
+					<?php if($this->config->item('hide_categories_receivings_grid') != 1 ){ ?>
 						<a href="javascript:void(0);" class="<?php echo $this->config->item('default_type_for_grid') == 'categories' || !$this->config->item('default_type_for_grid') ? 'btn active' : ''; ?> btn btn-grid" id="by_category"><?php echo lang('reports_categories') ?></a>
+					<?php }
+					if($this->config->item('hide_tags_receivings_grid') != 1 ){ ?>
 						<a href="javascript:void(0);" class="<?php echo $this->config->item('default_type_for_grid') == 'tags' ? 'btn active' : ''; ?> btn btn-grid" id="by_tag"><?php echo lang('common_tags') ?></a>
+					<?php }
+					if($this->config->item('hide_suppliers_receivings_grid') != 1 ){ ?>
 						<a href="javascript:void(0);" class="<?php echo $this->config->item('default_type_for_grid') == 'suppliers' ? 'btn active' : '';?> btn btn-grid" id="by_supplier"><?php echo lang('common_suppliers') ?></a>
+					<?php }
+					if($this->config->item('hide_favorites_receivings_grid') != 1 ){ ?>
 						<a href="javascript:void(0);" class="<?php echo $this->config->item('default_type_for_grid') == 'favorite' ? 'btn active' : ''; ?> btn btn-grid" id="by_favorite"><?php echo lang('common_favorite') ?></a>
+					<?php } ?>
 					</div>
 				</div>
 
@@ -601,15 +609,22 @@
 			$('#grid-loader').hide();
 		}
 
-
 		<?php if ($this->config->item('default_type_for_grid') == 'tags') {  ?>
+			<?php if($this->config->item('hide_tags_receivings_grid') != 1 ){ ?>
 			loadTags();
+			<?php } ?>
 		<?php } else if ($this->config->item('default_type_for_grid') == 'favorites') { ?>
+			<?php if($this->config->item('hide_favorites_receivings_grid') != 1 ){ ?>
 			loadFavoriteItems(0);
+			<?php } ?>
 		<?php } else if ($this->config->item('default_type_for_grid') == 'suppliers') { ?>
+			<?php if($this->config->item('hide_suppliers_receivings_grid') != 1 ){ ?>
 			loadSuppliers();
+			<?php } ?>
 		<?php } else { ?>
+			<?php if($this->config->item('hide_categories_receivings_grid') != 1 ){ ?>
 			loadTopCategories();
+			<?php } ?>
 		<?php	} ?>
 	});
 

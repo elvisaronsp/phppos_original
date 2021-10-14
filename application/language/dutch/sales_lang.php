@@ -386,4 +386,15 @@ $lang['sales_detailed_note'] = 'Gedetailleerde opmerking';
 $lang['sales_internal_note'] = 'Interne opmerking';
 $lang['sales_delveried_to'] = 'Bezorgd bij';
 $lang['sales_view_receipt_on_web_page'] = 'Ontvangstbewijs op webpagina bekijken';
+$lang['sales_view_edit_transaction_history'] = 'Kaarttransacties bekijken/bewerken';
+$lang['sales_list_of_credit_transactions'] = 'Lijst met creditcardtransacties';
+$lang['sales_response_description'] = 'Reactie Beschrijving:';
+$lang['sales_card_holder'] = 'Kaarthouder';
+$lang['sales_list_of_batches'] = 'Lijst met batches';
+$lang['sales_batch_id'] = 'Batch-ID';
+$lang['sales_batches'] = 'Kaartbatches';
+$lang['sales_https_required_cc'] = 'Een beveiligde https-verbinding is nu vereist voor creditcardverwerking. Uw server ondersteunt dit NIET.';
+$lang['sales_https_required_cc_redirect'] = 'https is vereist voor creditcardverwerking. Wilt u de verkoop opnieuw laden in https en vervolgens opnieuw verwerken?';
+$lang['sales_credit_card_terminal_offline'] = 'Uw creditcardterminal is OFFLINE. Controleer de verbinding voordat u de verkoop verwerkt';
+$lang['sales_credit_card_terminal_online'] = 'Uw creditcardterminal is ONLINE en klaar om transacties te verwerken';
 ?>

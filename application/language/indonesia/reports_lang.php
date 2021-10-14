@@ -519,4 +519,9 @@ $lang['reports_due'] = 'Jatuh tempo';
 
 $lang['reports_summary_journal'] = 'Ringkasan Jurnal laporan';
 
+$lang['reports_voided_returned_transactions'] = 'Transaksi Dibatalkan/Dikembalikan';
+$lang['reports_transaction_voided'] = 'ID Transaksi Dibatalkan';
+$lang['reports_transaction_voided_transacion_id'] = 'ID Transaksi Void';
+$lang['reports_amount_returned'] = 'Jumlah yang Dibatalkan/Dikembalikan';
+$lang['reports_voided_transactions'] = 'Transaksi batal';
 ?>

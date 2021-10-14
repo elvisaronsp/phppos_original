@@ -625,6 +625,13 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="form-group">
+				<?php echo form_label(lang('employees_acess_ip_range').':', 'employees_acess_ip_range',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+					<div class="col-sm-9 col-md-9 col-lg-10">
+						<input id="allowed_ip_address" name='allowed_ip_address' value='<?php echo implode(",", $person_info->allowed_ip_address); ?>' placeholder=<?php echo json_encode(lang('employees_enter_ip'));?>; ?>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -1026,6 +1033,7 @@
 					$(".form-group").removeClass('has-success has-error');
 				}
 			},
+
 			<?php if (!$person_info->person_id) { ?>
 				resetForm: true,
 			<?php } ?>
@@ -1111,9 +1119,21 @@
 			$("#select_all").prop('checked', false);
 		}
 	}
+	
+	$("#allowed_ip_address").selectize({
+		create: true,
+		render: {
+	      option_create: function(data, escape) {
+				var add_new = <?php echo json_encode(lang('common_add_new_ip')) ?>;
+	        return '<div class="create">'+escape(add_new)+' <strong>' + escape(data.input) + '</strong></div>';
+	      }
+		},
+	});
+	
 
 
 </script>
+
 <?php $this->load->view("partial/footer"); ?>
 <style>
 	.drop-menu input {

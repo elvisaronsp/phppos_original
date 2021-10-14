@@ -79,4 +79,6 @@ $lang['employees_login_end_time'] = 'Diizinkan Masuk Waktu Akhir';
 $lang['employees_login_start_time'] = 'Diizinkan Masuk Waktu Mulai';
 $lang['permission_templates'] = 'Templat Izin';
 $lang['update_all_employees_with_template_assinged'] = 'Perbarui semua Karyawan Dengan Template yang Ditugaskan';
+$lang['employees_enter_ip'] = 'Silakan masukkan IP atau rentang IP (CIDR)';
+$lang['employees_acess_ip_range'] = 'Alamat IP yang Dapat Diakses Karyawan Dari';
 ?>

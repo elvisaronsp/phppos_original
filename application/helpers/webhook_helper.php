@@ -11,5 +11,8 @@ function do_webhook($data,$url)
 	curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5); 
 	curl_setopt($curl, CURLOPT_TIMEOUT, 5);
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+	//Don't verify ssl...just in case a server doesn't have the ability to verify
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+	
 	curl_exec($curl);
 }

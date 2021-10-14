@@ -1094,5 +1094,35 @@ $lang['config_delivery_color_based_on'] = 'டெலிவரி நிறத்
 $lang['config_delivery_color_based_on_status'] = 'நிலை';
 $lang['config_delivery_color_based_on_category'] = 'வகை';
 $lang['config_layaway_statement_message'] = 'Layway அறிக்கை செய்தி';
+
+$lang['config_disable_modules'] = 'தொகுதிகளை முடக்கு';
+
 $lang['config_hide_description_on_suspended_sales'] = 'இடைநீக்கம் செய்யப்பட்ட விற்பனையில் பொருள் விளக்கத்தை மறைக்கவும்';
+$lang['config_override_symbol_non_taxable'] = 'வரி விதிக்கப்படாததற்கான சின்னத்தை மேலெழுதவும்';
+
+
+
+$lang['config_hide_categories_sales_grid'] = 'விற்பனை கட்டத்தில் வகைகளை மறைக்கவும்';
+$lang['config_hide_tags_sales_grid'] = 'விற்பனை கட்டத்தில் குறிச்சொற்களை மறைக்கவும்';
+$lang['config_hide_favorites_sales_grid'] = 'விற்பனை கட்டத்தில் பிடித்தவற்றை மறை';
+$lang['config_hide_categories_receivings_grid'] = 'பெறுதல் கட்டத்தில் வகைகளை மறைக்கவும்';
+$lang['config_hide_tags_receivings_grid'] = 'பெறுதல் கட்டத்தில் குறிச்சொற்களை மறைக்கவும்';
+$lang['config_hide_suppliers_receivings_grid'] = 'பெறுதல் கட்டத்தில் சப்ளையர்களை மறைக்கவும்';
+$lang['config_hide_favorites_receivings_grid'] = 'பெறுதல் கட்டத்தில் பிடித்தவற்றை மறை';
+$lang['config_hide_suppliers_sales_grid'] = 'விற்பனை கட்டத்தில் சப்ளையர்களை மறைக்கவும்';
+
+$lang['config_offline_mode_sync_period'] = 'ஆஃப்லைன் பயன்முறை ஒத்திசைவு சுழற்சி நேரம் (மணிநேரம்)';
+
+
+
+$lang['config_receipt_download_filename_prefix'] = 'ரசீது பதிவிறக்க கோப்பு பெயர் முன்னொட்டு';
+$lang['config_remove_employee_lastname_from_receipt'] = 'ரசீதில் இருந்து பணியாளரின் கடைசி பெயரை நீக்கவும்';
+$lang['config_override_symbol_taxes_summary_on_receipt'] = 'அட்டவணையை காண்பிப்பதற்கான அதிகப்படியான சிம்போல் மற்றும் ரசீதில் பொருந்தாத சுருக்கமான சுருக்கம்';
+
+$lang['config_show_images_on_receipt_width_percent'] = 'ரசீதில் உள்ள படப் படங்களின் அதிகபட்ச அகலம் (சதவீதம்)';
+
+$lang['config_override_symbol_taxable_summary'] = 'ரசீதில் வரிக்குட்பட்ட சுருக்கத்திற்கான சின்னத்தை மேலெழுதவும்';
+$lang['config_override_symbol_non_taxable_summary'] = 'ரசீதில் வரி விதிக்கப்படாத சுருக்கத்திற்கான சின்னத்தை மேலெழுதவும்';
+$lang['config_allow_drag_drop_recv'] = 'பெறும் திரையில் மறுவரிசைப்படுத்தவும்';
+$lang['config_allow_drag_drop_sale'] = 'விற்பனை திரையில் மறுவரிசைப்படுத்த அனுமதிக்கவும்';
 ?>

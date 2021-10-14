@@ -145,10 +145,14 @@ class Employee extends Person
 		$this->db->join('people', 'people.person_id = employees.person_id');
 		$this->db->where('employees.person_id',$employee_id);
 		$query = $this->db->get();
-		
+
 		if($query->num_rows()==1)
 		{
 			$cache[$employee_id] = $query->row();
+			if(!property_exists($cache[$employee_id],'allowed_ip_address') || !$cache[$employee_id]->allowed_ip_address)
+				$cache[$employee_id]->allowed_ip_address = array();
+			else
+				$cache[$employee_id]->allowed_ip_address = unserialize($cache[$employee_id]->allowed_ip_address);
 			return $cache[$employee_id];
 		}
 		else
@@ -157,8 +161,8 @@ class Employee extends Person
 			$person_obj=parent::get_info(-1);
 			
 			//Get all the fields from employee table
-			$fields = array('dark_mode','login_start_time','login_end_time','id','username','password','force_password_change','always_require_password','person_id','language','commission_percent','commission_percent_type','hourly_pay_rate','not_required_to_clock_in','inactive','reason_inactive','hire_date','employee_number','birthday','termination_date','deleted','custom_field_1_value','custom_field_2_value','custom_field_3_value','custom_field_4_value','custom_field_5_value','custom_field_6_value','custom_field_7_value','custom_field_8_value','custom_field_9_value','custom_field_10_value','max_discount_percent');
-						
+			$fields = array('dark_mode','login_start_time','login_end_time','id','username','password','force_password_change','always_require_password','person_id','language','commission_percent','commission_percent_type','hourly_pay_rate','not_required_to_clock_in','inactive','reason_inactive','hire_date','employee_number','birthday','termination_date','deleted','custom_field_1_value','custom_field_2_value','custom_field_3_value','custom_field_4_value','custom_field_5_value','custom_field_6_value','custom_field_7_value','custom_field_8_value','custom_field_9_value','custom_field_10_value','max_discount_percent','allowed_ip_address');
+
 			//append those fields to base parent object, we we have a complete empty object
 			foreach ($fields as $field)
 			{

@@ -17,6 +17,7 @@ class Home extends Secure_area
 		$this->load->model('Sale');
 		$this->load->helper('cloud');
 		$this->load->helper('text');
+		$this->load->model('Appfile');
 	}
 	
 	function index($choose_location=0)

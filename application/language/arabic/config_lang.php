@@ -1087,5 +1087,35 @@ $lang['config_always_put_last_added_item_on_top_of_cart'] = 'ضع دائمًا �
 $lang['config_show_giftcards_even_if_0_balance'] = 'إظهار بطاقات الهدايا حتى لو لم يكن هناك رصيد';
 
 $lang['config_scale_5'] = 'وزن الباركود المضمّن';
+
+$lang['config_disable_modules'] = 'تعطيل الوحدات';
+
 $lang['config_hide_description_on_suspended_sales'] = 'إخفاء وصف العنصر في المبيعات المعلقة';
+$lang['config_override_symbol_non_taxable'] = 'تجاوز رمز غير الخاضع للضريبة';
+
+
+
+$lang['config_hide_categories_sales_grid'] = 'إخفاء الفئات في شبكة المبيعات';
+$lang['config_hide_tags_sales_grid'] = 'إخفاء العلامات على شبكة المبيعات';
+$lang['config_hide_favorites_sales_grid'] = 'إخفاء المفضلة على شبكة المبيعات';
+$lang['config_hide_categories_receivings_grid'] = 'إخفاء الفئات على شبكة الاستلام';
+$lang['config_hide_tags_receivings_grid'] = 'إخفاء العلامات على شبكة الاستلام';
+$lang['config_hide_suppliers_receivings_grid'] = 'إخفاء الموردين على شبكة الاستلام';
+$lang['config_hide_favorites_receivings_grid'] = 'إخفاء التفضيلات على شبكة الاستلام';
+$lang['config_hide_suppliers_sales_grid'] = 'إخفاء الموردين على شبكة المبيعات';
+
+$lang['config_offline_mode_sync_period'] = 'وقت دورة مزامنة وضع عدم الاتصال (بالساعة)';
+
+
+
+$lang['config_receipt_download_filename_prefix'] = 'إيصال تنزيل بادئة اسم الملف';
+$lang['config_remove_employee_lastname_from_receipt'] = 'إزالة اسم العائلة للموظف من الإيصال';
+$lang['config_override_symbol_taxes_summary_on_receipt'] = 'رمز التجاوز لعرض ملخص خاضع للضريبة وغير خاضع للضريبة عند الاستلام';
+
+$lang['config_show_images_on_receipt_width_percent'] = 'أقصى عرض لصور العنصر عند الاستلام (النسبة المئوية)';
+
+$lang['config_override_symbol_taxable_summary'] = 'تجاوز رمز الملخص الخاضع للضريبة عند الاستلام';
+$lang['config_override_symbol_non_taxable_summary'] = 'تجاوز رمز الملخص غير الخاضع للضريبة عند الاستلام';
+$lang['config_allow_drag_drop_recv'] = 'السماح بإعادة الترتيب على شاشة الاستلام';
+$lang['config_allow_drag_drop_sale'] = 'السماح بإعادة الطلب على شاشة البيع';
 ?>

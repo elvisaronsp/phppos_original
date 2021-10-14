@@ -59,12 +59,19 @@ if (($this->uri->segment(1) == 'sales' || $this->uri->segment(1) == 'receivings'
 		}
 		else //For firefox
 		{
-	 		var phppos_customers = new PouchDB('phppos_customers',{revs_limit: 1});
-	 		var phppos_items = new PouchDB('phppos_items',{revs_limit: 1});
-			var phppos_settings = new PouchDB('phppos_settings',{revs_limit: 1});
-			await phppos_customers.destroy();
-			await phppos_items.destroy();
-			await phppos_settings.destroy();
+			try
+			{
+	 			var phppos_customers = new PouchDB('phppos_customers',{revs_limit: 1});
+	 			var phppos_items = new PouchDB('phppos_items',{revs_limit: 1});
+				var phppos_settings = new PouchDB('phppos_settings',{revs_limit: 1});
+				await phppos_customers.destroy();
+				await phppos_items.destroy();
+				await phppos_settings.destroy();
+			}
+			catch(exception_var)
+			{
+				
+			}
 		}
 		
 	}
@@ -74,11 +81,11 @@ if (($this->uri->segment(1) == 'sales' || $this->uri->segment(1) == 'receivings'
 if ($this->config->item('offline_mode'))
 {
 ?>
-<script>	
+<script>
 	<?php
 	$offline_assets = array();
-	foreach(get_css_files() as $css_file) 
-	{ 
+	foreach(get_css_files() as $css_file)
+	{
 		$offline_assets[] = base_url().$css_file['path'].'?'.ASSET_TIMESTAMP;
 	}
 	foreach(get_js_files() as $js_file) 
@@ -95,58 +102,59 @@ if ($this->config->item('offline_mode'))
 	$offline_assets[] = base_url().'assets/img/item.png';
 	$offline_assets[] = base_url().'assets/img/header_logo.png';
 	$offline_assets[] = base_url().'assets/img/user.png';
-	
-	?>
-	//Offline support
-  UpUp.start({
-			 'cache-version': '<?php echo BUILD_TIMESTAMP; ?>',
-      	 	 'content-url': '<?php echo site_url('home/offline/').BUILD_TIMESTAMP?>',
-			 'assets': <?php echo json_encode($offline_assets); ?>,
-			 'service-worker-url': '<?php echo  base_url().'upup.sw.min.js?'.BUILD_TIMESTAMP;?>'
-     });
-		 
-		 
-	//Background worker for syncing offline data
-	 var w;
-	 function startWorker() 
-	 {
-	   if (typeof(Worker) !== "undefined") 
-		 {
-	     if (typeof(w) == "undefined") 
-			 {
-	       w = new Worker('<?php echo base_url(); ?>'+"assets/js/load_sales_offline_data_worker.js?<?php echo BUILD_TIMESTAMP;?>");
-				 
-				 //Event handler coming back from worker that posts messages
-		     w.onmessage = function(event) 
-				 {
-					 var data = event.data;
-					 
-					 if (data == 'delete_all_client_side_dbs')
-					 {
-						 delete_all_client_side_dbs();
-					 }
-		    	 };
-				 
-				 //Post message to worker; some init params
-				 w.postMessage({base_url:BASE_URL,site_url:SITE_URL});
-	     }
-	   } 
-		 else 
-		 {
-	     document.getElementById("result").innerHTML = "Sorry! No Web Worker support.";
-	   }
-	 }
 
-	 function stopWorker() 
-	 { 
+	?>
+
+	var offline_mode_sync_period = parseInt("<?php echo $this->config->item('offline_mode_sync_period')?$this->config->item('offline_mode_sync_period'): '24'; ?>");
+
+	//Offline support
+	UpUp.start({
+		'cache-version': '<?php echo BUILD_TIMESTAMP; ?>',
+		'content-url': '<?php echo site_url('home/offline/').BUILD_TIMESTAMP?>',
+		'assets': <?php echo json_encode($offline_assets); ?>,
+		'service-worker-url': '<?php echo  base_url().'upup.sw.min.js?'.BUILD_TIMESTAMP;?>'
+	});
+
+	//Background worker for syncing offline data
+	var w;
+	function startWorker() 
+	{
+		if (typeof(Worker) !== "undefined") {
+			if (typeof(w) == "undefined") {
+				w = new Worker('<?php echo base_url(); ?>'+"assets/js/load_sales_offline_data_worker.js?<?php echo BUILD_TIMESTAMP;?>");
+					
+				//Event handler coming back from worker that posts messages
+				w.onmessage = function(event) 
+				{
+					var data = event.data;
+					
+					if (data == 'delete_all_client_side_dbs')
+					{
+						delete_all_client_side_dbs();
+					}
+				};
+
+				//Post message to worker; some init params
+				w.postMessage({
+					base_url:BASE_URL,
+					site_url:SITE_URL,
+					offline_mode_sync_period: offline_mode_sync_period
+				});
+			}
+		} else{
+			document.getElementById("result").innerHTML = "Sorry! No Web Worker support.";
+		}
+	}
+
+	function stopWorker() 
+	{ 
 	   w.terminate();
 	   w = undefined;
-	 
-    	}	
-  	 localStorage.setItem('APPLICATION_VERSION',<?php echo json_encode(APPLICATION_VERSION); ?>);
-	 localStorage.setItem('BUILD_TIMESTAMP',<?php echo json_encode(BUILD_TIMESTAMP); ?>);
-	 startWorker();
-	 
+	}
+	localStorage.setItem('APPLICATION_VERSION',<?php echo json_encode(APPLICATION_VERSION); ?>);
+	localStorage.setItem('BUILD_TIMESTAMP',<?php echo json_encode(BUILD_TIMESTAMP); ?>);
+
+	startWorker();	 
 </script>
 <?php } ?>
 </html>

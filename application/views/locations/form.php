@@ -277,12 +277,12 @@
 									<thead>
 										<tr>
 										<th><?php echo lang('common_register_name'); ?></th>
-										<th class="card_connect_hsn register-cc-field"><?php echo lang('locations_card_connect_hsn'); ?></th>
+										<th class="card_connect_hsn register-cc-field card_connect_info"><?php echo lang('locations_card_connect_hsn'); ?></th>
 										<th class="emv_terminal_id register-cc-field"><?php echo lang('locations_terminal_id'); ?></th>
-										<th class="register-cc-field"><?php echo lang('locations_ip_tran_device_id'); ?></th>
-										<th class="register-cc-field"><?php echo lang('locations_pinpad_ip'); ?></th>
-										<th class="register-cc-field"><?php echo lang('locations_pinpad_port'); ?></th>
-										<th class="register-cc-field"><?php echo lang('locations_card_reader_actions'); ?></th>
+										<th class="register-cc-field register-cc-field-datacap"><?php echo lang('locations_ip_tran_device_id'); ?></th>
+										<th class="register-cc-field register-cc-field-datacap"><?php echo lang('locations_pinpad_ip'); ?></th>
+										<th class="register-cc-field register-cc-field-datacap"><?php echo lang('locations_pinpad_port'); ?></th>
+										<th class="register-cc-field register-cc-field-datacap"><?php echo lang('locations_card_reader_actions'); ?></th>
 										<th><?php echo lang('common_delete'); ?></th>
 										</tr>
 									</thead>
@@ -291,20 +291,20 @@
 									<?php 
 									$counter = 0;
 									foreach($registers->result() as $register) { ?>
-										<tr><td><input type="text" class="form-control" name="registers_to_edit[<?php echo $register->register_id; ?>][name]" value="<?php echo H($register->name); ?>" /></td>
+										<tr><td><span class="dot terminal"></span><input type="text" class="form-control next-to-status" name="registers_to_edit[<?php echo $register->register_id; ?>][name]" value="<?php echo H($register->name); ?>" /></td>
 											
-											<td><input id="card_connect_hsn_<?php echo $counter;?>" type="text" class="form-control card_connect_hsn register-cc-field" name="registers_to_edit[<?php echo $register->register_id; ?>][card_connect_hsn]" value="<?php echo H($register->card_connect_hsn); ?>" /></td>											
-											<td><input id="terminal_id_<?php echo $counter;?>" type="text" class="form-control emv_terminal_id register-cc-field" name="registers_to_edit[<?php echo $register->register_id; ?>][emv_terminal_id]" value="<?php echo H($register->emv_terminal_id); ?>" /></td>											
-											<td><input type="text" class="form-control iptran register-cc-field" name="registers_to_edit[<?php echo $register->register_id; ?>][iptran_device_id]" value="<?php echo H($register->iptran_device_id); ?>" /></td>
-											<td><input id="pinpad_ip_<?php echo $counter;?>" type="text" class="form-control emv_pinpad_ip register-cc-field" name="registers_to_edit[<?php echo $register->register_id; ?>][emv_pinpad_ip]" value="<?php echo H($register->emv_pinpad_ip); ?>" /></td>											
-											<td><input id="pinpad_port_<?php echo $counter;?>" type="text" class="form-control emv_pinpad_port register-cc-field" name="registers_to_edit[<?php echo $register->register_id; ?>][emv_pinpad_port]" value="<?php echo H($register->emv_pinpad_port); ?>" /></td>											
+											<td class="card_connect_info"><input id="card_connect_hsn_<?php echo $counter;?>" type="text" class="form-control card_connect_hsn register-cc-field" name="registers_to_edit[<?php echo $register->register_id; ?>][card_connect_hsn]" value="<?php echo H($register->card_connect_hsn); ?>" /></td>											
+											<td class="emv_terminal_id register-cc-field"><input id="terminal_id_<?php echo $counter;?>" type="text" class="form-control emv_terminal_id register-cc-field" name="registers_to_edit[<?php echo $register->register_id; ?>][emv_terminal_id]" value="<?php echo H($register->emv_terminal_id); ?>" /></td>											
+											<td><input type="text" class="form-control iptran register-cc-field register-cc-field-datacap" name="registers_to_edit[<?php echo $register->register_id; ?>][iptran_device_id]" value="<?php echo H($register->iptran_device_id); ?>" /></td>
+											<td><input id="pinpad_ip_<?php echo $counter;?>" type="text" class="form-control emv_pinpad_ip register-cc-field register-cc-field-datacap" name="registers_to_edit[<?php echo $register->register_id; ?>][emv_pinpad_ip]" value="<?php echo H($register->emv_pinpad_ip); ?>" /></td>											
+											<td><input id="pinpad_port_<?php echo $counter;?>" type="text" class="form-control emv_pinpad_port register-cc-field register-cc-field-datacap" name="registers_to_edit[<?php echo $register->register_id; ?>][emv_pinpad_port]" value="<?php echo H($register->emv_pinpad_port); ?>" /></td>											
 											
 											
 											<td>
-												<a class="update_parameters_ip_tran register-cc-field" href="javascript:void(0);"><?php echo lang('locations_update_params_ip_tran'); ?></a><span class="register-cc-field"> / </span>
-												<a class="init_ip_tran register-cc-field" href="javascript:void(0);"><?php echo lang('locations_init_mercury_emv'); ?></a> 
+												<a class="update_parameters_ip_tran register-cc-field register-cc-field-datacap" href="javascript:void(0);"><?php echo lang('locations_update_params_ip_tran'); ?></a><span class="register-cc-field register-cc-field-datacap"> / </span>
+												<a class="init_ip_tran register-cc-field register-cc-field-datacap" href="javascript:void(0);"><?php echo lang('locations_init_mercury_emv'); ?></a> 
 												<?php if ((!defined("ENVIRONMENT") or ENVIRONMENT == 'development')) { ?>
-												<span class="register-cc-field"> / </span><a class="test_mode_ip_tran register-cc-field" href="javascript:void(0);"><?php echo lang('common_test_mode'); ?></a> 													
+												<span class="register-cc-field register-cc-field-datacap"> / </span><a class="test_mode_ip_tran register-cc-field register-cc-field-datacap" href="javascript:void(0);"><?php echo lang('common_test_mode'); ?></a> 													
 												<?php } ?>
 											</td>
 											<td>
@@ -319,7 +319,48 @@
 								<a href="javascript:void(0);" id="add_register"><?php echo lang('locations_add_register'); ?></a>
 							</div>
 						</div>
+						<script>
 						
+						
+						$(document).ready(refresh_terminal_status_if_needed);
+						$(document).on("change", '#blockchyp_api_key,#blockchyp_bearer_token,#blockchyp_signing_key,.emv_terminal_id,.emv_terminal_id input', refresh_terminal_status_if_needed);
+					
+						function refresh_terminal_status_if_needed()
+						{
+							var cc_processor = $("#credit_card_processor").val();
+				
+							if (cc_processor == 'coreclear2' && $('#enable_credit_card_processing').prop('checked'))
+							{
+								refresh_terminal_status();
+							}
+						
+						}
+						function refresh_terminal_status()
+						{
+							$('.dot.terminal').each(async function(index, value)
+							{
+								var $dot_terminal = $(value);
+								var terminal_name = $(value).parent().parent().find('.emv_terminal_id input').val();
+							
+								var blockchyp_api_key = $('#blockchyp_api_key').val();
+								var blockchyp_bearer_token = $('#blockchyp_bearer_token').val();
+								var blockchyp_signing_key = $('#blockchyp_signing_key').val();
+							
+								const terminal_status = await $.getJSON(SITE_URL+'/locations/get_blockchyp_terminal_status?terminalName='+encodeURIComponent(terminal_name)+'&blockchyp_api_key='+encodeURIComponent(blockchyp_api_key)+'&blockchyp_bearer_token='+encodeURIComponent(blockchyp_bearer_token)+'&blockchyp_signing_key='+encodeURIComponent(blockchyp_signing_key));
+							
+								if(terminal_status.online)
+								{
+									$dot_terminal.removeClass('red').addClass('green').css('visibility','visible');
+								}
+								else
+								{
+									$dot_terminal.removeClass('green').addClass('red').css('visibility','visible');
+								}
+							
+							});
+						
+						}
+						</script>
 
 						<div class="form-group">
 							<?php echo form_label("<a href='https://phppointofsale.com/mercury_activate.php' target='_blank'>".lang('locations_enable_credit_card_processing').'</a>:', 'enable_credit_card_processing',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label'), FALSE); ?>
@@ -338,7 +379,7 @@
 							<div class="form-group">	
 								<?php echo form_label(lang('locations_credit_card_processor').':', 'credit_card_processor',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
 								<div class="col-sm-9 col-md-9 col-lg-10">
-								<?php echo form_dropdown('credit_card_processor', array('mercury' => 'Worldpay (Formally Vantiv/Mercury)','card_connect' => 'CardConnect','square' => 'Square', 'heartland' => 'Heartland', 'evo' => 'EVO','worldpay' => 'Worldpay','firstdata' => 'First Data', 'stripe' => 'Stripe','braintree' => 'Braintree', 'other_usb' => lang('locations_other_emv_processor')), $location_info->credit_card_processor, 'class="form-control" id="credit_card_processor"');
+								<?php echo form_dropdown('credit_card_processor', array('coreclear2' =>'PHP POS Payments (powered by coreCLEAR)','mercury' => 'Worldpay (Formally Vantiv/Mercury)','card_connect' => 'CardConnect','square' => 'Square', 'heartland' => 'Heartland', 'evo' => 'EVO','worldpay' => 'Worldpay','firstdata' => 'First Data', 'stripe' => 'Stripe','braintree' => 'Braintree', 'other_usb' => lang('locations_other_emv_processor')), $location_info->credit_card_processor, 'class="form-control" id="credit_card_processor"');
 									?>
 								</div>
 							</div>
@@ -353,6 +394,18 @@
 									'value'=>'1',
 									'checked'=>$location_info->disable_confirmation_option_for_emv_credit_card));?>
 									<label for="disable_confirmation_option_for_emv_credit_card"><span></span></label>
+								</div>
+							</div>
+							
+							<div class="form-group">	
+								<?php echo form_label(lang('locations_use_integrated_ebt').':', 'use_integrated_ebt',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+								<div class="col-sm-9 col-md-9 col-lg-10">
+								<?php echo form_checkbox(array(
+									'name'=>'ebt_integrated',
+									'id'=>'ebt_integrated',
+									'value'=>'1',
+									'checked'=>$location_info->ebt_integrated));?>
+									<label for="ebt_integrated"><span></span></label>
 								</div>
 							</div>
 							
@@ -445,17 +498,6 @@
 								</div>
 							</div>								
 								
-						<div class="form-group">	
-							<?php echo form_label(lang('locations_use_integrated_ebt').':', 'use_integrated_ebt',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
-							<div class="col-sm-9 col-md-9 col-lg-10">
-							<?php echo form_checkbox(array(
-								'name'=>'ebt_integrated',
-								'id'=>'ebt_integrated',
-								'value'=>'1',
-								'checked'=>$location_info->ebt_integrated));?>
-								<label for="ebt_integrated"><span></span></label>
-							</div>
-						</div>
 						
 								<div class="form-group">	
 								<?php echo form_label(lang('locations_net_e_pay_server').':', 'net_e_pay_server',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
@@ -593,6 +635,62 @@
 								</div>
 							</div>
 						</div>
+						
+						<div id="coreclear2_info">						
+							<div class="form-group">	
+								<?php echo form_label(lang('locations_blockchyp_api_key').':', 'blockchyp_api_key',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+								<div class="col-sm-9 col-md-9 col-lg-10">
+								<?php echo form_input(array(
+									'class'=>'form-control form-inps',
+									'name'=>'blockchyp_api_key',
+									'id'=>'blockchyp_api_key',
+									'autocomplete'=>'off',
+									'value'=>$location_info->blockchyp_api_key));?>
+								</div>
+							</div>
+						
+						
+							<div class="form-group">	
+								<?php echo form_label(lang('locations_blockchyp_bearer_token').':', 'blockchyp_bearer_token',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+								<div class="col-sm-9 col-md-9 col-lg-10">
+								<?php echo form_input(array(
+									'class'=>'form-control form-inps',
+									'name'=>'blockchyp_bearer_token',
+									'id'=>'blockchyp_bearer_token',
+									'autocomplete'=>'off',
+									'value'=>$location_info->blockchyp_bearer_token));?>
+								</div>
+							</div>
+						
+						
+							<div class="form-group">	
+								<?php echo form_label(lang('locations_blockchyp_signing_key').':', 'blockchyp_signing_key',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+								<div class="col-sm-9 col-md-9 col-lg-10">
+								<?php echo form_input(array(
+									'class'=>'form-control form-inps',
+									'name'=>'blockchyp_signing_key',
+									'id'=>'blockchyp_signing_key',
+									'autocomplete'=>'off',
+									'value'=>$location_info->blockchyp_signing_key));?>
+								</div>
+							</div>
+						
+
+							<div class="form-group">
+								<?php echo form_label(lang('locations_blockchyp_test_mode').':', 'blockchyp_test_mode',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label'), FALSE); ?>
+								<div class="col-sm-9 col-md-9 col-lg-10">
+									<?php echo form_checkbox(array(
+									'name'=>'blockchyp_test_mode',
+									'id'=>'blockchyp_test_mode',
+									'value'=>'1',
+									'checked'=>$location_info->blockchyp_test_mode));?>
+									<label for="blockchyp_test_mode"><span></span></label>
+								</div>
+							</div>
+												
+						
+						</div>
+						
 						
 						<div id="braintree_info">						
 							<div class="form-group">	
@@ -1234,8 +1332,8 @@
 	
 			$("#add_register").click(function()
 			{
-				$("#price_registers tbody").append('<tr><td><input type="text" class="registers_to_add form-control" name="registers_to_add['+add_register_index+'][name]" value="" /></td><td><input type="text" class="registers_to_add form-control register-cc-field" name="registers_to_add['+add_register_index+'][card_connect_hsn]" value="" /></td><td><input type="text" class="registers_to_add form-control register-cc-field" name="registers_to_add['+add_register_index+'][emv_terminal_id]" value="" /></td><td><input type="text" class="registers_to_add form-control iptran register-cc-field" name="registers_to_add['+add_register_index+'][iptran_device_id]" value="" /></td><td><input type="text" class="registers_to_add form-control iptran register-cc-field" name="registers_to_add['+add_register_index+'][emv_pinpad_ip]" value="" /></td><td><input type="text" class="registers_to_add form-control iptran register-cc-field" name="registers_to_add['+add_register_index+'][emv_pinpad_port]" value="" /></td><td><a class="update_parameters_ip_tran register-cc-field" href="javascript:void(0);"><?php echo lang('locations_update_params_ip_tran'); ?></a><span class="register-cc-field"> / </span><a class="init_ip_tran register-cc-field" href="javascript:void(0);"><?php echo lang('locations_init_mercury_emv'); ?></a> </td><td>&nbsp;</td></tr>');
-				register_cc_fields_show_hide();
+				$("#price_registers tbody").append('<tr><td><span class="dot terminal"></span><input type="text" class="registers_to_add form-control next-to-status" name="registers_to_add['+add_register_index+'][name]" value="" /></td><td class="card_connect_info"><input type="text" class="registers_to_add form-control register-cc-field" name="registers_to_add['+add_register_index+'][card_connect_hsn]" value="" /></td><td><input type="text" class="registers_to_add form-control register-cc-field" name="registers_to_add['+add_register_index+'][emv_terminal_id]" value="" /></td><td><input type="text" class="registers_to_add form-control iptran register-cc-field register-cc-field-datacap" name="registers_to_add['+add_register_index+'][iptran_device_id]" value="" /></td><td><input type="text" class="registers_to_add form-control iptran register-cc-field register-cc-field-datacap" name="registers_to_add['+add_register_index+'][emv_pinpad_ip]" value="" /></td><td><input type="text" class="registers_to_add form-control iptran register-cc-field register-cc-field-datacap" name="registers_to_add['+add_register_index+'][emv_pinpad_port]" value="" /></td><td><a class="update_parameters_ip_tran register-cc-field register-cc-field-datacap" href="javascript:void(0);"><?php echo lang('locations_update_params_ip_tran'); ?></a><span class="register-cc-field register-cc-field-datacap"> / </span><a class="init_ip_tran register-cc-field register-cc-field-datacap" href="javascript:void(0);"><?php echo lang('locations_init_mercury_emv'); ?></a> </td><td>&nbsp;</td></tr>');
+				check_credit_card_processor();
 				add_register_index++;
 			});
 						
@@ -1352,6 +1450,7 @@
 				
 				if($("#enable_credit_card_processing").prop('checked'))
 				{
+					check_credit_card_processor();
 					$("#merchant_information").show();
 				}
 				else
@@ -1383,7 +1482,9 @@
 					$("#stripe_info").hide();
 					$("#braintree_info").hide();
 					$("#square_info").hide();					
-					$("#card_connect_info").hide();					
+					$("#card_connect_info,.card_connect_info").hide();		
+					$("#coreclear2_info").hide();		
+					$(".register-cc-field-datacap").show();	
 				}
 				else if(cc_processor == 'heartland' || cc_processor == 'evo' || cc_processor == 'worldpay' || cc_processor == 'firstdata' || cc_processor == 'other_usb')
 				{
@@ -1392,7 +1493,9 @@
 					$("#stripe_info").hide();
 					$("#braintree_info").hide();
 					$("#square_info").hide();
-					$("#card_connect_info").hide();	
+					$("#card_connect_info,.card_connect_info").hide();	
+					$("#coreclear2_info").hide();
+					$(".register-cc-field-datacap").show();	
 					
 				}
 				else if (cc_processor == 'stripe')
@@ -1402,7 +1505,10 @@
 					$("#stripe_info").show();
 					$("#braintree_info").hide();
 					$("#square_info").hide();
-					$("#card_connect_info").hide();	
+					$("#card_connect_info,.card_connect_info").hide();
+					$("#coreclear2_info").hide();
+					$(".register-cc-field-datacap").hide();	
+					
 				}
 				else if (cc_processor == 'braintree')
 				{
@@ -1411,7 +1517,9 @@
 					$("#stripe_info").hide();
 					$("#braintree_info").show();
 					$("#square_info").hide();
-					$("#card_connect_info").hide();	
+					$("#card_connect_info,.card_connect_info").hide();	
+					$("#coreclear2_info").hide();
+					$(".register-cc-field-datacap").hide();
 				}
 				else if (cc_processor == 'square')
 				{
@@ -1420,16 +1528,36 @@
 					$("#mercury_hosted_checkout_info").hide();
 					$("#stripe_info").hide();
 					$("#braintree_info").hide();
-					$("#card_connect_info").hide();
+					$("#card_connect_info,.card_connect_info").hide();
+					$("#coreclear2_info").hide();
+					$(".register-cc-field-datacap").hide();	
 				}
 				else if(cc_processor == 'card_connect')
 				{
-					$("#card_connect_info").show();
+					$("#card_connect_info,.card_connect_info").show();
 					$("#square_info").hide();
 					$("#emv_info").hide();
 					$("#mercury_hosted_checkout_info").hide();
 					$("#stripe_info").hide();
 					$("#braintree_info").hide();
+					$("#coreclear2_info").hide();
+					$(".register-cc-field-datacap").hide();	
+					$(".emv_terminal_id.register-cc-field").hide();
+				}
+				else if (cc_processor == 'coreclear2')
+				{
+					$("#card_connect_info,.card_connect_info").hide();
+					$("#square_info").hide();
+					$("#emv_info").hide();
+					$("#mercury_hosted_checkout_info").hide();
+					$("#stripe_info").hide();
+					$("#braintree_info").hide();
+					
+					$("#coreclear2_info").show();
+					$("th.emv_terminal_id.register-cc-field").text("<?php echo lang('locations_terminal_id') ?>");
+					$(".emv_terminal_id.register-cc-field").show();
+					$(".register-cc-field-datacap").hide();	
+					
 				}
 			}
 			

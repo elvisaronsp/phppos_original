@@ -799,5 +799,35 @@ $lang['config_always_put_last_added_item_on_top_of_cart'] = 'Sempre coloque o ú
 $lang['config_show_giftcards_even_if_0_balance'] = 'Mostrar vales-presente mesmo com saldo zero';
 
 $lang['config_scale_5'] = 'Código de barras incorporado de peso';
+
+$lang['config_disable_modules'] = 'Desativar Módulos';
+
 $lang['config_hide_description_on_suspended_sales'] = 'Ocultar descrição do item em vendas suspensas';
+$lang['config_override_symbol_non_taxable'] = 'Símbolo de substituição para não tributável';
+
+
+
+$lang['config_hide_categories_sales_grid'] = 'Ocultar categorias na grade de vendas';
+$lang['config_hide_tags_sales_grid'] = 'Ocultar tags na grade de vendas';
+$lang['config_hide_favorites_sales_grid'] = 'Ocultar favoritos na grade de vendas';
+$lang['config_hide_categories_receivings_grid'] = 'Ocultar categorias na grade de recebimentos';
+$lang['config_hide_tags_receivings_grid'] = 'Ocultar Marcas na Grade de Recebimentos';
+$lang['config_hide_suppliers_receivings_grid'] = 'Ocultar fornecedores na grade de recebimentos';
+$lang['config_hide_favorites_receivings_grid'] = 'Ocultar favoritos na grade de recebimentos';
+$lang['config_hide_suppliers_sales_grid'] = 'Ocultar fornecedores na grade de vendas';
+
+$lang['config_offline_mode_sync_period'] = 'Tempo do ciclo de sincronização do modo offline (horas)';
+
+
+
+$lang['config_receipt_download_filename_prefix'] = 'Prefixo do nome do arquivo de download do recibo';
+$lang['config_remove_employee_lastname_from_receipt'] = 'Remover o sobrenome do funcionário do recibo';
+$lang['config_override_symbol_taxes_summary_on_receipt'] = 'SÍMBOLO DE SUBSTITUIÇÃO PARA MOSTRAR RESUMO TRIBUTÁVEL E NÃO TRIBUTÁVEL NO RECIBO';
+
+$lang['config_show_images_on_receipt_width_percent'] = 'Largura máxima das imagens do item no recebimento (porcentagem)';
+
+$lang['config_override_symbol_taxable_summary'] = 'Símbolo de substituição para resumo tributável no recebimento';
+$lang['config_override_symbol_non_taxable_summary'] = 'Símbolo de substituição para resumo não tributável no recebimento';
+$lang['config_allow_drag_drop_recv'] = 'Permitir reordenar na tela de recebimento';
+$lang['config_allow_drag_drop_sale'] = 'Permitir novo pedido na tela de venda';
 ?>

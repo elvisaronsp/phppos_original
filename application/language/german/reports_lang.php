@@ -515,4 +515,9 @@ $lang['reports_due'] = 'Fällig';
 
 $lang['reports_summary_journal'] = 'Zusammenfassender Journalbericht';
 
+$lang['reports_voided_returned_transactions'] = 'Annullierte/zurückgegebene Transaktionen';
+$lang['reports_transaction_voided'] = 'Transaktions-ID ungültig';
+$lang['reports_transaction_voided_transacion_id'] = 'Transaktions-ID der Nichtigkeit';
+$lang['reports_amount_returned'] = 'Betrag annulliert/zurückgegeben';
+$lang['reports_voided_transactions'] = 'Stornierte Transaktionen';
 ?>

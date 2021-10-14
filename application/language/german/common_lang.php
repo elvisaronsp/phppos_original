@@ -426,7 +426,6 @@ $lang['common_previous_step'] = 'Vorheriger Schritt';
 $lang['common_complete_excel_import'] = 'Komplette Excel-Import';
 $lang['common_complete_excel_import_directions'] = 'Klicken Sie auf "Complete Excel Import" zu validieren und um den Import abzuschließen.';
 $lang['Complete Excel Import'] = '';
-$lang['n'] = 'common_complete_excel_import_directions';
 $lang['common_desktop'] = 'Desktop-';
 $lang['common_mobile'] = 'Mobile';
 $lang['confirmation_export_woocommerce_products'] = 'Sind Sie sicher, dass Sie die Produkte zu exportieren, um WooCommerce?';
@@ -1059,4 +1058,29 @@ $lang['common_back_to_suppliers'] = 'Zurück zu den Lieferanten';
 $lang['common_change_status'] = 'Status ändern';
 $lang['common_please_select'] = 'Bitte auswählen';
 $lang['sales_can_lookup_last_receipt'] = 'Kann den letzten Beleg nachschlagen';
+
+$lang['common_disable'] = 'Deaktivieren';
+$lang['employees_acess_ip_range'] = 'Mitarbeiter Zugriff auf IP-Bereich';
+$lang['common_cannot_access_with_ip'] = 'Sie können nicht mit Ihrer IP zugreifen';
+$lang['common_filter'] = 'Filter';
+$lang['common_payment_type'] = 'Zahlungsart';
+$lang['sales_masked_card'] = 'Maskierte Karte';
+$lang['sales_void_return'] = 'Ungültig/Rückgabe';
+$lang['common_unknown'] = 'Unbekannt';
+$lang['common_void'] = 'Leere';
+$lang['sales_cannot_void_transaction'] = 'Kann Transaktion nicht stornieren';
+$lang['sales_void_title'] = 'Ungültige Optionen';
+$lang['sales_confirm_void'] = 'Möchten Sie diesen Verkauf wirklich stornieren/löschen?';
+$lang['sales_void_full_amount'] = 'Voller Betrag stornieren';
+$lang['sales_void_partial_amount'] = 'Teilbetrag stornieren';
+$lang['sales_please_enter_refund_amount'] = 'Bitte Rückerstattungsbetrag eingeben';
+$lang['sales_success_void_transaction'] = 'Sie haben die Transaktion erfolgreich storniert';
+$lang['common_qty_name'] = 'Mengennamen';
+
+$lang['common_indicate_non_taxable_on_receipt'] = 'Bei Erhalt nicht steuerpflichtig angeben';
+$lang['common_no_tax'] = 'KEINE STEUER';
+
+$lang['common_view_edit_transaction_history'] = 'Kartentransaktionen anzeigen/bearbeiten';
+$lang['common_change_log'] = 'Änderungsprotokoll';
+$lang['common_add_new_ip'] = 'Neue IP hinzufügen';
 ?>

@@ -474,4 +474,10 @@ $lang['migrate_can_lookup_last_receipt_permission'] = 'Dapat Mencari Izin Tanda 
 $lang['migrate_permission_for_delete_suspended_receivings'] = 'Izin Untuk Menghapus Penerimaan yang Ditangguhkan';
 
 $lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = 'Perbaiki Utf8 General Ci Ke Utf8 Unicode Ci Untuk Status Perintah Kerja Phppos';
+$lang['migrate_18_3_version'] = 'Versi 18.3';
+$lang['migrate_add_expenses_files_table'] = 'Tambahkan Tabel File Biaya';
+$lang['migrate_add_expenses_image_field'] = 'Tambahkan Bidang Gambar Biaya';
+$lang['migrate_add_employee_ip_range'] = 'Tambahkan Rentang Ip Karyawan';
+$lang['migrate_coreclear'] = 'Coreclear';
+$lang['migrate_coreclear_void_logging'] = 'Pencatatan Void Coreclear';
 ?>

@@ -1,7 +1,11 @@
 <?php
 require_once ("Secure_area.php");
+require_once (APPPATH."traits/creditcardProcessingTrait.php");
+
 class Reports extends Secure_area 
 {	
+	use creditcardProcessingTrait;
+	
 	function __construct()
 	{
 		parent::__construct('reports');
@@ -14,6 +18,7 @@ class Reports extends Secure_area
 		require_once (APPPATH.'models/reports/Report.php');
 		$this->load->helper('report');
 		$this->lang->load('reports');
+		$this->lang->load('sales');
 		$this->lang->load('module');
 		$this->load->model('Sale');
 	}
@@ -115,7 +120,13 @@ class Reports extends Secure_area
 	//Initial report listing screen
 	function index()
 	{
-		$this->load->view("reports/listing",array());	
+		$credit_card_processor = $this->_get_cc_processor();
+
+		if ($credit_card_processor)
+		{
+			$cc_processor_class_name = strtoupper(get_class($credit_card_processor));
+		}
+		$this->load->view("reports/listing",array('cc_processor_class_name' => $cc_processor_class_name));	
 	}
 		
 	// Sales Generator Reports 

@@ -550,4 +550,15 @@ $lang['sales_detailed_note'] = 'விரிவான குறிப்பு';
 $lang['sales_internal_note'] = 'உள் குறிப்பு';
 $lang['sales_delveried_to'] = 'வழங்கப்பட்டது';
 $lang['sales_view_receipt_on_web_page'] = 'வலைப்பக்கத்தில் ரசீதைக் காண்க';
+$lang['sales_view_edit_transaction_history'] = 'அட்டை பரிவர்த்தனைகளைப் பார்க்கவும்/திருத்தவும்';
+$lang['sales_list_of_credit_transactions'] = 'கிரெடிட் கார்டு பரிவர்த்தனைகளின் பட்டியல்';
+$lang['sales_response_description'] = 'மறுமொழி விளக்கம்';
+$lang['sales_card_holder'] = 'அட்டை வைத்திருப்பவர்';
+$lang['sales_list_of_batches'] = 'தொகுப்புகளின் பட்டியல்';
+$lang['sales_batch_id'] = 'தொகுதி ஐடி';
+$lang['sales_batches'] = 'அட்டை தொகுதிகள்';
+$lang['sales_https_required_cc'] = 'கடன் அட்டை செயலாக்கத்திற்கு https பாதுகாப்பான இணைப்பு இப்போது தேவை. உங்கள் சர்வர் இதை ஆதரிக்கவில்லை.';
+$lang['sales_https_required_cc_redirect'] = 'கிரெடிட் கார்டு செயலாக்கத்திற்கு https தேவை. நீங்கள் https இல் விற்பனையை மீண்டும் ஏற்ற விரும்புகிறீர்களா, பின்னர் அதை மீண்டும் செயலாக்க விரும்புகிறீர்களா?';
+$lang['sales_credit_card_terminal_offline'] = 'உங்கள் கிரெடிட் கார்டு டெர்மினல் ஆஃப்லைனில் உள்ளது, விற்பனைக்கு முன் இணைப்பைச் சரிபார்க்கவும்';
+$lang['sales_credit_card_terminal_online'] = 'உங்கள் கிரெடிட் கார்டு முனையம் ஆன்லைனில் உள்ளது மற்றும் பரிவர்த்தனைகளை செயலாக்க தயாராக உள்ளது';
 ?>

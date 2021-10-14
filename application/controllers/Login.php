@@ -257,7 +257,7 @@ class Login extends MY_Controller
 				$this->reset_sold_by_employee($previous_logged_in_employee_id);
 				$emp_info = $this->Employee->get_logged_in_employee_info();
 				$name = $emp_info->first_name. ' '.$emp_info->last_name;
-				$avatar = $emp_info->image_id ?  app_file_url($emp_info->image_id) : base_url('assets/assets/images/avatar-default.jpg');
+				$avatar = $emp_info->image_id ?  secure_app_file_url($emp_info->image_id) : base_url('assets/assets/images/avatar-default.jpg');
 				$is_clocked_in_or_timeclock_disabled = $this->Employee->get_logged_in_employee_info()->not_required_to_clock_in || $this->Employee->is_clocked_in() || !$this->config->item('timeclock');
 				echo json_encode(array('success'=>true,'reload' => $reload,'name' => $name,'avatar' => $avatar,'is_clocked_in_or_timeclock_disabled' => $is_clocked_in_or_timeclock_disabled));
 			}
@@ -281,7 +281,7 @@ class Login extends MY_Controller
 				
 				$emp_info = $this->Employee->get_logged_in_employee_info();
 				$name = $emp_info->first_name. ' '.$emp_info->last_name;
-				$avatar = $emp_info->image_id ?  app_file_url($emp_info->image_id) : base_url('assets/assets/images/avatar-default.jpg');
+				$avatar = $emp_info->image_id ?  secure_app_file_url($emp_info->image_id) : base_url('assets/assets/images/avatar-default.jpg');
 
 				
 				echo json_encode(array('success'=>true,'reload' => $reload, 'name'=> $name,'avatar' => $avatar,'is_clocked_in_or_timeclock_disabled' => $is_clocked_in_or_timeclock_disabled));

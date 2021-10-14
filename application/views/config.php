@@ -97,6 +97,7 @@ $this->load->helper('update');
 			</div>
 		</div>
 	<?php } ?>
+
 		<!-- Company Information -->
 		<div class="col-md-12">
 			<div class="panel panel-piluku">
@@ -733,8 +734,6 @@ $this->load->helper('update');
 					</div>
 					
 					
-					
-					
 					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_payment')) ?>">
 						<?php echo form_label(lang('config_show_selling_price_on_recv'). ':', 'show_selling_price_on_recv',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
 						<div class="col-sm-9 col-md-9 col-lg-10">
@@ -1060,6 +1059,29 @@ $this->load->helper('update');
 					
 					
 					
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">
+						<?php echo form_label(lang('config_allow_drag_drop_sale'). ':', 'allow_drag_drop_sale',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+							<?php echo form_checkbox(array(
+							'name'=>'allow_drag_drop_sale',
+							'id'=>'allow_drag_drop_sale',
+							'value'=>'1',
+							'checked'=>$this->config->item('allow_drag_drop_sale')));?>
+							<label for="allow_drag_drop_sale"><span></span></label>
+						</div>
+					</div>
+					
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">
+						<?php echo form_label(lang('config_allow_drag_drop_recv'). ':', 'allow_drag_drop_recv',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+							<?php echo form_checkbox(array(
+							'name'=>'allow_drag_drop_recv',
+							'id'=>'allow_drag_drop_recv',
+							'value'=>'1',
+							'checked'=>$this->config->item('allow_drag_drop_recv')));?>
+							<label for="allow_drag_drop_recv"><span></span></label>
+						</div>
+					</div>
 					
 					
 					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>">	
@@ -1878,7 +1900,7 @@ $this->load->helper('update');
 							<label for="prompt_amount_for_cash_sale"><span></span></label>
 						</div>
 					</div>
-					<div class="form-group" data-keyword="<?php echo H(lang('config_show_qr_code_for_sale')) ?>" >
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>" >
 					<?php echo form_label(lang('config_show_qr_code_for_sale').':', 'show_qr_code_for_sale',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
 						<div class="col-sm-9 col-md-9 col-lg-10">
 						<?php echo form_checkbox(array(
@@ -1890,10 +1912,55 @@ $this->load->helper('update');
 						</div>
 					</div>
 
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>" >
+					<?php echo form_label(lang('config_hide_categories_sales_grid').':', 'hide_categories_sales_grid',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'hide_categories_sales_grid',
+							'id'=>'hide_categories_sales_grid',
+							'value'=>'hide_categories_sales_grid',
+							'checked'=>$this->config->item('hide_categories_sales_grid')));?>
+							<label for="hide_categories_sales_grid"><span></span></label>
+						</div>
+					</div>
+
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>" >
+					<?php echo form_label(lang('config_hide_tags_sales_grid').':', 'hide_tags_sales_grid',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'hide_tags_sales_grid',
+							'id'=>'hide_tags_sales_grid',
+							'value'=>'hide_tags_sales_grid',
+							'checked'=>$this->config->item('hide_tags_sales_grid')));?>
+							<label for="hide_tags_sales_grid"><span></span></label>
+						</div>
+					</div>
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>" >
+					<?php echo form_label(lang('config_hide_suppliers_sales_grid').':', 'hide_suppliers_sales_grid',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'hide_suppliers_sales_grid',
+							'id'=>'hide_suppliers_sales_grid',
+							'value'=>'hide_suppliers_sales_grid',
+							'checked'=>$this->config->item('hide_suppliers_sales_grid')));?>
+							<label for="hide_suppliers_sales_grid"><span></span></label>
+						</div>
+					</div>
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_sales')) ?>" >
+					<?php echo form_label(lang('config_hide_favorites_sales_grid').':', 'hide_favorites_sales_grid',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'hide_favorites_sales_grid',
+							'id'=>'hide_favorites_sales_grid',
+							'value'=>'hide_favorites_sales_grid',
+							'checked'=>$this->config->item('hide_favorites_sales_grid')));?>
+							<label for="hide_favorites_sales_grid"><span></span></label>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-					
+
 		<!-- Suspended Sales/Layaways -->
 		<div class="col-md-12">
 			<div class="panel panel-piluku">
@@ -2103,9 +2170,42 @@ $this->load->helper('update');
 							<label for="show_images_on_receipt"><span></span></label>
 						</div>
 					</div>
-					
-					
-					
+
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">	
+						<?php echo form_label(lang('config_show_images_on_receipt_width_percent').':', 'show_images_on_receipt_width_percent',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+							<?php 
+							echo form_dropdown('show_images_on_receipt_width_percent', array(
+	 								'1'    => '1%',
+	 								'2'    => '2%',
+	 								'3'    => '3%',
+	 								'4'    => '4%',
+	 								'5'    => '5%',
+		 							'10'    => '10%',
+		 							'15'    => '15%',
+		 							'20'    => '20%',
+		 							'25'    => '25%',
+		 							'30'    => '30%',
+		 							'35'    => '35%',
+		 							'40'    => '40%',
+		 							'45'    => '45%',
+		 							'50'    => '50%',
+		 							'55'    => '55%',
+		 							'60'    => '60%',
+		 							'65'    => '65%',
+		 							'70'    => '70%',
+		 							'75'    => '75%',
+		 							'80'    => '80%',
+		 							'85'    => '85%',
+		 							'90'    => '90%',
+		 							'95'    => '95%',
+		 							'100'    => '100%',
+								),
+								$this->config->item('show_images_on_receipt_width_percent')?$this->config->item('show_images_on_receipt_width_percent'):25, 'class="form-control" id="show_images_on_receipt_width_percent"');
+							?>
+						</div>
+					</div>
+
 					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">	
 						<?php echo form_label(lang('config_show_person_id_on_receipt').':', 'show_person_id_on_receipt',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
 						<div class="col-sm-9 col-md-9 col-lg-10">
@@ -2142,11 +2242,6 @@ $this->load->helper('update');
 							<label for="show_total_on_fulfillment"><span></span></label>
 						</div>
 					</div>
-					
-					
-					
-					
-					
 
 					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">	
 						<?php echo form_label(lang('config_taxes_summary_on_receipt').':', 'taxes_summary_on_receipt',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
@@ -2159,7 +2254,34 @@ $this->load->helper('update');
 							<label for="taxes_summary_on_receipt"><span></span></label>
 						</div>
 					</div>
-					
+
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">
+						<div <?php echo $this->config->item('taxes_summary_on_receipt')?"":"style='display:none;'" ?>
+					id="override_symbol_taxable_summary_container">
+							<?php echo form_label(lang('config_override_symbol_taxable_summary').':', 'override_symbol_taxable_summary',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+							<div class="col-sm-9 col-md-9 col-lg-10">
+								<?php echo form_input(array(
+								'class'=>'form-control form-inps',
+								'name'=>'override_symbol_taxable_summary',
+								'id'=>'override_symbol_taxable_summary',
+								'value'=>$this->config->item('override_symbol_taxable_summary')));?>
+							</div>
+						</div>
+					</div>
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">
+						<div <?php echo $this->config->item('taxes_summary_on_receipt')?"":"style='display:none;'" ?>
+					id="override_symbol_non_taxable_summary_container">
+							<?php echo form_label(lang('config_override_symbol_non_taxable_summary').':', 'override_symbol_non_taxable_summary',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+							<div class="col-sm-9 col-md-9 col-lg-10">
+								<?php echo form_input(array(
+								'class'=>'form-control form-inps',
+								'name'=>'override_symbol_non_taxable_summary',
+								'id'=>'override_symbol_non_taxable_summary',
+								'value'=>$this->config->item('override_symbol_non_taxable_summary')));?>
+							</div>
+						</div>
+					</div>
+
 					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">	
 						<?php echo form_label(lang('config_taxes_summary_details_on_receipt').':', 'taxes_summary_details_on_receipt',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
 						<div class="col-sm-9 col-md-9 col-lg-10">
@@ -2311,6 +2433,32 @@ $this->load->helper('update');
 							'value'=>'indicate_taxable_on_receipt',
 							'checked'=>$this->config->item('indicate_taxable_on_receipt')));?>
 							<label for="indicate_taxable_on_receipt"><span></span></label>
+						</div>
+					</div>
+
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">	
+						<?php echo form_label(lang('common_indicate_non_taxable_on_receipt').':', 'indicate_non_taxable_on_receipt',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'indicate_non_taxable_on_receipt',
+							'id'=>'indicate_non_taxable_on_receipt',
+							'value'=>'indicate_non_taxable_on_receipt',
+							'checked'=>$this->config->item('indicate_non_taxable_on_receipt')));?>
+							<label for="indicate_non_taxable_on_receipt"><span></span></label>
+						</div>
+					</div>
+
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">
+						<div <?php echo $this->config->item('indicate_non_taxable_on_receipt')?"":"style='display:none;'" ?>
+					id="override_symbol_non_taxable_container">
+							<?php echo form_label(lang('config_override_symbol_non_taxable').':', 'override_symbol_non_taxable',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+							<div class="col-sm-9 col-md-9 col-lg-10">
+								<?php echo form_input(array(
+								'class'=>'form-control form-inps',
+								'name'=>'override_symbol_non_taxable',
+								'id'=>'override_symbol_non_taxable',
+								'value'=>$this->config->item('override_symbol_non_taxable')));?>
+							</div>
 						</div>
 					</div>
 
@@ -2478,6 +2626,18 @@ $this->load->helper('update');
 						</div>
 					</div>
 					
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>"> 
+					  <?php echo form_label(lang('config_remove_employee_lastname_from_receipt').':', 'remove_employee_lastname_from_receipt',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+					  <div class="col-sm-9 col-md-9 col-lg-10">
+					  <?php echo form_checkbox(array(
+					          'name'=>'remove_employee_lastname_from_receipt',
+					          'id'=>'remove_employee_lastname_from_receipt',
+					          'value'=>'remove_employee_lastname_from_receipt',
+					          'checked'=>$this->config->item('remove_employee_lastname_from_receipt')));?>
+					  <label for="remove_employee_lastname_from_receipt"><span></span></label>
+					  </div>
+					</div>
+
 					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>"> 
 					  <?php echo form_label(lang('config_remove_employee_from_receipt').':', 'remove_employee_from_receipt',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
 					  <div class="col-sm-9 col-md-9 col-lg-10">
@@ -2747,6 +2907,66 @@ $this->load->helper('update');
 							'rows'=>'4',
 							'cols'=>'30',
 							'value'=>$this->config->item('override_signature_text')));?>
+						</div>
+					</div>
+
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>" >
+					<?php echo form_label(lang('config_hide_categories_receivings_grid').':', 'hide_categories_receivings_grid',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'hide_categories_receivings_grid',
+							'id'=>'hide_categories_receivings_grid',
+							'value'=>'hide_categories_receivings_grid',
+							'checked'=>$this->config->item('hide_categories_receivings_grid')));?>
+							<label for="hide_categories_receivings_grid"><span></span></label>
+						</div>
+					</div>
+
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>" >
+					<?php echo form_label(lang('config_hide_tags_receivings_grid').':', 'hide_tags_receivings_grid',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'hide_tags_receivings_grid',
+							'id'=>'hide_tags_receivings_grid',
+							'value'=>'hide_tags_receivings_grid',
+							'checked'=>$this->config->item('hide_tags_receivings_grid')));?>
+							<label for="hide_tags_receivings_grid"><span></span></label>
+						</div>
+					</div>
+
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>" >
+					<?php echo form_label(lang('config_hide_suppliers_receivings_grid').':', 'hide_suppliers_receivings_grid',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'hide_suppliers_receivings_grid',
+							'id'=>'hide_suppliers_receivings_grid',
+							'value'=>'hide_suppliers_receivings_grid',
+							'checked'=>$this->config->item('hide_suppliers_receivings_grid')));?>
+							<label for="hide_suppliers_receivings_grid"><span></span></label>
+						</div>
+					</div>
+
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>" >
+					<?php echo form_label(lang('config_hide_favorites_receivings_grid').':', 'hide_favorites_receivings_grid',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_checkbox(array(
+							'name'=>'hide_favorites_receivings_grid',
+							'id'=>'hide_favorites_receivings_grid',
+							'value'=>'hide_favorites_receivings_grid',
+							'checked'=>$this->config->item('hide_favorites_receivings_grid')));?>
+							<label for="hide_favorites_receivings_grid"><span></span></label>
+						</div>
+					</div>
+
+					<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_receipt')) ?>">	
+						<?php echo form_label(lang('config_receipt_download_filename_prefix').':', 'receipt_download_filename_prefix',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+						<div class="col-sm-9 col-md-9 col-lg-10">
+						<?php echo form_input(array(
+							'class'=>'form-control form-inps',
+							'name'=>'receipt_download_filename_prefix',
+							'id'=>'receipt_download_filename_prefix',
+							'size'=> 40,
+							'value'=>$this->config->item('receipt_download_filename_prefix')));?>
 						</div>
 					</div>
 
@@ -3789,6 +4009,51 @@ $this->load->helper('update');
 			</div>
 		</div>
 		
+		
+		<!-- Disable Moudles -->
+		<div class="col-md-12">
+			<div class="panel panel-piluku">
+				<div class="panel-heading">
+					<?php echo lang('config_disable_modules'); ?>
+				</div>
+				<div class="panel-body">
+					<?php
+						foreach ($all_modules->result() as $module) {
+							if($module->module_id=='config'){
+								continue;
+							}
+							$checkbox_options = array(
+								'name' => 'disable_modules[]',
+								'id' => 'permissions' . $module->module_id,
+								'value' => $module->module_id,
+								'checked' => array_search($module->module_id, $disable_modules) === false ? false: true ,
+								'class' => 'module_checkboxes '
+							);
+
+							if ($logged_in_employee_id != 1) {
+								if (($current_employee_editing_self && $checkbox_options['checked']) || !$this->Employee->has_module_permission($module->module_id, $logged_in_employee_id, FALSE, TRUE)) {
+									$checkbox_options['disabled'] = 'disabled';
+
+									//Only send permission if checked
+									if ($checkbox_options['checked']) {
+										echo form_hidden('permissions[]', $module->module_id);
+									}
+								}
+							}
+					?>
+						<div class="form-group" data-keyword="<?php echo H(lang('module_config')) ?>">	
+							<?php echo form_label(lang('common_disable').' '.lang($module->name_lang_key).':', $module->module_id, array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
+							<div class="col-sm-9 col-md-9 col-lg-10">
+								<?php echo form_checkbox($checkbox_options, '1', null,'id="'.$module->module_id.'"');?>
+								<label for="<?php echo 'permissions'.$module->module_id; ?>"><span></span></label>
+							</div>	
+						</div>
+					<?php } ?>
+				</div>
+			</div>
+		</div>
+		
+		
 		<!-- Application Settings -->
 		<div class="col-md-12">
 			<div class="panel panel-piluku">
@@ -3920,8 +4185,22 @@ $this->load->helper('update');
 							</div>
 						</div>
 						
-						
-						
+						<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_application_settings')) ?>">	
+							<?php echo form_label(lang('config_offline_mode_sync_period').':', 'offline_mode_sync_period',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label')); ?>
+							<div class="col-sm-9 col-md-9 col-lg-10">
+								<?php 
+								$numbers = array();
+								foreach(range(1, 48) as $number) 
+								{ 
+									$numbers[$number] = $number;
+								}
+								?> 
+							<?php echo form_dropdown('offline_mode_sync_period', 
+								$numbers, $this->config->item('offline_mode_sync_period') ? $this->config->item('offline_mode_sync_period') : '24', 'class="form-control" id="number_of_items_in_grid"');
+								?>
+							</div>
+						</div>
+
 						<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_application_settings')) ?>">	
 						<?php echo form_label(lang('config_reset_offline_data').':', 'offline_mode',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
 							<div class="col-sm-9 col-md-9 col-lg-10">
@@ -4260,21 +4539,7 @@ $this->load->helper('update');
 								'checked'=>$this->config->item('do_not_delete_serial_number_when_selling')));?>
 								<label for="do_not_delete_serial_number_when_selling"><span></span></label>
 							</div>
-						</div>
-						
-						<div class="form-group" data-keyword="<?php echo H(lang('config_keyword_application_settings')) ?>">	
-						<?php echo form_label(lang('config_hide_latest_updates_in_header').':', 'hide_latest_updates_in_header',array('class'=>'col-sm-3 col-md-3 col-lg-2 control-label ')); ?>
-							<div class="col-sm-9 col-md-9 col-lg-10">
-							<?php echo form_checkbox(array(
-								'name'=>'hide_latest_updates_in_header',
-								'id'=>'hide_latest_updates_in_header',
-								'value'=>'1',
-								'checked'=>$this->config->item('hide_latest_updates_in_header')));?>
-								<label for="hide_latest_updates_in_header"><span></span></label>
-							</div>
-						</div>
-						
-												
+						</div>					
 				</div>
 			</div>
 		</div>
@@ -5496,6 +5761,23 @@ $(document).ready(function()
 		});
 	});
 	var submitting = false;
+
+	function objectifyForm(formArray) {
+		//serialize data function
+		var returnArray = {};
+		for (var i = 0; i < formArray.length; i++){
+			if(returnArray[formArray[i]['name']] ){
+				if(!Array.isArray(returnArray[formArray[i]['name']])){
+					returnArray[formArray[i]['name']] = [returnArray[formArray[i]['name']]];
+				}
+				returnArray[formArray[i]['name']].push(formArray[i]['value']);
+			}else{
+				returnArray[formArray[i]['name']] = formArray[i]['value'];
+			}
+		}
+		return returnArray;
+	}
+
 	$('#config_form').validate({
 		submitHandler:function(form)
 		{
@@ -5513,6 +5795,19 @@ $(document).ready(function()
 				
 				if(response.success)
 				{
+
+					formDataArray =  objectifyForm($("#config_form").serializeArray());
+					let disable_modules = formDataArray['disable_modules[]'];
+					
+					if (!disable_modules)
+					{
+						disable_modules = [];
+					}
+					$("#mainMenu>li").show();
+					for(let i=0; i<disable_modules.length; i++){
+						$("#mainMenu>li."+disable_modules[i]).hide();
+					}
+
 					show_feedback('success',response.message,<?php echo json_encode(lang('common_success')); ?>);
 				}
 				else
@@ -6504,5 +6799,24 @@ $(function () {
 			        initQB();
 			    });
 			});
+
+			$("#indicate_non_taxable_on_receipt").change(function(){
+				if(this.checked) {
+					$("#override_symbol_non_taxable_container").show();
+				}else{
+					$("#override_symbol_non_taxable_container").hide();
+				}
+			});
+
+			$("#taxes_summary_on_receipt").change(function(){
+				if(this.checked){
+					$("#override_symbol_taxable_summary_container").show();
+					$("#override_symbol_non_taxable_summary_container").show();
+				}else{
+					$("#override_symbol_taxable_summary_container").hide();
+					$("#override_symbol_non_taxable_summary_container").hide();
+				}
+			})
+
 </script>
 <?php $this->load->view("partial/footer"); ?>

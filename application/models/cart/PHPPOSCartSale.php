@@ -358,7 +358,7 @@ class PHPPOSCartSale extends PHPPOSCart
 			
 			$cart->add_item($item);
 		}
-		
+
 		foreach($CI->Sale->get_sale_item_kits($sale_id)->result() as $row)
 		{
 			$item_kit_props = array();
@@ -449,6 +449,8 @@ class PHPPOSCartSale extends PHPPOSCart
 			$cart->add_item($item_kit);
 		}
 
+		//sort item & item_kit
+		$cart->sort_by_line();
 
 		$cart->customer_id = $CI->Sale->get_customer($sale_id)->person_id;
 		$cart->show_comment_on_receipt = $sale_info['show_comment_on_receipt'];

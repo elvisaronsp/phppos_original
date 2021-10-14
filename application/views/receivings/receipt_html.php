@@ -46,7 +46,7 @@ for($k=1; $k <= NUMBER_OF_PEOPLE_CUSTOM_FIELDS; $k++){
 
             <?php if($company_logo) {?>
                 <p id="company_logo" class="invoice-logo">
-                    <?php echo img(array('src' => $this->Appfile->get_url_for_file($company_logo))); ?>
+                    <?php echo img(array('src' => secure_app_file_url($company_logo))); ?>
                 </p>
             <?php } ?>
             <p id="company_name"  class="company-title"><b><?php echo H($company); ?></b></p>

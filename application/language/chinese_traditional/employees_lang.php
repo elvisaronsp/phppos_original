@@ -71,4 +71,6 @@ $lang['employees_login_end_time'] = '允許登錄結束時間';
 $lang['employees_login_start_time'] = '允許登錄開始時間';
 $lang['permission_templates'] = '權限模板';
 $lang['update_all_employees_with_template_assinged'] = '使用分配的模板更新所有員工';
+$lang['employees_enter_ip'] = '請輸入IP或IP範圍(CIDR)';
+$lang['employees_acess_ip_range'] = '員工可以訪問的 IP 地址';
 ?>

@@ -79,4 +79,6 @@ $lang['employees_login_end_time'] = 'Ora di accesso consentita';
 $lang['employees_login_start_time'] = 'Ora di inizio accesso consentita';
 $lang['permission_templates'] = 'Modelli di autorizzazione';
 $lang['update_all_employees_with_template_assinged'] = 'Aggiorna tutti i dipendenti con il modello assegnato';
+$lang['employees_enter_ip'] = 'Inserisci l\'IP o l\'intervallo IP (CIDR)';
+$lang['employees_acess_ip_range'] = 'Indirizzi IP da cui i dipendenti possono accedere';
 ?>

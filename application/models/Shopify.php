@@ -13,7 +13,7 @@ class Shopify extends Ecom
 		parent::__construct();
 		$this->api_code_token = $this->config->item('shopify_oauth_token');
 		$this->shopify_store_username = $this->config->item('shopify_shop');
-		$this->base_url_api = 'https://'.$this->shopify_store_username.'.myshopify.com';
+		$this->base_url_api = 'https://'.$this->shopify_store_username.'.myshopify.com';		
 	}
 	
 	private function kill_if_needed()
@@ -420,7 +420,7 @@ class Shopify extends Ecom
 			{
 				$inv_data = array();
 				$inv_data['inventory_item_id'] = $ecommerce_inventory_item_id;
-				$inv_data['available'] = (int)$item->quantity;
+				$inv_data['available'] = (int)$this->get_item_quantity($item_id);
 				$inv_data['location_id'] = $this->config->item('shopify_location_id');
 				$this->do_post('/admin/api/2021-04/inventory_levels/set.json',$inv_data);
 

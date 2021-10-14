@@ -801,5 +801,35 @@ $lang['config_always_put_last_added_item_on_top_of_cart'] = 'Siempre coloque el 
 $lang['config_show_giftcards_even_if_0_balance'] = 'Mostrar tarjetas de regalo incluso si el saldo es cero';
 
 $lang['config_scale_5'] = 'Peso Código de barras integrado';
+
+$lang['config_disable_modules'] = 'Deshabilitar módulos';
+
 $lang['config_hide_description_on_suspended_sales'] = 'Ocultar descripción de artículo en ventas suspendidas';
+$lang['config_override_symbol_non_taxable'] = 'Símbolo de anulación para no imponible';
+
+
+
+$lang['config_hide_categories_sales_grid'] = 'Ocultar categorías en la cuadrícula de ventas';
+$lang['config_hide_tags_sales_grid'] = 'Ocultar etiquetas en la cuadrícula de ventas';
+$lang['config_hide_favorites_sales_grid'] = 'Ocultar favoritos en la cuadrícula de ventas';
+$lang['config_hide_categories_receivings_grid'] = 'Ocultar categorías en la cuadrícula de recibos';
+$lang['config_hide_tags_receivings_grid'] = 'Ocultar etiquetas en la cuadrícula de recibos';
+$lang['config_hide_suppliers_receivings_grid'] = 'Ocultar proveedores en la cuadrícula de recibos';
+$lang['config_hide_favorites_receivings_grid'] = 'Ocultar favoritos en la cuadrícula de recibos';
+$lang['config_hide_suppliers_sales_grid'] = 'Ocultar proveedores en la cuadrícula de ventas';
+
+$lang['config_offline_mode_sync_period'] = 'Tiempo de ciclo de sincronización del modo fuera de línea (hora)';
+
+
+
+$lang['config_receipt_download_filename_prefix'] = 'Prefijo de nombre de archivo de descarga de recibo';
+$lang['config_remove_employee_lastname_from_receipt'] = 'Eliminar el apellido del empleado del recibo';
+$lang['config_override_symbol_taxes_summary_on_receipt'] = 'SÍMBOLO DE ANULACIÓN PARA MOSTRAR RESUMEN IMPONIBLE Y NO IMPONIBLE EN EL RECIBO';
+
+$lang['config_show_images_on_receipt_width_percent'] = 'Ancho máximo de las imágenes del artículo en el recibo (porcentaje)';
+
+$lang['config_override_symbol_taxable_summary'] = 'Símbolo de anulación para resumen imponible al recibo';
+$lang['config_override_symbol_non_taxable_summary'] = 'Símbolo de anulación para resumen no imponible al recibo';
+$lang['config_allow_drag_drop_recv'] = 'Permitir reordenar en la pantalla de recepción';
+$lang['config_allow_drag_drop_sale'] = 'Permitir reordenar en la pantalla de ofertas';
 ?>

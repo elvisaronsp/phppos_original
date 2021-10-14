@@ -70,4 +70,6 @@ $lang['employees_login_end_time'] = 'Được phép đăng nhập Thời gian k�
 $lang['employees_login_start_time'] = 'Được phép đăng nhập Thời gian bắt đầu';
 $lang['permission_templates'] = 'Mẫu cho phép';
 $lang['update_all_employees_with_template_assinged'] = 'Cập nhật tất cả nhân viên với mẫu được phân công';
+$lang['employees_enter_ip'] = 'Vui lòng nhập IP hoặc dải IP (CIDR)';
+$lang['employees_acess_ip_range'] = 'Địa chỉ IP mà nhân viên có thể truy cập từ';
 ?>

@@ -1,8 +1,10 @@
 <?php
+require_once (APPPATH."libraries/ip-lib-1.17.0/ip-lib.php");
+
 class Secure_area extends MY_Controller 
 {
 	var $module_id;
-	
+
 	/*
 	Controllers that are considered secure extend Secure_area, optionally a $module_id can
 	be set to also check if a user can access a particular module in the system.
@@ -13,16 +15,58 @@ class Secure_area extends MY_Controller
 		$this->module_id = $module_id;	
 		$this->load->model('Employee');
 		$this->load->model('Location');
+
 		if(!$this->Employee->is_logged_in())
 		{
 			redirect('login?continue='.rawurlencode(uri_string().'?'.$_SERVER['QUERY_STRING']));
 		}
-		
+
+		//check ip access allow
+		if( count($this->Employee->get_logged_in_employee_info()->allowed_ip_address) > 0 )
+		{
+			$ip_range_list = $this->Employee->get_logged_in_employee_info()->allowed_ip_address;
+			$ip_login = get_real_ip_address();
+			$ip_type = "";
+			$ip_allow = false;
+
+			$matches = array();
+			$login_address = \IPLib\Factory::parseAddressString($ip_login);
+
+			foreach($ip_range_list as $ip_range){
+				$range = \IPLib\Factory::parseRangeString($ip_range);
+				if(!$range) continue;
+				$contained = $login_address->matches($range);
+				if($contained){
+					$ip_allow = true; break;
+				}
+			}
+
+			if(!$ip_allow){
+				if($ip_login == "::1" || $ip_login == "127.0.0.1" ){
+					// $this->Employee->logout();
+				}else{
+					$controller = $this->router->fetch_class();
+					if($controller != "no_access"){
+						redirect('no_access_ip/'.$login_address->toString());
+					}
+				}
+			}
+		}
+
 		if(!$this->Employee->has_module_permission($this->module_id, $this->Employee->get_logged_in_employee_info()->person_id))
 		{
 			redirect('no_access/'.$this->module_id);
 		}
-		
+
+		//load disable modules
+		$data['disable_modules'] = unserialize($this->config->item('disable_modules'));
+		if(!$data['disable_modules']) $data['disable_modules']= array();
+
+		$controller = $this->router->fetch_class();
+		if(array_search($controller, $data['disable_modules']) !== false){
+			redirect('no_access/'.$this->module_id);
+		}
+
 		//load up global data
 		$logged_in_employee_info=$this->Employee->get_logged_in_employee_info();
 		$data['allowed_modules']=$this->Module->get_allowed_modules($logged_in_employee_info->person_id);
@@ -93,6 +137,20 @@ class Secure_area extends MY_Controller
 		{
 			redirect('no_access/'.$this->module_id);
 		}
+	}
+
+	function check_ip_validate(){
+		$ip_range = $this->input->post('value');
+		$range = \IPLib\Factory::parseRangeString($ip_range);
+		$is_valid = false;
+		if($range) $is_valid = true;
+
+		$result = array(
+			'isValid' => $is_valid,
+			'ip_range' => $ip_range
+		);
+		echo json_encode($result);
+		exit;
 	}	
 }
 ?>

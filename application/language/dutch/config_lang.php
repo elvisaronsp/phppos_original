@@ -795,5 +795,35 @@ $lang['config_always_put_last_added_item_on_top_of_cart'] = 'Plaats altijd het l
 $lang['config_show_giftcards_even_if_0_balance'] = 'Toon cadeaubonnen, zelfs als het saldo nul is';
 
 $lang['config_scale_5'] = 'Gewicht Ingebedde streepjescode';
+
+$lang['config_disable_modules'] = 'Modules uitschakelen';
+
 $lang['config_hide_description_on_suspended_sales'] = 'Itembeschrijving verbergen bij opgeschorte verkopen';
+$lang['config_override_symbol_non_taxable'] = 'Symbool voor niet-belastbaar negeren';
+
+
+
+$lang['config_hide_categories_sales_grid'] = 'Verberg categorieën op verkoopraster';
+$lang['config_hide_tags_sales_grid'] = 'Tags op verkoopraster verbergen';
+$lang['config_hide_favorites_sales_grid'] = 'Verberg favorieten op verkoopraster';
+$lang['config_hide_categories_receivings_grid'] = 'Verberg categorieën op het ontvangstenraster';
+$lang['config_hide_tags_receivings_grid'] = 'Verberg tags op het ontvangstenraster';
+$lang['config_hide_suppliers_receivings_grid'] = 'Leveranciers verbergen op ontvangstrooster';
+$lang['config_hide_favorites_receivings_grid'] = 'Favorieten verbergen in het ontvangstenraster';
+$lang['config_hide_suppliers_sales_grid'] = 'Verberg leveranciers op verkoopraster';
+
+$lang['config_offline_mode_sync_period'] = 'Offline-modus Synchronisatiecyclustijd (uur)';
+
+
+
+$lang['config_receipt_download_filename_prefix'] = 'Kassabon Download Bestandsnaam Prefix';
+$lang['config_remove_employee_lastname_from_receipt'] = 'Achternaam werknemer verwijderen uit ontvangstbewijs';
+$lang['config_override_symbol_taxes_summary_on_receipt'] = 'OVERSCHRIJVINGSSYMBOOL VOOR TOON BELASTINGBARE EN NIET-BELASTBARE SAMENVATTING OP ONTVANGSTBEWIJS';
+
+$lang['config_show_images_on_receipt_width_percent'] = 'Maximale breedte van artikelafbeeldingen op ontvangst (percentage)';
+
+$lang['config_override_symbol_taxable_summary'] = 'Symbool voor belastbaar overzicht bij ontvangst negeren';
+$lang['config_override_symbol_non_taxable_summary'] = 'Overschrijfsymbool voor niet-belastbare samenvatting bij ontvangst';
+$lang['config_allow_drag_drop_recv'] = 'Opnieuw ordenen toestaan op ontvangend scherm';
+$lang['config_allow_drag_drop_sale'] = 'Opnieuw bestellen op verkoopscherm toestaan';
 ?>

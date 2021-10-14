@@ -386,4 +386,15 @@ $lang['sales_detailed_note'] = 'Detailed Note';
 $lang['sales_internal_note'] = 'Internal Note';
 $lang['sales_delveried_to'] = 'Delivered To';
 $lang['sales_view_receipt_on_web_page'] = 'View Receipt On Web Page';
+$lang['sales_view_edit_transaction_history'] = 'View/Edit Card Transactions';
+$lang['sales_list_of_credit_transactions'] = 'List of Credit Card Transactions';
+$lang['sales_response_description'] = 'Response Description';
+$lang['sales_card_holder'] = 'Card Holder';
+$lang['sales_list_of_batches'] = 'List Of Batches';
+$lang['sales_batch_id'] = 'Batch ID';
+$lang['sales_batches'] = 'Card Batches';
+$lang['sales_https_required_cc'] = 'https secure connection is now required for credit card processing. Your server does NOT support this.';
+$lang['sales_https_required_cc_redirect'] = 'https is required for credit card processing. Would you like to reload sale in https and then reprocess?';
+$lang['sales_credit_card_terminal_offline'] = 'Your credit card terminal is OFFLINE please check connection  before processing sale';
+$lang['sales_credit_card_terminal_online'] = 'Your credit card terminal is ONLINE and ready to process transactions';
 ?>

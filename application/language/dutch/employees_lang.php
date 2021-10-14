@@ -79,4 +79,6 @@ $lang['employees_login_end_time'] = 'Toegestaan om eindtijd in te loggen';
 $lang['employees_login_start_time'] = 'Toegestaan om in te loggen Starttijd';
 $lang['permission_templates'] = 'Toestemmingssjablonen';
 $lang['update_all_employees_with_template_assinged'] = 'Werk alle medewerkers met toegewezen sjabloon bij';
+$lang['employees_enter_ip'] = 'Voer het IP- of IP-bereik in (CIDR)';
+$lang['employees_acess_ip_range'] = 'IP-adressen waar werknemer toegang toe heeft';
 ?>

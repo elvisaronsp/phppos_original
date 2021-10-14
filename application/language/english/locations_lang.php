@@ -106,4 +106,8 @@ $lang['locations_previous_day'] = 'Previous Day';
 $lang['locations_current_day'] = 'Current Day';
 $lang['locations_auto_reports_day'] = 'Day to email report for';
 $lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'Disable Amount Confirmation when processing credit card';
+$lang['locations_blockchyp_api_key'] = 'coreCLEAR API Key';
+$lang['locations_blockchyp_bearer_token'] = 'coreCLEAR Bearer Token';
+$lang['locations_blockchyp_signing_key'] = 'coreCLEAR Signing Key';
+$lang['locations_blockchyp_test_mode'] = 'coreCLEAR Test Mode';
 ?>

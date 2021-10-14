@@ -86,24 +86,49 @@ $has_cost_price_permission = $this->Employee->has_module_action_permission('item
 						</div>
 					<?php } ?>
 
+					<?php if ($this->config->item('allow_drag_drop_recv')) {  ?>
+
+					<style>
+						#register tbody{
+							cursor: move;
+						}
+						#register th.item_sort_able{
+							cursor: pointer;
+						}
+
+						#grid-loader2.spinner > div {
+							height: 100px;
+							width: 8px;
+							margin-right: 2px;
+							margin-top: 30px;
+							top: 50%;
+						}						
+					</style>
+					<?php } ?>
+
+					<div class="spinner" id="grid-loader2" style="display: none;">
+						<div class="rect1"></div>
+						<div class="rect2"></div>
+						<div class="rect3"></div>
+					</div>					
 					<table id="register" class="table table-hover">
 
 						<thead>
 							<tr class="register-items-header">
 								<th><a href="javascript:void(0);" id="sale_details_expand_collapse" class="expand">-</a></th>
-								<th class="item_name_heading"><?php echo lang('receivings_item_name'); ?></th>
-								<th class="sales_price"><?php echo lang('receivings_cost'); ?></th>
-								<th class="sales_quantity"><?php echo lang('common_quantity'); ?></th>
-								<th class="sales_discount"><?php echo lang('receivings_discount'); ?></th>
-								<th><?php echo lang('receivings_total'); ?></th>
+								<th class="item_sort_able item_name_heading <?php echo $this->cart->sort_column && $this->cart->sort_column == 'name'? ($this->cart->sort_type=='asc'?"ion-arrow-down-b":"ion-arrow-up-b"):"";?>"><?php echo lang('sales_item_name'); ?></th>
+								<th class="item_sort_able sales_price <?php echo $this->cart->sort_column && $this->cart->sort_column == 'unit_price'? ($this->cart->sort_type=='asc'?"ion-arrow-down-b":"ion-arrow-up-b"):"";?>"><?php echo lang('receivings_cost'); ?></th>
+								<th class="item_sort_able sales_quantity <?php echo $this->cart->sort_column && $this->cart->sort_column == 'quantity'? ($this->cart->sort_type=='asc'?"ion-arrow-down-b":"ion-arrow-up-b"):"";?>"><?php echo lang('common_quantity'); ?></th>
+								<th class="item_sort_able sales_discount <?php echo $this->cart->sort_column && $this->cart->sort_column == 'discount'? ($this->cart->sort_type=='asc'?"ion-arrow-down-b":"ion-arrow-up-b"):"";?>"><?php echo lang('common_discount_percent'); ?></th>
+								<th class="item_sort_able sales_total <?php echo $this->cart->sort_column && $this->cart->sort_column == 'total'? ($this->cart->sort_type=='asc'?"ion-arrow-down-b":"ion-arrow-up-b"):"";?>"><?php echo lang('common_total'); ?></th>
 							</tr>
 						</thead>
 
 
-						<tbody class="register-item-content">
-							<?php
-							$cart_count = 0;
-							if (count($cart_items) == 0) { ?>
+						<?php
+						$cart_count = 0;
+						if (count($cart_items) == 0) { ?>
+							<tbody class="register-item-content">
 								<tr class="cart_content_area">
 									<td colspan='6'>
 										<div class='text-center text-warning'>
@@ -111,272 +136,274 @@ $has_cost_price_permission = $this->Employee->has_module_action_permission('item
 										</div>
 									</td>
 								</tr>
-								<?php
-							} else {
+							</tbody>
+							<?php
+						} else {
 
 
-								$start_index = $cart->offset + 1;
-								$end_index = $cart->offset + $cart->limit;
+							$start_index = $cart->offset + 1;
+							$end_index = $cart->offset + $cart->limit;
 
-								$the_cart_row_counter = 1;
+							$the_cart_row_counter = 1;
 
-								foreach (array_reverse($cart_items, true) as $line => $item) {
+							foreach (array_reverse($cart_items, true) as $line => $item) {
 
-									if ($item->quantity > 0 && $item->name != lang('common_store_account_payment')) {
-										$cart_count = $cart_count + $item->quantity;
-									} elseif ($mode == 'transfer') {
-										$cart_count = $cart_count + abs($item->quantity);
-									}
+								if ($item->quantity > 0 && $item->name != lang('common_store_account_payment')) {
+									$cart_count = $cart_count + $item->quantity;
+								} elseif ($mode == 'transfer') {
+									$cart_count = $cart_count + abs($item->quantity);
+								}
 
-									if (!(($start_index <= $the_cart_row_counter) && ($the_cart_row_counter <= $end_index))) {
-										$the_cart_row_counter++;
-										continue;
-									}
+								if (!(($start_index <= $the_cart_row_counter) && ($the_cart_row_counter <= $end_index))) {
 									$the_cart_row_counter++;
+									continue;
+								}
+								$the_cart_row_counter++;
 
-								?>
-									<tr class="register-item-details">
-										<td class="text-center"> <?php echo anchor("receivings/delete_item/$line", '<i class="icon ion-android-cancel"></i>', array('class' => 'delete-item')); ?> </td>
-										<td>
-											<a tabindex="-1" href="<?php echo isset($item->item_id) ? site_url('home/view_item_modal/' . $item->item_id) . "?redirect=receivings" : site_url('home/view_item_kit_modal/' . $item->item_kit_id) . "?redirect=receivings"; ?>" data-toggle="modal" data-target="#myModal" class="register-item-name"><?php echo H($item->name).($item->variation_name ? '<span class="show-collpased" style="display:none">  ['.$item->variation_name.']</span>' : ''); ?><?php echo $item->size ? ' (' . H($item->size) . ')' : ''; ?></a>
-										</td>
+							?>
+							<tbody class="register-item-content" data-line="<?php echo $line; ?>">
+								<tr class="register-item-details">
+									<td class="text-center"> <?php echo anchor("receivings/delete_item/$line", '<i class="icon ion-android-cancel"></i>', array('class' => 'delete-item')); ?> </td>
+									<td>
+										<a tabindex="-1" href="<?php echo isset($item->item_id) ? site_url('home/view_item_modal/' . $item->item_id) . "?redirect=receivings" : site_url('home/view_item_kit_modal/' . $item->item_kit_id) . "?redirect=receivings"; ?>" data-toggle="modal" data-target="#myModal" class="register-item-name"><?php echo H($item->name).($item->variation_name ? '<span class="show-collpased" style="display:none">  ['.$item->variation_name.']</span>' : ''); ?><?php echo $item->size ? ' (' . H($item->size) . ')' : ''; ?></a>
+									</td>
 
 
-										<td class="text-center">
-											<?php
-											if ($has_cost_price_permission) {
-											?>
-												<?php if ($items_module_allowed) { ?>
-													<a href="#" id="unit_price_<?php echo $line; ?>" class="xeditable xeditable-price" data-validate-number="true" data-type="text" data-value="<?php echo H(to_currency_no_money($item->unit_price, 10)); ?>" data-pk="1" data-name="unit_price" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('common_price')); ?>"><?php echo to_currency($item->unit_price, 10); ?></a>
+									<td class="text-center">
+										<?php
+										if ($has_cost_price_permission) {
+										?>
+											<?php if ($items_module_allowed) { ?>
+												<a href="#" id="unit_price_<?php echo $line; ?>" class="xeditable xeditable-price" data-validate-number="true" data-type="text" data-value="<?php echo H(to_currency_no_money($item->unit_price, 10)); ?>" data-pk="1" data-name="unit_price" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('common_price')); ?>"><?php echo to_currency($item->unit_price, 10); ?></a>
+										<?php } else {
+												echo to_currency($item->unit_price);
+											}
+										} ?>
+									</td>
+
+									<td class="text-center">
+										<a href="#" id="quantity_<?php echo $line; ?>" class="xeditable edit-quantity" data-type="text" data-validate-number="true" data-value="<?php echo H(to_quantity($mode == "transfer" ? abs($item->quantity) : $item->quantity)); ?>" data-pk="1" data-name="quantity" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo lang('common_quantity') ?>"><?php echo to_quantity($mode == "transfer" ? abs($item->quantity) : $item->quantity); ?></a>
+									</td>
+
+									<td class="text-center">
+										<a href="#" id="discount_<?php echo $line; ?>" class="xeditable" data-type="text" data-validate-number="true" data-pk="1" data-name="discount" data-value="<?php echo H($item->discount); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo lang('common_discount_percent') ?>"><?php echo to_quantity($item->discount); ?>%</a>
+									</td>
+
+									<td class="text-center">
+
+										<?php
+										if ($has_cost_price_permission) {
+										?>
+
+											<?php if ($items_module_allowed) { ?>
+												<a href="#" id="total_<?php echo $line; ?>" class="xeditable" data-type="text" data-validate-number="true" data-pk="1" data-name="total" data-value="<?php echo H(to_currency_no_money($item->unit_price * $item->quantity - $item->unit_price * $item->quantity * $item->discount / 100)); ?>" data-url="<?php echo site_url('receivings/edit_line_total/' . $line); ?>" data-title="<?php echo lang('common_total') ?>"><?php echo to_currency($item->unit_price * $item->quantity - $item->unit_price * $item->quantity * $item->discount / 100); ?></a>
 											<?php } else {
-													echo to_currency($item->unit_price);
-												}
-											} ?>
-										</td>
+												echo to_currency($item->unit_price * $item->quantity - $item->unit_price * $item->quantity * $item->discount / 100);
+											}	?>
+										<?php } ?>
+									</td>
 
-										<td class="text-center">
-											<a href="#" id="quantity_<?php echo $line; ?>" class="xeditable edit-quantity" data-type="text" data-validate-number="true" data-value="<?php echo H(to_quantity($mode == "transfer" ? abs($item->quantity) : $item->quantity)); ?>" data-pk="1" data-name="quantity" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo lang('common_quantity') ?>"><?php echo to_quantity($mode == "transfer" ? abs($item->quantity) : $item->quantity); ?></a>
-										</td>
 
-										<td class="text-center">
-											<a href="#" id="discount_<?php echo $line; ?>" class="xeditable" data-type="text" data-validate-number="true" data-pk="1" data-name="discount" data-value="<?php echo H($item->discount); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo lang('common_discount_percent') ?>"><?php echo to_quantity($item->discount); ?>%</a>
-										</td>
-
-										<td class="text-center">
+								</tr>
+								<tr class="register-item-bottom">
+									<td>&nbsp;</td>
+									<td colspan="5">
+										<dl class="register-item-extra-details dl-horizontal">
 
 											<?php
-											if ($has_cost_price_permission) {
-											?>
+											if (count($item->quantity_units) > 0) { ?>
+												<dt class=""><?php echo lang('common_quantity_units'); ?> </dt>
+												<dd class="">
 
-												<?php if ($items_module_allowed) { ?>
-													<a href="#" id="total_<?php echo $line; ?>" class="xeditable" data-type="text" data-validate-number="true" data-pk="1" data-name="total" data-value="<?php echo H(to_currency_no_money($item->unit_price * $item->quantity - $item->unit_price * $item->quantity * $item->discount / 100)); ?>" data-url="<?php echo site_url('receivings/edit_line_total/' . $line); ?>" data-title="<?php echo lang('common_total') ?>"><?php echo to_currency($item->unit_price * $item->quantity - $item->unit_price * $item->quantity * $item->discount / 100); ?></a>
-												<?php } else {
-													echo to_currency($item->unit_price * $item->quantity - $item->unit_price * $item->quantity * $item->discount / 100);
-												}	?>
-											<?php } ?>
-										</td>
-
-
-									</tr>
-									<tr class="register-item-bottom">
-										<td>&nbsp;</td>
-										<td colspan="5">
-											<dl class="register-item-extra-details dl-horizontal">
-
+													<a href="#" id="quantity_unit_<?php echo $line; ?>" data-name="quantity_unit_id" data-type="select" data-pk="1" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('common_quantity_units')); ?>"><?php echo character_limiter(H($item->quantity_unit_id ? $item->quantity_units[$item->quantity_unit_id] : lang('common_none')), 50); ?></a></dd>
 												<?php
-												if (count($item->quantity_units) > 0) { ?>
-													<dt class=""><?php echo lang('common_quantity_units'); ?> </dt>
-													<dd class="">
+												$source_data = array();
+												$source_data[] = array('value' => 0, 'text' => lang('common_none'));
 
-														<a href="#" id="quantity_unit_<?php echo $line; ?>" data-name="quantity_unit_id" data-type="select" data-pk="1" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('common_quantity_units')); ?>"><?php echo character_limiter(H($item->quantity_unit_id ? $item->quantity_units[$item->quantity_unit_id] : lang('common_none')), 50); ?></a></dd>
+												foreach ($item->quantity_units as $quantity_unit_id => $quantity_unit_name) {
+													$source_data[] = array('value' => $quantity_unit_id, 'text' => $quantity_unit_name);
+												}
+												?>
+												<script>
+													$('#quantity_unit_<?php echo $line; ?>').editable({
+														value: <?php echo (H($item->quantity_unit_id) ? H($item->quantity_unit_id) : 0); ?>,
+														source: <?php echo json_encode($source_data); ?>,
+														success: function(response, newValue) {
+															last_focused_id = $(this).attr('id');
+															$("#register_container").html(response);
+														}
+													});
+												</script>
+											<?php } ?>
+
+											<dt class=""><?php echo lang('common_serial_number'); ?> </dt>
+											<dd class="">
+												<a href="#" id="serialnumber_<?php echo $line; ?>" class="xeditable" data-type="text" data-pk="1" data-name="serialnumber" data-value="<?php echo H($item->serialnumber); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('common_serial_number')); ?>"><?php echo character_limiter(H($item->serialnumber), 50); ?></a>
+											</dd>
+
+											<?php if ($cart->get_previous_receipt_id() && $mode !='transfer') { ?>
+												<dt><?php echo lang('common_qty_received'); ?></dt>
+												<dd><a href="#" id="quantity_received_<?php echo $line; ?>" class="xeditable" data-type="text" data-validate-number="true" data-pk="1" data-name="quantity_received" data-value="<?php echo H(to_quantity($item->quantity_received)); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('common_qty_received')); ?>"><?php echo H(to_quantity($item->quantity_received)); ?></a></dd>
+											<?php } ?>
+
+											<?php if (isset($item->item_id) && $item->item_id) {
+												if ($item->variation_id) {
+													$item_variation_location_info = $this->Item_variation_location->get_info($item->variation_id, false, true);
+													$item_location_info = $this->Item_location->get_info($item->item_id, false, true);
+
+													$cur_quantity = $item_variation_location_info->quantity;
+												} else {
+													$item_location_info = $this->Item_location->get_info($item->item_id, false, true);
+
+													$cur_quantity = $item_location_info->quantity;
+												}
+
+											?>
+												<dt><?php echo lang('common_stock'); ?></dt>
+												<dd><?php echo to_quantity($cur_quantity); ?></dd>
+
+												<?php if ($this->Employee->has_module_action_permission('sales', 'edit_sale_price', $this->Employee->get_logged_in_employee_info()->person_id)) {	?>
+													<dt><?php echo lang('common_unit_price'); ?></dt>
+													<dd>
+														<a href="#" id="selling_price_<?php echo $line; ?>" class="xeditable" data-type="text" data-pk="1" data-name="selling_price" data-value="<?php echo to_currency_no_money($item->selling_price, 10); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('common_unit_price')); ?>"><?php echo to_currency_no_money($item->selling_price, 10) ?></a>
+													</dd>
+
+													<?php if ($item_location_info->unit_price != '' && $item_location_info->unit_price !== NULL && (float) $item_location_info->unit_price != (float) $item->selling_price) { ?>
+														<dt><?php echo lang('common_location') . ' ' . lang('common_unit_price'); ?></dt>
+														<dd>
+															<?php if ($this->Employee->has_module_action_permission('sales', 'edit_sale_price', $this->Employee->get_logged_in_employee_info()->person_id)) {	?>
+																<a href="#" id="location_selling_price_<?php echo $line; ?>" class="xeditable" data-type="text" data-pk="1" data-name="location_selling_price" data-value="<?php echo to_currency_no_money($item->location_selling_price, 10); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('common_location') . ' ' . lang('common_unit_price')); ?>"><?php echo to_currency_no_money($item->location_selling_price, 10) ?></a>
+															<?php
+															} else {
+															?>
+																<?php echo to_currency_no_money($item_location_info->unit_price, 10) ?>
+															<?php } ?>
+														</dd>
+
+													<?php } ?>
+												<?php } ?>
+												<?php
+												$variation_choices = $item->variation_choices;
+
+												if (!empty($variation_choices)) { ?>
+													<dt class=""><?php echo lang('common_variation'); ?> </dt>
+													<?php
+													?>
+													<a style="cursor:pointer;" onclick="enable_popup(<?php echo $line; ?>);"><?php echo lang('common_edit'); ?></a>
+													<dd class=""><a href="#" id="variation_<?php echo $line; ?>" data-name="variation" data-type="select" data-pk="1" data-url="<?php echo site_url('receivings/edit_item_variation/' . $line); ?>" data-title="<?php echo H(lang('common_variation')); ?>"><?php echo character_limiter(H($item->variation_name), 50); ?></a></dd>
+
 													<?php
 													$source_data = array();
-													$source_data[] = array('value' => 0, 'text' => lang('common_none'));
 
-													foreach ($item->quantity_units as $quantity_unit_id => $quantity_unit_name) {
-														$source_data[] = array('value' => $quantity_unit_id, 'text' => $quantity_unit_name);
+													foreach ($variation_choices as $variation_id => $variation_name) {
+														$source_data[] = array('value' => $variation_id, 'text' => $variation_name);
 													}
 													?>
 													<script>
-														$('#quantity_unit_<?php echo $line; ?>').editable({
-															value: <?php echo (H($item->quantity_unit_id) ? H($item->quantity_unit_id) : 0); ?>,
+														$('#variation_<?php echo $line; ?>').editable({
+															value: <?php echo json_encode(H($item->variation_id) ? H($item->variation_id) : ''); ?>,
 															source: <?php echo json_encode($source_data); ?>,
 															success: function(response, newValue) {
 																last_focused_id = $(this).attr('id');
 																$("#register_container").html(response);
 															}
+
 														});
 													</script>
+
+
 												<?php } ?>
+											<?php } ?>
 
-												<dt class=""><?php echo lang('common_serial_number'); ?> </dt>
-												<dd class="">
-													<a href="#" id="serialnumber_<?php echo $line; ?>" class="xeditable" data-type="text" data-pk="1" data-name="serialnumber" data-value="<?php echo H($item->serialnumber); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('common_serial_number')); ?>"><?php echo character_limiter(H($item->serialnumber), 50); ?></a>
-												</dd>
+											<?php
+											if ($this->config->item('calculate_average_cost_price_from_receivings') && $has_cost_price_permission) {
+											?>
+												<dt><?php echo lang('receivings_cost_price_preview'); ?></dt>
+												<dd><?php echo $item->cost_price_preview; ?></dd>
+											<?php
+											}
+											?>
 
-												<?php if ($cart->get_previous_receipt_id() && $mode !='transfer') { ?>
-													<dt><?php echo lang('common_qty_received'); ?></dt>
-													<dd><a href="#" id="quantity_received_<?php echo $line; ?>" class="xeditable" data-type="text" data-validate-number="true" data-pk="1" data-name="quantity_received" data-value="<?php echo H(to_quantity($item->quantity_received)); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('common_qty_received')); ?>"><?php echo H(to_quantity($item->quantity_received)); ?></a></dd>
-												<?php } ?>
-
-												<?php if (isset($item->item_id) && $item->item_id) {
-													if ($item->variation_id) {
-														$item_variation_location_info = $this->Item_variation_location->get_info($item->variation_id, false, true);
-														$item_location_info = $this->Item_location->get_info($item->item_id, false, true);
-
-														$cur_quantity = $item_variation_location_info->quantity;
-													} else {
-														$item_location_info = $this->Item_location->get_info($item->item_id, false, true);
-
-														$cur_quantity = $item_location_info->quantity;
-													}
-
-												?>
-													<dt><?php echo lang('common_stock'); ?></dt>
-													<dd><?php echo to_quantity($cur_quantity); ?></dd>
-
-													<?php if ($this->Employee->has_module_action_permission('sales', 'edit_sale_price', $this->Employee->get_logged_in_employee_info()->person_id)) {	?>
-														<dt><?php echo lang('common_unit_price'); ?></dt>
-														<dd>
-															<a href="#" id="selling_price_<?php echo $line; ?>" class="xeditable" data-type="text" data-pk="1" data-name="selling_price" data-value="<?php echo to_currency_no_money($item->selling_price, 10); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('common_unit_price')); ?>"><?php echo to_currency_no_money($item->selling_price, 10) ?></a>
-														</dd>
-
-														<?php if ($item_location_info->unit_price != '' && $item_location_info->unit_price !== NULL && (float) $item_location_info->unit_price != (float) $item->selling_price) { ?>
-															<dt><?php echo lang('common_location') . ' ' . lang('common_unit_price'); ?></dt>
-															<dd>
-																<?php if ($this->Employee->has_module_action_permission('sales', 'edit_sale_price', $this->Employee->get_logged_in_employee_info()->person_id)) {	?>
-																	<a href="#" id="location_selling_price_<?php echo $line; ?>" class="xeditable" data-type="text" data-pk="1" data-name="location_selling_price" data-value="<?php echo to_currency_no_money($item->location_selling_price, 10); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('common_location') . ' ' . lang('common_unit_price')); ?>"><?php echo to_currency_no_money($item->location_selling_price, 10) ?></a>
-																<?php
-																} else {
-																?>
-																	<?php echo to_currency_no_money($item_location_info->unit_price, 10) ?>
-																<?php } ?>
-															</dd>
-
-														<?php } ?>
-													<?php } ?>
-													<?php
-													$variation_choices = $item->variation_choices;
-
-													if (!empty($variation_choices)) { ?>
-														<dt class=""><?php echo lang('common_variation'); ?> </dt>
-														<?php
-														?>
-														<a style="cursor:pointer;" onclick="enable_popup(<?php echo $line; ?>);"><?php echo lang('common_edit'); ?></a>
-														<dd class=""><a href="#" id="variation_<?php echo $line; ?>" data-name="variation" data-type="select" data-pk="1" data-url="<?php echo site_url('receivings/edit_item_variation/' . $line); ?>" data-title="<?php echo H(lang('common_variation')); ?>"><?php echo character_limiter(H($item->variation_name), 50); ?></a></dd>
-
-														<?php
-														$source_data = array();
-
-														foreach ($variation_choices as $variation_id => $variation_name) {
-															$source_data[] = array('value' => $variation_id, 'text' => $variation_name);
+											<?php if (!$this->config->item('hide_description_on_sales_and_recv')) { ?>
+												<dt><?php echo lang('common_description'); ?></dt>
+												<dd>
+													<?php if (isset($item->allow_alt_description) && $item->allow_alt_description == 1) { ?>
+														<a href="#" id="description_<?php echo $line; ?>" class="xeditable" data-type="text" data-pk="1" data-name="description" data-value="<?php echo clean_html($item->description); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('sales_description_abbrv')); ?>"><?php echo clean_html(character_limiter($item->description), 50); ?></a>
+													<?php	} else {
+														if ($item->description != '') {
+															echo clean_html($item->description);
+														} else {
+															echo lang('common_none');
 														}
-														?>
-														<script>
-															$('#variation_<?php echo $line; ?>').editable({
-																value: <?php echo json_encode(H($item->variation_id) ? H($item->variation_id) : ''); ?>,
-																source: <?php echo json_encode($source_data); ?>,
-																success: function(response, newValue) {
-																	last_focused_id = $(this).attr('id');
-																	$("#register_container").html(response);
-																}
+													}
+													?>
+												</dd>
+											<?php } ?>
 
-															});
-														</script>
-
-
-													<?php } ?>
-												<?php } ?>
-
+											<?php if ($item->expire_date) { ?>
+												<dt><?php echo lang('common_expire_date'); ?></dt>
+												<dd><a href="#" id="expire_date_<?php echo $line; ?>" class="expire_date" data-type="combodate" data-template="<?php echo get_js_date_format(); ?>" data-pk="1" data-name="expire_date" data-value="<?php echo date('Y-m-d', strtotime($item->expire_date)); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('common_expire_date')); ?>"><?php echo H($item->expire_date); ?></a></dd>
+											<?php } ?>
+											<dt class="visible-lg">
 												<?php
-												if ($this->config->item('calculate_average_cost_price_from_receivings') && $has_cost_price_permission) {
-												?>
-													<dt><?php echo lang('receivings_cost_price_preview'); ?></dt>
-													<dd><?php echo $item->cost_price_preview; ?></dd>
-												<?php
+												switch ($this->config->item('id_to_show_on_sale_interface')) {
+													case 'number':
+														echo lang('common_item_number_expanded');
+														break;
+
+													case 'product_id':
+														echo lang('common_product_id');
+														break;
+
+													case 'id':
+														echo lang('common_item_id');
+														break;
+
+													default:
+														echo lang('common_item_number_expanded');
+														break;
 												}
 												?>
+											</dt>
+											<dd class="visible-lg">
+												<?php
+												switch ($this->config->item('id_to_show_on_sale_interface')) {
+													case 'number':
+														echo property_exists($item,'item_number') ? H($item->item_number) : lang('common_none');
+														break;
 
-												<?php if (!$this->config->item('hide_description_on_sales_and_recv')) { ?>
-													<dt><?php echo lang('common_description'); ?></dt>
+													case 'product_id':
+														echo property_exists($item,'product_id') ? H($item->product_id) : lang('common_none');
+														break;
+
+													case 'id':
+														echo property_exists($item,'item_id') ? H($item->item_id) : lang('common_none');
+														break;
+
+													default:
+														echo property_exists($item,'item_number') ? H($item->item_number) : lang('common_none');
+														break;
+												}
+												?>
+											</dd>
+
+											<?php if ($this->config->item('charge_tax_on_recv')) { ?>
+
+												<?php if ($this->Employee->has_module_action_permission('receivings', 'edit_taxes', $this->Employee->get_logged_in_employee_info()->person_id)) { ?>
+
+													<dt><?php echo lang('common_tax'); ?></dt>
 													<dd>
-														<?php if (isset($item->allow_alt_description) && $item->allow_alt_description == 1) { ?>
-															<a href="#" id="description_<?php echo $line; ?>" class="xeditable" data-type="text" data-pk="1" data-name="description" data-value="<?php echo clean_html($item->description); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('sales_description_abbrv')); ?>"><?php echo clean_html(character_limiter($item->description), 50); ?></a>
-														<?php	} else {
-															if ($item->description != '') {
-																echo clean_html($item->description);
-															} else {
-																echo lang('common_none');
-															}
-														}
-														?>
+														<a href="<?php echo site_url("receivings/edit_taxes_line/$line") ?>" class="" id="edit_taxes" data-toggle="modal" data-target="#myModal"><?php echo lang('common_edit_taxes'); ?></a>
 													</dd>
 												<?php } ?>
+											<?php } ?>
 
-												<?php if ($item->expire_date) { ?>
-													<dt><?php echo lang('common_expire_date'); ?></dt>
-													<dd><a href="#" id="expire_date_<?php echo $line; ?>" class="expire_date" data-type="combodate" data-template="<?php echo get_js_date_format(); ?>" data-pk="1" data-name="expire_date" data-value="<?php echo date('Y-m-d', strtotime($item->expire_date)); ?>" data-url="<?php echo site_url('receivings/edit_item/' . $line); ?>" data-title="<?php echo H(lang('common_expire_date')); ?>"><?php echo H($item->expire_date); ?></a></dd>
-												<?php } ?>
-												<dt class="visible-lg">
-													<?php
-													switch ($this->config->item('id_to_show_on_sale_interface')) {
-														case 'number':
-															echo lang('common_item_number_expanded');
-															break;
-
-														case 'product_id':
-															echo lang('common_product_id');
-															break;
-
-														case 'id':
-															echo lang('common_item_id');
-															break;
-
-														default:
-															echo lang('common_item_number_expanded');
-															break;
-													}
-													?>
-												</dt>
-												<dd class="visible-lg">
-													<?php
-													switch ($this->config->item('id_to_show_on_sale_interface')) {
-														case 'number':
-															echo property_exists($item,'item_number') ? H($item->item_number) : lang('common_none');
-															break;
-
-														case 'product_id':
-															echo property_exists($item,'product_id') ? H($item->product_id) : lang('common_none');
-															break;
-
-														case 'id':
-															echo property_exists($item,'item_id') ? H($item->item_id) : lang('common_none');
-															break;
-
-														default:
-															echo property_exists($item,'item_number') ? H($item->item_number) : lang('common_none');
-															break;
-													}
-													?>
-												</dd>
-
-												<?php if ($this->config->item('charge_tax_on_recv')) { ?>
-
-													<?php if ($this->Employee->has_module_action_permission('receivings', 'edit_taxes', $this->Employee->get_logged_in_employee_info()->person_id)) { ?>
-
-														<dt><?php echo lang('common_tax'); ?></dt>
-														<dd>
-															<a href="<?php echo site_url("receivings/edit_taxes_line/$line") ?>" class="" id="edit_taxes" data-toggle="modal" data-target="#myModal"><?php echo lang('common_edit_taxes'); ?></a>
-														</dd>
-													<?php } ?>
-												<?php } ?>
-
-											</dl>
-										</td>
-									</tr>
-							<?php }
-							}  ?>
-						</tbody>
+										</dl>
+									</td>
+								</tr>
+							</tbody>
+						<?php }
+						}  ?>
 					</table>
 
 					<?php if ($pagination) { ?>
@@ -2419,4 +2446,119 @@ $has_cost_price_permission = $this->Employee->has_module_action_permission('item
 		}
 	});
 
+</script>
+
+<script>
+	/*
+	$(document).ready(function() {
+		$("#register th").on("click", function(){
+			var column = ""
+			if($(this).hasClass("item_name_heading")){
+				column = "name";
+			}else if($(this).hasClass("sales_price")){
+				column = "price";
+			}else if($(this).hasClass("sales_quantity")){
+				column = "quantity";
+			}else if($(this).hasClass("sales_discount")){
+				column = "discount";
+			}else if($(this).hasClass("sales_total")){
+				column = "total";
+			}
+			if(column == '') return;
+
+			var type = "asc";
+			if($(this).hasClass("ion-arrow-down-b")){
+				type = "desc";
+				$("#register th").removeClass("ion-arrow-down-b");
+				$("#register th").removeClass("ion-arrow-up-b");
+				$(this).addClass("ion-arrow-up-b");
+			}else if($(this).hasClass("ion-arrow-up-b")){
+				type = "asc";
+				$("#register th").removeClass("ion-arrow-down-b");
+				$("#register th").removeClass("ion-arrow-up-b");
+				$(this).addClass("ion-arrow-down-b");
+			}else{
+				type = "asc";
+				$("#register th").removeClass("ion-arrow-down-b");
+				$("#register th").removeClass("ion-arrow-up-b");
+				$(this).addClass("ion-arrow-down-b");
+			}
+			$('#grid-loader2').show();
+			$.post('<?php echo site_url("receivings/sort"); ?>', {
+					sort_column: column,
+					sort_type: type,
+			}, function(response) {
+				$('#grid-loader2').hide();
+				$("#register_container").html(response);
+			});			
+		});
+		*/
+		
+		<?php if ($this->config->item('allow_drag_drop_recv')) {  ?>
+			$(function () {
+			if($("#register tbody").length > 1){
+				$("#register").sortable({
+					items: 'tbody',
+					cursor: 'pointer',
+					axis: 'y',
+					dropOnEmpty: false,
+					start: function (e, ui) {
+						ui.item.addClass("selected");
+						var td_width = [];
+						var td_height = [];
+						for( let i = 0; i < $("#register tbody").length; i ++){
+							if($($("#register tbody")[i]).hasClass('selected') || $($("#register tbody")[i]).hasClass('ui-sortable-placeholder')){
+								continue;
+							}else{
+								td_height = $($("#register tbody")[i]).height();
+								for(let j = 0; j<$($("#register tbody")[i]).find(".register-item-details td").length; j++){
+									td_width.push($($($("#register tbody")[i]).find(".register-item-details td")[j]).width());
+								}
+								break;
+							}
+						}
+						$(".ui-sortable-placeholder").html("<tr><td>&nbsp;</td></tr>");
+						$(".ui-sortable-placeholder").height(td_height+'px');
+						for(let k=0; k<$($("#register tbody.selected tr")[0]).find('td').length; k++){
+							$($($("#register tbody.selected tr")[0]).find('td')[k]).width(td_width[k]+'px');
+						}
+					},
+					stop: function (e, ui) {
+
+						var drag_index = $("#register tbody.selected").data('line');
+						var drop_index = 0;
+						if($("#register tbody.selected").prev() && $("#register tbody.selected").prev().prop("tagName")=='TBODY')
+							drop_index = $("#register tbody.selected").prev().data('line');
+						else{
+							drop_index = $($("#register tbody")[1]).data('line')+1;
+						}
+
+						for(let k=0; k<$($("#register tbody.selected tr")[0]).find('td').length; k++){
+							$($($("#register tbody.selected tr")[0]).find('td')[k]).attr('style','');
+						}						
+						ui.item.removeClass("selected");
+						$("#register th").removeClass("ion-arrow-down-b");
+						$("#register th").removeClass("ion-arrow-up-b");
+
+						if(drag_index != drop_index){
+							$('#grid-loader2').show();
+							$.post('<?php echo site_url("receivings/sort"); ?>', {
+								'drag_index': drag_index,
+								'drop_index': drop_index,
+								'sort_column': 'drag_drop',
+							}, function(response) {
+								$('#grid-loader2').hide();
+								$("#register_container").html(response);
+							});			
+						}
+					},
+					sort:function(e){
+						$(".ui-sortable-helper").css("width", $("table#register").width()+'px');
+						$(".ui-sortable-helper tr").css("width", $("table#register").width()+'px');
+					}
+				});
+			}
+        });	
+		<?php } ?>	
+	});
 </script>

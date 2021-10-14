@@ -439,4 +439,9 @@ $lang['reports_due'] = 'ដោយសារ';
 
 $lang['reports_summary_journal'] = 'របាយការណ៍សង្ខេបរបស់ទិនានុប្បវត្តិ';
 
+$lang['reports_voided_returned_transactions'] = 'ប្រតិបត្តិការដែលបានចាត់ទុកជាមោឃៈ';
+$lang['reports_transaction_voided'] = 'លេខសម្គាល់ប្រតិបត្តិការត្រូវបានលុបចោល';
+$lang['reports_transaction_voided_transacion_id'] = 'លេខសម្គាល់ប្រតិបត្តិការនៃការចាត់ទុកជាមោឃៈ';
+$lang['reports_amount_returned'] = 'ចំនួនទឹកប្រាក់ដែលបានបញ្ជូន/ត្រឡប់មកវិញ';
+$lang['reports_voided_transactions'] = 'ប្រតិបត្តិការដែលមានសំឡេង';
 ?>

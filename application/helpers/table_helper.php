@@ -324,7 +324,7 @@ function get_item_data_row($item,$controller)
 	$params = $CI->session->userdata($controller_name.'_search_data') ? $CI->session->userdata($controller_name.'_search_data') : array('deleted' => 0);
 	$has_edit_quantity_permission = $CI->Employee->has_module_action_permission('items','edit_quantity', $CI->Employee->get_logged_in_employee_info()->person_id);
 	
-	$avatar_url=$item->image_id ?  app_file_url($item->image_id) : base_url('assets/assets/images/default.png');
+	$avatar_url=$item->image_id ?  cacheable_app_file_url($item->image_id) : base_url('assets/assets/images/default.png');
 
 	$table_data_row='<tr>';
 	$table_data_row.="<td><input type='checkbox' id='item_$item->item_id' value='".$item->item_id."'/><label for='item_$item->item_id'><span></span></label></td>";
@@ -1150,7 +1150,7 @@ function get_item_kit_data_row($item_kit,$controller)
 	
 	$has_cost_price_permission = $CI->Employee->has_module_action_permission('item_kits','see_cost_price', $CI->Employee->get_logged_in_employee_info()->person_id);
 		
-	$avatar_url=$item_kit->main_image_id ?  app_file_url($item_kit->main_image_id) : base_url('assets/assets/images/default.png');
+	$avatar_url=$item_kit->main_image_id ?  cacheable_app_file_url($item_kit->main_image_id) : base_url('assets/assets/images/default.png');
 		
 	$table_data_row ='<tr>';
 	$table_data_row.="<td><input type='checkbox' id='item_kit_$item_kit->item_kit_id' value='".$item_kit->item_kit_id."'/><label for='item_kit_$item_kit->item_kit_id'><span></span></label></td>";
@@ -1247,6 +1247,7 @@ function get_expenses_manage_table($expenses,$controller)
 	$headers[] = array('label' => lang('common_tax'), 'sort_column' => 'expense_tax');
 	$headers[] = array('label' => lang('common_recipient_name'), 'sort_column' => 'employee_recv');
 	$headers[] = array('label' => lang('common_approved_by'), 'sort_column' => 'employee_appr');
+	$headers[] = array('label' => '&nbsp;', 'sort_column' => '');
 		
 	$table.='<thead><tr>';
 	$count = 0;
@@ -1320,7 +1321,13 @@ function get_expenses_data_row($expense,$controller)
 	$table_data_row.='<td>'.to_currency($expense->expense_tax).'</td>';
 	$table_data_row.='<td>'.H($expense->employee_recv).'</td>';
 	$table_data_row.='<td>'.H($expense->employee_appr).'</td>';
-	
+
+	$expense_image_url = $expense->expense_image_id? app_file_url($expense->expense_image_id) : base_url('assets/assets/images/default.png');
+	if ($expense_image_url)
+	{	
+		$table_data_row.="<td><a href='$expense_image_url' class='rollover'><img src='".$expense_image_url."' alt='".H($expense->expense_amount)."' class='img-polaroid' width='45' /></a></td>";
+	}
+
 	$table_data_row.='</tr>';
 	return $table_data_row;
 }

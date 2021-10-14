@@ -518,4 +518,15 @@ $lang['sales_detailed_note'] = 'Ghi chú chi tiết';
 $lang['sales_internal_note'] = 'Ghi chú nội bộ';
 $lang['sales_delveried_to'] = 'Đã gửi đến';
 $lang['sales_view_receipt_on_web_page'] = 'Xem biên nhận trên trang web';
+$lang['sales_view_edit_transaction_history'] = 'Xem / Chỉnh sửa Giao dịch Thẻ';
+$lang['sales_list_of_credit_transactions'] = 'Danh sách các giao dịch thẻ tín dụng';
+$lang['sales_response_description'] = 'Mô tả phản hồi';
+$lang['sales_card_holder'] = 'Chủ thẻ';
+$lang['sales_list_of_batches'] = 'Danh sách các lô';
+$lang['sales_batch_id'] = 'ID lô';
+$lang['sales_batches'] = 'Các lô thẻ';
+$lang['sales_https_required_cc'] = 'Kết nối an toàn https hiện được yêu cầu để xử lý thẻ tín dụng. Máy chủ của bạn KHÔNG hỗ trợ điều này.';
+$lang['sales_https_required_cc_redirect'] = 'https là bắt buộc để xử lý thẻ tín dụng. Bạn có muốn tải lại chương trình giảm giá bằng https và sau đó xử lý lại không?';
+$lang['sales_credit_card_terminal_offline'] = 'Thiết bị đầu cuối thẻ tín dụng của bạn là NGOẠI TUYẾN, vui lòng kiểm tra kết nối trước khi xử lý giao dịch bán hàng';
+$lang['sales_credit_card_terminal_online'] = 'Thiết bị đầu cuối thẻ tín dụng của bạn đang TRỰC TUYẾN và sẵn sàng xử lý các giao dịch';
 ?>

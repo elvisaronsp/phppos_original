@@ -455,4 +455,10 @@ $lang['migrate_can_lookup_last_receipt_permission'] = 'អាចរកមើល�
 $lang['migrate_permission_for_delete_suspended_receivings'] = 'ការអនុញ្ញាតសម្រាប់លុបការទទួលបានផ្អាក';
 
 $lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = 'ជួសជុល Utf8 ទូទៅ Ci ទៅ Utf8 Unicode Ci សម្រាប់ស្ថានភាពការងាររបស់ភីភីស';
+$lang['migrate_18_3_version'] = 'កំណែ ១៨.៣';
+$lang['migrate_add_expenses_files_table'] = 'បន្ថែមតារាងចំណាយចំណាយ';
+$lang['migrate_add_expenses_image_field'] = 'បន្ថែមវាលរូបភាពចំណាយ';
+$lang['migrate_add_employee_ip_range'] = 'បន្ថែមជួរអាយភីបុគ្គលិក';
+$lang['migrate_coreclear'] = 'ស្នូល';
+$lang['migrate_coreclear_void_logging'] = 'ការកាប់ឈើគ្មានសុពលភាពស្នូល';
 ?>

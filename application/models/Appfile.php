@@ -132,6 +132,64 @@ class Appfile extends MY_Model
 		return $this->db->from('app_files')->order_by('timestamp', 'DESC')->limit($limit)->like('file_name', $file_name,'after')->get()->result_array();
 	}
 	
+	function is_item_image($file_id)
+	{
+		$this->db->from('item_images');
+		$this->db->where('image_id',$file_id);
+		
+		$images_count = $this->db->count_all_results();
+		
+		return $images_count >=1;
+		
+	}
+	
+	function is_item_kit_image($file_id)
+	{
+		$this->db->from('item_kit_images');
+		$this->db->where('image_id',$file_id);
+		
+		$images_count = $this->db->count_all_results();
+		
+		return $images_count >=1;
+		
+	}
+	
+	
+	function is_company_logo($file_id)
+	{
+		$company_logo_file_ids = array();
+		$company_logo_file_ids[] = $this->config->item('company_logo');
+		
+		$this->db->select('company_logo');
+		$this->db->from('locations');
+		$logos = $this->db->get()->result_array();
+		
+		foreach($logos as $logo)
+		{
+			$company_logo_file_ids[] = $logo['company_logo'];
+		}
+		
+		return in_array($file_id,$company_logo_file_ids);
+		
+	}
+	
+	function get_signature($file_id)
+	{
+		$secure_key = $this->Appconfig->get_secure_key();
+		$url = base_url();
+		return hash('sha1',$file_id."|".$secure_key.'|'.$secure_key);
+	}
+	
+	function is_category_image($file_id)
+	{
+		$this->db->from('categories');
+		$this->db->where('image_id',$file_id);
+		
+		$images_count = $this->db->count_all_results();
+		
+		return $images_count >=1;
+	}
+	
 }
 
 ?>

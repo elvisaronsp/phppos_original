@@ -179,4 +179,8 @@ $lang['locations_previous_day'] = 'முன்தினம்';
 $lang['locations_current_day'] = 'தற்போதைய நாள்';
 $lang['locations_auto_reports_day'] = 'மின்னஞ்சல் அறிக்கைக்கான நாள்';
 $lang['locations_disable_confirmation_option_for_emv_credit_card'] = 'கிரெடிட் கார்டை செயலாக்கும்போது தொகை உறுதிப்படுத்தலை முடக்கு';
+$lang['locations_blockchyp_api_key'] = 'coreCLEAR API விசை';
+$lang['locations_blockchyp_bearer_token'] = 'coreCLEAR தாங்கி டோக்கன்';
+$lang['locations_blockchyp_signing_key'] = 'coreCLEAR கையொப்ப விசை';
+$lang['locations_blockchyp_test_mode'] = 'coreCLEAR சோதனை முறை';
 ?>

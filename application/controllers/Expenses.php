@@ -127,118 +127,178 @@ class Expenses extends Secure_area implements Idata_controller {
         $data['controller_name'] = strtolower(get_class());
 
         $data['redirect_code'] = $redirect_code;
-		  $data['categories'][''] = lang('common_select_category');
-		  
-		  if ($this->config->item('track_payment_types'))
-		  {
-	  			$data['registers'] = array();
-				$data['registers'][''] = lang('common_none');
+        $data['categories'][''] = lang('common_select_category');
+        $data['files'] = $this->Expense->get_files($expense_id)->result();
+
+        if ($this->config->item('track_payment_types'))
+        {
+            $data['registers'] = array();
+            $data['registers'][''] = lang('common_none');
 			  
-			  foreach($this->Register->get_all_open()->result() as $register)
-			  {
-				  $data['registers'][$register->register_id] = $register->name;
-			  }
-		  }
+            foreach($this->Register->get_all_open()->result() as $register)
+            {
+                $data['registers'][$register->register_id] = $register->name;
+            }
+        }
 		
-			$categories = $this->Expense_category->sort_categories_and_sub_categories($this->Expense_category->get_all_categories_and_sub_categories());
-			foreach($categories as $key=>$value)
-			{
-				$name = $this->config->item('show_full_category_path') ? str_repeat('&nbsp;&nbsp;', $value['depth']).$this->Expense_category->get_full_path($key) : str_repeat('&nbsp;&nbsp;', $value['depth']).$value['name'];
-				$data['categories'][$key] = $name;
-			}
+        $categories = $this->Expense_category->sort_categories_and_sub_categories($this->Expense_category->get_all_categories_and_sub_categories());
+        foreach($categories as $key=>$value)
+        {
+            $name = $this->config->item('show_full_category_path') ? str_repeat('&nbsp;&nbsp;', $value['depth']).$this->Expense_category->get_full_path($key) : str_repeat('&nbsp;&nbsp;', $value['depth']).$value['name'];
+            $data['categories'][$key] = $name;
+        }
 				
-			$employees = array();
+        $employees = array();
 			
-			foreach($this->Employee->get_all()->result() as $employee)
-			{
-				$employees[$employee->person_id] = $employee->first_name .' '.$employee->last_name;
-			}
+        foreach($this->Employee->get_all()->result() as $employee)
+        {
+            $employees[$employee->person_id] = $employee->first_name .' '.$employee->last_name;
+        }
+        
+        $data['employees'] = $employees;
+        
+        $this->load->model('Sale');
+        $payment_types = array_keys($this->Sale->get_payment_options_with_language_keys());
+        
+        foreach($payment_types as $payment_type)
+        {
+            $data['payment_types'][$payment_type] = $payment_type;
+        }
 			
-			$data['employees'] = $employees;
-		  
-			$this->load->model('Sale');
-			$payment_types = array_keys($this->Sale->get_payment_options_with_language_keys());
-			
-			foreach($payment_types as $payment_type)
-			{
-				$data['payment_types'][$payment_type] = $payment_type;
-			}
-			
-			
-      $this->load->view("expenses/form", $data);
+        $this->load->view("expenses/form", $data);
     }
 
     function save($id = -1) 
-	 {
-			$this->check_action_permission('add_update');		 
+    {
+        $this->check_action_permission('add_update');		 
 
-			if (!$this->Expense_category->exists($this->input->post('category_id')))
-			{
-				if (!$category_id = $this->Expense_category->get_category_id($this->input->post('category_id')))
-				{
-					$category_id = $this->Expense_category->save($this->input->post('category_id'));
-				}
-			}	
-			else
-			{
-				$category_id = $this->input->post('category_id');
-			}
+        if (!$this->Expense_category->exists($this->input->post('category_id')))
+        {
+            if (!$category_id = $this->Expense_category->get_category_id($this->input->post('category_id')))
+            {
+                $category_id = $this->Expense_category->save($this->input->post('category_id'));
+            }
+        }	
+        else
+        {
+            $category_id = $this->input->post('category_id');
+        }
 		  
         $expense_data = array(
-          'expense_type' => $this->input->post('expenses_type'),
-          'expense_payment_type' => $this->input->post('expense_payment_type'),
+            'expense_type' => $this->input->post('expenses_type'),
+            'expense_payment_type' => $this->input->post('expense_payment_type'),
             'expense_description' => $this->input->post('expenses_description'),
-				'expense_reason' => $this->input->post('expense_reason'),
+            'expense_reason' => $this->input->post('expense_reason'),
             'expense_date' => date('Y-m-d',  strtotime($this->input->post('expenses_date'))),
             'expense_amount' => $this->input->post('expenses_amount'),
             'expense_tax' => $this->input->post('expenses_tax'),
             'expense_note' => $this->input->post('expenses_note'),
             'employee_id' => $this->input->post('employee_id'),
-				'approved_employee_id' => $this->input->post('approved_employee_id') ? $this->input->post('approved_employee_id') : NULL,
-				'category_id' => $category_id,
+            'approved_employee_id' => $this->input->post('approved_employee_id') ? $this->input->post('approved_employee_id') : NULL,
+            'category_id' => $category_id,
             'location_id' => $this->Employee->get_logged_in_employee_current_location_id(),
         );
 
-		  
         if ($this->Expense->save($expense_data, $id)) 
-		  {
-			  if ($this->input->post('cash_register_id'))
-			  {
-						$cash_register = $this->Register->get_register_log_by_id($this->input->post('cash_register_id'));
-						$register_log_id = $cash_register->register_log_id;
-						$amount = to_currency_no_money($this->input->post('expenses_amount') + $this->input->post('expenses_tax'));
-						$this->Register->add_expense_amount_to_register_log($register_log_id,'common_cash',$amount);
-		  			$employee_id_audit = $this->Employee->get_logged_in_employee_info()->person_id;
-				
-		  			$register_audit_log_data = array(
-		  				'register_log_id'=> $cash_register->register_log_id,
-		  				'employee_id'=> $employee_id_audit,
-							'payment_type'=> 'common_cash',
-		  				'date' => date('Y-m-d H:i:s'),
-		  				'amount' => -$amount,
-		  				'note' => lang('common_expenses'). ' - '.$this->input->post('expenses_note'),
-		  			);
+        {
+            if ($this->input->post('cash_register_id'))
+            {
+                $cash_register = $this->Register->get_register_log_by_id($this->input->post('cash_register_id'));
+                $register_log_id = $cash_register->register_log_id;
+                $amount = to_currency_no_money($this->input->post('expenses_amount') + $this->input->post('expenses_tax'));
+                $this->Register->add_expense_amount_to_register_log($register_log_id,'common_cash',$amount);
+                $employee_id_audit = $this->Employee->get_logged_in_employee_info()->person_id;
+            
+                $register_audit_log_data = array(
+                    'register_log_id'=> $cash_register->register_log_id,
+                    'employee_id'=> $employee_id_audit,
+                        'payment_type'=> 'common_cash',
+                    'date' => date('Y-m-d H:i:s'),
+                    'amount' => -$amount,
+                    'note' => lang('common_expenses'). ' - '.$this->input->post('expenses_note'),
+                );
+        
+                $this->Register->insert_audit_log($register_audit_log_data);
+			}
+
+            if($id==-1)
+            {
+                $expense_info = $this->Expense->get_info($expense_data['id']);
+            }
+            else
+            {
+                $expense_info = $this->Expense->get_info($id);
+            }
 			
-		  			$this->Register->insert_audit_log($register_audit_log_data);
+			//Delete Image
+			if($this->input->post('del_image') && $id != -1)
+			{
+			    if($expense_info->expense_image_id != null)
+			    {
+					$this->Expense->update_image(NULL,$id);
+					$this->load->model('Appfile');
+					$this->Appfile->delete($expense_info->expense_image_id);
+			    }
+			}
+
+			//Save Image File
+			if(!empty($_FILES["expense_image_id"]) && $_FILES["expense_image_id"]["error"] == UPLOAD_ERR_OK)
+			{			    
+			    $allowed_extensions = array('png', 'jpg', 'jpeg', 'gif');
+				$extension = strtolower(pathinfo($_FILES["expense_image_id"]["name"], PATHINFO_EXTENSION));
+
+			    if (in_array($extension, $allowed_extensions))
+			    {
+				    $config['image_library'] = 'gd2';
+				    $config['source_image']	= $_FILES["expense_image_id"]["tmp_name"];
+				    $config['create_thumb'] = FALSE;
+				    $config['maintain_ratio'] = TRUE;
+				    $config['width']	 = 1200;
+				    $config['height']	= 900;
+				    $this->load->library('image_lib', $config); 
+				    $this->image_lib->resize();
+					 $this->load->model('Appfile');
+				    $image_file_id = $this->Appfile->save($_FILES["expense_image_id"]["name"], file_get_contents($_FILES["expense_image_id"]["tmp_name"]), NULL, $expense_info->expense_image_id);
+			    }
+
+				if($id==-1)
+				{
+	    			$this->Expense->update_image($image_file_id,$expense_data['id']);
+				}
+				else
+				{
+					$this->Expense->update_image($image_file_id,$id);
+				}
 			}
 			
-         	$redirect = $this->input->post('redirect');
+			if (isset($_FILES['files']))
+			{	$this->load->model('Appfile');
+				for($k=0; $k<count($_FILES['files']['name']); $k++)
+				{
+		   	 		if($_FILES['files']['tmp_name'][$k])
+						{
+					$file_id = $this->Appfile->save($_FILES['files']['name'][$k], file_get_contents($_FILES['files']['tmp_name'][$k]));
+					$this->Expense->add_file($id==-1 ? $expense_data['id'] : $id, $file_id);
+					}
+				}
+			}
+            
+            $redirect = $this->input->post('redirect');
 			
-			   $success_message = '';
+            $success_message = '';
             //New item
             if ($id == -1) 
-				{
+            {
                 $success_message = H(lang('expenses_successful_adding').' '.$expense_data['expense_type'].' - '.to_currency($this->input->post('expenses_amount')));
                 echo json_encode(array('success' => true, 'message' => $success_message, 'id' => $expense_data['id'], 'redirect' => $redirect));
-            } else 
-				{ //previous item
+            } else { //previous item
                 $success_message = H(lang('common_items_successful_updating') . ' ' . $expense_data['expense_type'].' - '.to_currency($this->input->post('expenses_amount')));
                 $this->session->set_flashdata('manage_success_message', $success_message);
                 echo json_encode(array('success' => true, 'message' => $success_message, 'id' => $id, 'redirect' => $redirect));
             }
         } 
-		  else 
-		  {//failure
+        else 
+        {//failure
             echo json_encode(array('success' => false, 'message' => lang('expenses_error_adding_updating')));
         }
     }
@@ -297,20 +357,20 @@ class Expenses extends Secure_area implements Idata_controller {
         function _category_tree_list($tree) 
         {
             $return = '';
-        if(!is_null($tree) && count($tree) > 0) 
+            if(!is_null($tree) && count($tree) > 0) 
             {
-            $return = '<ul>';
-            foreach($tree as $node) 
-                    {
-                $return .='<li>'.H($node->name). ' <a href="javascript:void(0);" class="add_child_category" data-category_id="'.$node->id.'">['.lang('items_add_child_category').']</a> '.
-                            '<a href="javascript:void(0);" class="edit_category" data-name = "'.H($node->name).'" data-parent_id = "'.$node->parent_id.'" data-category_id="'.$node->id.'">['.lang('common_edit').']</a> '.
-                                '<a href="javascript:void(0);" class="delete_category" data-category_id="'.$node->id.'">['.lang('common_delete').']</a>';
-                                $return .= $this->_category_tree_list($node->children);
-                  $return .='</li>';
+                $return = '<ul>';
+                foreach($tree as $node) 
+                        {
+                    $return .='<li>'.H($node->name). ' <a href="javascript:void(0);" class="add_child_category" data-category_id="'.$node->id.'">['.lang('items_add_child_category').']</a> '.
+                                '<a href="javascript:void(0);" class="edit_category" data-name = "'.H($node->name).'" data-parent_id = "'.$node->parent_id.'" data-category_id="'.$node->id.'">['.lang('common_edit').']</a> '.
+                                    '<a href="javascript:void(0);" class="delete_category" data-category_id="'.$node->id.'">['.lang('common_delete').']</a>';
+                                    $return .= $this->_category_tree_list($node->children);
+                    $return .='</li>';
+                }
+                $return .='</ul>';
             }
-            $return .='</ul>';
-        }
-            
+
             return $return;
         }
 
@@ -365,7 +425,22 @@ class Expenses extends Secure_area implements Idata_controller {
                 echo json_encode(array('success'=>false,'message'=>lang('items_cannot_be_deleted')));
             }
         }
-		
+
+    function download($file_id)
+    {
+        //Don't allow images to cause hangups with session
+        session_write_close();
+        $this->load->model('Appfile');
+        $file = $this->Appfile->get($file_id);
+        $this->load->helper('file');
+        $this->load->helper('download');
+        force_download($file->file_name,$file->file_data);
+    }
+    
+    function delete_file($file_id){
+        $this->check_action_permission('add_update');
+        $this->Expense->delete_file($file_id);
+    }
 }
 
 ?>

@@ -87,7 +87,7 @@
 						<?php if($item_id_for_new){ ?>
 							<dl class="dl-horizontal item_infomation">
 								<dt><?php echo lang('common_description') ?></dt>
-								<dd class="item_description"><?php echo clean_html($item_info->description); ?></dd>
+								<dd class="item_description"><?php echo clean_html($item_info->name.' '.$item_info->description); ?></dd>
 
 								<dt><?php echo lang('common_category') ?></dt>
 								<dd class="item_category"><?php echo $category_full_path; ?></dd>
@@ -505,7 +505,14 @@
 	$("#new_work_order_btn").click(function(e){
 		e.preventDefault();
 		$("#new_work_order_modal").modal('show');
+	
+		$("#new_work_order_modal").on('shown.bs.modal', function (e) {
+	    	$('#item').focus();
+		});
+	
+	
 	});
+		
 
 	$( "#customer" ).autocomplete({
 		source: '<?php echo site_url("work_orders/customer_search");?>',
@@ -604,7 +611,7 @@
 			$('#item').val('');
 
 			var item_info = response.item_info;
-			$('.item_description').html(item_info.description);
+			$('.item_description').html(item_info.name+' '+item_info.description);
 			$('.item_category').html(response.category_full_path);
 			$('.item_number').html(item_info.item_number);
 

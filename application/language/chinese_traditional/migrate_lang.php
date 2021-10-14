@@ -537,4 +537,10 @@ $lang['migrate_can_lookup_last_receipt_permission'] = '可以查詢上次收貨�
 $lang['migrate_permission_for_delete_suspended_receivings'] = '刪除暫停接收的權限';
 
 $lang['migrate_fix_utf8_general_ci_to_utf8_unicode_ci_for_phppos_workorder_statuses'] = '將 Utf8 General Ci 修復為 Utf8 Unicode Ci 以獲取 Phppos 工單狀態';
+$lang['migrate_18_3_version'] = '18.3 版本';
+$lang['migrate_add_expenses_files_table'] = '添加費用文件表';
+$lang['migrate_add_expenses_image_field'] = '添加費用圖像字段';
+$lang['migrate_add_employee_ip_range'] = '添加員工IP範圍';
+$lang['migrate_coreclear'] = '芯清';
+$lang['migrate_coreclear_void_logging'] = 'Coreclear 空洞記錄';
 ?>

@@ -49,7 +49,7 @@ trait saleTrait
 		$response['customer_credit_limit'] = (float)$customer->credit_limit;
 		$response['customer_disable_loyalty'] = (boolean)$customer->disable_loyalty;
 		$response['customer_points'] = (int)$customer->points;
-		$response['customer_image_url'] = $customer->image_id ? app_file_url($customer->image_id) : '';
+		$response['customer_image_url'] = $customer->image_id ? secure_app_file_url($customer->image_id) : '';
 		$response['customer_created_at'] = $customer->create_date ? date(get_date_format().' '.get_time_format(), strtotime($customer->create_date)) : NULL;
 		$response['customer_location_id'] = $customer->location_id ? (int)$customer->location_id : NULL;
 		

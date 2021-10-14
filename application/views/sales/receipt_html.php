@@ -85,7 +85,7 @@ if (isset($error_message)) {
         <!-- from address-->
         <?php if ($company_logo) { ?>
             <p class="invoice-logo">
-                <?php echo img(array('src' => $this->Appfile->get_url_for_file($company_logo))); ?>
+                <?php echo img(array('src' => secure_app_file_url($company_logo))); ?>
             </p>
         <?php } ?>
         <h4 class="company-title"><?php echo H($company); ?></h4>
@@ -149,7 +149,7 @@ if (isset($error_message)) {
         ?>
 
         <?php if (!$this->config->item('remove_employee_from_receipt')) { ?>
-            <p><span><?php echo lang('common_employee') . ":"; ?></span><?php echo H($employee); ?></p>
+            <p><span><?php echo lang('common_employee') . ":"; ?></span><?php echo H($this->config->item('remove_employee_lastname_from_receipt')?$employee_firstname:$employee); ?></p>
             <?php
             foreach ($employee_custom_fields_to_display as $custom_field_id) {
                 ?>
@@ -469,6 +469,21 @@ foreach (array_reverse($cart_items, true) as $line => $item) {
                     <?php } ?>
                     
 
+					<?php
+					$can_display_image = $this->config->item('show_images_on_receipt') && $item->main_image_id;
+					if ($can_display_image) {
+					?>
+						<div class="invoice-desc">
+							<?php
+							echo img(array(
+								'width' => ($this->config->item('show_images_on_receipt_width_percent') ? $this->config->item('show_images_on_receipt_width_percent') : '25') . '%',
+								'src' => secure_app_file_url($item->main_image_id)
+							));
+							?>
+						</div>
+					<?php
+					}
+					?>
 
                     <?php
                     foreach ($item_custom_fields_to_display as $custom_field_id) {
@@ -586,15 +601,24 @@ foreach (array_reverse($cart_items, true) as $line => $item) {
                     <div class="invoice-content item-discount text-right"><?php echo to_quantity($item->discount); ?></div>
             <?php } ?>
         </td>
+
         <td align="right">
-
-                    <?php if ($this->config->item('indicate_taxable_on_receipt') && $item->taxable && !empty($taxes)) {
-                        echo '<small>*' . lang('common_taxable') . '</small>';
-                    }
-                    ?>
-
-                    <?php echo to_currency(+$item->get_modifiers_subtotal() + ($unit_price * $item->quantity - $unit_price * $item->quantity * $item->discount / 100), 10) . ($this->config->item('show_tax_per_item_on_receipt') ? '/' . to_currency($item_tax_amount * $item->quantity) : ''); ?>
+            <?php
+                if ($this->config->item('indicate_taxable_on_receipt') && $item->taxable && !empty($taxes)) {
+                    echo '<small>*' . lang('common_taxable') . '</small>';
+                }
+            ?>
+            <?php 
+                if ($this->config->item('indicate_non_taxable_on_receipt') && !($item->taxable && !empty($taxes))) {
+                    $label = lang('common_no_tax');
+                    if($this->config->item('override_symbol_non_taxable') != "")
+                    $label = $this->config->item('override_symbol_non_taxable');
+                    echo '<small>*' .$label. '</small>';
+                }
+            ?>
+            <?php echo to_currency(+$item->get_modifiers_subtotal() + ($unit_price * $item->quantity - $unit_price * $item->quantity * $item->discount / 100), 10) . ($this->config->item('show_tax_per_item_on_receipt') ? '/' . to_currency($item_tax_amount * $item->quantity) : ''); ?>
         </td>
+
 </tr>
 <tr><td colspan="4"><hr style="margin:0;padding:0;"></td></tr>
 <?php } ?>

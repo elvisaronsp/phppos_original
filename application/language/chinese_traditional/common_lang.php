@@ -1530,4 +1530,29 @@ $lang['common_back_to_suppliers'] = '回到供應商';
 $lang['common_change_status'] = '變更狀態';
 $lang['common_please_select'] = '請選擇';
 $lang['sales_can_lookup_last_receipt'] = '可以查詢上次收據';
+
+$lang['common_disable'] = '禁用';
+$lang['employees_acess_ip_range'] = '員工訪問 IP 範圍';
+$lang['common_cannot_access_with_ip'] = '你的ip無法訪問';
+$lang['common_filter'] = '篩選';
+$lang['common_payment_type'] = '支付方式';
+$lang['sales_masked_card'] = '蒙面卡';
+$lang['sales_void_return'] = '作廢/返回';
+$lang['common_unknown'] = '未知';
+$lang['common_void'] = '空白';
+$lang['sales_cannot_void_transaction'] = '不能作廢交易';
+$lang['sales_void_title'] = '作廢選項';
+$lang['sales_confirm_void'] = '您確定要取消/刪除此銷售嗎？';
+$lang['sales_void_full_amount'] = '作廢全額';
+$lang['sales_void_partial_amount'] = '作廢部分金額';
+$lang['sales_please_enter_refund_amount'] = '請輸入退款金額';
+$lang['sales_success_void_transaction'] = '您已成功取消交易';
+$lang['common_qty_name'] = '數量名稱';
+
+$lang['common_indicate_non_taxable_on_receipt'] = '在收據上註明不徵稅';
+$lang['common_no_tax'] = '沒有稅';
+
+$lang['common_view_edit_transaction_history'] = '查看/編輯卡交易';
+$lang['common_change_log'] = '更改日誌';
+$lang['common_add_new_ip'] = '添加新 IP';
 ?>

@@ -54,7 +54,7 @@ class Suppliers extends REST_Controller {
 					'override_default_tax' => (boolean)$supplier->override_default_tax,
 					'tax_class_id' => (int)$supplier->tax_class_id,
 					'balance' => (float)$supplier->balance,
-					'image_url' => $supplier->image_id ? app_file_url($supplier->image_id) : '',
+					'image_url' => $supplier->image_id ? secure_app_file_url($supplier->image_id) : '',
 					'created_at' => $supplier->create_date ? date(get_date_format().' '.get_time_format(), strtotime($supplier->create_date)) : NULL,
 				);
 

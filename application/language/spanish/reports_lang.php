@@ -517,4 +517,9 @@ $lang['reports_due'] = 'Vencer';
 
 $lang['reports_summary_journal'] = 'Informe resumido del diario';
 
+$lang['reports_voided_returned_transactions'] = 'Transacciones anuladas / devueltas';
+$lang['reports_transaction_voided'] = 'ID de transacción anulada';
+$lang['reports_transaction_voided_transacion_id'] = 'ID de transacción de nulo';
+$lang['reports_amount_returned'] = 'Cantidad anulada / devuelta';
+$lang['reports_voided_transactions'] = 'Transacciones anuladas';
 ?>
