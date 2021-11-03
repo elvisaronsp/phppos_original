@@ -243,7 +243,7 @@ if (is_on_demo_host()) { ?>
 				<div class="logo-holder pull-left">
 					<?php echo img(
 					array(
-						'src' => base_url().'assets/img/header_logo.png',
+						'src' => base_url().'assets/img/header_logo_hover.png',
 						'class'=>'hidden-print logo',
 						'id'=>'header-logo',
 
